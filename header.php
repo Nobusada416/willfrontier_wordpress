@@ -27,7 +27,7 @@
         </nav>
 
         <div class="hidden lg:block flex-shrink-0">
-            <a href="#contact" class="flex items-center justify-center bg-[#F59E0B] text-white font-bold text-[15px] tracking-wider px-8 py-3.5 hover:bg-[#D97706] transition-colors duration-300">
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="flex items-center justify-center bg-[#F59E0B] text-white font-bold text-[15px] tracking-wider px-8 py-3.5 hover:bg-[#D97706] transition-colors duration-300">
                 <span class="mr-2 text-lg leading-none font-normal">＞</span> CONTACT
             </a>
         </div>

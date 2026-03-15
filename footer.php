@@ -17,7 +17,7 @@
                         <li><a href="#case" class="hover:text-[#F59E0B] transition-colors duration-300">CASE</a></li>
                         <li><a href="#company" class="hover:text-[#F59E0B] transition-colors duration-300">COMPANY</a></li>
                         <li class="mt-2 lg:mt-0 lg:ml-4">
-                            <a href="#contact" class="inline-flex items-center justify-center bg-[#F59E0B] text-white font-bold tracking-wider px-6 py-2.5 hover:bg-[#D97706] transition-colors duration-300">
+                            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center justify-center bg-[#F59E0B] text-white font-bold tracking-wider px-6 py-2.5 hover:bg-[#D97706] transition-colors duration-300">
                                 <span class="mr-2 text-lg leading-none font-normal">＞</span> CONTACT
                             </a>
                         </li>

@@ -16,7 +16,7 @@
             <p class="text-base md:text-lg font-semibold tracking-widest drop-shadow-md mb-10">
                 Sustainable Urban Infrastructure &amp; Technology
             </p>
-            <a href="#contact" class="inline-flex items-center gap-3 bg-[#F59E0B] hover:bg-[#D97706] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg">
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#F59E0B] hover:bg-[#D97706] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg">
                 <span class="text-2xl font-black leading-none">&gt;</span> CONTACT
             </a>
         </div>
