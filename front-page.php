@@ -57,8 +57,8 @@
 
     <section id="service" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col justify-center overflow-hidden">
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute -bottom-16 top-0 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute -bottom-16 top-0 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
 
         <div class="relative z-30 max-w-6xl mx-auto px-12 md:px-20 lg:px-24">
             <div class="text-center mb-16">
@@ -223,7 +223,7 @@
     </section>
 
     <section id="case" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col items-center justify-center overflow-hidden">
-        
+
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
 
@@ -271,7 +271,7 @@
         </div>
     </section>
 
-    <section id="company" class="relative w-full py-24 bg-white overflow-hidden">
+    <section id="company" class="relative w-full py-16 min-h-[1180px] bg-white flex flex-col items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/横浜全景-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
         </div>

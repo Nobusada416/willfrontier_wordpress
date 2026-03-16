@@ -632,6 +632,10 @@ video {
   bottom: 0px;
 }
 
+.-bottom-0 {
+  bottom: -0px;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -904,6 +908,10 @@ video {
 
 .w-16 {
   width: 4rem;
+}
+
+.w-80 {
+  width: 20rem;
 }
 
 .min-w-0 {
@@ -1256,6 +1264,11 @@ video {
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .pb-12 {
@@ -1871,6 +1884,14 @@ video {
 
   .xl\:w-\[450px\] {
     width: 450px;
+  }
+
+  .xl\:w-\[440px\] {
+    width: 440px;
+  }
+
+  .xl\:w-\[430px\] {
+    width: 430px;
   }
 
   .xl\:gap-x-10 {
