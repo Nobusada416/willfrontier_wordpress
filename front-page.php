@@ -1,14 +1,19 @@
 <?php get_header(); ?>
 
+<!-- イントロオーバーレイ -->
+<div id="intro-overlay" style="position:fixed;inset:0;z-index:99999;background:rgba(245,158,11,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;pointer-events:none;">
+    <img id="intro-logo" src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="Will Frontier" style="width:320px;max-width:70vw;opacity:0;">
+</div>
+
 <main class="relative w-full overflow-x-hidden bg-white">
 
     <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-sky-300">
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg.jpg" alt="ウィルフロンティア" class="w-full h-full object-cover">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg.jpg" alt="ウィルフロンティア" class="w-full h-full object-cover js-parallax">
         </div>
         <div class="absolute inset-0 z-0 bg-sky-200 opacity-20"></div>
 
-        <div class="relative z-10 text-center text-white px-6 flex flex-col items-center">
+        <div id="hero-content" class="relative z-10 text-center text-white px-6 flex flex-col items-center" style="opacity:0;">
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logowhite.svg" alt="willF" class="w-48 md:w-64 lg:w-80 mb-8 drop-shadow-lg">
             <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-widest mb-5 drop-shadow-lg leading-tight">
                 都市インフラを支える、<br>産業廃棄物テック。
@@ -27,24 +32,24 @@
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/warter.jpg" alt="背景" class="w-full h-full object-cover opacity-40">
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 max-w-6xl mx-auto px-12 md:px-20 lg:px-32">
             <div class="mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-4">MISSION</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-4 js-fade-up">MISSION</h3>
                 <div class="w-full h-[3px] bg-[#F59E0B]"></div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-                <div class="w-full md:w-1/3 flex justify-center flex-shrink-0">
+                <div class="w-full md:w-1/3 flex justify-center flex-shrink-0 js-fade-up">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/images/circle.svg" alt="循環サイクル" class="w-full max-w-[380px] h-auto object-contain">
                 </div>
                 <div class="w-full md:w-2/3">
-                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-8 leading-relaxed tracking-wider">
+                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-8 leading-relaxed tracking-wider js-fade-up">
                         都市の代謝を支え、未来のインフラを構築する。
                     </p>
-                    <p class="text-base md:text-lg text-gray-700 leading-[2.2] font-medium tracking-wide">
+                    <p class="text-base md:text-lg text-gray-700 leading-[2.2] font-medium tracking-wide js-fade-up">
                         私たちは、最先端のテクノロジーと長年培ったノウハウを融合させ、<br class="hidden xl:block">
                         持続可能な都市環境の実現に貢献します。<br>
                         廃棄物を単なるゴミではなく、新たな資源として捉え直し、<br class="hidden xl:block">
@@ -57,16 +62,16 @@
 
     <section id="service" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col justify-center overflow-hidden">
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 max-w-6xl mx-auto px-12 md:px-20 lg:px-24">
             <div class="text-center mb-16">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider">SERVICE</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-fade-up">SERVICE</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
                     <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/collection.jpg" alt="COLLECTION" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
@@ -75,7 +80,7 @@
                         <p class="text-sm font-bold tracking-widest">産業廃棄物の収集</p>
                     </div>
                 </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
                     <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/transporte.jpg" alt="TRANSPORT" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
@@ -84,7 +89,7 @@
                         <p class="text-sm font-bold tracking-widest">安全な運搬システム</p>
                     </div>
                 </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
                     <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/選別ライン-イラスト風.jpg" alt="PROCESSING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
@@ -93,7 +98,7 @@
                         <p class="text-sm font-bold tracking-widest">最適な処理技術</p>
                     </div>
                 </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
                     <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/recycling.jpg" alt="RECYCLING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
@@ -102,7 +107,7 @@
                         <p class="text-sm font-bold tracking-widest">資源の再生利用</p>
                     </div>
                 </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
                     <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/consulting.jpg" alt="CONSULTING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
@@ -111,7 +116,7 @@
                         <p class="text-sm font-bold tracking-widest">廃棄物管理コンサルティング</p>
                     </div>
                 </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
                     <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/monitoring.jpg" alt="MONITORING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
@@ -126,43 +131,43 @@
 
     <section id="workflow" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col justify-center overflow-hidden">
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 max-w-4xl mx-auto px-12 md:px-20 lg:px-24 w-full">
             <div class="text-center mb-16">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider">WORKFLOW</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-fade-up">WORKFLOW</h3>
             </div>
             <div class="border-t border-[#F59E0B]">
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">01</span>
                         <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">HEARING</h4>
                     </div>
                     <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">現状の課題ヒアリング</p>
                 </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">02</span>
                         <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">PLANNING</h4>
                     </div>
                     <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">最適なプランニング</p>
                 </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">03</span>
                         <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">PROPOSAL</h4>
                     </div>
                     <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">お見積り・ご提案</p>
                 </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">04</span>
                         <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">CONTRACT</h4>
                     </div>
                     <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">契約締結</p>
                 </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">05</span>
                         <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">OPERATION</h4>
@@ -178,11 +183,11 @@
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/車両-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 w-full max-w-6xl mx-auto px-12 md:px-20 lg:px-24 text-center">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12">VEHICLE LINEUP</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-fade-up">VEHICLE LINEUP</h3>
 
             <div class="flex items-center gap-4 md:gap-8 w-full">
                 <button class="vehicle-prev flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center z-10">
@@ -224,14 +229,14 @@
 
     <section id="case" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col items-center justify-center overflow-hidden">
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 w-full max-w-4xl mx-auto px-12 md:px-20 lg:px-24 text-center">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-16">CASE STUDY</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-16 js-fade-up">CASE STUDY</h3>
 
             <div class="border-t border-[#F59E0B]">
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
                     <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 運用開始</p>
                     <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
@@ -240,7 +245,7 @@
                         </svg>
                     </div>
                 </a>
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
                     <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 構築</p>
                     <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
@@ -249,7 +254,7 @@
                         </svg>
                     </div>
                 </a>
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
                     <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 実証実験</p>
                     <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
@@ -258,7 +263,7 @@
                         </svg>
                     </div>
                 </a>
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
                     <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 研修</p>
                     <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
@@ -276,18 +281,18 @@
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/横浜全景-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 w-full max-w-4xl mx-auto px-12 md:px-20 lg:px-24">
-            <h3 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-700 tracking-wider mb-16 text-center">COMPANY</h3>
+            <h3 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-700 tracking-wider mb-16 text-center js-fade-up">COMPANY</h3>
             
             <div class="border-t border-[#F59E0B]">
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start">
+                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start js-fade-up">
                     <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">COMPANY NAME</dt>
                     <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">株式会社 ウィルフロンティア</dd>
                 </dl>
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start">
+                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start js-fade-up">
                     <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">REPRESENTATIVE</dt>
                     <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">代表取締役　石政 章治</dd>
                 </dl>
@@ -359,12 +364,72 @@
     /* 矢印のデザイン調整 */
     .vehicle-prev, .vehicle-next { opacity: 1; transition: opacity 0.3s; }
     .vehicle-prev:hover, .vehicle-next:hover { opacity: 0.5; }
-    
+
     .swiper-pagination-bullet { background-color: transparent !important; border: 2px solid #F59E0B !important; opacity: 1 !important; width: 14px !important; height: 14px !important; margin: 0 8px !important; }
     .swiper-pagination-bullet-active { background-color: #F59E0B !important; }
     .swiper-pagination { position: relative !important; bottom: 0 !important; margin-top: 20px; }
     .vehicleSwiper .swiper-slide { overflow: visible; }
     .aspect-square { aspect-ratio: 1 / 1; }
+
+    /* js-fade-up / js-leaf の初期状態 */
+    .js-fade-up { opacity: 0; }
+    .js-leaf { opacity: 0; }
+
+    /* ─── モバイル専用スタイル ─────────────────────────────────────── */
+    @media (max-width: 1023px) {
+        section:not(#hero) {
+            height: 1000px !important;
+            min-height: unset !important;
+        }
+        #workflow .flex.justify-between {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+        }
+        #workflow .flex.justify-between > p {
+            text-align: left !important;
+            padding-left: 5rem !important;
+        }
+        #service .grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+        #service .grid .bg-\[#F59E0B\] { padding: 6px 8px !important; }
+        #service .grid h4 { font-size: 0.65rem !important; }
+        #service .grid p  { font-size: 0.55rem !important; }
+
+        /* PC版の葉画像を非表示にして pseudo-element でタイリング */
+        img[src*="plant-"] { display: none !important; }
+
+        section:not(#hero)::before,
+        section:not(#hero)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 28vw;
+            height: 100%;
+            background-size: 28vw auto;
+            background-repeat: repeat-y;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        section:not(#hero)::before { left: 0; }
+        section:not(#hero)::after  { right: 0; transform: scaleX(-1); }
+
+        /* 奇数セクション（MISSION / WORKFLOW / CASE）: bottom-left を下から積む */
+        #mission::before, #workflow::before, #case::before,
+        #mission::after,  #workflow::after,  #case::after {
+            background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg');
+            background-position: left bottom;
+        }
+        /* 偶数セクション（SERVICE / VEHICLES / COMPANY）: top-left を上から積む */
+        #service::before, #vehicles::before, #company::before,
+        #service::after,  #vehicles::after,  #company::after {
+            background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg');
+            background-position: left top;
+        }
+    }
 </style>
 
 <?php get_footer(); ?>
