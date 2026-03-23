@@ -32,12 +32,12 @@
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/warter.jpg" alt="背景" class="w-full h-full object-cover opacity-40">
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 max-w-6xl mx-auto px-12 md:px-20 lg:px-32">
             <div class="mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-4 js-fade-up">MISSION</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-4 js-heading-up">MISSION</h3>
                 <div class="w-full h-[3px] bg-[#F59E0B]"></div>
             </div>
 
@@ -62,12 +62,12 @@
 
     <section id="service" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col justify-center overflow-hidden">
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 max-w-6xl mx-auto px-12 md:px-20 lg:px-24">
             <div class="text-center mb-16">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-fade-up">SERVICE</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-heading-up">SERVICE</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -131,48 +131,63 @@
 
     <section id="workflow" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col justify-center overflow-hidden">
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 max-w-4xl mx-auto px-12 md:px-20 lg:px-24 w-full">
             <div class="text-center mb-16">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-fade-up">WORKFLOW</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-heading-up">WORKFLOW</h3>
             </div>
             <div class="border-t border-[#F59E0B]">
                 <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">01</span>
-                        <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">HEARING</h4>
+                        <div>
+                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">受付・計量</h4>
+                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">ACCEPTANCE</p>
+                        </div>
                     </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">現状の課題ヒアリング</p>
+                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">適正な受け入れと<br class="hidden md:block">マニフェスト管理</p>
                 </div>
                 <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">02</span>
-                        <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">PLANNING</h4>
+                        <div>
+                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">展開検査・荷卸し</h4>
+                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">INSPECTION</p>
+                        </div>
                     </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">最適なプランニング</p>
+                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">目視による厳格な<br class="hidden md:block">品目チェック</p>
                 </div>
                 <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">03</span>
-                        <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">PROPOSAL</h4>
+                        <div>
+                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">分別・選別</h4>
+                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">SORTING</p>
+                        </div>
                     </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">お見積り・ご提案</p>
+                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">手作業と機械による<br class="hidden md:block">高精度な仕分け</p>
                 </div>
                 <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">04</span>
-                        <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">CONTRACT</h4>
+                        <div>
+                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">破砕・圧縮加工</h4>
+                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">PROCESSING</p>
+                        </div>
                     </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">契約締結</p>
+                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">再資源化・減容化の<br class="hidden md:block">ための二次処理</p>
                 </div>
                 <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
                     <div class="flex items-center gap-8 md:gap-14">
                         <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">05</span>
-                        <h4 class="text-3xl md:text-4xl font-black text-gray-700 tracking-wider">OPERATION</h4>
+                        <div>
+                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">出荷・最終処分</h4>
+                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">SHIPPING</p>
+                        </div>
                     </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">運用開始・定期フォロー</p>
+                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">リサイクル製品の供給と<br class="hidden md:block">適正な最終委託</p>
                 </div>
             </div>
         </div>
@@ -183,11 +198,11 @@
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/車両-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 w-full max-w-6xl mx-auto px-12 md:px-20 lg:px-24 text-center">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-fade-up">VEHICLE LINEUP</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-heading-up">VEHICLE LINEUP</h3>
 
             <div class="flex items-center gap-4 md:gap-8 w-full">
                 <button class="vehicle-prev flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center z-10">
@@ -227,51 +242,42 @@
         </div>
     </section>
 
-    <section id="case" class="relative w-full py-24 min-h-[1180px] bg-white flex flex-col items-center justify-center overflow-hidden">
+    <section id="safety" class="relative w-full py-16 min-h-[1180px] bg-white flex flex-col items-center justify-center overflow-hidden">
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
-        <div class="relative z-30 w-full max-w-4xl mx-auto px-12 md:px-20 lg:px-24 text-center">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-16 js-fade-up">CASE STUDY</h3>
+        <div class="relative z-30 w-full max-w-6xl mx-auto px-12 md:px-20 lg:px-24">
+            <div class="text-center mb-16">
+                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-heading-up">SAFETY</h3>
+                <p class="text-base font-bold text-gray-500 tracking-widest mt-3 js-fade-up">安全・衛生管理</p>
+            </div>
 
-            <div class="border-t border-[#F59E0B]">
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
-                    <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 運用開始</p>
-                    <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
+            <p class="text-base md:text-lg text-gray-700 leading-[2.2] font-medium tracking-wide text-center mb-16 js-fade-up">
+                弊社では安全面・衛生面を考え、定期的な講習及び作業効率上昇のため、<br class="hidden lg:block">
+                重機の追加など現場の意見を取り入れながら、<br class="hidden lg:block">
+                従業員・お客様にスムーズかつ安全に過ごしていただけるよう努力しております。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="border border-[#F59E0B] p-8 md:p-10 js-fade-up">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="w-2 h-8 bg-[#F59E0B] block flex-shrink-0"></span>
+                        <h4 class="text-xl md:text-2xl font-black text-gray-700 tracking-wider">重機の点検方法の講習</h4>
                     </div>
-                </a>
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
-                    <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 構築</p>
-                    <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
+                    <p class="text-sm md:text-base text-gray-600 leading-relaxed tracking-wide font-medium">
+                        定期的な重機点検講習を実施し、機械の安全な操作方法と日常点検の手順を全従業員が習得。現場での事故ゼロを目指した取り組みを継続しています。
+                    </p>
+                </div>
+                <div class="border border-[#F59E0B] p-8 md:p-10 js-fade-up">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="w-2 h-8 bg-[#F59E0B] block flex-shrink-0"></span>
+                        <h4 class="text-xl md:text-2xl font-black text-gray-700 tracking-wider">危険予知トレーニング</h4>
                     </div>
-                </a>
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
-                    <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 実証実験</p>
-                    <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </div>
-                </a>
-                <a href="#" class="flex items-center text-left py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <time class="text-[#F59E0B] font-bold text-base md:text-lg tracking-widest w-40 md:w-48 flex-shrink-0">2026.00.00</time>
-                    <p class="text-gray-700 font-bold text-base md:text-lg tracking-widest flex-1">〇〇〇〇〇〇 研修</p>
-                    <div class="text-[#F59E0B] flex-shrink-0 transition-transform duration-300 group-hover:translate-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </div>
-                </a>
+                    <p class="text-sm md:text-base text-gray-600 leading-relaxed tracking-wide font-medium">
+                        KYT（危険予知トレーニング）を定期的に実施し、現場に潜む危険を事前に察知・回避する能力を育成。従業員全員の安全意識の向上を図っています。
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -281,11 +287,11 @@
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/横浜全景-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.svg" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 w-full max-w-4xl mx-auto px-12 md:px-20 lg:px-24">
-            <h3 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-700 tracking-wider mb-16 text-center js-fade-up">COMPANY</h3>
+            <h3 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-700 tracking-wider mb-16 text-center js-heading-up">COMPANY</h3>
             
             <div class="border-t border-[#F59E0B]">
                 <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start js-fade-up">
@@ -294,13 +300,13 @@
                 </dl>
                 <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start js-fade-up">
                     <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">REPRESENTATIVE</dt>
-                    <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">代表取締役　石政 章治</dd>
+                    <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">代表取締役　岩井 和也</dd>
                 </dl>
                 <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start">
                     <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">ADDRESS</dt>
                     <dd class="text-gray-700 font-bold tracking-widest flex-1 space-y-8 text-sm md:text-base leading-relaxed">
                         <div>
-                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">横浜本社</span>
+                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">本社（積み替え保管）</span>
                             <p>
                                 〒241-0003 神奈川県横浜市旭区白根町 895 番地<br>
                                 TEL 045-959-3225　FAX 045-959-3226<br>
@@ -308,17 +314,17 @@
                             </p>
                         </div>
                         <div>
-                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">WF-A.BASE</span>
+                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">WF-A.BASE（中間処理場）</span>
                             <p>
-                                〒243-0807 神奈川県厚木市金田 1107-7<br>
+                                〒243-0807 神奈川県厚木市金田 1107<br>
                                 TEL 046-205-4177　FAX 046-205-4178
                             </p>
                         </div>
                         <div>
-                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">川口支社</span>
+                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">HUCOM（積み替え保管）</span>
                             <p>
-                                〒334-0076 埼玉県川口市本蓮 4-5-10<br>
-                                TEL 048-229-4024　FAX 048-229-4025
+                                〒341-0055 埼玉県三郷市上口 2-75-1<br>
+                                TEL 048-969-4811　FAX 048-969-4812
                             </p>
                         </div>
                     </dd>

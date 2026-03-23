@@ -72,6 +72,34 @@ document.addEventListener('DOMContentLoaded', function () {
     // Lenis スクロール位置を ScrollTrigger に伝える
     lenis.on('scroll', ScrollTrigger.update);
 
+    // ─── 2b. .js-heading-up : 見出しがマスクの下から浮き上がる ─────────
+    gsap.utils.toArray('.js-heading-up').forEach(function (el) {
+        // テキストをラッパーで包んでclipする
+        var inner = document.createElement('span');
+        inner.style.cssText = 'display:block;will-change:transform';
+        inner.innerHTML = el.innerHTML;
+        el.innerHTML = '';
+        var outer = document.createElement('span');
+        outer.style.cssText = 'display:block;overflow:hidden;padding-bottom:0.1em';
+        outer.appendChild(inner);
+        el.appendChild(outer);
+
+        gsap.fromTo(inner,
+            { y: '105%', opacity: 0 },
+            {
+                y: '0%',
+                opacity: 1,
+                duration: 1.0,
+                ease: 'power4.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 88%',
+                    toggleActions: 'play none none none',
+                },
+            }
+        );
+    });
+
     // ─── 3. .js-fade-up : スクロールで下からフェードイン ─────────────
     gsap.utils.toArray('.js-fade-up').forEach(function (el) {
         gsap.fromTo(
