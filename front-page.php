@@ -21,7 +21,7 @@
             <p class="text-base md:text-lg font-semibold tracking-widest drop-shadow-md mb-10">
                 Sustainable Urban Infrastructure &amp; Technology
             </p>
-            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#F59E0B] hover:bg-[#D97706] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg">
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#4a9db5] hover:bg-[#3a85a0] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg">
                 <span class="text-2xl font-black leading-none">&gt;</span> CONTACT
             </a>
         </div>
@@ -35,28 +35,31 @@
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
-        <div class="relative z-30 max-w-6xl mx-auto px-12 md:px-20 lg:px-32">
-            <div class="mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-4 js-heading-up">MISSION</h3>
-                <div class="w-full h-[3px] bg-[#F59E0B]"></div>
+        <div class="relative z-30 w-full text-center" style="padding: 0 8vw;">
+
+            <h3 class="text-7xl md:text-8xl font-black text-gray-800 tracking-wider mb-12 js-heading-up">MISSION</h3>
+
+            <!-- 環境の方程式 -->
+            <div class="js-fade-up mb-4 inline-block relative">
+                <p class="font-black text-[#4a9db5] tracking-wide leading-tight" style="font-size:clamp(1.2rem, 4vw, 3.8rem); white-space:nowrap;">
+                    環境 = 地球 + Forest + 水 + Animal + 街 + 人
+                </p>
+                <p class="text-[#4a9db5] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem);">を重要なテーマとして捉えています。</p>
             </div>
 
-            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-                <div class="w-full md:w-1/3 flex justify-center flex-shrink-0 js-fade-up">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/circle.svg" alt="循環サイクル" class="w-full max-w-[380px] h-auto object-contain">
-                </div>
-                <div class="w-full md:w-2/3">
-                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-8 leading-relaxed tracking-wider js-fade-up">
-                        都市の代謝を支え、未来のインフラを構築する。
-                    </p>
-                    <p class="text-base md:text-lg text-gray-700 leading-[2.2] font-medium tracking-wide js-fade-up">
-                        私たちは、最先端のテクノロジーと長年培ったノウハウを融合させ、<br class="hidden xl:block">
-                        持続可能な都市環境の実現に貢献します。<br>
-                        廃棄物を単なるゴミではなく、新たな資源として捉え直し、<br class="hidden xl:block">
-                        循環型社会の構築を目指します。
-                    </p>
-                </div>
+            <!-- PLUS スマイル宣言 -->
+            <div class="js-fade-up mt-4 mb-8 flex flex-col items-center">
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/+.svg" alt="plus" style="width:100px;height:100px;display:block;margin-left:2vw;">
+                <p class="text-gray-800 tracking-wide leading-tight mt-3" style="font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:500; margin-right:1vw;">スマイル宣言</p>
             </div>
+
+            <!-- もっと見るボタン -->
+            <div class="js-fade-up">
+                <a href="<?php echo esc_url( home_url( '/mission/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:14px 48px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.5rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+                    もっと見る <span>▼</span>
+                </a>
+            </div>
+
         </div>
     </section>
 
@@ -65,66 +68,55 @@
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
-        <div class="relative z-30 max-w-6xl mx-auto px-12 md:px-20 lg:px-24">
-            <div class="text-center mb-16">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-heading-up">SERVICE</h3>
+        <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
+            <h3 class="font-black text-gray-700 tracking-wider mb-16 js-heading-up" style="font-size:clamp(3rem,7vw,6rem);">SERVICE</h3>
+
+            <!-- 5サークルレイアウト -->
+            <?php
+            // 共通スタイル
+            $outer = 'width:250px;height:250px;border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:16px;cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $inner = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:20px;line-height:1.8;text-align:center;padding:24px;';
+            $outer_lg = 'width:270px;height:270px;border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:16px;cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $inner_lg = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:22px;line-height:1.8;text-align:center;padding:28px;';
+            ?>
+            <div class="relative js-fade-up" style="max-width:900px;margin:0 auto;margin-top:-40px;">
+
+                <!-- 上段 2つ -->
+                <div style="display:flex;justify-content:space-between;margin-bottom:-40px;">
+                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="<?php echo $inner; ?>font-size:16px;">自社の<br>処理施設を<br>（積替え・保管）<br>所有</div>
+                    </div>
+                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="<?php echo $inner; ?>display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
+                                <span>自社中間処理場</span>
+                                <span style="display:inline-block;background:rgba(255,255,255,0.25);border-radius:20px;padding:2px 12px;font-size:12px;white-space:nowrap;">WF-A.BASE</span>
+                            </div>
+                    </div>
+                </div>
+
+                <!-- 中段 センター -->
+                <div style="display:flex;justify-content:center;margin-bottom:-40px;">
+                    <div style="<?php echo $outer_lg; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="<?php echo $inner_lg; ?>">鉄・非鉄<br>買い取ります。</div>
+                    </div>
+                </div>
+
+                <!-- 下段 2つ -->
+                <div style="display:flex;justify-content:space-between;">
+                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="<?php echo $inner; ?>">どんな<br>産業廃棄物にも<br>対応</div>
+                    </div>
+                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="<?php echo $inner; ?>">現場<br>パトロール<br>小口回収でも<br>お気軽に</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
-                    <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/collection.jpg" alt="COLLECTION" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="bg-[#F59E0B] p-6 text-white mt-auto z-10 relative">
-                        <h4 class="text-2xl font-black tracking-wider mb-1 leading-none">COLLECTION</h4>
-                        <p class="text-sm font-bold tracking-widest">産業廃棄物の収集</p>
-                    </div>
-                </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
-                    <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/transporte.jpg" alt="TRANSPORT" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="bg-[#F59E0B] p-6 text-white mt-auto z-10 relative">
-                        <h4 class="text-2xl font-black tracking-wider mb-1 leading-none">TRANSPORT</h4>
-                        <p class="text-sm font-bold tracking-widest">安全な運搬システム</p>
-                    </div>
-                </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
-                    <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/選別ライン-イラスト風.jpg" alt="PROCESSING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="bg-[#F59E0B] p-6 text-white mt-auto z-10 relative">
-                        <h4 class="text-2xl font-black tracking-wider mb-1 leading-none">PROCESSING</h4>
-                        <p class="text-sm font-bold tracking-widest">最適な処理技術</p>
-                    </div>
-                </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
-                    <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/recycling.jpg" alt="RECYCLING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="bg-[#F59E0B] p-6 text-white mt-auto z-10 relative">
-                        <h4 class="text-2xl font-black tracking-wider mb-1 leading-none">RECYCLING</h4>
-                        <p class="text-sm font-bold tracking-widest">資源の再生利用</p>
-                    </div>
-                </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
-                    <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/consulting.jpg" alt="CONSULTING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="bg-[#F59E0B] p-6 text-white mt-auto z-10 relative">
-                        <h4 class="text-2xl font-black tracking-wider mb-1 leading-none">CONSULTING</h4>
-                        <p class="text-sm font-bold tracking-widest">廃棄物管理コンサルティング</p>
-                    </div>
-                </div>
-                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col js-fade-up">
-                    <div class="w-full aspect-square relative bg-gray-200 overflow-hidden">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/monitoring.jpg" alt="MONITORING" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="bg-[#F59E0B] p-6 text-white mt-auto z-10 relative">
-                        <h4 class="text-2xl font-black tracking-wider mb-1 leading-none">MONITORING</h4>
-                        <p class="text-sm font-bold tracking-widest">リアルタイム管理システム</p>
-                    </div>
-                </div>
+            <!-- もっと見るボタン -->
+            <div class="mt-14 js-fade-up">
+                <a href="<?php echo esc_url( home_url( '/service/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+                    もっと見る <span>▼</span>
+                </a>
             </div>
         </div>
     </section>
@@ -134,61 +126,33 @@
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
-        <div class="relative z-30 max-w-4xl mx-auto px-12 md:px-20 lg:px-24 w-full">
-            <div class="text-center mb-16">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-heading-up">WORKFLOW</h3>
+        <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-heading-up">WORKFLOW</h3>
+
+            <div style="max-width:700px;margin:0 auto;">
+                <div class="border-t border-[#4a9db5]">
+
+                    <?php
+                    $steps = [
+                        ['num'=>'01','en'=>'HEARING',   'ja'=>'現状の課題ヒアリング'],
+                        ['num'=>'02','en'=>'PLANNING',  'ja'=>'最適なプランニング'],
+                        ['num'=>'03','en'=>'PROPOSAL',  'ja'=>'お見積り・ご提案'],
+                        ['num'=>'04','en'=>'CONTRACT',  'ja'=>'契約締結'],
+                        ['num'=>'05','en'=>'OPERATION', 'ja'=>'運用開始・定期フォロー'],
+                    ];
+                    foreach ($steps as $s) : ?>
+                    <div class="flex items-center py-7 border-b border-[#4a9db5] js-fade-up" style="gap:2rem;">
+                        <span class="font-black text-[#4a9db5] flex-shrink-0" style="font-size:2.2rem;width:3.5rem;text-align:left;"><?php echo $s['num']; ?></span>
+                        <h4 class="font-black text-gray-700 tracking-wider flex-shrink-0" style="font-size:2rem;text-align:left;min-width:220px;"><?php echo $s['en']; ?></h4>
+                        <p class="text-gray-500 font-bold tracking-wider text-right flex-1" style="font-size:0.85rem;"><?php echo $s['ja']; ?></p>
+                    </div>
+                    <?php endforeach; ?>
+
+                </div>
             </div>
-            <div class="border-t border-[#F59E0B]">
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <div class="flex items-center gap-8 md:gap-14">
-                        <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">01</span>
-                        <div>
-                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">受付・計量</h4>
-                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">ACCEPTANCE</p>
-                        </div>
-                    </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">適正な受け入れと<br class="hidden md:block">マニフェスト管理</p>
-                </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <div class="flex items-center gap-8 md:gap-14">
-                        <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">02</span>
-                        <div>
-                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">展開検査・荷卸し</h4>
-                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">INSPECTION</p>
-                        </div>
-                    </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">目視による厳格な<br class="hidden md:block">品目チェック</p>
-                </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <div class="flex items-center gap-8 md:gap-14">
-                        <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">03</span>
-                        <div>
-                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">分別・選別</h4>
-                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">SORTING</p>
-                        </div>
-                    </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">手作業と機械による<br class="hidden md:block">高精度な仕分け</p>
-                </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <div class="flex items-center gap-8 md:gap-14">
-                        <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">04</span>
-                        <div>
-                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">破砕・圧縮加工</h4>
-                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">PROCESSING</p>
-                        </div>
-                    </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">再資源化・減容化の<br class="hidden md:block">ための二次処理</p>
-                </div>
-                <div class="flex items-center justify-between py-8 md:py-10 border-b border-[#F59E0B] group hover:bg-gray-50 transition-colors duration-300 px-4 -mx-4 rounded-sm js-fade-up">
-                    <div class="flex items-center gap-8 md:gap-14">
-                        <span class="text-4xl md:text-5xl font-black text-[#F59E0B]">05</span>
-                        <div>
-                            <h4 class="text-2xl md:text-3xl font-black text-gray-700 tracking-wider leading-tight">出荷・最終処分</h4>
-                            <p class="text-xs font-bold text-gray-400 tracking-widest mt-0.5">SHIPPING</p>
-                        </div>
-                    </div>
-                    <p class="text-sm md:text-base font-bold text-gray-600 tracking-widest text-right">リサイクル製品の供給と<br class="hidden md:block">適正な最終委託</p>
-                </div>
+
+            <div class="text-center mt-12 js-fade-up">
+                <a href="<?php echo esc_url( home_url( '/workflow/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
@@ -201,43 +165,88 @@
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
-        <div class="relative z-30 w-full max-w-6xl mx-auto px-12 md:px-20 lg:px-24 text-center">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-heading-up">VEHICLE LINEUP</h3>
+        <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-10 js-heading-up">VEHICLE LINEUP</h3>
 
-            <div class="flex items-center gap-4 md:gap-8 w-full">
-                <button class="vehicle-prev flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center z-10">
-                    <svg viewBox="0 0 24 24" class="w-10 h-10 md:w-12 md:h-12" fill="#F59E0B"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
-                </button>
+            <!-- スライダー（矢印は画像の真横に絶対配置） -->
+            <div class="js-fade-up" style="position:relative;max-width:860px;margin:0 auto;">
 
-                <div class="flex-1 min-w-0">
-                    <div class="swiper vehicleSwiper pb-12 w-full">
-                        <div class="swiper-wrapper mb-8">
-                            <div class="swiper-slide w-full flex flex-col items-center justify-center">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="ARM ROLL" class="block w-full h-[360px] md:h-[520px] object-contain mx-auto mb-8 drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)]">
-                                <p class="text-gray-800 font-bold text-2xl md:text-3xl tracking-wider text-center w-full">
-                                    ARM ROLL <span class="text-base md:text-lg text-gray-600 ml-3 font-medium tracking-widest">4t アームロール車</span>
-                                </p>
+                <div class="swiper vehicleSwiper w-full" style="padding-bottom:48px;">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide w-full flex flex-col items-center">
+                            <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="ARM ROLL" style="width:100%;height:420px;object-fit:cover;display:block;">
                             </div>
-                            <div class="swiper-slide w-full flex flex-col items-center justify-center">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="DUMP TRUCK" class="block w-full h-[360px] md:h-[520px] object-contain mx-auto mb-8 drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)]">
-                                <p class="text-gray-800 font-bold text-2xl md:text-3xl tracking-wider text-center w-full">
-                                    DUMP TRUCK <span class="text-base md:text-lg text-gray-600 ml-3 font-medium tracking-widest">ダンプトラック</span>
-                                </p>
-                            </div>
-                            <div class="swiper-slide w-full flex flex-col items-center justify-center">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="PACKER CAR" class="block w-full h-[360px] md:h-[520px] object-contain mx-auto mb-8 drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)]">
-                                <p class="text-gray-800 font-bold text-2xl md:text-3xl tracking-wider text-center w-full">
-                                    PACKER CAR <span class="text-base md:text-lg text-gray-600 ml-3 font-medium tracking-widest">パッカー車</span>
-                                </p>
-                            </div>
+                            <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
+                                ARM ROLL <span style="font-size:0.9rem;color:#6b7280;font-weight:500;margin-left:8px;">4t アームロール車</span>
+                            </p>
                         </div>
-                        <div class="swiper-pagination"></div>
+                        <div class="swiper-slide w-full flex flex-col items-center">
+                            <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="DUMP TRUCK" style="width:100%;height:420px;object-fit:cover;display:block;">
+                            </div>
+                            <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
+                                DUMP TRUCK <span style="font-size:0.9rem;color:#6b7280;font-weight:500;margin-left:8px;">ダンプトラック</span>
+                            </p>
+                        </div>
+                        <div class="swiper-slide w-full flex flex-col items-center">
+                            <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="PACKER CAR" style="width:100%;height:420px;object-fit:cover;display:block;">
+                            </div>
+                            <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
+                                PACKER CAR <span style="font-size:0.9rem;color:#6b7280;font-weight:500;margin-left:8px;">パッカー車</span>
+                            </p>
+                        </div>
                     </div>
+                    <div class="swiper-pagination"></div>
                 </div>
 
-                <button class="vehicle-next flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center z-10">
-                    <svg viewBox="0 0 24 24" class="w-10 h-10 md:w-12 md:h-12 scale-x-[-1]" fill="#F59E0B"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
+                <!-- 矢印：画像の真横に絶対配置 -->
+                <button class="vehicle-prev" style="position:absolute;top:210px;left:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
+                    <svg viewBox="0 0 24 24" style="width:44px;height:44px;" fill="#2d5c8a"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
                 </button>
+                <button class="vehicle-next" style="position:absolute;top:210px;right:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
+                    <svg viewBox="0 0 24 24" style="width:44px;height:44px;transform:scaleX(-1);" fill="#2d5c8a"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
+                </button>
+            </div>
+
+            <div class="text-center mt-8 js-fade-up">
+                <a href="<?php echo esc_url( home_url( '/vehicles/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CASE STUDY セクション -->
+    <section id="case-study" class="relative w-full py-16 min-h-[1180px] bg-white flex flex-col items-center justify-center overflow-hidden">
+
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 bottom-0 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-10 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 bottom-0 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-10 pointer-events-none opacity-95 js-leaf js-leaf-right">
+
+        <div class="relative z-20 w-full max-w-2xl mx-auto px-8">
+            <div class="text-center mb-12">
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">CASE STUDY</h3>
+            </div>
+
+            <?php
+            $cases = [
+                ['date' => '2026.00.00', 'company' => '○○○○○○', 'tag' => '運用開始'],
+                ['date' => '2026.00.00', 'company' => '○○○○○○', 'tag' => '構築'],
+                ['date' => '2026.00.00', 'company' => '○○○○○○', 'tag' => '実証実験'],
+                ['date' => '2026.00.00', 'company' => '○○○○○○', 'tag' => '研修'],
+            ];
+            ?>
+            <div class="js-fade-up" style="border-top:1.5px solid #c8d9e6;">
+                <?php foreach ($cases as $case) : ?>
+                <a href="#" style="display:flex;align-items:center;padding:20px 0;border-bottom:1.5px solid #c8d9e6;text-decoration:none;color:inherit;transition:background 0.2s;" onmouseover="this.style.background='#f0f7fa'" onmouseout="this.style.background='transparent'">
+                    <span style="font-size:18px;font-weight:700;color:#4a9db5;width:140px;flex-shrink:0;letter-spacing:.05em;"><?php echo esc_html($case['date']); ?></span>
+                    <span style="font-size:18px;font-weight:700;color:#374151;flex:1;letter-spacing:.05em;"><?php echo esc_html($case['company']); ?>　<?php echo esc_html($case['tag']); ?></span>
+                    <span style="color:#4a9db5;font-size:22px;font-weight:700;">→</span>
+                </a>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="text-center mt-10 js-fade-up">
+                <a href="#" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
@@ -247,37 +256,59 @@
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 -bottom-16 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
-        <div class="relative z-30 w-full max-w-6xl mx-auto px-12 md:px-20 lg:px-24">
-            <div class="text-center mb-16">
-                <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider js-heading-up">SAFETY</h3>
-                <p class="text-base font-bold text-gray-500 tracking-widest mt-3 js-fade-up">安全・衛生管理</p>
+        <div class="relative z-30 w-full max-w-5xl mx-auto px-8 md:px-12">
+            <div class="text-center mb-12">
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">SAFETY</h3>
             </div>
 
-            <p class="text-base md:text-lg text-gray-700 leading-[2.2] font-medium tracking-wide text-center mb-16 js-fade-up">
-                弊社では安全面・衛生面を考え、定期的な講習及び作業効率上昇のため、<br class="hidden lg:block">
-                重機の追加など現場の意見を取り入れながら、<br class="hidden lg:block">
-                従業員・お客様にスムーズかつ安全に過ごしていただけるよう努力しております。
-            </p>
+            <!-- 写真ボックス -->
+            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#fff;">
+                <!-- 画像エリア（画像追加時は img タグに差し替え） -->
+                <div style="width:100%;height:560px;background:#fff;display:flex;align-items:center;justify-content:center;">
+                    <span style="font-size:1.2rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
+                </div>
+                <!-- キャッチコピー（写真下部中央に重ねて表示） -->
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:32px 32px;text-align:center;">
+                    <p style="font-size:1.5rem;font-weight:900;color:#4a9db5;letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,0.3);">毎日の安全が、地域の安全をつくる。</p>
+                </div>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="border border-[#F59E0B] p-8 md:p-10 js-fade-up">
-                    <div class="flex items-center gap-4 mb-4">
-                        <span class="w-2 h-8 bg-[#F59E0B] block flex-shrink-0"></span>
-                        <h4 class="text-xl md:text-2xl font-black text-gray-700 tracking-wider">重機の点検方法の講習</h4>
-                    </div>
-                    <p class="text-sm md:text-base text-gray-600 leading-relaxed tracking-wide font-medium">
-                        定期的な重機点検講習を実施し、機械の安全な操作方法と日常点検の手順を全従業員が習得。現場での事故ゼロを目指した取り組みを継続しています。
-                    </p>
+            <div class="text-center mt-12 js-fade-up">
+                <a href="<?php echo esc_url( home_url( '/safety/' ) ); ?>" style="background:#2d5c8a;border-radius:9999px;padding:16px 56px;display:inline-flex;align-items:center;gap:10px;color:#f5c518;font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る・お問い合わせ <span>▼</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECRUIT セクション -->
+    <section id="recruit" class="relative w-full py-16 min-h-[1180px] bg-white flex flex-col items-center justify-center overflow-hidden">
+
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute top-0 bottom-0 left-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-10 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute top-0 bottom-0 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-10 pointer-events-none opacity-95 js-leaf js-leaf-right">
+
+        <div class="relative z-20 w-full max-w-7xl mx-auto px-8 md:px-16">
+            <div class="text-center mb-12">
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">RECRUIT</h3>
+            </div>
+
+            <!-- 写真＋テキスト重ねボックス -->
+            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#fff;">
+                <!-- 画像エリア（画像追加時は img タグに差し替え） -->
+                <div style="width:100%;height:240px;background:#fff;display:flex;align-items:center;justify-content:center;">
+                    <span style="font-size:1.1rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
                 </div>
-                <div class="border border-[#F59E0B] p-8 md:p-10 js-fade-up">
-                    <div class="flex items-center gap-4 mb-4">
-                        <span class="w-2 h-8 bg-[#F59E0B] block flex-shrink-0"></span>
-                        <h4 class="text-xl md:text-2xl font-black text-gray-700 tracking-wider">危険予知トレーニング</h4>
-                    </div>
-                    <p class="text-sm md:text-base text-gray-600 leading-relaxed tracking-wide font-medium">
-                        KYT（危険予知トレーニング）を定期的に実施し、現場に潜む危険を事前に察知・回避する能力を育成。従業員全員の安全意識の向上を図っています。
-                    </p>
+                <!-- キャッチコピー（写真に重ねて下部中央） -->
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:24px 32px;text-align:center;">
+                    <p style="font-size:2rem;font-weight:900;color:#4a9db5;letter-spacing:.05em;">スマイル宣言はじめませんか？</p>
                 </div>
+            </div>
+
+            <!-- スマイル宣言説明バー -->
+            <div class="js-fade-up" style="background:#fef9e7;border:1px solid #f0d96a;border-top:none;padding:18px 20px;font-size:20px;font-weight:700;color:#555;line-height:1.7;text-align:center;">
+                スマイル宣言とは：元気な挨拶、丁寧な言葉遣いで笑顔あふれる地域をめざす、ウィルフロンティアの取り組み
+            </div>
+
+            <div class="text-center mt-12 js-fade-up">
+                <a href="<?php echo esc_url( home_url( '/recruit/' ) ); ?>" style="background:#2d5c8a;border-radius:6px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#f5c518;font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">応募する <span>▼</span></a>
             </div>
         </div>
     </section>
@@ -291,55 +322,49 @@
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 -bottom-16 right-0 w-40 md:w-72 lg:w-[350px] xl:w-[450px] h-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
         <div class="relative z-30 w-full max-w-4xl mx-auto px-12 md:px-20 lg:px-24">
-            <h3 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-700 tracking-wider mb-16 text-center js-heading-up">COMPANY</h3>
-            
-            <div class="border-t border-[#F59E0B]">
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start js-fade-up">
-                    <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">COMPANY NAME</dt>
-                    <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">株式会社 ウィルフロンティア</dd>
+            <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider mb-16 text-center js-heading-up">CAMPANY</h3>
+
+            <div style="border-top:1.5px solid #4a9db5;">
+                <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:1px dashed #4a9db5;align-items:flex-start;">
+                    <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:200px;flex-shrink:0;font-size:14px;">COMPANY NAME</dt>
+                    <dd style="color:#374151;font-weight:700;font-size:15px;letter-spacing:.04em;">株式会社 ウィルフロンティア</dd>
                 </dl>
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start js-fade-up">
-                    <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">REPRESENTATIVE</dt>
-                    <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">代表取締役　岩井 和也</dd>
+                <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:1px dashed #4a9db5;align-items:flex-start;">
+                    <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:200px;flex-shrink:0;font-size:14px;">REPRESENTATIVE</dt>
+                    <dd style="color:#374151;font-weight:700;font-size:15px;letter-spacing:.04em;">代表取締役　石政 章治</dd>
                 </dl>
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start">
-                    <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">ADDRESS</dt>
-                    <dd class="text-gray-700 font-bold tracking-widest flex-1 space-y-8 text-sm md:text-base leading-relaxed">
-                        <div>
-                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">本社（積み替え保管）</span>
-                            <p>
-                                〒241-0003 神奈川県横浜市旭区白根町 895 番地<br>
-                                TEL 045-959-3225　FAX 045-959-3226<br>
-                                MAIL　eco-will@kvj.biglobe.ne.jp
-                            </p>
+                <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:1px dashed #4a9db5;align-items:flex-start;">
+                    <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:200px;flex-shrink:0;font-size:14px;">ADDRESS</dt>
+                    <dd style="color:#374151;font-weight:700;font-size:15px;line-height:1.9;">
+                        <div style="margin-bottom:20px;">
+                            <span style="display:inline-block;background:#4a9db5;color:#fff;font-size:13px;font-weight:700;padding:4px 14px;margin-bottom:8px;letter-spacing:.08em;">横浜本社</span><br>
+                            〒241-0003 神奈川県横浜市旭区白根町 895 番地<br>
+                            TEL 045-959-3225　FAX 045-959-3226<br>
+                            MAIL　eco-will@kvj.biglobe.ne.jp
+                        </div>
+                        <div style="margin-bottom:20px;">
+                            <span style="display:inline-block;background:#4a9db5;color:#fff;font-size:13px;font-weight:700;padding:4px 14px;margin-bottom:8px;letter-spacing:.08em;">WF-A.BASE</span><br>
+                            〒243-0807 神奈川県厚木市金田 1107-7<br>
+                            TEL 046-205-4177　FAX 046-205-4178
                         </div>
                         <div>
-                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">WF-A.BASE（中間処理場）</span>
-                            <p>
-                                〒243-0807 神奈川県厚木市金田 1107<br>
-                                TEL 046-205-4177　FAX 046-205-4178
-                            </p>
-                        </div>
-                        <div>
-                            <span class="inline-block bg-[#F59E0B] text-white text-xs font-bold px-4 py-1.5 mb-3 tracking-widest">HUCOM（積み替え保管）</span>
-                            <p>
-                                〒341-0055 埼玉県三郷市上口 2-75-1<br>
-                                TEL 048-969-4811　FAX 048-969-4812
-                            </p>
+                            <span style="display:inline-block;background:#4a9db5;color:#fff;font-size:13px;font-weight:700;padding:4px 14px;margin-bottom:8px;letter-spacing:.08em;">川口支社</span><br>
+                            〒334-0076 埼玉県川口市本蓮 4-5-10<br>
+                            TEL 048-229-4024　FAX 048-229-4025
                         </div>
                     </dd>
                 </dl>
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start">
-                    <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">ESTABLISHED</dt>
-                    <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">平成 25 年 10 月 25 日</dd>
+                <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:1px dashed #4a9db5;align-items:flex-start;">
+                    <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:200px;flex-shrink:0;font-size:14px;">ESTABLISHED</dt>
+                    <dd style="color:#374151;font-weight:700;font-size:15px;">平成 25 年 10 月 25 日</dd>
                 </dl>
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start">
-                    <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">CAPITAL</dt>
-                    <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">1,000 万円</dd>
+                <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:1px dashed #4a9db5;align-items:flex-start;">
+                    <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:200px;flex-shrink:0;font-size:14px;">CAPITAL</dt>
+                    <dd style="color:#374151;font-weight:700;font-size:15px;">1,000 万円</dd>
                 </dl>
-                <dl class="flex flex-col md:flex-row py-6 md:py-8 border-b border-dashed border-[#F59E0B] items-start">
-                    <dt class="text-[#F59E0B] font-bold tracking-widest w-full md:w-64 mb-3 md:mb-0 shrink-0 mt-1">BUSINESS</dt>
-                    <dd class="text-gray-700 font-bold tracking-widest flex-1 text-sm md:text-base">産業廃棄物収集運搬業 / リサイクル事業 / コンサルティング</dd>
+                <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:1px dashed #4a9db5;align-items:flex-start;">
+                    <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:200px;flex-shrink:0;font-size:14px;">BUSINESS</dt>
+                    <dd style="color:#374151;font-weight:700;font-size:15px;">産業廃棄物収集運搬業 / リサイクル事業 / コンサルティング</dd>
                 </dl>
             </div>
         </div>
@@ -371,8 +396,8 @@
     .vehicle-prev, .vehicle-next { opacity: 1; transition: opacity 0.3s; }
     .vehicle-prev:hover, .vehicle-next:hover { opacity: 0.5; }
 
-    .swiper-pagination-bullet { background-color: transparent !important; border: 2px solid #F59E0B !important; opacity: 1 !important; width: 14px !important; height: 14px !important; margin: 0 8px !important; }
-    .swiper-pagination-bullet-active { background-color: #F59E0B !important; }
+    .swiper-pagination-bullet { background-color: transparent !important; border: 2px solid #4a9db5 !important; opacity: 1 !important; width: 14px !important; height: 14px !important; margin: 0 8px !important; }
+    .swiper-pagination-bullet-active { background-color: #4a9db5 !important; }
     .swiper-pagination { position: relative !important; bottom: 0 !important; margin-top: 20px; }
     .vehicleSwiper .swiper-slide { overflow: visible; }
     .aspect-square { aspect-ratio: 1 / 1; }
@@ -400,7 +425,7 @@
             grid-template-columns: repeat(2, 1fr) !important;
             gap: 8px !important;
         }
-        #service .grid .bg-\[#F59E0B\] { padding: 6px 8px !important; }
+        #service .grid .bg-\[#4a9db5\] { padding: 6px 8px !important; }
         #service .grid h4 { font-size: 0.65rem !important; }
         #service .grid p  { font-size: 0.55rem !important; }
 

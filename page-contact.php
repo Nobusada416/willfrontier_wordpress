@@ -3,29 +3,24 @@
  * Template Name: お問い合わせ
  */
 
-// フォーム送信処理
-$sent    = false;
-$errors  = array();
+$sent   = false;
+$errors = array();
 
 if ( isset( $_POST['wf_contact_nonce'] ) && wp_verify_nonce( $_POST['wf_contact_nonce'], 'wf_contact_form' ) ) {
-    $name    = sanitize_text_field( $_POST['name'] ?? '' );
     $company = sanitize_text_field( $_POST['company'] ?? '' );
-    $email   = sanitize_email( $_POST['email'] ?? '' );
+    $name    = sanitize_text_field( $_POST['name'] ?? '' );
     $tel     = sanitize_text_field( $_POST['tel'] ?? '' );
-    $postal  = sanitize_text_field( $_POST['postal'] ?? '' );
-    $address = sanitize_text_field( $_POST['address'] ?? '' );
     $message = sanitize_textarea_field( $_POST['message'] ?? '' );
 
-    if ( empty( $name ) )    $errors[] = 'お名前を入力してください。';
-    if ( empty( $email ) )   $errors[] = 'メールアドレスを入力してください。';
-    if ( ! is_email( $email ) ) $errors[] = '正しいメールアドレスを入力してください。';
-    if ( empty( $message ) ) $errors[] = 'お問い合わせ内容を入力してください。';
+    if ( empty( $name ) )    $errors[] = '担当者名を入力してください。';
+    if ( empty( $tel ) )     $errors[] = '電話番号を入力してください。';
+    if ( empty( $message ) ) $errors[] = '内容を入力してください。';
 
     if ( empty( $errors ) ) {
         $to      = get_option( 'admin_email' );
         $subject = '【ウィルフロンティア】お問い合わせ：' . $name . ' 様';
-        $body    = "お名前：{$name}\n会社名：{$company}\nメール：{$email}\n電話：{$tel}\n〒：{$postal}\n住所：{$address}\n\n内容：\n{$message}";
-        $headers = array( 'Reply-To: ' . $email );
+        $body    = "会社名：{$company}\n担当者名：{$name}\n電話番号：{$tel}\n\n内容：\n{$message}";
+        $headers = array();
 
         if ( wp_mail( $to, $subject, $body, $headers ) ) {
             $sent = true;
@@ -39,247 +34,325 @@ get_header();
 ?>
 
 <style>
-.contact-input {
-    border-left: 3px solid transparent;
-    transition: border-left-color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+.contact-page {
+    max-width: 100%;
+    margin: 0;
+    padding: 100px 40px 80px;
 }
-.contact-input:focus {
-    border-left-color: #F59E0B;
-    background: #fffbf0;
+
+/* 安心ヘッダー */
+.contact-assurance {
+    background: #fef9e7;
+    border: 1px solid #f0d96a;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 36px;
+}
+.contact-assurance h2 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #1f2937;
+    letter-spacing: .04em;
+}
+
+/* セクション区切りタイトル */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 900;
+    color: #9ca3af;
+    letter-spacing: .15em;
+    margin-bottom: 20px;
+}
+.section-label::before,
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+/* ステップフロー */
+.steps-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 40px;
+}
+.step-block {
+    flex: 1;
+    text-align: center;
+}
+.step-icon-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #2d5c8a;
+    margin-bottom: 8px;
+}
+.step-icon-label .step-id {
+    font-weight: 900;
+    font-size: 13px;
+}
+.step-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+.step-sub {
+    font-size: 11px;
+    color: #4a9db5;
+    font-weight: 700;
+}
+.step-arrow {
+    padding-top: 18px;
+    color: #4a9db5;
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+}
+
+/* FAQ */
+.faq-wrap {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+.faq-item {
+    font-size: 13px;
+    color: #374151;
+    display: grid;
+    grid-template-columns: 20px 1fr auto auto;
+    gap: 8px;
+    width: 420px;
+}
+.faq-q { color: #9ca3af; font-weight: 700; flex-shrink: 0; }
+.faq-arrow { color: #2d5c8a; font-weight: 700; margin: 0 4px; }
+.faq-a { color: #2d5c8a; font-weight: 700; }
+
+/* フォーム */
+.contact-form-wrap {
+    margin-bottom: 28px;
+}
+.form-inner {
+    max-width: 520px;
+    margin: 0 auto;
+}
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+.form-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #374151;
+    width: 72px;
+    flex-shrink: 0;
+    text-align: right;
+}
+.form-input {
+    flex: 1;
+    border: 1px solid #d1d5db;
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #1f2937;
     outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    background: #fff;
 }
-.contact-input.is-error {
-    border-color: #ef4444;
-    border-left-color: #ef4444;
-    background: #fff5f5;
+.form-input:focus {
+    border-color: #2d5c8a;
+    background: #f8fafc;
 }
-.contact-error-msg {
-    display: none;
-    color: #ef4444;
-    font-size: 0.78rem;
-    font-weight: 600;
-    margin-top: 4px;
+.form-input.is-error { border-color: #ef4444; }
+
+/* 送信ボタン */
+.submit-btn-wrap {
+    text-align: center;
+    margin-bottom: 16px;
+}
+.submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #2d5c8a;
+    color: #f5c518;
+    font-weight: 900;
+    font-size: 16px;
+    letter-spacing: .1em;
+    padding: 18px 64px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+.submit-btn:hover { background: #1e4570; transform: translateY(-2px); }
+
+/* バッジ */
+.badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.badge {
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 18px 72px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 900;
+    color: #374151;
     letter-spacing: .05em;
-}
-.contact-error-msg.is-visible {
-    display: block;
 }
 </style>
 
 <main class="relative w-full overflow-x-hidden bg-white">
+<div class="contact-page">
 
-    <section class="relative w-full py-24 bg-white min-h-screen flex flex-col justify-center overflow-hidden">
-
-        <div class="relative z-20 w-full max-w-2xl mx-auto px-6 md:px-12">
-
-            <div id="contact-heading" class="mb-12 text-center" style="opacity:0;">
-                <h2 class="text-5xl md:text-6xl font-black text-gray-700 tracking-wider mb-4">CONTACT</h2>
-                <div class="w-16 h-[3px] bg-[#F59E0B] mx-auto"></div>
-                <p class="mt-6 text-gray-600 font-medium tracking-wider leading-relaxed">
-                    お問い合わせはこちらのフォームよりお気軽にどうぞ。<br>
-                    担当者より折り返しご連絡いたします。
-                </p>
-            </div>
-
-            <?php if ( $sent ) : ?>
-                <div class="bg-green-50 border border-green-300 text-green-800 px-6 py-5 rounded mb-8 text-center font-bold tracking-wider">
-                    お問い合わせを受け付けました。ありがとうございます。
-                </div>
-            <?php endif; ?>
-
-            <?php if ( ! empty( $errors ) ) : ?>
-                <div class="bg-red-50 border border-red-300 text-red-700 px-6 py-4 rounded mb-8">
-                    <ul class="list-disc list-inside space-y-1 text-sm font-medium">
-                        <?php foreach ( $errors as $e ) : ?>
-                            <li><?php echo esc_html( $e ); ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
-
-            <?php if ( ! $sent ) : ?>
-            <form method="post" class="space-y-6">
-                <?php wp_nonce_field( 'wf_contact_form', 'wf_contact_nonce' ); ?>
-
-                <div class="contact-field" style="opacity:0;">
-                    <label class="block text-sm font-bold text-[#F59E0B] tracking-widest mb-2">
-                        お名前 <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" name="name" id="field-name" value="<?php echo esc_attr( $_POST['name'] ?? '' ); ?>"
-                        class="contact-input w-full border border-gray-300 px-4 py-3 text-gray-800"
-                        placeholder="山田 太郎">
-                    <span class="contact-error-msg" id="err-name">お名前を入力してください。</span>
-                </div>
-
-                <div class="contact-field" style="opacity:0;">
-                    <label class="block text-sm font-bold text-[#F59E0B] tracking-widest mb-2">
-                        会社名
-                    </label>
-                    <input type="text" name="company" value="<?php echo esc_attr( $_POST['company'] ?? '' ); ?>"
-                        class="contact-input w-full border border-gray-300 px-4 py-3 text-gray-800"
-                        placeholder="株式会社〇〇">
-                </div>
-
-                <div class="contact-field" style="opacity:0;">
-                    <label class="block text-sm font-bold text-[#F59E0B] tracking-widest mb-2">
-                        メールアドレス <span class="text-red-500">*</span>
-                    </label>
-                    <input type="email" name="email" id="field-email" value="<?php echo esc_attr( $_POST['email'] ?? '' ); ?>"
-                        class="contact-input w-full border border-gray-300 px-4 py-3 text-gray-800"
-                        placeholder="example@email.com">
-                    <span class="contact-error-msg" id="err-email">正しいメールアドレスを入力してください。</span>
-                </div>
-
-                <div class="contact-field" style="opacity:0;">
-                    <label class="block text-sm font-bold text-[#F59E0B] tracking-widest mb-2">
-                        電話番号
-                    </label>
-                    <input type="tel" name="tel" id="field-tel" value="<?php echo esc_attr( $_POST['tel'] ?? '' ); ?>"
-                        class="contact-input w-full border border-gray-300 px-4 py-3 text-gray-800"
-                        placeholder="000-0000-0000">
-                    <span class="contact-error-msg" id="err-tel">正しい電話番号を入力してください（例：000-0000-0000）。</span>
-                </div>
-
-                <div class="contact-field" style="opacity:0;">
-                    <label class="block text-sm font-bold text-[#F59E0B] tracking-widest mb-2">
-                        郵便番号
-                    </label>
-                    <div class="flex items-center gap-3">
-                        <span class="text-gray-500 font-bold text-lg flex-shrink-0">〒</span>
-                        <input type="text" name="postal" id="field-postal" value="<?php echo esc_attr( $_POST['postal'] ?? '' ); ?>"
-                            class="contact-input border border-gray-300 px-4 py-3 text-gray-800 w-40"
-                            placeholder="1234567" maxlength="8" inputmode="numeric">
-                        <span id="postal-status" class="text-sm text-gray-400 tracking-wide"></span>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-1">ハイフンなし7桁で入力すると住所が自動入力されます</p>
-                </div>
-
-                <div class="contact-field" style="opacity:0;">
-                    <label class="block text-sm font-bold text-[#F59E0B] tracking-widest mb-2">
-                        住所
-                    </label>
-                    <input type="text" name="address" id="field-address" value="<?php echo esc_attr( $_POST['address'] ?? '' ); ?>"
-                        class="contact-input w-full border border-gray-300 px-4 py-3 text-gray-800"
-                        placeholder="東京都〇〇区〇〇 1-2-3">
-                </div>
-
-                <div class="contact-field" style="opacity:0;">
-                    <label class="block text-sm font-bold text-[#F59E0B] tracking-widest mb-2">
-                        お問い合わせ内容 <span class="text-red-500">*</span>
-                    </label>
-                    <textarea name="message" id="field-message" rows="6"
-                        class="contact-input w-full border border-gray-300 px-4 py-3 text-gray-800 resize-none"
-                        placeholder="お問い合わせ内容をご記入ください"><?php echo esc_textarea( $_POST['message'] ?? '' ); ?></textarea>
-                    <span class="contact-error-msg" id="err-message">お問い合わせ内容を入力してください。</span>
-                </div>
-
-                <div class="contact-field text-center pt-4" style="opacity:0;">
-                    <button type="submit"
-                        class="inline-flex items-center gap-3 bg-[#F59E0B] hover:bg-[#D97706] text-white font-black text-lg tracking-widest px-12 py-4 transition-colors duration-300 shadow-lg">
-                        <span class="text-xl font-black leading-none">&gt;</span> 送信する
-                    </button>
-                </div>
-            </form>
-
-            <script>
-            (function () {
-                var form = document.querySelector('form[method="post"]');
-                if (!form) return;
-
-                function showError(input, errId) {
-                    input.classList.add('is-error');
-                    var msg = document.getElementById(errId);
-                    if (msg) msg.classList.add('is-visible');
-                }
-                function clearError(input, errId) {
-                    input.classList.remove('is-error');
-                    var msg = document.getElementById(errId);
-                    if (msg) msg.classList.remove('is-visible');
-                }
-                function isValidEmail(v) {
-                    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-                }
-                function isValidTel(v) {
-                    return v === '' || /^[\d\-+() ]{7,15}$/.test(v);
-                }
-
-                // リアルタイム検証（blurで発火）
-                var nameEl    = document.getElementById('field-name');
-                var emailEl   = document.getElementById('field-email');
-                var telEl     = document.getElementById('field-tel');
-                var messageEl = document.getElementById('field-message');
-
-                if (nameEl) nameEl.addEventListener('blur', function () {
-                    this.value.trim() ? clearError(this, 'err-name') : showError(this, 'err-name');
-                });
-                if (emailEl) emailEl.addEventListener('blur', function () {
-                    isValidEmail(this.value.trim()) ? clearError(this, 'err-email') : showError(this, 'err-email');
-                });
-                if (telEl) telEl.addEventListener('blur', function () {
-                    isValidTel(this.value.trim()) ? clearError(this, 'err-tel') : showError(this, 'err-tel');
-                });
-                if (messageEl) messageEl.addEventListener('blur', function () {
-                    this.value.trim() ? clearError(this, 'err-message') : showError(this, 'err-message');
-                });
-
-                // 郵便番号 → 住所自動入力
-                var postalEl  = document.getElementById('field-postal');
-                var addressEl = document.getElementById('field-address');
-                var statusEl  = document.getElementById('postal-status');
-
-                function lookupPostal(code) {
-                    var clean = code.replace(/[^\d]/g, '');
-                    if (clean.length !== 7) return;
-                    statusEl.textContent = '検索中…';
-                    statusEl.style.color = '#9ca3af';
-                    fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + clean)
-                        .then(function (r) { return r.json(); })
-                        .then(function (data) {
-                            if (data.results && data.results[0]) {
-                                var r = data.results[0];
-                                var addr = r.address1 + r.address2 + r.address3;
-                                addressEl.value = addr;
-                                statusEl.textContent = '✓ 住所を入力しました';
-                                statusEl.style.color = '#22c55e';
-                            } else {
-                                statusEl.textContent = '該当する住所が見つかりません';
-                                statusEl.style.color = '#ef4444';
-                            }
-                        })
-                        .catch(function () {
-                            statusEl.textContent = '取得に失敗しました';
-                            statusEl.style.color = '#ef4444';
-                        });
-                }
-
-                if (postalEl) {
-                    postalEl.addEventListener('input', function () {
-                        var v = this.value.replace(/[^\d\-]/g, '');
-                        this.value = v;
-                        statusEl.textContent = '';
-                        if (v.replace(/[^\d]/g, '').length === 7) lookupPostal(v);
-                    });
-                    postalEl.addEventListener('blur', function () {
-                        if (this.value.replace(/[^\d]/g, '').length === 7) lookupPostal(this.value);
-                    });
-                }
-
-                // 送信前の最終チェック
-                form.addEventListener('submit', function (e) {
-                    var valid = true;
-                    if (nameEl && !nameEl.value.trim())            { showError(nameEl, 'err-name');       valid = false; }
-                    if (emailEl && !isValidEmail(emailEl.value.trim())) { showError(emailEl, 'err-email'); valid = false; }
-                    if (telEl && !isValidTel(telEl.value.trim()))  { showError(telEl, 'err-tel');         valid = false; }
-                    if (messageEl && !messageEl.value.trim())      { showError(messageEl, 'err-message'); valid = false; }
-                    if (!valid) e.preventDefault();
-                });
-            })();
-            </script>
-            <?php endif; ?>
-
+    <?php if ( $sent ) : ?>
+        <div style="background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:20px 24px;border-radius:6px;font-weight:700;text-align:center;margin-bottom:32px;">
+            お問い合わせを受け付けました。ありがとうございます。
         </div>
-    </section>
+    <?php endif; ?>
 
+    <?php if ( ! empty( $errors ) ) : ?>
+        <div style="background:#fef2f2;border:1px solid #fca5a5;color:#991b1b;padding:16px 20px;border-radius:6px;margin-bottom:24px;">
+            <ul style="list-style:disc;padding-left:20px;margin:0;font-size:13px;font-weight:600;">
+                <?php foreach ( $errors as $e ) : ?>
+                    <li><?php echo esc_html( $e ); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <!-- 安心ヘッダー -->
+    <div class="contact-assurance">
+        <h2>はじめてのお問い合わせも安心です</h2>
+    </div>
+
+    <!-- ステップフロー -->
+    <div class="section-label">お問い合わせ後の流れ</div>
+    <div class="steps-wrap">
+
+        <div class="step-block">
+            <div class="step-icon-label">
+                <span>📞</span><span class="step-id">STEP 1</span>
+            </div>
+            <div class="step-title">お問い合わせ</div>
+            <div class="step-sub">当日中に折り返し</div>
+        </div>
+
+        <div class="step-arrow">→</div>
+
+        <div class="step-block">
+            <div class="step-icon-label">
+                <span>🔍</span><span class="step-id">STEP 2</span>
+            </div>
+            <div class="step-title">現地確認・見積</div>
+            <div class="step-sub">無料</div>
+        </div>
+
+        <div class="step-arrow">→</div>
+
+        <div class="step-block">
+            <div class="step-icon-label">
+                <span>🤝</span><span class="step-id">STEP 3</span>
+            </div>
+            <div class="step-title">ご契約・回収開始</div>
+            <div class="step-sub">最短 1週間</div>
+        </div>
+
+    </div>
+
+    <!-- よくあるご質問 -->
+    <div class="section-label">よくあるご質問</div>
+    <div class="faq-wrap">
+        <div class="faq-item">
+            <span class="faq-q">Q.</span>
+            <span>少量でも回収してもらえますか？</span>
+            <span class="faq-arrow">→</span>
+            <span class="faq-a">はい</span>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q">Q.</span>
+            <span>見積もりだけでも依頼できますか？</span>
+            <span class="faq-arrow">→</span>
+            <span class="faq-a">もちろんです</span>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q">Q.</span>
+            <span>急ぎの回収は対応可能ですか？</span>
+            <span class="faq-arrow">→</span>
+            <span class="faq-a">ご相談ください</span>
+        </div>
+    </div>
+
+    <!-- フォーム -->
+    <?php if ( ! $sent ) : ?>
+    <form method="post" class="contact-form-wrap">
+        <?php wp_nonce_field( 'wf_contact_form', 'wf_contact_nonce' ); ?>
+        <div class="form-inner">
+        <div class="form-row">
+            <label class="form-label" for="f-company">会社名</label>
+            <input type="text" id="f-company" name="company"
+                class="form-input"
+                value="<?php echo esc_attr( $_POST['company'] ?? '' ); ?>"
+                placeholder="">
+        </div>
+
+        <div class="form-row">
+            <label class="form-label" for="f-name">担当者名</label>
+            <input type="text" id="f-name" name="name"
+                class="form-input <?php echo in_array('担当者名を入力してください。', $errors) ? 'is-error' : ''; ?>"
+                value="<?php echo esc_attr( $_POST['name'] ?? '' ); ?>"
+                placeholder="">
+        </div>
+
+        <div class="form-row">
+            <label class="form-label" for="f-tel">電話番号</label>
+            <input type="tel" id="f-tel" name="tel"
+                class="form-input <?php echo in_array('電話番号を入力してください。', $errors) ? 'is-error' : ''; ?>"
+                value="<?php echo esc_attr( $_POST['tel'] ?? '' ); ?>"
+                placeholder="">
+        </div>
+
+        <div class="form-row" style="align-items:flex-start;">
+            <label class="form-label" for="f-message" style="padding-top:8px;">内容</label>
+            <textarea id="f-message" name="message" rows="4"
+                class="form-input <?php echo in_array('内容を入力してください。', $errors) ? 'is-error' : ''; ?>"
+                style="resize:vertical;"
+                placeholder=""><?php echo esc_textarea( $_POST['message'] ?? '' ); ?></textarea>
+        </div>
+
+        </div><!-- /.form-inner -->
+
+        <div class="submit-btn-wrap">
+            <button type="submit" class="submit-btn">送信する →</button>
+        </div>
+
+        <div class="badges">
+            <div class="badge">見積無料</div>
+            <div class="badge">秘密厳守</div>
+        </div>
+
+    </form>
+    <?php endif; ?>
+
+</div>
 </main>
 
-<?php get_footer(); ?>
+<?php wp_footer(); ?>
+</body>
+</html>
