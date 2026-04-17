@@ -3,7 +3,7 @@
  * Template Name: お問い合わせ
  */
 
-$sent   = false;
+$sent   = isset( $_GET['sent'] ) && $_GET['sent'] === '1';
 $errors = array();
 
 if ( isset( $_POST['wf_contact_nonce'] ) && wp_verify_nonce( $_POST['wf_contact_nonce'], 'wf_contact_form' ) ) {
@@ -17,13 +17,14 @@ if ( isset( $_POST['wf_contact_nonce'] ) && wp_verify_nonce( $_POST['wf_contact_
     if ( empty( $message ) ) $errors[] = '内容を入力してください。';
 
     if ( empty( $errors ) ) {
-        $to      = get_option( 'admin_email' );
+        $to      = 'n.okamoto@utiliai.ai';
         $subject = '【ウィルフロンティア】お問い合わせ：' . $name . ' 様';
         $body    = "会社名：{$company}\n担当者名：{$name}\n電話番号：{$tel}\n\n内容：\n{$message}";
         $headers = array();
 
         if ( wp_mail( $to, $subject, $body, $headers ) ) {
-            $sent = true;
+            wp_redirect( add_query_arg( 'sent', '1', get_permalink() ) );
+            exit;
         } else {
             $errors[] = '送信に失敗しました。しばらくしてから再度お試しください。';
         }
@@ -222,9 +223,14 @@ get_header();
 <div class="contact-page">
 
     <?php if ( $sent ) : ?>
-        <div style="background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:20px 24px;border-radius:6px;font-weight:700;text-align:center;margin-bottom:32px;">
-            お問い合わせを受け付けました。ありがとうございます。
+    <div id="success-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:12px;padding:48px 56px;text-align:center;max-width:480px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
+            <div style="font-size:56px;margin-bottom:16px;">✅</div>
+            <h2 style="font-size:1.6rem;font-weight:900;color:#2d5c8a;margin-bottom:12px;">送信完了</h2>
+            <p style="font-size:1rem;font-weight:700;color:#374151;line-height:1.8;margin-bottom:32px;">お問い合わせを受け付けました。<br>ありがとうございます。<br>担当者より折り返しご連絡いたします。</p>
+            <button onclick="window.history.back()" style="background:#2d5c8a;color:#f5c518;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
         </div>
+    </div>
     <?php endif; ?>
 
     <?php if ( ! empty( $errors ) ) : ?>

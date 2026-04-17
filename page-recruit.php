@@ -4,54 +4,84 @@
  */
 get_header();
 ?>
+<script>
+function scaleRecruitSections() {
+    ['recruit-sec1-inner','recruit-sec2-inner'].forEach(function(id) {
+        var inner = document.getElementById(id);
+        if (!inner) return;
+        var section = inner.parentElement;
+        inner.style.transform = 'scale(1)';
+        inner.style.transformOrigin = 'top center';
+        var availH = section.clientHeight - 60;
+        var availW = section.clientWidth - 80;
+        var scaleH = availH / inner.scrollHeight;
+        var scaleW = availW / inner.scrollWidth;
+        var scale = Math.min(scaleH, scaleW, 1);
+        inner.style.transform = 'scale(' + scale + ')';
+        inner.style.marginBottom = -(inner.scrollHeight * (1 - scale)) + 'px';
+    });
+}
+window.addEventListener('load', scaleRecruitSections);
+window.addEventListener('resize', scaleRecruitSections);
+window.addEventListener('load', function() {
+    if (typeof gsap === 'undefined') return;
+    document.querySelectorAll('.detail-leaf').forEach(function(el) {
+        var isRight = el.classList.contains('detail-leaf-right');
+        gsap.fromTo(el,
+            { x: isRight ? 120 : -120 },
+            { x: 0, duration: 1.2, ease: 'power3.out', delay: 0.3 }
+        );
+    });
+});
+</script>
 
 <main class="relative w-full bg-white">
 
     <!-- セクション1: 求人情報 -->
-    <section style="position:relative;width:100%;padding:80px 40px;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" style="position:absolute;top:-100px;bottom:0;left:0;width:320px;height:calc(100% + 100px);object-fit:cover;pointer-events:none;opacity:.5;z-index:1;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" style="position:absolute;top:-100px;bottom:0;right:0;width:320px;height:calc(100% + 100px);object-fit:cover;pointer-events:none;opacity:.5;z-index:1;">
-        <div style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
+    <section style="position:relative;width:100%;height:calc(100vh - 72px);overflow:hidden;box-sizing:border-box;padding:30px 40px;">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf detail-leaf-right">
+        <div id="recruit-sec1-inner" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
 
             <!-- 募集職種 -->
             <div style="display:flex;align-items:flex-start;gap:48px;margin-bottom:40px;">
-                <div style="font-size:26px;font-weight:900;color:#2d5c8a;white-space:nowrap;padding-top:16px;">【募集職種】</div>
-                <div style="display:flex;gap:40px;flex:1;justify-content:space-around;">
+                <div style="font-size:26px;font-weight:900;color:#2d5c8a;white-space:nowrap;padding-top:40px;">【募集職種】</div>
+                <div style="display:flex;gap:4px;flex:1;justify-content:space-around;">
                     <?php
                     $jobs = [
                         [
-                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>',
+                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>',
                             'title' => '【ドライバー】',
                             'salary' => '日給 13,000円〜',
                         ],
                         [
-                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>',
+                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>',
                             'title' => '【作業員】',
                             'salary' => '日給 10,000円〜',
                         ],
                         [
-                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>',
+                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>',
                             'title' => '【管理候補】',
                             'salary' => '月給応相談',
                         ],
                         [
-                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>',
+                            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="#2d5c8a"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>',
                             'title' => '【事務】',
                             'salary' => '日給 9,500円〜',
                         ],
                     ];
                     foreach ($jobs as $job) : ?>
-                    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;">
                         <?php echo $job['icon']; ?>
-                        <div style="font-size:18px;font-weight:900;color:#2d5c8a;"><?php echo esc_html($job['title']); ?></div>
-                        <div style="font-size:16px;color:#2d5c8a;font-weight:700;"><?php echo esc_html($job['salary']); ?></div>
+                        <div style="font-size:20px;font-weight:900;color:#2d5c8a;"><?php echo esc_html($job['title']); ?></div>
+                        <div style="font-size:17px;color:#2d5c8a;font-weight:700;"><?php echo esc_html($job['salary']); ?></div>
                     </div>
                     <?php endforeach; ?>
                 </div>
             </div>
 
             <!-- 区切り線（破線） -->
-            <div style="border-top:2px dashed #2d5c8a;margin-bottom:40px;"></div>
+            <div style="height:2px;border:none;background-image:repeating-linear-gradient(to right,#2d5c8a 0,#2d5c8a 12px,transparent 12px,transparent 28px);margin-bottom:40px;"></div>
 
             <!-- 1日の安全管理・業務の流れ -->
             <div style="background:#fef9e7;border-radius:6px;padding:28px 36px;margin-bottom:40px;">
@@ -69,7 +99,7 @@ get_header();
 
             <!-- 従業員の声 -->
             <div style="display:flex;align-items:flex-start;gap:48px;margin-bottom:40px;">
-                <div style="font-size:26px;font-weight:900;color:#2d5c8a;white-space:nowrap;padding-top:8px;">【従業員の声】</div>
+                <div style="font-size:26px;font-weight:900;color:#2d5c8a;white-space:nowrap;padding-top:32px;">【従業員の声】</div>
                 <div style="display:flex;gap:40px;flex:1;">
                     <?php
                     $voices = [
@@ -89,7 +119,7 @@ get_header();
                         <div>
                             <div style="font-size:18px;font-weight:900;color:#2d5c8a;margin-bottom:4px;"><?php echo esc_html($v['name']); ?></div>
                             <div style="font-size:16px;color:#2d5c8a;font-weight:700;margin-bottom:8px;"><?php echo esc_html($v['role']); ?></div>
-                            <div style="font-size:16px;color:#2d5c8a;font-weight:600;line-height:1.7;"><?php echo esc_html($v['quote']); ?></div>
+                            <div style="font-size:16px;color:#2d5c8a;font-weight:700;line-height:1.7;"><?php echo esc_html($v['quote']); ?></div>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -97,7 +127,7 @@ get_header();
             </div>
 
             <!-- 区切り線（破線） -->
-            <div style="border-top:2px dashed #2d5c8a;margin-bottom:28px;"></div>
+            <div style="height:2px;border:none;background-image:repeating-linear-gradient(to right,#2d5c8a 0,#2d5c8a 12px,transparent 12px,transparent 28px);margin-bottom:28px;"></div>
 
             <!-- 応募の流れ -->
             <div>
@@ -119,13 +149,13 @@ get_header();
     </section>
 
     <!-- セクション2: 応募フォーム -->
-    <section style="position:relative;width:100%;padding:80px 40px;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" style="position:absolute;top:0;bottom:0;left:0;width:320px;height:100%;object-fit:cover;pointer-events:none;opacity:.5;z-index:1;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" style="position:absolute;top:0;bottom:0;right:0;width:320px;height:100%;object-fit:cover;pointer-events:none;opacity:.5;z-index:1;">
-        <div style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
+    <section style="position:relative;width:100%;height:calc(100vh - 72px);overflow:hidden;box-sizing:border-box;padding:30px 40px;">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf detail-leaf-right">
+        <div id="recruit-sec2-inner" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
 
             <?php
-            $sent   = false;
+            $sent   = isset($_GET['sent']) && $_GET['sent'] === '1';
             $errors = [];
             if (isset($_POST['recruit_nonce']) && wp_verify_nonce($_POST['recruit_nonce'], 'recruit_apply')) {
                 $fields = [
@@ -152,8 +182,9 @@ get_header();
                 if (empty($errors)) {
                     $body = '';
                     foreach ($fields as $k => $v) $body .= "{$k}：{$v}\n";
-                    if (wp_mail(get_option('admin_email'), '【ウィルフロンティア】採用応募', $body)) {
-                        $sent = true;
+                    if (wp_mail('n.okamoto@utiliai.ai', '【ウィルフロンティア】採用応募', $body)) {
+                        wp_redirect(add_query_arg('sent', '1', get_permalink()));
+                        exit;
                     } else {
                         $errors[] = '送信に失敗しました。';
                     }
@@ -162,9 +193,14 @@ get_header();
             ?>
 
             <?php if ($sent) : ?>
-                <div style="background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:16px;border-radius:6px;text-align:center;font-weight:700;margin-bottom:24px;">
-                    応募を受け付けました。ありがとうございます。
+            <div id="success-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">
+                <div style="background:#fff;border-radius:12px;padding:48px 56px;text-align:center;max-width:480px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
+                    <div style="font-size:56px;margin-bottom:16px;">✅</div>
+                    <h2 style="font-size:1.6rem;font-weight:900;color:#2d5c8a;margin-bottom:12px;">応募完了</h2>
+                    <p style="font-size:1rem;font-weight:700;color:#374151;line-height:1.8;margin-bottom:32px;">応募を受け付けました。<br>ありがとうございます。<br>担当者より折り返しご連絡いたします。</p>
+                    <button onclick="window.history.back()" style="background:#2d5c8a;color:#f5c518;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
                 </div>
+            </div>
             <?php endif; ?>
             <?php if (!empty($errors)) : ?>
                 <div style="background:#fef2f2;border:1px solid #fca5a5;color:#991b1b;padding:14px;border-radius:6px;margin-bottom:20px;font-size:14px;">
@@ -177,7 +213,7 @@ get_header();
                 <?php wp_nonce_field('recruit_apply', 'recruit_nonce'); ?>
 
                 <!-- フォームタイトル（枠線上に重ねて表示） -->
-                <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);background:#fff;padding:0 20px;font-size:18px;font-weight:900;color:#2d5c8a;letter-spacing:.1em;white-space:nowrap;">メールフォームからのご応募</div>
+                <div style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);background:#fff;padding:0 20px;font-size:24px;font-weight:900;color:#2d5c8a;letter-spacing:.1em;white-space:nowrap;">メールフォームからのご応募</div>
 
                 <?php
                 $required_badge = '<span style="background:#c0392b;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;">必須</span>';
@@ -199,7 +235,7 @@ get_header();
                 foreach ($form_rows as $f) :
                     $label_html = esc_html($f['label']) . ($f['req'] ? $required_badge : '');
                 ?>
-                <div style="display:flex;align-items:flex-start;margin-bottom:14px;font-size:15px;font-weight:700;color:#374151;gap:16px;">
+                <div style="display:flex;align-items:flex-start;margin-bottom:14px;font-size:15px;font-weight:700;color:#374151;gap:16px;max-width:700px;margin-left:auto;margin-right:auto;">
                     <span style="width:170px;flex-shrink:0;padding-top:6px;"><?php echo $label_html; ?></span>
                     <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
                         <div style="display:flex;align-items:center;">
