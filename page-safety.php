@@ -140,7 +140,7 @@ window.addEventListener('load', function() {
                     <span style="margin:0 16px;">よくあるご質問</span>
                     <span style="width:75px;height:2px;background:#4a9db5;"></span>
                 </div>
-                <div style="display:grid;grid-template-columns:1fr auto auto;gap:14px 20px;align-items:center;font-size:16px;">
+                <div style="display:grid;grid-template-columns:1fr 30px auto;gap:14px 16px;align-items:center;font-size:16px;">
                     <?php
                     $faqs = [
                         ['q' => 'Q.少量の産業廃棄物でも回収してもらえますか？', 'a' => '少量でも回収可能です'],
@@ -150,8 +150,8 @@ window.addEventListener('load', function() {
                     foreach ($faqs as $faq) :
                     ?>
                         <span style="color:#4a9db5;font-weight:700;"><?php echo esc_html($faq['q']); ?></span>
-                        <span style="color:#4a9db5;font-weight:700;text-align:center;margin-left:-150px;">→</span>
-                        <span style="color:#4a9db5;font-weight:700;margin-left:-50px;"><?php echo esc_html($faq['a']); ?></span>
+                        <span style="color:#4a9db5;font-weight:700;text-align:center;">→</span>
+                        <span style="color:#4a9db5;font-weight:700;"><?php echo esc_html($faq['a']); ?></span>
                     <?php endforeach; ?>
                 </div>
             </div>

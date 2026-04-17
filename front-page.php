@@ -175,7 +175,7 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="ARM ROLL" style="width:100%;height:420px;object-fit:cover;display:block;">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="ARM ROLL" style="width:100%;height:clamp(180px,calc(100vh - 340px),420px);object-fit:cover;display:block;">
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 ARM ROLL <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">4t アームロール車</span>
@@ -202,10 +202,10 @@
                 </div>
 
                 <!-- 矢印：画像の真横に絶対配置 -->
-                <button class="vehicle-prev" style="position:absolute;top:210px;left:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
+                <button class="vehicle-prev" style="position:absolute;top:clamp(90px,calc(50vh - 170px),210px);left:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
                     <svg viewBox="0 0 24 24" style="width:44px;height:44px;" fill="#2d5c8a"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
                 </button>
-                <button class="vehicle-next" style="position:absolute;top:210px;right:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
+                <button class="vehicle-next" style="position:absolute;top:clamp(90px,calc(50vh - 170px),210px);right:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
                     <svg viewBox="0 0 24 24" style="width:44px;height:44px;transform:scaleX(-1);" fill="#2d5c8a"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
                 </button>
             </div>
@@ -264,7 +264,7 @@
             <!-- 写真ボックス -->
             <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#fff;">
                 <!-- 画像エリア（画像追加時は img タグに差し替え） -->
-                <div style="width:100%;height:520px;background:#fff;display:flex;align-items:center;justify-content:center;">
+                <div style="width:100%;height:clamp(200px, calc(100vh - 310px), 520px);background:#fff;display:flex;align-items:center;justify-content:center;">
                     <span style="font-size:1.2rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
                 </div>
                 <!-- キャッチコピー（写真下部中央に重ねて表示） -->

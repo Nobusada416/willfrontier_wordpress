@@ -87,8 +87,8 @@ window.addEventListener('load', function() {
             </div>
 
             <!-- 右カラム：円形画像エリア -->
-            <div style="flex-shrink:0;width:550px;display:flex;align-items:center;justify-content:flex-end;padding-top:40px;">
-                <div style="width:550px;height:550px;border-radius:50%;background:#f3f4f6;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+            <div style="flex-shrink:0;width:min(550px, 42%);display:flex;align-items:center;justify-content:flex-end;padding-top:40px;">
+                <div style="width:100%;aspect-ratio:1/1;border-radius:50%;background:#f3f4f6;overflow:hidden;display:flex;align-items:center;justify-content:center;">
                     <img src="<?php echo get_template_directory_uri(); ?>/assets/images/illust_.png" alt="ミッション" style="width:100%;height:100%;object-fit:cover;display:block;">
                 </div>
             </div>
