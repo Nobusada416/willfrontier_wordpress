@@ -37,11 +37,11 @@
 
         <div class="relative z-30 w-full text-center" style="padding: 0 8vw;">
 
-            <h3 class="text-7xl md:text-8xl font-black text-gray-800 tracking-wider mb-12 js-heading-up">MISSION</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-12 js-heading-up">MISSION</h3>
 
             <!-- 環境の方程式 -->
             <div class="js-fade-up mb-4 inline-block relative">
-                <p class="font-black text-[#4a9db5] tracking-wide leading-tight" style="font-size:clamp(1.2rem, 4vw, 3.8rem); white-space:nowrap;">
+                <p class="font-black text-[#4a9db5] tracking-wide leading-tight" style="font-size:clamp(1rem, 2.8vw, 2.6rem);">
                     環境 = 地球 + Forest + 水 + Animal + 街 + 人
                 </p>
                 <p class="text-[#4a9db5] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem);">を重要なテーマとして捉えています。</p>
@@ -63,30 +63,30 @@
         </div>
     </section>
 
-    <section id="service" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col justify-start pt-10">
+    <section id="service" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
-            <h3 class="font-black text-gray-700 tracking-wider mb-16 js-heading-up" style="font-size:clamp(3rem,7vw,6rem);margin-top:20px;">SERVICE</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-8 js-heading-up">SERVICE</h3>
 
             <!-- 5サークルレイアウト -->
             <?php
             // 共通スタイル
-            $outer = 'width:210px;height:210px;border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:16px;cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
-            $inner = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:22px;line-height:1.3;text-align:center;padding:20px;';
-            $outer_lg = 'width:210px;height:210px;border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:16px;cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
-            $inner_lg = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:22px;line-height:1.3;text-align:center;padding:20px;';
+            $outer = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $inner = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(12px,1.4vw,22px);line-height:1.3;text-align:center;padding:clamp(12px,1.4vw,20px);';
+            $outer_lg = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $inner_lg = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(12px,1.4vw,22px);line-height:1.3;text-align:center;padding:clamp(12px,1.4vw,20px);';
             ?>
-            <div class="relative js-fade-up" style="max-width:900px;margin:0 auto;margin-top:-100px;">
+            <div class="relative js-fade-up" style="max-width:900px;margin:0 auto;margin-top:-2vw;">
 
                 <!-- 上段 2つ -->
                 <div style="display:flex;justify-content:space-between;margin-bottom:-50px;">
-                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="svc-circle" style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <div style="<?php echo $inner; ?>font-size:21px;white-space:nowrap;">自社の<br>処理施設を<br>（積替え・保管）<br>所有</div>
                     </div>
-                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="svc-circle" style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <div style="<?php echo $inner; ?>display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
                                 <span>自社<br>中間処理場</span>
                                 <span style="display:inline-block;background:none;border:1.5px solid rgba(255,255,255,0.7);padding:6px 20px;font-size:16px;white-space:nowrap;">WF-A.BASE</span>
@@ -96,17 +96,17 @@
 
                 <!-- 中段 センター -->
                 <div style="display:flex;justify-content:center;margin-bottom:-50px;">
-                    <div style="<?php echo $outer_lg; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="svc-circle" style="<?php echo $outer_lg; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <div style="<?php echo $inner_lg; ?>font-size:18px;flex-direction:column;gap:4px;"><span style="white-space:nowrap;">鉄・非鉄</span><span style="white-space:nowrap;">買い取ります。</span></div>
                     </div>
                 </div>
 
                 <!-- 下段 2つ -->
                 <div style="display:flex;justify-content:space-between;">
-                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="svc-circle" style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <div style="<?php echo $inner; ?>white-space:nowrap;">どんな<br>産業廃棄物にも<br>対応</div>
                     </div>
-                    <div style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="svc-circle" style="<?php echo $outer; ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <div style="<?php echo $inner; ?>">現場<br>パトロール<br>小口回収でも<br>お気軽に</div>
                     </div>
                 </div>
@@ -141,10 +141,10 @@
                         ['num'=>'05','en'=>'OPERATION', 'ja'=>'運用開始・定期フォロー'],
                     ];
                     foreach ($steps as $s) : ?>
-                    <div class="flex items-center py-7 border-b border-[#4a9db5] js-fade-up" style="gap:2rem;">
-                        <span class="font-black text-[#4a9db5] flex-shrink-0" style="font-size:2.2rem;width:3.5rem;text-align:left;"><?php echo $s['num']; ?></span>
-                        <h4 class="font-black text-gray-700 tracking-wider flex-shrink-0" style="font-size:2rem;text-align:left;min-width:220px;"><?php echo $s['en']; ?></h4>
-                        <p class="text-gray-500 font-bold tracking-wider text-right flex-1" style="font-size:0.85rem;"><?php echo $s['ja']; ?></p>
+                    <div class="flex items-center border-b border-[#4a9db5] js-fade-up" style="gap:clamp(0.8rem,1.5vw,2rem);padding:clamp(0.5rem,1.5vh,1.75rem) 0;">
+                        <span class="font-black text-[#4a9db5] flex-shrink-0" style="font-size:clamp(1.2rem,2.2vw,2.2rem);width:clamp(2.5rem,3.5vw,3.5rem);text-align:left;"><?php echo $s['num']; ?></span>
+                        <h4 class="font-black text-gray-700 tracking-wider flex-shrink-0" style="font-size:clamp(1rem,2vw,2rem);text-align:left;min-width:clamp(100px,13vw,200px);"><?php echo $s['en']; ?></h4>
+                        <p class="text-gray-500 font-bold tracking-wider text-right flex-1" style="font-size:clamp(0.7rem,0.9vw,0.9rem);"><?php echo $s['ja']; ?></p>
                     </div>
                     <?php endforeach; ?>
 
@@ -175,7 +175,7 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="ARM ROLL" style="width:100%;height:clamp(180px,calc(100vh - 340px),420px);object-fit:cover;display:block;">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="ARM ROLL" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 ARM ROLL <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">4t アームロール車</span>
@@ -183,7 +183,7 @@
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="DUMP TRUCK" style="width:100%;height:420px;object-fit:cover;display:block;">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="DUMP TRUCK" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 DUMP TRUCK <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">ダンプトラック</span>
@@ -191,7 +191,7 @@
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="PACKER CAR" style="width:100%;height:420px;object-fit:cover;display:block;">
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="PACKER CAR" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 PACKER CAR <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">パッカー車</span>
@@ -262,9 +262,9 @@
             </div>
 
             <!-- 写真ボックス -->
-            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#fff;">
+            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#fff;width:clamp(400px,75vw,1000px);margin:0 auto;">
                 <!-- 画像エリア（画像追加時は img タグに差し替え） -->
-                <div style="width:100%;height:clamp(200px, calc(100vh - 310px), 520px);background:#fff;display:flex;align-items:center;justify-content:center;">
+                <div style="width:100%;height:clamp(200px,44vh,480px);background:#fff;display:flex;align-items:center;justify-content:center;">
                     <span style="font-size:1.2rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
                 </div>
                 <!-- キャッチコピー（写真下部中央に重ねて表示） -->
@@ -293,17 +293,17 @@
             <!-- 写真＋テキスト重ねボックス -->
             <div class="js-fade-up" style="position:relative;border:1.5px solid #000;border-radius:4px;overflow:hidden;background:#fff;">
                 <!-- 画像エリア（画像追加時は img タグに差し替え） -->
-                <div style="width:100%;height:240px;background:#fff;display:flex;align-items:center;justify-content:center;">
+                <div style="width:100%;height:clamp(140px,22vh,260px);background:#fff;display:flex;align-items:center;justify-content:center;">
                     <span style="font-size:1.1rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
                 </div>
                 <!-- キャッチコピー（写真に重ねて下部中央） -->
                 <div style="position:absolute;bottom:0;left:0;right:0;padding:24px 32px;text-align:center;">
-                    <p style="font-size:3rem;font-weight:900;color:#4a9db5;letter-spacing:.05em;">スマイル宣言はじめませんか？</p>
+                    <p style="font-size:clamp(1.5rem,2.5vw,3rem);font-weight:900;color:#4a9db5;letter-spacing:.05em;">スマイル宣言はじめませんか？</p>
                 </div>
             </div>
 
             <!-- スマイル宣言説明バー -->
-            <div class="js-fade-up" style="background:#fef9e7;border:1px solid #f0d96a;border-top:none;padding:18px 20px;font-size:20px;font-weight:700;color:#2d5c8a;line-height:1.7;text-align:center;">
+            <div class="js-fade-up" style="background:#fef9e7;border:1px solid #f0d96a;border-top:none;padding:clamp(10px,1.5vh,18px) 20px;font-size:clamp(0.85rem,1.3vw,1.25rem);font-weight:700;color:#2d5c8a;line-height:1.7;text-align:center;">
                 スマイル宣言とは：元気な挨拶、丁寧な言葉遣いで笑顔あふれる地域をめざす、ウィルフロンティアの取り組み
             </div>
 
@@ -424,7 +424,28 @@ window.addEventListener('resize', scaleCompanySection);
     /* js-fade-up / js-leaf の初期状態 */
     .js-fade-up { opacity: 0; }
 
+    /* ─── vw/vhベース統一スタイル（全PCサイズで比例スケール） ──────── */
+    main section h3 {
+        font-size: clamp(2rem, 5vw, 4.5rem) !important;
+    }
 
+    /* セクション共通余白 */
+    main section .mb-12 { margin-bottom: clamp(0.8rem, 2.5vh, 3rem) !important; }
+    main section .mt-12 { margin-top:    clamp(0.8rem, 2.5vh, 3rem) !important; }
+    main section .mb-10 { margin-bottom: clamp(0.6rem, 2vh,   2.5rem) !important; }
+    main section .mb-16 { margin-bottom: clamp(1rem,   3vh,   4rem) !important; }
+    main section .mb-8  { margin-bottom: clamp(0.5rem, 1.8vh, 2rem) !important; }
+    main section .mt-8  { margin-top:    clamp(0.5rem, 1.8vh, 2rem) !important; }
+    main section .mt-10 { margin-top:    clamp(0.5rem, 2vh,   2.5rem) !important; }
+    main section .mt-4  { margin-top:    clamp(0.3rem, 1vh,   1rem) !important; }
+
+    /* SERVICEサークル（svc-circleクラスはPHP側で付与済み） */
+    .svc-circle > div { font-size: clamp(12px, 1.4vw, 22px) !important; }
+
+    /* VEHICLE矢印位置 */
+    .vehicle-prev, .vehicle-next {
+        top: clamp(70px, 15vh, 210px) !important;
+    }
 
     /* ─── モバイル専用スタイル ─────────────────────────────────────── */
     @media (max-width: 1023px) {
@@ -481,6 +502,7 @@ window.addEventListener('resize', scaleCompanySection);
             background-position: left top;
         }
     }
+
 </style>
 
 <?php get_footer(); ?>
