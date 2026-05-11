@@ -3,3 +3,7 @@ node_modules/
 assets/.DS_Store
 style.css.map
 *.log
+
+# オリジナル素材（編集・圧縮前の生データ）はリポジトリに含めない
+data/
+
