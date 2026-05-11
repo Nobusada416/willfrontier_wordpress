@@ -113,14 +113,15 @@ function wf_video( $slug, $opts = array() ) {
         'muted'    => false,
         'playsinline' => true,
         'preload'  => 'metadata',
-        'poster'   => '',  // 例: 'hero/intro' → posters/hero-intro.jpg を想定
+        'poster'   => '',  // 例: 'hero/intro' → assets/videos/hero/intro.jpg を参照
         'class'    => '',
     );
     $opts = array_merge( $defaults, $opts );
     $base = get_template_directory_uri() . '/assets/videos';
 
     $src    = esc_url( $base . '/' . $slug . '.mp4' );
-    $poster = $opts['poster'] ? esc_url( $base . '/posters/' . $opts['poster'] . '.jpg' ) : '';
+    // poster は動画と同じディレクトリの同名 .jpg を参照する（例: hero/intro → assets/videos/hero/intro.jpg）
+    $poster = $opts['poster'] ? esc_url( $base . '/' . $opts['poster'] . '.jpg' ) : '';
 
     $attrs = array(
         'class="' . esc_attr( $opts['class'] ) . '"',
