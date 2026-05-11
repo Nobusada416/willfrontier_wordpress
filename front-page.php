@@ -221,7 +221,7 @@
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="DUMP TRUCK" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
+                                <?php echo wf_picture( 'wf-039', 'ダンプトラック', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 DUMP TRUCK <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">ダンプトラック</span>
@@ -229,7 +229,7 @@
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="PACKER CAR" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
+                                <?php echo wf_picture( 'wf-042', 'コンテナ運搬車', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 PACKER CAR <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">パッカー車</span>
