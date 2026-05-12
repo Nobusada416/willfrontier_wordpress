@@ -72,7 +72,7 @@ echo "[init-wp] テーマを有効化"
 wp theme activate will-frontier --allow-root
 
 echo "[init-wp] 必要な固定ページを作成"
-for slug in mission service workflow vehicles casestudy safety recruit company; do
+for slug in mission service workflow vehicles casestudy safety recruit company contact; do
   if wp post list --post_type=page --name=$slug --field=ID --allow-root | grep -q .; then
     echo "  - $slug: 既存"
   else
