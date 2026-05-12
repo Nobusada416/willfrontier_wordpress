@@ -86,13 +86,53 @@ window.addEventListener('load', function() {
 
             </div>
 
-            <!-- 右カラム：円形画像エリア -->
+            <!-- 右カラム：円形画像エリア（3層クロスフェード） -->
             <div style="flex-shrink:0;width:min(550px, 42%);display:flex;align-items:center;justify-content:flex-end;padding-top:40px;">
-                <div style="width:100%;aspect-ratio:1/1;border-radius:50%;background:#f3f4f6;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/illust_.png" alt="ミッション" style="width:100%;height:100%;object-fit:cover;display:block;">
+                <div class="js-fade-up" style="width:100%;aspect-ratio:1/1;border-radius:50%;background:#f3f4f6;overflow:hidden;position:relative;">
+                    <div style="position:absolute;inset:0;animation:missionPageFade1 12s infinite;">
+                        <?php echo wf_picture( 'wf-001', '解体現場', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
+                    </div>
+                    <div style="position:absolute;inset:0;animation:missionPageFade2 12s infinite;">
+                        <?php echo wf_picture( 'wf-022', '現場全景', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
+                    </div>
+                    <div style="position:absolute;inset:0;animation:missionPageFade3 12s infinite;">
+                        <?php echo wf_picture( 'wf-049', 'リサイクル', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
+                    </div>
                 </div>
+                <style>
+                @keyframes missionPageFade1 { 0%,33%,100% { opacity:1; } 50%,83% { opacity:0; } }
+                @keyframes missionPageFade2 { 0%,17%,67%,100% { opacity:0; } 33%,50% { opacity:1; } }
+                @keyframes missionPageFade3 { 0%,50%,100% { opacity:0; } 67%,83% { opacity:1; } }
+                </style>
             </div>
 
+        </div>
+    </section>
+
+    <!-- 追加：地域と共にギャラリー -->
+    <section class="relative w-full" style="background:#f6f8fa;padding:clamp(64px,8vw,120px) 0;">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <div class="text-center mb-12">
+                <p class="text-sm font-bold tracking-[0.3em] text-[#4a9db5] mb-3 js-fade-up">WITH THE COMMUNITY</p>
+                <h2 class="text-3xl md:text-4xl font-black text-[#2d5c8a] tracking-wider js-heading-up">地域と共に</h2>
+                <p class="text-sm md:text-base text-gray-600 mt-4 js-fade-up">現場で働く人、運ばれる資源、そして地域。私たちの周りには、いつも誰かの暮らしがあります。</p>
+            </div>
+
+            <style>
+            @media (max-width: 1024px) { .mission-gallery { column-count: 3 !important; } }
+            @media (max-width: 768px)  { .mission-gallery { column-count: 2 !important; } }
+            @media (max-width: 480px)  { .mission-gallery { column-count: 1 !important; } }
+            </style>
+            <div class="mission-gallery js-fade-up" style="column-count:3;column-gap:8px;">
+                <?php
+                $gallery = array( 'wf-005', 'wf-037', 'wf-064', 'wf-043', 'wf-070', 'wf-036' );
+                foreach ( $gallery as $g ) :
+                ?>
+                    <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">
+                        <?php echo wf_picture( $g, '', array( 'class' => 'w-full h-auto block' ) ); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </section>
 
