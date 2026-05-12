@@ -72,23 +72,25 @@
         @keyframes missionFade3 { 0%,50%,100% { opacity:0; } 67%,83% { opacity:1; } }
         </style>
 
+        <!-- 文字可読性確保のための暗色オーバーレイ -->
+        <div class="absolute inset-0 bg-black/40 pointer-events-none" style="z-index:5;"></div>
 
         <div class="relative z-30 w-full text-center" style="padding: 0 8vw;">
 
-            <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-12 js-heading-up">MISSION</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-white tracking-wider mb-12 js-heading-up" style="text-shadow:0 2px 12px rgba(0,0,0,0.5);">MISSION</h3>
 
             <!-- 環境の方程式 -->
             <div class="js-fade-up mb-4 inline-block relative">
-                <p class="font-black text-[#4a9db5] tracking-wide leading-tight" style="font-size:clamp(1rem, 2.8vw, 2.6rem);">
+                <p class="font-black text-[#7fc8de] tracking-wide leading-tight" style="font-size:clamp(1rem, 2.8vw, 2.6rem); text-shadow:0 2px 8px rgba(0,0,0,0.45);">
                     環境 = 地球 + Forest + 水 + Animal + 街 + 人
                 </p>
-                <p class="text-[#4a9db5] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem);">を重要なテーマとして捉えています。</p>
+                <p class="text-[#7fc8de] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem); text-shadow:0 2px 6px rgba(0,0,0,0.45);">を重要なテーマとして捉えています。</p>
             </div>
 
             <!-- PLUS スマイル宣言 -->
             <div class="js-fade-up mt-4 mb-8 flex flex-col items-center">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/images/+.svg" alt="plus" style="width:100px;height:100px;display:block;margin-left:2vw;">
-                <p class="text-gray-800 tracking-wide leading-tight mt-3" style="font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:700; margin-right:1vw;">スマイル宣言</p>
+                <p class="text-white tracking-wide leading-tight mt-3" style="font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:700; margin-right:1vw; text-shadow:0 2px 8px rgba(0,0,0,0.5);">スマイル宣言</p>
             </div>
 
             <!-- もっと見るボタン -->
