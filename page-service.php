@@ -5,7 +5,6 @@
 get_header();
 ?>
 <style>
-html, body { overflow: hidden !important; height: 100% !important; }
 #service-scale-wrapper {
     transform-origin: top center;
 }
@@ -40,7 +39,7 @@ function scaleServiceLayout() {
 window.addEventListener('load', scaleServiceLayout);
 window.addEventListener('resize', scaleServiceLayout);
 </script>
-<main class="relative w-full" style="margin:0;padding:0;flex:1;display:flex;flex-direction:column;overflow:hidden;">
+<main class="relative w-full" style="margin:0;padding:0;flex:1;display:flex;flex-direction:column;">
 
     <section style="position:relative;width:100%;padding:20px 40px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;height:calc(100vh - 72px);">
 
@@ -111,6 +110,56 @@ window.addEventListener('resize', scaleServiceLayout);
 
         </div>
 
+    </section>
+
+    <!-- 追加：事業内容カード -->
+    <section class="relative w-full bg-white" style="padding:clamp(64px,8vw,120px) 0;">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <div class="text-center mb-16">
+                <p class="text-sm font-bold tracking-[0.3em] text-[#4a9db5] mb-3 js-fade-up">OUR BUSINESS</p>
+                <h2 class="text-4xl md:text-5xl font-black text-[#2d5c8a] tracking-wider js-heading-up">事業内容</h2>
+                <p class="text-sm md:text-base text-gray-600 mt-4 js-fade-up">産業廃棄物の収集から再資源化まで、6つの軸で総合対応</p>
+            </div>
+
+            <?php
+            $services = array(
+                array( 'photo' => 'wf-014', 'name' => '解体・撤去', 'desc' => '中小規模建物から大型施設まで、近隣配慮を徹底した安全な解体作業を実施。' ),
+                array( 'photo' => 'wf-034', 'name' => '収集・運搬', 'desc' => '関東一円の自社車両網で、廃棄物を計画的・効率的に運搬します。' ),
+                array( 'photo' => 'wf-029', 'name' => '選別作業', 'desc' => '材質ごとに細かく仕分け、再資源化率を最大化します。' ),
+                array( 'photo' => 'wf-020', 'name' => '中間処理', 'desc' => '自社処理場で破砕・圧縮・分別を行い、適正処理へつなぎます。' ),
+                array( 'photo' => 'wf-032', 'name' => 'リサイクル', 'desc' => '鉄・非鉄・コンクリート等を再資源として循環させる仕組み。' ),
+                array( 'photo' => 'wf-038', 'name' => '鉄・非鉄買取', 'desc' => '発生現場での買取査定で、処分コスト削減もご提案可能。' ),
+            );
+            ?>
+            <div class="js-fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+                <style>
+                @media (max-width: 900px) { .service-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+                @media (max-width: 560px) { .service-grid { grid-template-columns: 1fr !important; } }
+                </style>
+                <div class="service-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;grid-column:1 / -1;">
+                    <?php foreach ( $services as $s ) : ?>
+                    <article style="background:#f6f8fa;border-radius:8px;overflow:hidden;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <div style="aspect-ratio:16/10;overflow:hidden;">
+                            <?php echo wf_picture( $s['photo'], $s['name'], array( 'class' => 'w-full h-full object-cover' ) ); ?>
+                        </div>
+                        <div style="padding:24px;">
+                            <h3 class="text-xl md:text-2xl font-black text-[#2d5c8a] tracking-wider mb-3"><?php echo esc_html( $s['name'] ); ?></h3>
+                            <p class="text-sm md:text-base text-gray-700 leading-relaxed"><?php echo esc_html( $s['desc'] ); ?></p>
+                        </div>
+                    </article>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="relative w-full bg-white text-center" style="padding:clamp(48px,6vw,96px) 0;background:#f6f8fa;">
+        <div class="max-w-3xl mx-auto px-6">
+            <p class="text-sm font-bold tracking-[0.3em] text-[#4a9db5] mb-3 js-fade-up">CONTACT</p>
+            <h3 class="text-2xl md:text-4xl font-black text-[#2d5c8a] tracking-wider mb-8 js-heading-up">サービスのご相談はこちら</h3>
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="js-fade-up" style="display:inline-flex;align-items:center;gap:12px;background:#d4874a;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;padding:18px 56px;border-radius:9999px;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">お問い合わせ <span>▼</span></a>
+        </div>
     </section>
 
 </main>
