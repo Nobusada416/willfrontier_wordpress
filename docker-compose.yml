@@ -28,6 +28,24 @@ services:
       - db_data:/var/lib/mysql
     restart: unless-stopped
 
+  # 初回起動時に WordPress を自動セットアップする one-shot サービス。
+  # docker compose up すると wordpress 起動後にスクリプトが走り、
+  # パーマリンク設定・テーマ有効化・固定ページ作成・mod_rewrite ルール生成を一括で行う。
+  # 完了後は終了し、再実行する場合は docker compose run --rm wpcli /init-wp.sh で手動起動可能。
+  wpcli:
+    image: wordpress:cli
+    user: '33:33' # www-data
+    depends_on:
+      - wordpress
+      - db
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./:/var/www/html/wp-content/themes/will-frontier
+      - ./docker/init-wp.sh:/init-wp.sh:ro
+    entrypoint: /bin/sh
+    command: -c "/init-wp.sh"
+    restart: 'no'
+
 volumes:
   wordpress_data:
   db_data:
