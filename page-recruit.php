@@ -103,18 +103,14 @@ window.addEventListener('load', function() {
                 <div style="display:flex;gap:40px;flex:1;">
                     <?php
                     $voices = [
-                        ['name' => 'T さん（入社 3年目）', 'role' => '職種：ドライバー', 'quote' => '「スマイル宣言が業務にも活かされることが入社の決め手です。」', 'img' => ''],
-                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'img' => ''],
+                        ['name' => 'T さん（入社 3年目）', 'role' => '職種：ドライバー', 'quote' => '「スマイル宣言が業務にも活かされることが入社の決め手です。」', 'slug' => 'wf-036'],
+                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'slug' => 'wf-043'],
                     ];
                     foreach ($voices as $v) : ?>
                     <div style="display:flex;align-items:flex-start;gap:20px;">
-                        <!-- 写真/アイコン（imgにURLを入れると画像表示、空ならプレースホルダー） -->
-                        <div style="width:130px;height:130px;border-radius:50%;border:2px solid #c8d9e6;background:#f3f4f6;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;">
-                            <?php if (!empty($v['img'])) : ?>
-                                <img src="<?php echo esc_url($v['img']); ?>" alt="<?php echo esc_attr($v['name']); ?>" style="width:100%;height:100%;object-fit:cover;display:block;">
-                            <?php else : ?>
-                                <span style="font-size:12px;font-weight:700;color:#9ab8c8;line-height:1.4;">写真<br>or<br>アイコン</span>
-                            <?php endif; ?>
+                        <!-- 顔写真 -->
+                        <div style="width:130px;height:130px;border-radius:50%;border:2px solid #c8d9e6;flex-shrink:0;overflow:hidden;">
+                            <?php echo wf_picture( $v['slug'], $v['name'], array( 'class' => 'w-full h-full object-cover block' ) ); ?>
                         </div>
                         <div>
                             <div style="font-size:18px;font-weight:900;color:#2d5c8a;margin-bottom:4px;"><?php echo esc_html($v['name']); ?></div>
@@ -145,6 +141,57 @@ window.addEventListener('load', function() {
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- 追加：ショート動画タイル -->
+    <section class="relative w-full bg-white" style="padding:clamp(64px,8vw,120px) 0;">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <div class="text-center mb-12">
+                <p class="text-sm font-bold tracking-[0.3em] text-[#4a9db5] mb-3 js-fade-up">A DAY AT WORK</p>
+                <h2 class="text-3xl md:text-4xl font-black text-[#2d5c8a] tracking-wider js-heading-up">仲間たちの、ある日。</h2>
+            </div>
+            <style>
+            @media (max-width: 768px) { .recruit-video-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+            </style>
+            <div class="recruit-video-grid js-fade-up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+                <?php
+                $videos = array( 'shorts/s02', 'shorts/s03', 'shorts/s04', 'shorts/s05' );
+                foreach ( $videos as $vid ) :
+                ?>
+                    <div style="overflow:hidden;border-radius:6px;background:#000;aspect-ratio:9/16;">
+                        <?php echo wf_video( $vid, array(
+                            'autoplay' => true, 'loop' => true, 'muted' => true,
+                            'controls' => false, 'poster' => $vid,
+                            'class' => 'w-full h-full object-cover block',
+                        ) ); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- 追加：職場環境ギャラリー -->
+    <section class="relative w-full" style="background:#f6f8fa;padding:clamp(64px,8vw,120px) 0;">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <div class="text-center mb-12">
+                <p class="text-sm font-bold tracking-[0.3em] text-[#4a9db5] mb-3 js-fade-up">WORKPLACE</p>
+                <h2 class="text-3xl md:text-4xl font-black text-[#2d5c8a] tracking-wider js-heading-up">職場環境</h2>
+            </div>
+            <style>
+            @media (max-width: 1024px) { .recruit-photo-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+            @media (max-width: 640px)  { .recruit-photo-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+            </style>
+            <div class="recruit-photo-grid js-fade-up" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+                <?php
+                $photos = array( 'wf-005', 'wf-019', 'wf-037', 'wf-064', 'wf-070' );
+                foreach ( $photos as $p ) :
+                ?>
+                    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/5;">
+                        <?php echo wf_picture( $p, '', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </section>
 
