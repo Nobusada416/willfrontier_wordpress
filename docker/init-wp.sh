@@ -5,6 +5,9 @@
 
 set -e
 
+# サイトURL（ポートを変える場合はここを編集）
+SITE_URL="http://localhost:8081"
+
 echo "[init-wp] DB 接続待ち..."
 # WordPress 公式 cli イメージは wp-config.php を /var/www/html から読む。
 # まれに最初の wp コマンドが DB 接続待ちで失敗するためリトライを入れる。
@@ -22,7 +25,7 @@ echo "[init-wp] WordPress インストール確認..."
 if ! wp core is-installed --allow-root 2>/dev/null; then
   echo "[init-wp] 初回インストールを実行"
   wp core install \
-    --url=http://localhost:8080 \
+    --url="$SITE_URL" \
     --title='Will Frontier' \
     --admin_user=admin \
     --admin_password=admin \
@@ -32,6 +35,10 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
 else
   echo "[init-wp] すでにインストール済み"
 fi
+
+echo "[init-wp] サイトURLを $SITE_URL に同期（ポート変更にも追従）"
+wp option update siteurl "$SITE_URL" --allow-root
+wp option update home "$SITE_URL" --allow-root
 
 echo "[init-wp] パーマリンクを投稿名形式に設定"
 wp option update permalink_structure '/%postname%/' --allow-root
