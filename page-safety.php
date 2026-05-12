@@ -48,29 +48,25 @@ window.addEventListener('load', function() {
                 [
                     'title' => '【車両等の点検・講習】',
                     'text'  => '毎日の車両等の点検のほか、定期的に講習会などを行っています。',
-                    'img'   => '',
+                    'slug'  => 'wf-005',
                 ],
                 [
                     'title' => '【危険予測トレーニング】',
                     'text'  => '講習会などで危険予測のトレーニングを行っています。',
-                    'img'   => '',
+                    'slug'  => 'wf-064',
                 ],
                 [
                     'title' => '【地域清掃】',
                     'text'  => '地域の清掃を定期的に行っています。',
-                    'img'   => '',
+                    'slug'  => 'wf-070',
                 ],
             ];
             foreach ($items as $item) :
             ?>
-            <div style="display:flex;align-items:center;gap:32px;">
+            <div class="js-fade-up" style="display:flex;align-items:center;gap:32px;">
                 <!-- 写真 -->
-                <div style="flex-shrink:0;width:300px;height:200px;border:1.5px solid #000;background:#fff;display:flex;align-items:center;justify-content:center;">
-                    <?php if (!empty($item['img'])) : ?>
-                        <img src="<?php echo esc_url($item['img']); ?>" alt="<?php echo esc_attr($item['title']); ?>" style="width:100%;height:100%;object-fit:cover;display:block;">
-                    <?php else : ?>
-                        <span style="font-size:1rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
-                    <?php endif; ?>
+                <div style="flex-shrink:0;width:300px;height:200px;border-radius:6px;overflow:hidden;">
+                    <?php echo wf_picture( $item['slug'], $item['title'], array( 'class' => 'w-full h-full object-cover block' ) ); ?>
                 </div>
                 <!-- テキスト -->
                 <div>
@@ -80,6 +76,47 @@ window.addEventListener('load', function() {
             </div>
             <?php endforeach; ?>
 
+        </div>
+    </section>
+
+    <!-- 追加：安全講習動画 -->
+    <section class="relative w-full bg-black overflow-hidden" style="height:clamp(320px,52vh,560px);">
+        <div class="absolute inset-0 z-0">
+            <?php echo wf_video( 'shorts/s06', array(
+                'autoplay' => true, 'loop' => true, 'muted' => true,
+                'controls' => false, 'poster' => 'shorts/s06',
+                'class' => 'w-full h-full object-cover',
+            ) ); ?>
+        </div>
+        <div class="absolute inset-0 bg-black/55 pointer-events-none" style="z-index:5;"></div>
+        <div class="relative z-30 w-full h-full flex flex-col items-center justify-center px-6 text-center">
+            <p class="text-sm md:text-base font-bold tracking-[0.3em] text-[#7fc8de] mb-4 js-fade-up">SAFETY TRAINING</p>
+            <h2 class="text-3xl md:text-5xl font-black text-white tracking-wider mb-4 js-heading-up" style="text-shadow:0 2px 12px rgba(0,0,0,0.6);">毎日の積み重ねが、現場を守る。</h2>
+        </div>
+    </section>
+
+    <!-- 追加：装備ギャラリー -->
+    <section class="relative w-full" style="background:#f6f8fa;padding:clamp(64px,8vw,120px) 0;">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <div class="text-center mb-12">
+                <p class="text-sm font-bold tracking-[0.3em] text-[#4a9db5] mb-3 js-fade-up">EQUIPMENT</p>
+                <h2 class="text-3xl md:text-4xl font-black text-[#2d5c8a] tracking-wider js-heading-up">装備・点検ギャラリー</h2>
+            </div>
+            <style>
+            @media (max-width: 1024px) { .safety-gallery { column-count: 3 !important; } }
+            @media (max-width: 768px)  { .safety-gallery { column-count: 2 !important; } }
+            @media (max-width: 480px)  { .safety-gallery { column-count: 1 !important; } }
+            </style>
+            <div class="safety-gallery js-fade-up" style="column-count:4;column-gap:8px;">
+                <?php
+                $gallery = array( 'wf-070', 'wf-005', 'wf-063', 'wf-019' );
+                foreach ( $gallery as $g ) :
+                ?>
+                    <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">
+                        <?php echo wf_picture( $g, '', array( 'class' => 'w-full h-auto block' ) ); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </section>
 
