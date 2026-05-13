@@ -507,15 +507,10 @@
                             TEL 045-959-3225　FAX 045-959-3226<br>
                             MAIL　eco-will@kvj.biglobe.ne.jp
                         </div>
-                        <div style="margin-bottom:20px;">
+                        <div>
                             <span style="display:inline-block;background:#4a9db5;border:none;color:#fff;font-size:16px;font-weight:700;padding:8px 0;margin-bottom:4px;letter-spacing:.08em;display:block;width:140px;text-align:center;">WF-A.BASE</span>
                             〒243-0807 神奈川県厚木市金田 1107-7<br>
                             TEL 046-205-4177　FAX 046-205-4178
-                        </div>
-                        <div>
-                            <span style="display:inline-block;background:#4a9db5;border:none;color:#fff;font-size:16px;font-weight:700;padding:8px 0;margin-bottom:4px;letter-spacing:.08em;display:block;width:140px;text-align:center;">川口支社</span>
-                            〒334-0076 埼玉県川口市本蓮 4-5-10<br>
-                            TEL 048-229-4024　FAX 048-229-4025
                         </div>
                     </dd>
                 </dl>
