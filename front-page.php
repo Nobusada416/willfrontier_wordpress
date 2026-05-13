@@ -62,13 +62,13 @@
         <!-- パターンC: ミッション背景に写真自動切替 -->
         <div class="absolute inset-0 z-0">
             <div style="position:absolute;inset:0;animation:missionFade1 12s infinite;">
-                <?php echo wf_picture( 'wf-006', '', array( 'class' => 'w-full h-full object-cover opacity-20' ) ); ?>
+                <?php echo wf_picture( 'wf-006', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:missionFade2 12s infinite;">
-                <?php echo wf_picture( 'wf-022', '', array( 'class' => 'w-full h-full object-cover opacity-20' ) ); ?>
+                <?php echo wf_picture( 'wf-022', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:missionFade3 12s infinite;">
-                <?php echo wf_picture( 'wf-049', '', array( 'class' => 'w-full h-full object-cover opacity-20' ) ); ?>
+                <?php echo wf_picture( 'wf-049', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
         </div>
         <style>
@@ -95,7 +95,7 @@
             <!-- PLUS スマイル宣言 -->
             <div class="js-fade-up mt-4 mb-8 flex flex-col items-center">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/images/+.svg" alt="plus" style="width:100px;height:100px;display:block;margin-left:2vw;">
-                <p class="text-white tracking-wide leading-tight mt-3" style="font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:700; margin-right:1vw; text-shadow:0 2px 8px rgba(0,0,0,0.5);">スマイル宣言</p>
+                <p class="tracking-wide leading-tight mt-3" style="color:#f59e0b; font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:900; margin-right:1vw; text-shadow:0 2px 10px rgba(0,0,0,0.6), 0 0 4px rgba(0,0,0,0.4);">スマイル宣言</p>
             </div>
 
             <!-- もっと見るボタン -->
