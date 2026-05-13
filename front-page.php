@@ -37,22 +37,25 @@
         /* 写真の彩度を落として文字色を読みやすく */
         #hero .hero-tile img { filter: saturate(0.7); }
         </style>
-        <!-- 薄グレーの霧 overlay（写真を落ち着かせ、紺文字とのコントラスト確保） -->
-        <div class="absolute inset-0 z-[1] pointer-events-none" style="background: linear-gradient(180deg, rgba(230,235,240,0.5), rgba(220,230,240,0.6));"></div>
+        <!-- 軽い暗 overlay（写真モザイクのコントラストを少し整える） -->
+        <div class="absolute inset-0 z-[1] pointer-events-none" style="background: rgba(0,0,0,0.15);"></div>
 
-        <div id="hero-content" class="relative z-10 text-center px-6 flex flex-col items-center" style="opacity:0;">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="willF" class="w-48 md:w-64 lg:w-80 mb-8" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-widest mb-5 leading-tight"
-                style="color:#1a3a5c; text-shadow: 0 0 18px rgba(255,255,255,0.75), 0 2px 6px rgba(255,255,255,0.5);">
-                都市インフラを支える、<br>産業廃棄物テック。
-            </h2>
-            <p class="text-base md:text-lg font-semibold tracking-widest mb-10"
-               style="color:#2d5c8a; text-shadow: 0 0 12px rgba(255,255,255,0.75);">
-                Sustainable Urban Infrastructure &amp; Technology
-            </p>
-            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#4a9db5] hover:bg-[#3a85a0] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg rounded-full">
-                <span class="text-4xl font-thin leading-none">&gt;</span> CONTACT
-            </a>
+        <div id="hero-content" class="relative z-10 px-6 flex justify-center w-full" style="opacity:0;">
+            <!-- frosted glass パネル：可読性を確実に確保 -->
+            <div style="background: rgba(255,255,255,0.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: clamp(36px, 5vw, 64px) clamp(28px, 6vw, 80px); border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.18); max-width: min(900px, 92vw); text-align: center; display:flex; flex-direction:column; align-items:center;">
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="willF" class="w-44 md:w-56 lg:w-72 mb-7">
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-widest mb-4 leading-tight"
+                    style="color:#1a3a5c;">
+                    都市インフラを支える、<br>産業廃棄物テック。
+                </h2>
+                <p class="text-sm md:text-base lg:text-lg font-semibold tracking-widest mb-8"
+                   style="color:#2d5c8a;">
+                    Sustainable Urban Infrastructure &amp; Technology
+                </p>
+                <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#4a9db5] hover:bg-[#3a85a0] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg rounded-full">
+                    <span class="text-4xl font-thin leading-none">&gt;</span> CONTACT
+                </a>
+            </div>
         </div>
     </section>
 
