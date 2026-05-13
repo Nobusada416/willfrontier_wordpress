@@ -403,14 +403,16 @@
             </div>
 
             <!-- 写真ボックス -->
-            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#fff;width:clamp(400px,75vw,1000px);margin:0 auto;">
-                <!-- 画像エリア（画像追加時は img タグに差し替え） -->
-                <div style="width:100%;height:clamp(200px,44vh,480px);background:#fff;display:flex;align-items:center;justify-content:center;">
-                    <span style="font-size:1.2rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
+            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#000;width:clamp(400px,75vw,1000px);margin:0 auto;">
+                <!-- 画像（作業員＋ショベルカー：人と機械の安全を象徴） -->
+                <div style="width:100%;height:clamp(200px,44vh,480px);overflow:hidden;">
+                    <?php echo wf_picture( 'wf-064', '安全に配慮した重機操作', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                 </div>
+                <!-- 下部暗グラデ（キャッチコピー可読性のため） -->
+                <div style="position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);pointer-events:none;"></div>
                 <!-- キャッチコピー（写真下部中央に重ねて表示） -->
-                <div style="position:absolute;bottom:0;left:0;right:0;padding:32px 32px;text-align:center;">
-                    <p style="font-size:2.4rem;font-weight:900;color:#4a9db5;letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,0.3);">毎日の安全が、地域の安全をつくる。</p>
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:32px 32px;text-align:center;z-index:2;">
+                    <p style="font-size:2.4rem;font-weight:900;color:#ffffff;letter-spacing:.06em;text-shadow:0 2px 12px rgba(0,0,0,0.7), 0 0 6px rgba(0,0,0,0.5);">毎日の安全が、地域の安全をつくる。</p>
                 </div>
             </div>
 
