@@ -433,21 +433,33 @@
                 <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">RECRUIT</h3>
             </div>
 
-            <!-- パターンC: ショート動画タイル6本 + テキスト -->
+            <!-- パターンC: 人物写真3枚（応募動機を引き出す） -->
             <div class="js-fade-up">
-                <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;">
-                    <?php
-                    $recruit_shorts = ['shorts/s01','shorts/s02','shorts/s03','shorts/s04','shorts/s05','shorts/s06'];
-                    foreach ($recruit_shorts as $sl) : ?>
-                    <div style="overflow:hidden;border-radius:4px;background:#000;aspect-ratio:9/16;">
-                        <?php echo wf_video( $sl, array(
-                            'autoplay'=>true, 'loop'=>true, 'muted'=>true, 'controls'=>false,
-                            'poster'=>$sl, 'class'=>'w-full h-full object-cover',
-                        ) ); ?>
+                <?php
+                $recruit_people = array(
+                    array( 'photo' => 'wf-037', 'sub' => 'TEAM',           'label' => '仲間と、共に。' ),
+                    array( 'photo' => 'wf-043', 'sub' => 'PROFESSIONAL',   'label' => '一人ひとりの挑戦。' ),
+                    array( 'photo' => 'wf-070', 'sub' => 'FIELD',          'label' => '現場で、活きる。' ),
+                );
+                ?>
+                <style>
+                @media (max-width: 768px) { .recruit-people-grid { grid-template-columns: 1fr !important; } }
+                </style>
+                <div class="recruit-people-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+                    <?php foreach ( $recruit_people as $p ) : ?>
+                    <div style="position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:6px;background:#000;">
+                        <?php echo wf_picture( $p['photo'], $p['label'], array( 'class' => 'w-full h-full object-cover' ) ); ?>
+                        <!-- 下部暗グラデ -->
+                        <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top, rgba(0,0,0,0.78), transparent);pointer-events:none;"></div>
+                        <!-- タグライン -->
+                        <div style="position:absolute;bottom:20px;left:22px;right:22px;color:#fff;">
+                            <p style="font-size:0.78rem;font-weight:700;letter-spacing:.25em;opacity:.85;margin-bottom:6px;"><?php echo esc_html( $p['sub'] ); ?></p>
+                            <p style="font-size:clamp(1.1rem,1.6vw,1.6rem);font-weight:900;letter-spacing:.05em;text-shadow:0 2px 8px rgba(0,0,0,0.6);"><?php echo esc_html( $p['label'] ); ?></p>
+                        </div>
                     </div>
                     <?php endforeach; ?>
                 </div>
-                <div style="background:#fef9e7;border:1px solid #f0d96a;padding:18px 24px;margin-top:8px;text-align:center;">
+                <div style="background:#fef9e7;border:1px solid #f0d96a;padding:18px 24px;margin-top:16px;text-align:center;">
                     <p style="font-size:clamp(1.5rem,2.5vw,3rem);font-weight:900;color:#2d5c8a;letter-spacing:.05em;">スマイル宣言はじめませんか？</p>
                 </div>
             </div>
