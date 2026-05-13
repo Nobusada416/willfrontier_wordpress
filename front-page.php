@@ -7,7 +7,7 @@
 
 <main class="relative w-full overflow-x-hidden bg-white">
 
-    <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-black overflow-hidden">
+    <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-white overflow-hidden">
         <!-- パターンC: 6枚モザイク自動フェード -->
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:0;">
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:0s;">
@@ -34,15 +34,20 @@
             0%, 70%, 100% { opacity: 1; transform: scale(1); }
             85% { opacity: 0.4; transform: scale(1.05); }
         }
+        /* 写真の彩度を落として文字色を読みやすく */
+        #hero .hero-tile img { filter: saturate(0.7); }
         </style>
-        <div class="absolute inset-0 z-0 bg-black opacity-45"></div>
+        <!-- 薄グレーの霧 overlay（写真を落ち着かせ、紺文字とのコントラスト確保） -->
+        <div class="absolute inset-0 z-[1] pointer-events-none" style="background: linear-gradient(180deg, rgba(230,235,240,0.5), rgba(220,230,240,0.6));"></div>
 
-        <div id="hero-content" class="relative z-10 text-center text-white px-6 flex flex-col items-center" style="opacity:0;">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logowhite.svg" alt="willF" class="w-48 md:w-64 lg:w-80 mb-8 drop-shadow-lg">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-widest mb-5 drop-shadow-lg leading-tight">
+        <div id="hero-content" class="relative z-10 text-center px-6 flex flex-col items-center" style="opacity:0;">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="willF" class="w-48 md:w-64 lg:w-80 mb-8" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-widest mb-5 leading-tight"
+                style="color:#1a3a5c; text-shadow: 0 0 18px rgba(255,255,255,0.75), 0 2px 6px rgba(255,255,255,0.5);">
                 都市インフラを支える、<br>産業廃棄物テック。
             </h2>
-            <p class="text-base md:text-lg font-semibold tracking-widest drop-shadow-md mb-10">
+            <p class="text-base md:text-lg font-semibold tracking-widest mb-10"
+               style="color:#2d5c8a; text-shadow: 0 0 12px rgba(255,255,255,0.75);">
                 Sustainable Urban Infrastructure &amp; Technology
             </p>
             <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#4a9db5] hover:bg-[#3a85a0] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg rounded-full">
