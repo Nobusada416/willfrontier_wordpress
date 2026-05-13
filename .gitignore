@@ -1,8 +1,12 @@
 node_modules/
+scripts/node_modules/
 .DS_Store
 assets/.DS_Store
 style.css.map
 *.log
+
+# PDF エクスポートの成果物
+will-frontier-pattern-*.pdf
 
 # オリジナル素材（編集・圧縮前の生データ）はリポジトリに含めない
 data/
