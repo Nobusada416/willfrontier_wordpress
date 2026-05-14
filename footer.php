@@ -18,7 +18,7 @@
         </nav>
 
         <!-- CONTACTボタン -->
-        <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" style="display:inline-flex;align-items:center;gap:6px;border:2px solid #fff;border-radius:9999px;padding:10px 28px;color:#2d5c8a;background:#fff;font-size:13px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:background .2s,color .2s;" onmouseover="this.style.background='rgba(255,255,255,0.8)'" onmouseout="this.style.background='#fff'">
+        <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" style="display:inline-flex;align-items:center;gap:6px;border:2px solid #fff;border-radius:9999px;padding:10px 28px;color:#fff;background:#4a9db5;font-size:13px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
             <span style="font-size:22px;font-weight:100;">&#62;</span> CONTACT
         </a>
 

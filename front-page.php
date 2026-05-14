@@ -103,7 +103,7 @@
 
             <!-- もっと見るボタン -->
             <div class="js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/mission/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:14px 48px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.5rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+                <a href="<?php echo esc_url( home_url( '/mission/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:14px 48px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.5rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
                     もっと見る <span>▼</span>
                 </a>
             </div>
@@ -122,9 +122,9 @@
             <!-- 5サークルレイアウト -->
             <?php
             // 共通スタイル
-            $outer = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $outer = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);transition:transform 0.2s;flex-shrink:0;';
             $inner = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(12px,1.4vw,22px);line-height:1.3;text-align:center;padding:clamp(12px,1.4vw,20px);';
-            $outer_lg = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $outer_lg = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);transition:transform 0.2s;flex-shrink:0;';
             $inner_lg = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(12px,1.4vw,22px);line-height:1.3;text-align:center;padding:clamp(12px,1.4vw,20px);';
             ?>
             <div class="relative js-fade-up" style="max-width:900px;margin:0 auto;margin-top:-2vw;">
@@ -162,7 +162,7 @@
 
             <!-- もっと見るボタン -->
             <div class="mt-4 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/service/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+                <a href="<?php echo esc_url( home_url( '/service/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
                     もっと見る <span>▼</span>
                 </a>
             </div>
@@ -200,7 +200,7 @@
             </div>
 
             <div class="text-center mt-12 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/workflow/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/workflow/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
@@ -259,7 +259,7 @@
             </div>
 
             <div class="text-center mt-8 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/vehicles/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/vehicles/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
@@ -390,7 +390,7 @@
             </div>
 
             <div class="text-center mt-10 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/casestudy/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/casestudy/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
@@ -420,7 +420,7 @@
             </div>
 
             <div class="text-center mt-12 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/safety/' ) ); ?>" style="background:#2d5c8a;border-radius:9999px;padding:16px 56px;display:inline-flex;align-items:center;gap:10px;color:#f5c518;font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る・お問い合わせ <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/safety/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 56px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る・お問い合わせ <span>▼</span></a>
             </div>
         </div>
     </section>
@@ -473,7 +473,7 @@
             </div>
 
             <div class="text-center mt-12 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/recruit/' ) ); ?>" style="background:#2d5c8a;border-radius:6px;padding:24px 120px;display:inline-flex;align-items:center;gap:10px;color:#f5c518;font-weight:900;font-size:1.6rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">応募する <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/recruit/' ) ); ?>" style="background:#4a9db5;border-radius:6px;padding:24px 120px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.6rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">応募する <span>▼</span></a>
             </div>
         </div>
     </section>

@@ -2040,7 +2040,7 @@ video {
    デザインコンセプト: Sky Blue（空と太陽）× ひまわりイエロー
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Montserrat:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 :root {
   --wf-main: #4A9DBF;
@@ -2081,7 +2081,7 @@ body {
 .home main h3 {
   color: var(--wf-text) !important;
   margin-bottom: 40px !important;
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 #mission .h-\[3px\] {
@@ -2190,11 +2190,11 @@ body {
 
 #workflow .text-\[\#F59E0B\] {
   color: var(--wf-main) !important;
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 #workflow h4 {
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 #workflow .hover\:bg-gray-50:hover {
@@ -2230,7 +2230,7 @@ body {
 
 #company .text-\[\#F59E0B\] {
   color: var(--wf-main) !important;
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 #company .bg-\[\#F59E0B\] {

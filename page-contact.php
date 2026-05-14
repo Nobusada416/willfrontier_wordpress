@@ -188,8 +188,8 @@ get_header();
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: #2d5c8a;
-    color: #f5c518;
+    background: #4a9db5;
+    color: #fff;
     font-weight: 900;
     font-size: 16px;
     letter-spacing: .1em;
@@ -199,7 +199,7 @@ get_header();
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
 }
-.submit-btn:hover { background: #1e4570; transform: translateY(-2px); }
+.submit-btn:hover { background: #3a85a0; transform: translateY(-2px); }
 
 /* バッジ */
 .badges {
@@ -254,7 +254,7 @@ get_header();
             <div style="font-size:56px;margin-bottom:16px;">✅</div>
             <h2 style="font-size:1.6rem;font-weight:900;color:#2d5c8a;margin-bottom:12px;">送信完了</h2>
             <p style="font-size:1rem;font-weight:700;color:#374151;line-height:1.8;margin-bottom:32px;">お問い合わせを受け付けました。<br>ありがとうございます。<br>担当者より折り返しご連絡いたします。</p>
-            <button onclick="window.history.back()" style="background:#2d5c8a;color:#f5c518;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
+            <button onclick="window.history.back()" style="background:#4a9db5;color:#fff;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
         </div>
     </div>
     <?php endif; ?>

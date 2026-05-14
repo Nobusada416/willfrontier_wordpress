@@ -227,7 +227,7 @@ window.addEventListener('load', function() {
                     <div style="font-size:56px;margin-bottom:16px;">✅</div>
                     <h2 style="font-size:1.6rem;font-weight:900;color:#2d5c8a;margin-bottom:12px;">送信完了</h2>
                     <p style="font-size:1rem;font-weight:700;color:#374151;line-height:1.8;margin-bottom:32px;">お問い合わせを受け付けました。<br>ありがとうございます。<br>担当者より折り返しご連絡いたします。</p>
-                    <button onclick="window.history.back()" style="background:#2d5c8a;color:#f5c518;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
+                    <button onclick="window.history.back()" style="background:#4a9db5;color:#fff;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
                 </div>
             </div>
             <?php endif; ?>
@@ -265,7 +265,7 @@ window.addEventListener('load', function() {
                     <span style="margin-left:8px;">］</span>
                 </div>
                 <div style="text-align:center;margin-bottom:20px;">
-                    <button type="submit" style="background:#2d5c8a;border-radius:9999px;padding:18px 140px;color:#f5c518;font-weight:900;font-size:1.5rem;letter-spacing:.1em;border:none;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">送信する ▼</button>
+                    <button type="submit" style="background:#4a9db5;border-radius:9999px;padding:18px 140px;color:#fff;font-weight:900;font-size:1.5rem;letter-spacing:.1em;border:none;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">送信する ▼</button>
                 </div>
                 <div style="display:flex;justify-content:center;gap:12px;">
                     <div style="border:1.5px solid #4a9db5;padding:8px 32px;text-align:center;font-size:17px;font-weight:900;color:#4a9db5;">見積無料</div>
