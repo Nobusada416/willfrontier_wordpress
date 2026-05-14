@@ -25,7 +25,7 @@ window.addEventListener('load', function() {
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
 
         <div style="max-width:1200px;margin:0 auto;position:relative;z-index:2;text-align:center;width:100%;">
-            <h2 class="js-heading-up" style="font-size:2.6rem;font-weight:900;color:#4a9db5;letter-spacing:.05em;margin-bottom:20px;">ウィルフロンティア 処理ネットワーク</h2>
+            <h2 class="js-heading-up yellow-underline" style="font-size:2.6rem;font-weight:900;color:#4a9db5;letter-spacing:.05em;margin-bottom:20px;">ウィルフロンティア 処理ネットワーク</h2>
             <p class="js-fade-up" style="font-size:0.95rem;color:#4a9db5;font-weight:700;line-height:1.9;margin-bottom:60px;text-align:left;display:inline-block;">
                 各県に産業廃棄物処理業者とのネットワークを保有しており、あらゆる産業廃棄物を収集・運搬、中間処理を行い、適正処理を行います。<br>
                 委託契約書、マニフェスト伝票の作成・発行はもちろん、お見積りは無料ですので、お気軽にお問い合わせください。

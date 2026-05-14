@@ -117,7 +117,7 @@ window.addEventListener('resize', scaleServiceLayout);
         <div class="max-w-6xl mx-auto px-6 md:px-12">
             <div class="text-center mb-16">
                 <p class="text-sm font-bold tracking-[0.3em] text-[#4a9db5] mb-3 js-fade-up">OUR BUSINESS</p>
-                <h2 class="text-4xl md:text-5xl font-black text-[#2d5c8a] tracking-wider js-heading-up">事業内容</h2>
+                <h2 class="text-4xl md:text-5xl font-black text-[#2d5c8a] tracking-wider js-heading-up yellow-underline">事業内容</h2>
                 <p class="text-sm md:text-base text-gray-600 mt-4 js-fade-up">産業廃棄物の収集から再資源化まで、6つの軸で総合対応</p>
             </div>
 

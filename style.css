@@ -2287,3 +2287,30 @@ footer nav a:hover {
   .home main > section { padding-top: 64px !important; padding-bottom: 64px !important; }
   .home main > section#hero { padding-top: 0 !important; padding-bottom: 0 !important; }
 }
+
+/* ── 黄色アクセント（PDF 準拠） ─────────────────────────────── */
+
+/* 見出し直下の黄色細線（擬似要素） */
+.yellow-underline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 14px;
+}
+.yellow-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background: #ffe066;
+  border-radius: 2px;
+}
+
+/* リード文の蛍光マーカー風ハイライト（折り返しても各行に効く） */
+.yellow-marker {
+  background: linear-gradient(transparent 55%, #ffe066 55%);
+  padding: 0 0.15em;
+  -webkit-box-decoration-break: clone;
+          box-decoration-break: clone;
+}

@@ -63,7 +63,7 @@ window.addEventListener('load', function() {
         <div class="absolute inset-0 bg-black/55 pointer-events-none" style="z-index:5;"></div>
         <div class="relative z-30 w-full h-full flex flex-col items-center justify-center px-6 text-center">
             <p class="text-sm md:text-base font-bold tracking-[0.3em] text-[#7fc8de] mb-4 js-fade-up">FEATURED MOVIE</p>
-            <h2 class="text-3xl md:text-5xl font-black text-white tracking-wider mb-4 js-heading-up" style="text-shadow:0 2px 12px rgba(0,0,0,0.6);">現場のリアル、30秒。</h2>
+            <h2 class="text-3xl md:text-5xl font-black text-white tracking-wider mb-4 js-heading-up yellow-underline" style="text-shadow:0 2px 12px rgba(0,0,0,0.6);">現場のリアル、30秒。</h2>
             <p class="text-sm md:text-base text-white/90 font-medium tracking-wide max-w-2xl js-fade-up">解体から運搬、リサイクルまで。私たちの一日を凝縮しました。</p>
         </div>
     </section>

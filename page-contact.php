@@ -241,7 +241,7 @@ get_header();
         </style>
         <div class="absolute inset-0 bg-black/55 pointer-events-none" style="z-index:5;"></div>
         <div class="relative z-30 w-full h-full flex flex-col items-center justify-center px-6 text-center">
-            <h1 class="text-6xl md:text-8xl font-black text-white tracking-widest mb-4 js-heading-up" style="text-shadow:0 4px 16px rgba(0,0,0,0.5);">CONTACT</h1>
+            <h1 class="text-6xl md:text-8xl font-black text-white tracking-widest mb-4 js-heading-up yellow-underline" style="text-shadow:0 4px 16px rgba(0,0,0,0.5);">CONTACT</h1>
             <p class="text-base md:text-xl text-white font-bold tracking-wide js-fade-up" style="text-shadow:0 2px 8px rgba(0,0,0,0.5);">お問い合わせ ─ まずはお気軽にご相談ください</p>
         </div>
     </section>

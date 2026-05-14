@@ -85,14 +85,14 @@
 
         <div class="relative z-30 w-full text-center" style="padding: 0 8vw;">
 
-            <h3 class="text-6xl md:text-7xl font-black text-white tracking-wider mb-12 js-heading-up" style="text-shadow:0 2px 12px rgba(0,0,0,0.5);">MISSION</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-white tracking-wider mb-12 js-heading-up yellow-underline" style="text-shadow:0 2px 12px rgba(0,0,0,0.5);">MISSION</h3>
 
             <!-- 環境の方程式 -->
             <div class="js-fade-up mb-4 inline-block relative">
                 <p class="font-black text-[#7fc8de] tracking-wide leading-tight" style="font-size:clamp(1rem, 2.8vw, 2.6rem); text-shadow:0 2px 8px rgba(0,0,0,0.45);">
                     環境 = 地球 + Forest + 水 + Animal + 街 + 人
                 </p>
-                <p class="text-[#7fc8de] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem); text-shadow:0 2px 6px rgba(0,0,0,0.45);">を重要なテーマとして捉えています。</p>
+                <p class="text-[#7fc8de] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem); text-shadow:0 2px 6px rgba(0,0,0,0.45);"><span class="yellow-marker" style="color:#1f2937; text-shadow:none;">を重要なテーマとして捉えています。</span></p>
             </div>
 
             <!-- PLUS スマイル宣言 -->
@@ -117,7 +117,7 @@
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-8 js-heading-up">SERVICE</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-8 js-heading-up yellow-underline">SERVICE</h3>
 
             <!-- 5サークルレイアウト -->
             <?php
@@ -175,7 +175,7 @@
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-heading-up">WORKFLOW</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-heading-up yellow-underline">WORKFLOW</h3>
 
             <div style="max-width:700px;margin:0 auto;">
                 <div class="border-t border-[#4a9db5]">
@@ -214,7 +214,7 @@
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-10 js-heading-up">VEHICLE LINEUP</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-10 js-heading-up yellow-underline">VEHICLE LINEUP</h3>
 
             <!-- スライダー（矢印は画像の真横に絶対配置） -->
             <div class="js-fade-up" style="position:relative;max-width:860px;margin:0 auto;">
@@ -368,7 +368,7 @@
 
         <div class="relative z-20 w-full max-w-2xl mx-auto px-8">
             <div class="text-center mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">CASE STUDY</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up yellow-underline">CASE STUDY</h3>
             </div>
 
             <?php
@@ -402,7 +402,7 @@
 
         <div class="relative z-30 w-full max-w-7xl mx-auto px-8 md:px-12">
             <div class="text-center mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">SAFETY</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up yellow-underline">SAFETY</h3>
             </div>
 
             <!-- 写真ボックス -->
@@ -433,7 +433,7 @@
 
         <div class="relative z-20 w-full max-w-7xl mx-auto px-8 md:px-16">
             <div class="text-center mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">RECRUIT</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up yellow-underline">RECRUIT</h3>
             </div>
 
             <!-- パターンC: 人物写真3枚（応募動機を引き出す） -->
