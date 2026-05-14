@@ -9,6 +9,9 @@ style.css.map
 # PDF エクスポートの成果物
 will-frontier-pattern-*.pdf
 
+# 静的化サイトの成果物
+static/
+
 # オリジナル素材（編集・圧縮前の生データ）はリポジトリに含めない
 data/
 
