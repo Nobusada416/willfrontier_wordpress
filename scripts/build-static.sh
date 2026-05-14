@@ -68,6 +68,27 @@ echo "[$PATTERN] Rewriting absolute URLs to relative..."
 find "$OUTDIR" -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 | \
   xargs -0 sed -i '' -e 's|http://localhost:8081||g' -e 's|https://localhost:8081||g' || true
 
+# WordPress の ?ver=X.X.X キャッシュバスターを除去
+# wget の --convert-links が ? を %3F にエンコードしファイル名と参照が不整合になる問題への対処
+# 参考: HTML 内では animation.js%3Fver=1.0.0 だが実ファイルは animation.js?ver=1.0.0
+#       → ブラウザがクエリ部を切ってファイル名を要求するため 404 になる
+echo "[$PATTERN] Removing ?ver= cache busters from references..."
+find "$OUTDIR" -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 | \
+  xargs -0 sed -i '' -E \
+    -e 's|\?ver=[0-9.]+||g' \
+    -e 's|%3Fver=[0-9.]+||g' \
+    -e 's|&#038;ver=[0-9.]+||g' || true
+
+echo "[$PATTERN] Renaming files to drop ?ver= suffix..."
+find "$OUTDIR" -type f -name "*?ver=*" | while IFS= read -r f; do
+  newname="${f%%\?ver=*}"
+  [ "$f" != "$newname" ] && mv -f "$f" "$newname"
+done
+find "$OUTDIR" -type f -name "*%3Fver=*" | while IFS= read -r f; do
+  newname="${f%%\%3Fver=*}"
+  [ "$f" != "$newname" ] && mv -f "$f" "$newname"
+done
+
 # wget の --page-requisites は <video><source> 内の mp4 を取り損ねるため、
 # テーマの assets/ ディレクトリを丸ごとコピーする
 echo ""
