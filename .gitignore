@@ -12,6 +12,9 @@ will-frontier-pattern-*.pdf
 # 静的化サイトの成果物
 static/
 
+# Cloudflare Wrangler のキャッシュ・一時ファイル
+.wrangler/
+
 # オリジナル素材（編集・圧縮前の生データ）はリポジトリに含めない
 data/
 
