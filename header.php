@@ -28,7 +28,7 @@
             </nav>
 
             <!-- CONTACTボタン -->
-            <a href="<?php echo esc_url( home_url( '/safety/' ) ); ?>" style="display:inline-flex;align-items:center;gap:6px;background:#d4874a;border-radius:4px;padding:10px 24px;color:#fff;font-size:13px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;flex-shrink:0;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            <a href="<?php echo esc_url( home_url( '/safety/' ) ); ?>" style="display:inline-flex;align-items:center;gap:6px;background:#4a9db5;border-radius:4px;padding:10px 24px;color:#fff;font-size:13px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;flex-shrink:0;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
                 <span style="font-size:15px;font-weight:900;">&#62;</span> CONTACT
             </a>
 

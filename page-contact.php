@@ -188,8 +188,8 @@ get_header();
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: #2d5c8a;
-    color: #f5c518;
+    background: #4a9db5;
+    color: #fff;
     font-weight: 900;
     font-size: 16px;
     letter-spacing: .1em;
@@ -199,7 +199,7 @@ get_header();
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
 }
-.submit-btn:hover { background: #1e4570; transform: translateY(-2px); }
+.submit-btn:hover { background: #3a85a0; transform: translateY(-2px); }
 
 /* バッジ */
 .badges {
@@ -220,6 +220,32 @@ get_header();
 </style>
 
 <main class="relative w-full overflow-x-hidden bg-white">
+
+    <!-- ヒーロー: 3層クロスフェード -->
+    <section class="relative w-full overflow-hidden" style="height:clamp(360px,55vh,640px);">
+        <div class="absolute inset-0 z-0">
+            <div style="position:absolute;inset:0;animation:contactHeroFade1 12s infinite;">
+                <?php echo wf_picture( 'wf-001', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div style="position:absolute;inset:0;animation:contactHeroFade2 12s infinite;">
+                <?php echo wf_picture( 'wf-037', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div style="position:absolute;inset:0;animation:contactHeroFade3 12s infinite;">
+                <?php echo wf_picture( 'wf-067', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+        </div>
+        <style>
+        @keyframes contactHeroFade1 { 0%,33%,100% { opacity:1; } 50%,83% { opacity:0; } }
+        @keyframes contactHeroFade2 { 0%,17%,67%,100% { opacity:0; } 33%,50% { opacity:1; } }
+        @keyframes contactHeroFade3 { 0%,50%,100% { opacity:0; } 67%,83% { opacity:1; } }
+        </style>
+        <div class="absolute inset-0 bg-black/55 pointer-events-none" style="z-index:5;"></div>
+        <div class="relative z-30 w-full h-full flex flex-col items-center justify-center px-6 text-center">
+            <h1 class="text-6xl md:text-8xl font-black text-white tracking-widest mb-4 js-heading-up yellow-underline" style="text-shadow:0 4px 16px rgba(0,0,0,0.5);">CONTACT</h1>
+            <p class="text-base md:text-xl text-white font-bold tracking-wide js-fade-up" style="text-shadow:0 2px 8px rgba(0,0,0,0.5);">お問い合わせ ─ まずはお気軽にご相談ください</p>
+        </div>
+    </section>
+
 <div class="contact-page">
 
     <?php if ( $sent ) : ?>
@@ -228,7 +254,7 @@ get_header();
             <div style="font-size:56px;margin-bottom:16px;">✅</div>
             <h2 style="font-size:1.6rem;font-weight:900;color:#2d5c8a;margin-bottom:12px;">送信完了</h2>
             <p style="font-size:1rem;font-weight:700;color:#374151;line-height:1.8;margin-bottom:32px;">お問い合わせを受け付けました。<br>ありがとうございます。<br>担当者より折り返しご連絡いたします。</p>
-            <button onclick="window.history.back()" style="background:#2d5c8a;color:#f5c518;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
+            <button onclick="window.history.back()" style="background:#4a9db5;color:#fff;font-weight:900;font-size:1.1rem;padding:14px 60px;border:none;border-radius:9999px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">閉じる</button>
         </div>
     </div>
     <?php endif; ?>

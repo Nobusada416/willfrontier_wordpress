@@ -1,0 +1,14 @@
+{
+  "name": "will-frontier-pdf-export",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Generate PDF captures of 3 design patterns for client review",
+  "scripts": {
+    "build": "node generate-pdfs.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0",
+    "pdf-merger-js": "^5.1.0"
+  }
+}

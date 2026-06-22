@@ -7,55 +7,103 @@
 
 <main class="relative w-full overflow-x-hidden bg-white">
 
-    <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-sky-300">
-        <div class="absolute inset-0 z-0">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg.jpg" alt="ウィルフロンティア" class="w-full h-full object-cover js-parallax">
+    <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-white overflow-hidden">
+        <!-- パターンC: 6枚モザイク自動フェード -->
+        <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:0;">
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:0s;">
+                <?php echo wf_picture( 'wf-001', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:1s;">
+                <?php echo wf_picture( 'wf-011', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:2s;">
+                <?php echo wf_picture( 'wf-007', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:3s;">
+                <?php echo wf_picture( 'wf-027', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:4s;">
+                <?php echo wf_picture( 'wf-064', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:5s;">
+                <?php echo wf_picture( 'wf-068', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
         </div>
-        <div class="absolute inset-0 z-0 bg-sky-200 opacity-20"></div>
+        <style>
+        @keyframes heroFade {
+            0%, 70%, 100% { opacity: 1; transform: scale(1); }
+            85% { opacity: 0.4; transform: scale(1.05); }
+        }
+        /* 写真の彩度を落として文字色を読みやすく */
+        #hero .hero-tile img { filter: saturate(0.7); }
+        </style>
+        <!-- 軽い暗 overlay（写真モザイクのコントラストを少し整える） -->
+        <div class="absolute inset-0 z-[1] pointer-events-none" style="background: rgba(0,0,0,0.15);"></div>
 
-        <div id="hero-content" class="relative z-10 text-center text-white px-6 flex flex-col items-center" style="opacity:0;">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logowhite.svg" alt="willF" class="w-48 md:w-64 lg:w-80 mb-8 drop-shadow-lg">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-widest mb-5 drop-shadow-lg leading-tight">
-                都市インフラを支える、<br>産業廃棄物テック。
-            </h2>
-            <p class="text-base md:text-lg font-semibold tracking-widest drop-shadow-md mb-10">
-                Sustainable Urban Infrastructure &amp; Technology
-            </p>
-            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#4a9db5] hover:bg-[#3a85a0] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg rounded-full">
-                <span class="text-4xl font-thin leading-none">&gt;</span> CONTACT
-            </a>
+        <div id="hero-content" class="relative z-10 px-6 flex justify-center w-full" style="opacity:0;">
+            <!-- frosted glass パネル：可読性を確実に確保 -->
+            <div style="background: rgba(255,255,255,0.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: clamp(36px, 5vw, 64px) clamp(28px, 6vw, 80px); border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.18); max-width: min(900px, 92vw); text-align: center; display:flex; flex-direction:column; align-items:center;">
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="willF" class="w-44 md:w-56 lg:w-72 mb-7">
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-widest mb-4 leading-tight"
+                    style="color:#1a3a5c;">
+                    都市インフラを支える、<br>産業廃棄物テック。
+                </h2>
+                <p class="text-sm md:text-base lg:text-lg font-semibold tracking-widest mb-8"
+                   style="color:#2d5c8a;">
+                    Sustainable Urban Infrastructure &amp; Technology
+                </p>
+                <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-flex items-center gap-3 bg-[#4a9db5] hover:bg-[#3a85a0] text-white font-black text-lg md:text-xl tracking-widest px-10 py-4 transition-colors duration-300 shadow-lg rounded-full">
+                    <span class="text-4xl font-thin leading-none">&gt;</span> CONTACT
+                </a>
+            </div>
         </div>
     </section>
 
-    <section id="mission" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
+    <section id="mission" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <!-- パターンC: ミッション背景に写真自動切替 -->
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/warter.jpg" alt="背景" class="w-full h-full object-cover opacity-40">
+            <div style="position:absolute;inset:0;animation:missionFade1 12s infinite;">
+                <?php echo wf_picture( 'wf-006', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+            </div>
+            <div style="position:absolute;inset:0;animation:missionFade2 12s infinite;">
+                <?php echo wf_picture( 'wf-022', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+            </div>
+            <div style="position:absolute;inset:0;animation:missionFade3 12s infinite;">
+                <?php echo wf_picture( 'wf-049', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+            </div>
         </div>
+        <style>
+        @keyframes missionFade1 { 0%,33%,100% { opacity:1; } 50%,83% { opacity:0; } }
+        @keyframes missionFade2 { 0%,17%,67%,100% { opacity:0; } 33%,50% { opacity:1; } }
+        @keyframes missionFade3 { 0%,50%,100% { opacity:0; } 67%,83% { opacity:1; } }
+        </style>
 
+        <!-- 文字可読性確保のための暗色オーバーレイ -->
+        <div class="absolute inset-0 bg-black/40 pointer-events-none" style="z-index:5;"></div>
 
         <div class="relative z-30 w-full text-center" style="padding: 0 8vw;">
 
-            <h3 class="text-6xl md:text-7xl font-black text-gray-800 tracking-wider mb-12 js-heading-up">MISSION</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-white tracking-wider mb-12 js-heading-up yellow-underline" style="text-shadow:0 2px 12px rgba(0,0,0,0.5);">MISSION</h3>
 
             <!-- 環境の方程式 -->
             <div class="js-fade-up mb-4 inline-block relative">
-                <p class="font-black text-[#4a9db5] tracking-wide leading-tight" style="font-size:clamp(1rem, 2.8vw, 2.6rem);">
+                <p class="font-black text-[#7fc8de] tracking-wide leading-tight" style="font-size:clamp(1rem, 2.8vw, 2.6rem); text-shadow:0 2px 8px rgba(0,0,0,0.45);">
                     環境 = 地球 + Forest + 水 + Animal + 街 + 人
                 </p>
-                <p class="text-[#4a9db5] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem);">を重要なテーマとして捉えています。</p>
+                <p class="text-[#7fc8de] font-bold tracking-wide text-right" style="font-size:clamp(0.8rem, 1.6vw, 1.5rem); text-shadow:0 2px 6px rgba(0,0,0,0.45);"><span class="yellow-marker" style="color:#1f2937; text-shadow:none;">を重要なテーマとして捉えています。</span></p>
             </div>
 
             <!-- PLUS スマイル宣言 -->
             <div class="js-fade-up mt-4 mb-8 flex flex-col items-center">
                 <img src="<?php echo get_template_directory_uri(); ?>/assets/images/+.svg" alt="plus" style="width:100px;height:100px;display:block;margin-left:2vw;">
-                <p class="text-gray-800 tracking-wide leading-tight mt-3" style="font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:700; margin-right:1vw;">スマイル宣言</p>
+                <p class="tracking-wide leading-tight mt-3" style="color:#f59e0b; font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:900; margin-right:1vw; text-shadow:0 2px 10px rgba(0,0,0,0.6), 0 0 4px rgba(0,0,0,0.4);">スマイル宣言</p>
             </div>
 
             <!-- もっと見るボタン -->
             <div class="js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/mission/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:14px 48px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.5rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+                <a href="<?php echo esc_url( home_url( '/mission/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:14px 48px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.5rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
                     もっと見る <span>▼</span>
                 </a>
             </div>
@@ -63,20 +111,20 @@
         </div>
     </section>
 
-    <section id="service" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
+    <section id="service" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-8 js-heading-up">SERVICE</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-8 js-heading-up yellow-underline">SERVICE</h3>
 
             <!-- 5サークルレイアウト -->
             <?php
             // 共通スタイル
-            $outer = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $outer = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);transition:transform 0.2s;flex-shrink:0;';
             $inner = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(12px,1.4vw,22px);line-height:1.3;text-align:center;padding:clamp(12px,1.4vw,20px);';
-            $outer_lg = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);cursor:pointer;transition:transform 0.2s;flex-shrink:0;';
+            $outer_lg = 'width:clamp(130px,14.5vw,215px);height:clamp(130px,14.5vw,215px);border-radius:50%;background:#4a9db5;display:flex;align-items:center;justify-content:center;padding:clamp(10px,1.1vw,16px);transition:transform 0.2s;flex-shrink:0;';
             $inner_lg = 'width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(12px,1.4vw,22px);line-height:1.3;text-align:center;padding:clamp(12px,1.4vw,20px);';
             ?>
             <div class="relative js-fade-up" style="max-width:900px;margin:0 auto;margin-top:-2vw;">
@@ -114,20 +162,20 @@
 
             <!-- もっと見るボタン -->
             <div class="mt-4 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/service/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+                <a href="<?php echo esc_url( home_url( '/service/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
                     もっと見る <span>▼</span>
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="workflow" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
+    <section id="workflow" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-heading-up">WORKFLOW</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-12 js-heading-up yellow-underline">WORKFLOW</h3>
 
             <div style="max-width:700px;margin:0 auto;">
                 <div class="border-t border-[#4a9db5]">
@@ -152,12 +200,12 @@
             </div>
 
             <div class="text-center mt-12 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/workflow/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/workflow/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
 
-    <section id="vehicles" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
+    <section id="vehicles" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
         <div class="absolute inset-0 z-0">
@@ -166,7 +214,7 @@
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
-            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-10 js-heading-up">VEHICLE LINEUP</h3>
+            <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-10 js-heading-up yellow-underline">VEHICLE LINEUP</h3>
 
             <!-- スライダー（矢印は画像の真横に絶対配置） -->
             <div class="js-fade-up" style="position:relative;max-width:860px;margin:0 auto;">
@@ -175,7 +223,7 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="ARM ROLL" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
+                                <?php echo wf_picture( 'wf-007', 'アームロール車', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 ARM ROLL <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">4t アームロール車</span>
@@ -183,7 +231,7 @@
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="DUMP TRUCK" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
+                                <?php echo wf_picture( 'wf-039', 'ダンプトラック', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 DUMP TRUCK <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">ダンプトラック</span>
@@ -191,7 +239,7 @@
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
                             <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/truck.jpg" alt="PACKER CAR" style="width:100%;height:clamp(180px,30vh,420px);object-fit:cover;display:block;">
+                                <?php echo wf_picture( 'wf-042', 'コンテナ運搬車', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
                                 PACKER CAR <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">パッカー車</span>
@@ -211,20 +259,116 @@
             </div>
 
             <div class="text-center mt-8 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/vehicles/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/vehicles/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
 
+    <!-- パターンC: GALLERY セクション（★目玉） -->
+    <section id="gallery" class="relative w-full min-h-screen bg-gray-50 py-16 px-4 md:px-8">
+        <div class="relative z-10 w-full max-w-7xl mx-auto">
+            <div class="text-center mb-8">
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">GALLERY</h3>
+                <p class="text-gray-600 mt-2 tracking-wider text-sm md:text-base">現場のリアル — 写真と動画で見る WILL FRONTIER</p>
+            </div>
+
+            <!-- フィルタタブ -->
+            <div class="js-fade-up flex justify-center gap-3 mb-6 flex-wrap">
+                <button class="gallery-filter active" data-tag="all" style="padding:8px 20px;border-radius:9999px;background:#2d5c8a;color:#fff;border:none;font-weight:700;cursor:pointer;letter-spacing:.05em;">ALL</button>
+                <button class="gallery-filter" data-tag="demolition" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">解体・重機</button>
+                <button class="gallery-filter" data-tag="transport" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">車両・運搬</button>
+                <button class="gallery-filter" data-tag="people" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">人・現場</button>
+                <button class="gallery-filter" data-tag="video" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">動画</button>
+            </div>
+
+            <!-- マソンリー（CSS columns）-->
+            <div class="js-fade-up gallery-grid" style="column-count:4;column-gap:8px;">
+                <?php
+                // タグ付きアイテムリスト（写真と動画）
+                $items = [
+                    ['type'=>'photo', 'slug'=>'wf-001', 'tag'=>'demolition'],
+                    ['type'=>'photo', 'slug'=>'wf-011', 'tag'=>'demolition'],
+                    ['type'=>'video', 'slug'=>'shorts/s01', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-007', 'tag'=>'transport'],
+                    ['type'=>'photo', 'slug'=>'wf-027', 'tag'=>'demolition'],
+                    ['type'=>'photo', 'slug'=>'wf-037', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s02', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-039', 'tag'=>'transport'],
+                    ['type'=>'photo', 'slug'=>'wf-019', 'tag'=>'demolition'],
+                    ['type'=>'photo', 'slug'=>'wf-064', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s03', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-042', 'tag'=>'transport'],
+                    ['type'=>'photo', 'slug'=>'wf-024', 'tag'=>'demolition'],
+                    ['type'=>'photo', 'slug'=>'wf-070', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s04', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-049', 'tag'=>'transport'],
+                    ['type'=>'photo', 'slug'=>'wf-031', 'tag'=>'demolition'],
+                    ['type'=>'photo', 'slug'=>'wf-043', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s05', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-061', 'tag'=>'transport'],
+                    ['type'=>'photo', 'slug'=>'wf-068', 'tag'=>'demolition'],
+                    ['type'=>'photo', 'slug'=>'wf-005', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s06', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-057', 'tag'=>'transport'],
+                    ['type'=>'photo', 'slug'=>'wf-018', 'tag'=>'demolition'],
+                    ['type'=>'photo', 'slug'=>'wf-036', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s07', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-053', 'tag'=>'transport'],
+                ];
+                foreach ($items as $it) :
+                    if ($it['type'] === 'photo') : ?>
+                <div class="gallery-item" data-tag="<?php echo esc_attr($it['tag']); ?>" style="break-inside:avoid;margin-bottom:8px;overflow:hidden;border-radius:4px;cursor:pointer;">
+                    <?php echo wf_picture( $it['slug'], '', array( 'class' => 'w-full h-auto block' ) ); ?>
+                </div>
+                    <?php else : ?>
+                <div class="gallery-item" data-tag="video" style="break-inside:avoid;margin-bottom:8px;overflow:hidden;border-radius:4px;background:#000;">
+                    <?php echo wf_video( $it['slug'], array(
+                        'autoplay'=>true, 'loop'=>true, 'muted'=>true, 'controls'=>false,
+                        'poster'=>$it['slug'], 'class'=>'w-full h-auto block',
+                    ) ); ?>
+                </div>
+                    <?php endif;
+                endforeach; ?>
+            </div>
+        </div>
+
+        <style>
+        @media (max-width: 1024px) { .gallery-grid { column-count: 3 !important; } }
+        @media (max-width: 768px)  { .gallery-grid { column-count: 2 !important; } }
+        @media (max-width: 480px)  { .gallery-grid { column-count: 1 !important; } }
+        .gallery-filter.active { background:#2d5c8a !important; color:#fff !important; border-color:#2d5c8a !important; }
+        </style>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var filters = document.querySelectorAll('.gallery-filter');
+            var items = document.querySelectorAll('.gallery-item');
+            filters.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    filters.forEach(function(b){ b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var tag = btn.getAttribute('data-tag');
+                    items.forEach(function(item) {
+                        if (tag === 'all' || item.getAttribute('data-tag') === tag) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+        </script>
+    </section>
+
     <!-- CASE STUDY セクション -->
-    <section id="case-study" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
+    <section id="case-study" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-20 w-full max-w-2xl mx-auto px-8">
             <div class="text-center mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">CASE STUDY</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up yellow-underline">CASE STUDY</h3>
             </div>
 
             <?php
@@ -246,59 +390,80 @@
             </div>
 
             <div class="text-center mt-10 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/casestudy/' ) ); ?>" style="background:#d4874a;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/casestudy/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 72px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る <span>▼</span></a>
             </div>
         </div>
     </section>
 
-    <section id="safety" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
+    <section id="safety" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-30 w-full max-w-7xl mx-auto px-8 md:px-12">
             <div class="text-center mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">SAFETY</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up yellow-underline">SAFETY</h3>
             </div>
 
             <!-- 写真ボックス -->
-            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#fff;width:clamp(400px,75vw,1000px);margin:0 auto;">
-                <!-- 画像エリア（画像追加時は img タグに差し替え） -->
-                <div style="width:100%;height:clamp(200px,44vh,480px);background:#fff;display:flex;align-items:center;justify-content:center;">
-                    <span style="font-size:1.2rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
+            <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#000;width:clamp(400px,75vw,1000px);margin:0 auto;">
+                <!-- 画像（作業員＋ショベルカー：人と機械の安全を象徴） -->
+                <div style="width:100%;height:clamp(200px,44vh,480px);overflow:hidden;">
+                    <?php echo wf_picture( 'wf-064', '安全に配慮した重機操作', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                 </div>
+                <!-- 下部暗グラデ（キャッチコピー可読性のため） -->
+                <div style="position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);pointer-events:none;"></div>
                 <!-- キャッチコピー（写真下部中央に重ねて表示） -->
-                <div style="position:absolute;bottom:0;left:0;right:0;padding:32px 32px;text-align:center;">
-                    <p style="font-size:2.4rem;font-weight:900;color:#4a9db5;letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,0.3);">毎日の安全が、地域の安全をつくる。</p>
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:32px 32px;text-align:center;z-index:2;">
+                    <p style="font-size:2.4rem;font-weight:900;color:#ffffff;letter-spacing:.06em;text-shadow:0 2px 12px rgba(0,0,0,0.7), 0 0 6px rgba(0,0,0,0.5);">毎日の安全が、地域の安全をつくる。</p>
                 </div>
             </div>
 
             <div class="text-center mt-12 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/safety/' ) ); ?>" style="background:#2d5c8a;border-radius:9999px;padding:16px 56px;display:inline-flex;align-items:center;gap:10px;color:#f5c518;font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る・お問い合わせ <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/safety/' ) ); ?>" style="background:#4a9db5;border-radius:9999px;padding:16px 56px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">もっと見る・お問い合わせ <span>▼</span></a>
             </div>
         </div>
     </section>
 
     <!-- RECRUIT セクション -->
-    <section id="recruit" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
+    <section id="recruit" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-20 w-full max-w-7xl mx-auto px-8 md:px-16">
             <div class="text-center mb-12">
-                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up">RECRUIT</h3>
+                <h3 class="text-6xl md:text-7xl font-black text-[#2d5c8a] tracking-wider js-heading-up yellow-underline">RECRUIT</h3>
             </div>
 
-            <!-- 写真＋テキスト重ねボックス -->
-            <div class="js-fade-up" style="position:relative;border:1.5px solid #000;border-radius:4px;overflow:hidden;background:#fff;">
-                <!-- 画像エリア（画像追加時は img タグに差し替え） -->
-                <div style="width:100%;height:clamp(140px,22vh,260px);background:#fff;display:flex;align-items:center;justify-content:center;">
-                    <span style="font-size:1.1rem;font-weight:700;color:#9ab8c8;letter-spacing:.1em;">写真</span>
+            <!-- パターンC: 人物写真3枚（応募動機を引き出す） -->
+            <div class="js-fade-up">
+                <?php
+                $recruit_people = array(
+                    array( 'photo' => 'wf-037', 'sub' => 'TEAM',           'label' => '仲間と、共に。' ),
+                    array( 'photo' => 'wf-043', 'sub' => 'PROFESSIONAL',   'label' => '一人ひとりの挑戦。' ),
+                    array( 'photo' => 'wf-070', 'sub' => 'FIELD',          'label' => '現場で、活きる。' ),
+                );
+                ?>
+                <style>
+                @media (max-width: 768px) { .recruit-people-grid { grid-template-columns: 1fr !important; } }
+                </style>
+                <div class="recruit-people-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+                    <?php foreach ( $recruit_people as $p ) : ?>
+                    <div style="position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:6px;background:#000;">
+                        <?php echo wf_picture( $p['photo'], $p['label'], array( 'class' => 'w-full h-full object-cover' ) ); ?>
+                        <!-- 下部暗グラデ -->
+                        <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top, rgba(0,0,0,0.78), transparent);pointer-events:none;"></div>
+                        <!-- タグライン -->
+                        <div style="position:absolute;bottom:20px;left:22px;right:22px;color:#fff;">
+                            <p style="font-size:0.78rem;font-weight:700;letter-spacing:.25em;opacity:.85;margin-bottom:6px;"><?php echo esc_html( $p['sub'] ); ?></p>
+                            <p style="font-size:clamp(1.1rem,1.6vw,1.6rem);font-weight:900;letter-spacing:.05em;text-shadow:0 2px 8px rgba(0,0,0,0.6);"><?php echo esc_html( $p['label'] ); ?></p>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
                 </div>
-                <!-- キャッチコピー（写真に重ねて下部中央） -->
-                <div style="position:absolute;bottom:0;left:0;right:0;padding:24px 32px;text-align:center;">
-                    <p style="font-size:clamp(1.5rem,2.5vw,3rem);font-weight:900;color:#4a9db5;letter-spacing:.05em;">スマイル宣言はじめませんか？</p>
+                <div style="background:#fef9e7;border:1px solid #f0d96a;padding:18px 24px;margin-top:16px;text-align:center;">
+                    <p style="font-size:clamp(1.5rem,2.5vw,3rem);font-weight:900;color:#2d5c8a;letter-spacing:.05em;">スマイル宣言はじめませんか？</p>
                 </div>
             </div>
 
@@ -308,12 +473,12 @@
             </div>
 
             <div class="text-center mt-12 js-fade-up">
-                <a href="<?php echo esc_url( home_url( '/recruit/' ) ); ?>" style="background:#2d5c8a;border-radius:6px;padding:24px 120px;display:inline-flex;align-items:center;gap:10px;color:#f5c518;font-weight:900;font-size:1.6rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">応募する <span>▼</span></a>
+                <a href="<?php echo esc_url( home_url( '/recruit/' ) ); ?>" style="background:#4a9db5;border-radius:6px;padding:24px 120px;display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.6rem;letter-spacing:.1em;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">応募する <span>▼</span></a>
             </div>
         </div>
     </section>
 
-    <section id="company" class="relative w-full h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center" style="overflow:hidden;">
+    <section id="company" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center" style="overflow:hidden;">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
         <div class="absolute inset-0 z-0">
@@ -342,15 +507,10 @@
                             TEL 045-959-3225　FAX 045-959-3226<br>
                             MAIL　eco-will@kvj.biglobe.ne.jp
                         </div>
-                        <div style="margin-bottom:20px;">
+                        <div>
                             <span style="display:inline-block;background:#4a9db5;border:none;color:#fff;font-size:16px;font-weight:700;padding:8px 0;margin-bottom:4px;letter-spacing:.08em;display:block;width:140px;text-align:center;">WF-A.BASE</span>
                             〒243-0807 神奈川県厚木市金田 1107-7<br>
                             TEL 046-205-4177　FAX 046-205-4178
-                        </div>
-                        <div>
-                            <span style="display:inline-block;background:#4a9db5;border:none;color:#fff;font-size:16px;font-weight:700;padding:8px 0;margin-bottom:4px;letter-spacing:.08em;display:block;width:140px;text-align:center;">川口支社</span>
-                            〒334-0076 埼玉県川口市本蓮 4-5-10<br>
-                            TEL 048-229-4024　FAX 048-229-4025
                         </div>
                     </dd>
                 </dl>
