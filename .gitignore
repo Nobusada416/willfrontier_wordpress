@@ -15,9 +15,6 @@ static/
 # Cloudflare Wrangler のキャッシュ・一時ファイル
 .wrangler/
 
-# オリジナル素材（編集・圧縮前の生データ）はリポジトリに含めない
-data/
-
 # 写真の編集前オリジナルJPGはローカル参照用（リポジトリは WebP のみ管理）
 assets/photos/originals/
 
