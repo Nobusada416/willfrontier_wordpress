@@ -23,13 +23,13 @@ window.addEventListener('load', function() {
     <section class="relative w-full overflow-hidden" style="height:calc(100vh - 72px);min-height:520px;">
         <div class="absolute inset-0 z-0">
             <div style="position:absolute;inset:0;animation:vehHeroFade1 12s infinite;">
-                <?php echo wf_picture( 'wf-040', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-097', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:vehHeroFade2 12s infinite;">
-                <?php echo wf_picture( 'wf-044', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-098', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:vehHeroFade3 12s infinite;">
-                <?php echo wf_picture( 'wf-050', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-099', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
         </div>
         <style>
@@ -88,9 +88,9 @@ window.addEventListener('load', function() {
     <!-- 動作映像 -->
     <section class="relative w-full bg-black overflow-hidden" style="height:clamp(320px,52vh,580px);">
         <div class="absolute inset-0 z-0">
-            <?php echo wf_video( 'shorts/s01', array(
+            <?php echo wf_video( 'shorts/s08', array(
                 'autoplay' => true, 'loop' => true, 'muted' => true,
-                'controls' => false, 'poster' => 'shorts/s01',
+                'controls' => false, 'poster' => '',
                 'class' => 'w-full h-full object-cover',
             ) ); ?>
         </div>
@@ -116,7 +116,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="veh-gallery js-fade-up" style="column-count:4;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-050', 'wf-045', 'wf-046', 'wf-048', 'wf-052', 'wf-056', 'wf-060', 'wf-032' );
+                $gallery = array( 'wf-097', 'wf-098', 'wf-099', 'wf-082', 'wf-083', 'wf-086', 'wf-087', 'wf-088' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">

@@ -103,8 +103,8 @@ window.addEventListener('load', function() {
                 <div style="display:flex;gap:40px;flex:1;">
                     <?php
                     $voices = [
-                        ['name' => 'T さん（入社 3年目）', 'role' => '職種：ドライバー', 'quote' => '「スマイル宣言が業務にも活かされることが入社の決め手です。」', 'slug' => 'wf-036'],
-                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'slug' => 'wf-043'],
+                        ['name' => 'T さん（入社 3年目）', 'role' => '職種：ドライバー', 'quote' => '「スマイル宣言が業務にも活かされることが入社の決め手です。」', 'slug' => 'wf-074'],
+                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'slug' => 'wf-093'],
                     ];
                     foreach ($voices as $v) : ?>
                     <div style="display:flex;align-items:flex-start;gap:20px;">
@@ -156,13 +156,13 @@ window.addEventListener('load', function() {
             </style>
             <div class="recruit-video-grid js-fade-up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
                 <?php
-                $videos = array( 'shorts/s02', 'shorts/s03', 'shorts/s04', 'shorts/s05' );
+                $videos = array( 'shorts/s08', 'shorts/s09', 'shorts/s11', 'shorts/s14' );
                 foreach ( $videos as $vid ) :
                 ?>
                     <div style="overflow:hidden;border-radius:6px;background:#000;aspect-ratio:9/16;">
                         <?php echo wf_video( $vid, array(
                             'autoplay' => true, 'loop' => true, 'muted' => true,
-                            'controls' => false, 'poster' => $vid,
+                            'controls' => false, 'poster' => '',
                             'class' => 'w-full h-full object-cover block',
                         ) ); ?>
                     </div>
@@ -184,7 +184,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="recruit-photo-grid js-fade-up" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
                 <?php
-                $photos = array( 'wf-005', 'wf-019', 'wf-037', 'wf-064', 'wf-070' );
+                $photos = array( 'wf-073', 'wf-076', 'wf-079', 'wf-092', 'wf-089' );
                 foreach ( $photos as $p ) :
                 ?>
                     <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/5;">

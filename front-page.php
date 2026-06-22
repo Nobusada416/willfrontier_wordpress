@@ -11,22 +11,22 @@
         <!-- パターンC: 6枚モザイク自動フェード -->
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:0;">
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:0s;">
-                <?php echo wf_picture( 'wf-001', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-073', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:1s;">
-                <?php echo wf_picture( 'wf-011', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:2s;">
-                <?php echo wf_picture( 'wf-007', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-079', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:3s;">
-                <?php echo wf_picture( 'wf-027', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-082', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:4s;">
-                <?php echo wf_picture( 'wf-064', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-086', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:5s;">
-                <?php echo wf_picture( 'wf-068', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-092', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
         </div>
         <style>
@@ -65,13 +65,13 @@
         <!-- パターンC: ミッション背景に写真自動切替 -->
         <div class="absolute inset-0 z-0">
             <div style="position:absolute;inset:0;animation:missionFade1 12s infinite;">
-                <?php echo wf_picture( 'wf-006', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+                <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:missionFade2 12s infinite;">
-                <?php echo wf_picture( 'wf-022', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+                <?php echo wf_picture( 'wf-079', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:missionFade3 12s infinite;">
-                <?php echo wf_picture( 'wf-049', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+                <?php echo wf_picture( 'wf-089', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
         </div>
         <style>
@@ -88,7 +88,7 @@
             <h3 class="text-6xl md:text-7xl font-black text-white tracking-wider mb-12 js-heading-up yellow-underline" style="text-shadow:0 2px 12px rgba(0,0,0,0.5);">MISSION</h3>
 
             <!-- 環境の方程式 -->
-            <div class="js-fade-up mb-4 inline-block relative">
+            <div class="js-fade-up mb-4 block relative">
                 <p class="font-black text-[#7fc8de] tracking-wide leading-tight" style="font-size:clamp(1rem, 2.8vw, 2.6rem); text-shadow:0 2px 8px rgba(0,0,0,0.45);">
                     環境 = 地球 + Forest + 水 + Animal + 街 + 人
                 </p>
@@ -275,9 +275,10 @@
             <!-- フィルタタブ -->
             <div class="js-fade-up flex justify-center gap-3 mb-6 flex-wrap">
                 <button class="gallery-filter active" data-tag="all" style="padding:8px 20px;border-radius:9999px;background:#2d5c8a;color:#fff;border:none;font-weight:700;cursor:pointer;letter-spacing:.05em;">ALL</button>
-                <button class="gallery-filter" data-tag="demolition" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">解体・重機</button>
-                <button class="gallery-filter" data-tag="transport" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">車両・運搬</button>
-                <button class="gallery-filter" data-tag="people" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">人・現場</button>
+                <button class="gallery-filter" data-tag="indoor" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">社内・作業</button>
+                <button class="gallery-filter" data-tag="vehicles" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">車両</button>
+                <button class="gallery-filter" data-tag="people" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">人・笑顔</button>
+                <button class="gallery-filter" data-tag="safety" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">安全・地域</button>
                 <button class="gallery-filter" data-tag="video" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">動画</button>
             </div>
 
@@ -286,34 +287,34 @@
                 <?php
                 // タグ付きアイテムリスト（写真と動画）
                 $items = [
-                    ['type'=>'photo', 'slug'=>'wf-001', 'tag'=>'demolition'],
-                    ['type'=>'photo', 'slug'=>'wf-011', 'tag'=>'demolition'],
-                    ['type'=>'video', 'slug'=>'shorts/s01', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-007', 'tag'=>'transport'],
-                    ['type'=>'photo', 'slug'=>'wf-027', 'tag'=>'demolition'],
-                    ['type'=>'photo', 'slug'=>'wf-037', 'tag'=>'people'],
-                    ['type'=>'video', 'slug'=>'shorts/s02', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-039', 'tag'=>'transport'],
-                    ['type'=>'photo', 'slug'=>'wf-019', 'tag'=>'demolition'],
-                    ['type'=>'photo', 'slug'=>'wf-064', 'tag'=>'people'],
-                    ['type'=>'video', 'slug'=>'shorts/s03', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-042', 'tag'=>'transport'],
-                    ['type'=>'photo', 'slug'=>'wf-024', 'tag'=>'demolition'],
-                    ['type'=>'photo', 'slug'=>'wf-070', 'tag'=>'people'],
-                    ['type'=>'video', 'slug'=>'shorts/s04', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-049', 'tag'=>'transport'],
-                    ['type'=>'photo', 'slug'=>'wf-031', 'tag'=>'demolition'],
-                    ['type'=>'photo', 'slug'=>'wf-043', 'tag'=>'people'],
-                    ['type'=>'video', 'slug'=>'shorts/s05', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-061', 'tag'=>'transport'],
-                    ['type'=>'photo', 'slug'=>'wf-068', 'tag'=>'demolition'],
-                    ['type'=>'photo', 'slug'=>'wf-005', 'tag'=>'people'],
-                    ['type'=>'video', 'slug'=>'shorts/s06', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-057', 'tag'=>'transport'],
-                    ['type'=>'photo', 'slug'=>'wf-018', 'tag'=>'demolition'],
-                    ['type'=>'photo', 'slug'=>'wf-036', 'tag'=>'people'],
-                    ['type'=>'video', 'slug'=>'shorts/s07', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-053', 'tag'=>'transport'],
+                    ['type'=>'photo', 'slug'=>'wf-073', 'tag'=>'people'],
+                    ['type'=>'photo', 'slug'=>'wf-076', 'tag'=>'indoor'],
+                    ['type'=>'video', 'slug'=>'shorts/s08', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-082', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-079', 'tag'=>'safety'],
+                    ['type'=>'photo', 'slug'=>'wf-074', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s09', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-086', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-077', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-092', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s11', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-097', 'tag'=>'vehicles'],
+                    ['type'=>'photo', 'slug'=>'wf-089', 'tag'=>'safety'],
+                    ['type'=>'photo', 'slug'=>'wf-093', 'tag'=>'people'],
+                    ['type'=>'video', 'slug'=>'shorts/s13', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-087', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-080', 'tag'=>'safety'],
+                    ['type'=>'photo', 'slug'=>'wf-083', 'tag'=>'indoor'],
+                    ['type'=>'video', 'slug'=>'shorts/s10', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-098', 'tag'=>'vehicles'],
+                    ['type'=>'photo', 'slug'=>'wf-075', 'tag'=>'people'],
+                    ['type'=>'photo', 'slug'=>'wf-090', 'tag'=>'safety'],
+                    ['type'=>'video', 'slug'=>'shorts/s12', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-095', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-078', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-084', 'tag'=>'indoor'],
+                    ['type'=>'video', 'slug'=>'shorts/s14', 'tag'=>'video'],
+                    ['type'=>'photo', 'slug'=>'wf-099', 'tag'=>'vehicles'],
                 ];
                 foreach ($items as $it) :
                     if ($it['type'] === 'photo') : ?>
@@ -409,7 +410,7 @@
             <div class="js-fade-up" style="position:relative;border:1.5px solid #c8d9e6;border-radius:4px;overflow:hidden;background:#000;width:clamp(400px,75vw,1000px);margin:0 auto;">
                 <!-- 画像（作業員＋ショベルカー：人と機械の安全を象徴） -->
                 <div style="width:100%;height:clamp(200px,44vh,480px);overflow:hidden;">
-                    <?php echo wf_picture( 'wf-064', '安全に配慮した重機操作', array( 'class' => 'w-full h-full object-cover' ) ); ?>
+                    <?php echo wf_picture( 'wf-079', '毎朝の安全朝礼', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                 </div>
                 <!-- 下部暗グラデ（キャッチコピー可読性のため） -->
                 <div style="position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);pointer-events:none;"></div>
@@ -440,9 +441,9 @@
             <div class="js-fade-up">
                 <?php
                 $recruit_people = array(
-                    array( 'photo' => 'wf-037', 'sub' => 'TEAM',           'label' => '仲間と、共に。' ),
-                    array( 'photo' => 'wf-043', 'sub' => 'PROFESSIONAL',   'label' => '一人ひとりの挑戦。' ),
-                    array( 'photo' => 'wf-070', 'sub' => 'FIELD',          'label' => '現場で、活きる。' ),
+                    array( 'photo' => 'wf-076', 'sub' => 'TEAM',        'label' => '仲間と、共に。' ),
+                    array( 'photo' => 'wf-092', 'sub' => 'SMILE',       'label' => '笑顔で、つながる。' ),
+                    array( 'photo' => 'wf-089', 'sub' => 'COMMUNITY',   'label' => '地域と、共に生きる。' ),
                 );
                 ?>
                 <style>
