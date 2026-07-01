@@ -46,19 +46,19 @@ window.addEventListener('load', function() {
             <?php
             $items = [
                 [
-                    'title' => '【車両等の点検・講習】',
-                    'text'  => '毎日の車両等の点検のほか、定期的に講習会などを行っています。',
-                    'slug'  => 'wf-005',
+                    'title' => '【安全朝礼】',
+                    'text'  => '毎朝の安全朝礼で、全員の意識を高めてから業務をスタートします。',
+                    'slug'  => 'wf-079',
                 ],
                 [
-                    'title' => '【危険予測トレーニング】',
-                    'text'  => '講習会などで危険予測のトレーニングを行っています。',
-                    'slug'  => 'wf-064',
+                    'title' => '【屋内作業・点検】',
+                    'text'  => '室内での丁寧な分別・点検作業で品質と安全を両立しています。',
+                    'slug'  => 'wf-082',
                 ],
                 [
                     'title' => '【地域清掃】',
-                    'text'  => '地域の清掃を定期的に行っています。',
-                    'slug'  => 'wf-070',
+                    'text'  => '地域の美化運動として、スマイル宣言の精神で清掃を続けています。',
+                    'slug'  => 'wf-089',
                 ],
             ];
             foreach ($items as $item) :
@@ -82,9 +82,9 @@ window.addEventListener('load', function() {
     <!-- 追加：安全講習動画 -->
     <section class="relative w-full bg-black overflow-hidden" style="height:clamp(320px,52vh,560px);">
         <div class="absolute inset-0 z-0">
-            <?php echo wf_video( 'shorts/s06', array(
+            <?php echo wf_video( 'shorts/s13', array(
                 'autoplay' => true, 'loop' => true, 'muted' => true,
-                'controls' => false, 'poster' => 'shorts/s06',
+                'controls' => false, 'poster' => '',
                 'class' => 'w-full h-full object-cover',
             ) ); ?>
         </div>
@@ -109,7 +109,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="safety-gallery js-fade-up" style="column-count:4;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-070', 'wf-005', 'wf-063', 'wf-019' );
+                $gallery = array( 'wf-079', 'wf-080', 'wf-081', 'wf-082' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">

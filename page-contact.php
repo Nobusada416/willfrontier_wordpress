@@ -225,13 +225,13 @@ get_header();
     <section class="relative w-full overflow-hidden" style="height:clamp(360px,55vh,640px);">
         <div class="absolute inset-0 z-0">
             <div style="position:absolute;inset:0;animation:contactHeroFade1 12s infinite;">
-                <?php echo wf_picture( 'wf-001', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-073', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:contactHeroFade2 12s infinite;">
-                <?php echo wf_picture( 'wf-037', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:contactHeroFade3 12s infinite;">
-                <?php echo wf_picture( 'wf-067', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-095', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
         </div>
         <style>
