@@ -96,7 +96,7 @@ window.addEventListener('load', function() {
                         <?php echo wf_picture( 'wf-079', '安全朝礼', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
                     </div>
                     <div style="position:absolute;inset:0;animation:missionPageFade3 12s infinite;">
-                        <?php echo wf_picture( 'wf-089', '地域清掃', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
+                        <?php echo wf_picture( 'wf-095', '事務所', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
                     </div>
                 </div>
                 <style>
@@ -125,7 +125,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="mission-gallery js-fade-up" style="column-count:3;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-073', 'wf-076', 'wf-079', 'wf-082', 'wf-089', 'wf-092' );
+                $gallery = array( 'wf-073', 'wf-076', 'wf-079', 'wf-086', 'wf-095', 'wf-092' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">

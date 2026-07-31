@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
     <section class="relative w-full overflow-hidden" style="height:calc(100vh - 72px);min-height:560px;">
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:0;">
             <?php
-            $hero_photos = array( 'wf-002', 'wf-012', 'wf-022', 'wf-024', 'wf-027', 'wf-067' );
+            $hero_photos = array( 'wf-073', 'wf-076', 'wf-079', 'wf-086', 'wf-087', 'wf-092' );
             foreach ( $hero_photos as $i => $slug ) :
             ?>
                 <div class="hero-tile" style="overflow:hidden;animation:caseHeroFade 6s infinite;animation-delay:<?php echo $i; ?>s;">
@@ -83,28 +83,28 @@ window.addEventListener('load', function() {
                     'title' => 'マンション解体工事',
                     'meta'  => '建築廃材 / 鉄骨 / コンクリート',
                     'desc'  => '築40年の中層マンションを近隣配慮しながら解体。発生する廃材を当社で分別・リサイクル処理まで一貫対応。',
-                    'photos'=> array( 'wf-002', 'wf-011', 'wf-014', 'wf-027' ),
+                    'photos'=> array( 'wf-073', 'wf-076', 'wf-079', 'wf-092' ),
                 ),
                 array(
                     'no'    => '02',
                     'title' => '工場リノベーション廃材処理',
                     'meta'  => '産業廃棄物 / 金属類 / 機械設備',
                     'desc'  => '稼働中の工場を一部解体し、設備更新に伴う大量の廃材を選別。再資源化率 92% を達成。',
-                    'photos'=> array( 'wf-019', 'wf-020', 'wf-028', 'wf-029' ),
+                    'photos'=> array( 'wf-086', 'wf-087', 'wf-095', 'wf-076' ),
                 ),
                 array(
                     'no'    => '03',
                     'title' => '大型工事現場での連続搬出',
                     'meta'  => '公共工事 / 大量運搬 / 安全管理',
                     'desc'  => '都市部の再開発現場で連日大量に発生する廃材を、複数台体制で連続搬出。工程遅延ゼロで完遂。',
-                    'photos'=> array( 'wf-022', 'wf-067', 'wf-071', 'wf-072' ),
+                    'photos'=> array( 'wf-073', 'wf-079', 'wf-086', 'wf-095' ),
                 ),
                 array(
                     'no'    => '04',
                     'title' => '広域運搬・回収実績',
                     'meta'  => '関東一円 / 定期回収 / 中継拠点活用',
                     'desc'  => '複数拠点を持つお客様の廃材を、自社車両網で集約・効率搬送。月間稼働 600 件超。',
-                    'photos'=> array( 'wf-008', 'wf-009', 'wf-034', 'wf-044' ),
+                    'photos'=> array( 'wf-073', 'wf-076', 'wf-095', 'wf-087' ),
                 ),
             );
 
@@ -155,7 +155,7 @@ window.addEventListener('load', function() {
                 </style>
                 <div class="case-gallery" style="column-count:4;column-gap:8px;">
                     <?php
-                    $gallery = array( 'wf-046', 'wf-052', 'wf-056', 'wf-030', 'wf-040', 'wf-045', 'wf-060', 'wf-048' );
+                    $gallery = array( 'wf-073', 'wf-076', 'wf-079', 'wf-086', 'wf-087', 'wf-092', 'wf-095' );
                     foreach ( $gallery as $g ) :
                     ?>
                         <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">

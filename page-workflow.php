@@ -47,21 +47,20 @@ window.addEventListener('load', function() {
 
             <?php
             $steps = array(
-                array( 'no' => '01', 'photo' => 'wf-024', 'title' => '受入・搬入', 'desc' => 'お客様の現場から運び込まれた廃材を、検量・記録のうえ受け入れます。' ),
-                array( 'no' => '02', 'photo' => 'wf-028', 'title' => '選別', 'desc' => '鉄・非鉄・コンクリート・木材など、材質ごとに細かく仕分けます。' ),
-                array( 'no' => '03', 'photo' => 'wf-020', 'title' => '中間処理', 'desc' => '当社の処理場で破砕・圧縮・分解を行い、リサイクル可能な状態に整えます。' ),
-                array( 'no' => '04', 'photo' => 'wf-025', 'title' => '搬出', 'desc' => '処理済み資材をリサイクル業者・最終処分業者へ計画的に搬出します。' ),
-                array( 'no' => '05', 'photo' => 'wf-030', 'title' => 'リサイクル / 最終処分', 'desc' => '資源として再循環、または法令に従って適正に最終処分されます。' ),
+                array( 'no' => '01', 'photo' => 'wf-073', 'title' => '受入・搬入', 'desc' => 'お客様の現場から運び込まれた廃材を、検量・記録のうえ受け入れます。' ),
+                array( 'no' => '02', 'photo' => 'wf-086', 'title' => '選別', 'desc' => '鉄・非鉄・コンクリート・木材など、材質ごとに細かく仕分けます。' ),
+                array( 'no' => '03', 'photo' => 'wf-087', 'title' => '中間処理', 'desc' => '当社の処理場で破砕・圧縮・分解を行い、リサイクル可能な状態に整えます。' ),
+                array( 'no' => '04', 'photo' => 'wf-076', 'title' => '搬出', 'desc' => '処理済み資材をリサイクル業者・最終処分業者へ計画的に搬出します。' ),
+                array( 'no' => '05', 'photo' => 'wf-095', 'title' => 'リサイクル / 最終処分', 'desc' => '資源として再循環、または法令に従って適正に最終処分されます。' ),
             );
 
-            foreach ( $steps as $i => $s ) :
-                $reverse = ( $i % 2 === 1 );
+            foreach ( $steps as $s ) :
             ?>
-            <article class="js-fade-up" style="display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(24px,3vw,48px);align-items:center;margin-bottom:clamp(48px,6vw,80px);">
-                <div style="grid-column:1 / span 7;overflow:hidden;border-radius:6px;aspect-ratio:16/9;<?php echo $reverse ? 'order:2;' : ''; ?>">
+            <article class="js-fade-up" style="display:grid;grid-template-columns:7fr 5fr;gap:clamp(24px,3vw,48px);align-items:center;margin-bottom:clamp(48px,6vw,80px);">
+                <div style="overflow:hidden;border-radius:6px;aspect-ratio:16/9;">
                     <?php echo wf_picture( $s['photo'], $s['title'], array( 'class' => 'w-full h-full object-cover' ) ); ?>
                 </div>
-                <div style="grid-column:8 / span 5;<?php echo $reverse ? 'order:1;' : ''; ?>">
+                <div>
                     <p class="font-black text-[#d4874a] tracking-widest mb-3" style="font-size:clamp(2rem,3.5vw,3.5rem);line-height:1;">STEP <?php echo esc_html( $s['no'] ); ?></p>
                     <h3 class="text-2xl md:text-3xl font-black text-[#2d5c8a] tracking-wider mb-4"><?php echo esc_html( $s['title'] ); ?></h3>
                     <p class="text-base md:text-lg text-gray-700 leading-relaxed"><?php echo esc_html( $s['desc'] ); ?></p>

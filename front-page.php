@@ -8,25 +8,34 @@
 <main class="relative w-full overflow-x-hidden bg-white">
 
     <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-white overflow-hidden">
-        <!-- パターンC: 6枚モザイク自動フェード -->
-        <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:0;">
-            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:0s;">
+        <!-- パターンC: 9枚モザイク自動フェード -->
+        <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;">
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:0s;">
                 <?php echo wf_picture( 'wf-073', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
-            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:1s;">
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:1s;">
                 <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
-            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:2s;">
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:2s;">
                 <?php echo wf_picture( 'wf-079', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
-            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:3s;">
-                <?php echo wf_picture( 'wf-082', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:3s;">
+                <?php echo wf_picture( 'wf-095', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
-            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:4s;">
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:4s;">
                 <?php echo wf_picture( 'wf-086', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
-            <div class="hero-tile" style="overflow:hidden;animation:heroFade 6s infinite;animation-delay:5s;">
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:5s;">
                 <?php echo wf_picture( 'wf-092', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:6s;">
+                <?php echo wf_picture( 'wf-104', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:7s;">
+                <?php echo wf_picture( 'wf-105', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+            </div>
+            <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:8s;">
+                <?php echo wf_picture( 'wf-102', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
         </div>
         <style>
@@ -71,7 +80,7 @@
                 <?php echo wf_picture( 'wf-079', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:missionFade3 12s infinite;">
-                <?php echo wf_picture( 'wf-089', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+                <?php echo wf_picture( 'wf-092', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
         </div>
         <style>
@@ -217,32 +226,32 @@
             <h3 class="text-6xl md:text-7xl font-black text-gray-700 tracking-wider mb-10 js-heading-up yellow-underline">VEHICLE LINEUP</h3>
 
             <!-- スライダー（矢印は画像の真横に絶対配置） -->
-            <div class="js-fade-up" style="position:relative;max-width:860px;margin:0 auto;">
+            <div class="js-fade-up" style="position:relative;max-width:420px;margin:0 auto;">
 
                 <div class="swiper vehicleSwiper w-full" style="padding-bottom:48px;">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide w-full flex flex-col items-center">
-                            <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <?php echo wf_picture( 'wf-007', 'アームロール車', array( 'class' => 'w-full h-full object-cover' ) ); ?>
+                            <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;aspect-ratio:1/1;">
+                                <?php echo wf_picture( 'wf-079', '安全朝礼', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
-                                ARM ROLL <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">4t アームロール車</span>
+                                SAFETY <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">安全朝礼</span>
                             </p>
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
-                            <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <?php echo wf_picture( 'wf-039', 'ダンプトラック', array( 'class' => 'w-full h-full object-cover' ) ); ?>
+                            <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;aspect-ratio:1/1;">
+                                <?php echo wf_picture( 'wf-086', '選別作業', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
-                                DUMP TRUCK <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">ダンプトラック</span>
+                                SORTING <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">選別作業</span>
                             </p>
                         </div>
                         <div class="swiper-slide w-full flex flex-col items-center">
-                            <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;">
-                                <?php echo wf_picture( 'wf-042', 'コンテナ運搬車', array( 'class' => 'w-full h-full object-cover' ) ); ?>
+                            <div style="background:#fff;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);width:100%;aspect-ratio:1/1;">
+                                <?php echo wf_picture( 'wf-092', 'チームワーク', array( 'class' => 'w-full h-full object-cover' ) ); ?>
                             </div>
                             <p class="font-black text-gray-800 tracking-wider mt-5" style="font-size:1.2rem;">
-                                PACKER CAR <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">パッカー車</span>
+                                TEAM <span style="font-size:0.9rem;color:#6b7280;font-weight:700;margin-left:8px;">チームワーク</span>
                             </p>
                         </div>
                     </div>
@@ -250,10 +259,10 @@
                 </div>
 
                 <!-- 矢印：画像の真横に絶対配置 -->
-                <button class="vehicle-prev" style="position:absolute;top:clamp(90px,calc(50vh - 170px),210px);left:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
+                <button class="vehicle-prev" style="position:absolute;top:calc(50% - 24px);left:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
                     <svg viewBox="0 0 24 24" style="width:44px;height:44px;" fill="#2d5c8a"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
                 </button>
-                <button class="vehicle-next" style="position:absolute;top:clamp(90px,calc(50vh - 170px),210px);right:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
+                <button class="vehicle-next" style="position:absolute;top:calc(50% - 24px);right:-56px;transform:translateY(-50%);background:none;border:none;cursor:pointer;z-index:10;">
                     <svg viewBox="0 0 24 24" style="width:44px;height:44px;transform:scaleX(-1);" fill="#2d5c8a"><path d="M16.5 3c-.5 0-1 .2-1.4.6l-9 8c-.8.7-.8 2 0 2.8l9 8c.8.7 2.1.4 2.6-.4.2-.3.3-.7.3-1V5c0-1.1-.9-2-2-2z"/></svg>
                 </button>
             </div>
@@ -276,7 +285,6 @@
             <div class="js-fade-up flex justify-center gap-3 mb-6 flex-wrap">
                 <button class="gallery-filter active" data-tag="all" style="padding:8px 20px;border-radius:9999px;background:#2d5c8a;color:#fff;border:none;font-weight:700;cursor:pointer;letter-spacing:.05em;">ALL</button>
                 <button class="gallery-filter" data-tag="indoor" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">社内・作業</button>
-                <button class="gallery-filter" data-tag="vehicles" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">車両</button>
                 <button class="gallery-filter" data-tag="people" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">人・笑顔</button>
                 <button class="gallery-filter" data-tag="safety" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">安全・地域</button>
                 <button class="gallery-filter" data-tag="video" style="padding:8px 20px;border-radius:9999px;background:#fff;color:#2d5c8a;border:1px solid #2d5c8a;font-weight:700;cursor:pointer;letter-spacing:.05em;">動画</button>
@@ -289,32 +297,23 @@
                 $items = [
                     ['type'=>'photo', 'slug'=>'wf-073', 'tag'=>'people'],
                     ['type'=>'photo', 'slug'=>'wf-076', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-100', 'tag'=>'indoor'],
                     ['type'=>'video', 'slug'=>'shorts/s08', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-082', 'tag'=>'indoor'],
                     ['type'=>'photo', 'slug'=>'wf-079', 'tag'=>'safety'],
-                    ['type'=>'photo', 'slug'=>'wf-074', 'tag'=>'people'],
+                    ['type'=>'photo', 'slug'=>'wf-101', 'tag'=>'indoor'],
                     ['type'=>'video', 'slug'=>'shorts/s09', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-086', 'tag'=>'indoor'],
-                    ['type'=>'photo', 'slug'=>'wf-077', 'tag'=>'indoor'],
                     ['type'=>'photo', 'slug'=>'wf-092', 'tag'=>'people'],
+                    ['type'=>'photo', 'slug'=>'wf-102', 'tag'=>'people'],
                     ['type'=>'video', 'slug'=>'shorts/s11', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-097', 'tag'=>'vehicles'],
-                    ['type'=>'photo', 'slug'=>'wf-089', 'tag'=>'safety'],
-                    ['type'=>'photo', 'slug'=>'wf-093', 'tag'=>'people'],
+                    ['type'=>'photo', 'slug'=>'wf-103', 'tag'=>'people'],
                     ['type'=>'video', 'slug'=>'shorts/s13', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-087', 'tag'=>'indoor'],
-                    ['type'=>'photo', 'slug'=>'wf-080', 'tag'=>'safety'],
-                    ['type'=>'photo', 'slug'=>'wf-083', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-104', 'tag'=>'people'],
                     ['type'=>'video', 'slug'=>'shorts/s10', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-098', 'tag'=>'vehicles'],
-                    ['type'=>'photo', 'slug'=>'wf-075', 'tag'=>'people'],
-                    ['type'=>'photo', 'slug'=>'wf-090', 'tag'=>'safety'],
-                    ['type'=>'video', 'slug'=>'shorts/s12', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-095', 'tag'=>'indoor'],
-                    ['type'=>'photo', 'slug'=>'wf-078', 'tag'=>'indoor'],
-                    ['type'=>'photo', 'slug'=>'wf-084', 'tag'=>'indoor'],
+                    ['type'=>'video', 'slug'=>'shorts/s12', 'tag'=>'video'],
                     ['type'=>'video', 'slug'=>'shorts/s14', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-099', 'tag'=>'vehicles'],
                 ];
                 foreach ($items as $it) :
                     if ($it['type'] === 'photo') : ?>
@@ -443,7 +442,7 @@
                 $recruit_people = array(
                     array( 'photo' => 'wf-076', 'sub' => 'TEAM',        'label' => '仲間と、共に。' ),
                     array( 'photo' => 'wf-092', 'sub' => 'SMILE',       'label' => '笑顔で、つながる。' ),
-                    array( 'photo' => 'wf-089', 'sub' => 'COMMUNITY',   'label' => '地域と、共に生きる。' ),
+                    array( 'photo' => 'wf-079', 'sub' => 'COMMUNITY',   'label' => '地域と、共に生きる。' ),
                 );
                 ?>
                 <style>
