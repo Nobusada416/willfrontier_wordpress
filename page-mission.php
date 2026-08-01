@@ -125,7 +125,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="mission-gallery js-fade-up" style="column-count:3;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-073', 'wf-076', 'wf-079', 'wf-086', 'wf-095', 'wf-092' );
+                $gallery = array( 'wf-076', 'wf-092', 'wf-017', 'wf-105', 'wf-101', 'wf-100' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">
