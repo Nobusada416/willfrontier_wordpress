@@ -53,12 +53,12 @@ window.addEventListener('load', function() {
                 [
                     'title' => '【屋内作業・点検】',
                     'text'  => '室内での丁寧な分別・点検作業で品質と安全を両立しています。',
-                    'slug'  => 'wf-082',
+                    'slug'  => 'wf-086',
                 ],
                 [
-                    'title' => '【地域清掃】',
-                    'text'  => '地域の美化運動として、スマイル宣言の精神で清掃を続けています。',
-                    'slug'  => 'wf-089',
+                    'title' => '【安全朝礼】',
+                    'text'  => '毎朝の安全朝礼でチーム全員の意識を統一。地域と共に安全な作業を実現します。',
+                    'slug'  => 'wf-076',
                 ],
             ];
             foreach ($items as $item) :
@@ -109,7 +109,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="safety-gallery js-fade-up" style="column-count:4;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-079', 'wf-080', 'wf-081', 'wf-082' );
+                $gallery = array( 'wf-079', 'wf-080', 'wf-081', 'wf-087' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">

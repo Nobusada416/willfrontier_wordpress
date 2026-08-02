@@ -26,10 +26,10 @@ window.addEventListener('load', function() {
                 <?php echo wf_picture( 'wf-097', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:vehHeroFade2 12s infinite;">
-                <?php echo wf_picture( 'wf-098', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-007', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:vehHeroFade3 12s infinite;">
-                <?php echo wf_picture( 'wf-099', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-042', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
         </div>
         <style>
@@ -60,10 +60,10 @@ window.addEventListener('load', function() {
             <?php
             $vehicles = array(
                 array( 'photo' => 'wf-007', 'name' => 'アームロール', 'spec' => '4t / 8t', 'desc' => 'コンテナ着脱で現場間移動を効率化。狭小現場にも対応。' ),
-                array( 'photo' => 'wf-039', 'name' => 'ダンプトラック', 'spec' => '2t〜10t', 'desc' => '建材・廃材の大量運搬の主力。荷台後部からの一気積み下ろし。' ),
+                array( 'photo' => 'wf-097', 'name' => '大型ダンプ', 'spec' => '2t〜10t', 'desc' => '建材・廃材の大量運搬の主力。荷台後部からの一気積み下ろし。' ),
                 array( 'photo' => 'wf-042', 'name' => 'コンテナ運搬車', 'spec' => '10〜20㎥対応', 'desc' => '大容量コンテナでの長距離輸送。複数現場の集約搬送に。' ),
                 array( 'photo' => 'wf-040', 'name' => 'ローダー / フォークリフト', 'spec' => '構内作業用', 'desc' => '中間処理場での選別・積込作業。狭所での旋回性能を活かす。' ),
-                array( 'photo' => 'wf-008', 'name' => '中型運搬車', 'spec' => '4t', 'desc' => '都市部の細い道や中小規模現場をカバーする中型主力車。' ),
+                array( 'photo' => 'wf-049', 'name' => '中型運搬車', 'spec' => '4t', 'desc' => '都市部の細い道や中小規模現場をカバーする中型主力車。' ),
                 array( 'photo' => 'wf-009', 'name' => '平ボディトラック', 'spec' => '汎用 / 多用途', 'desc' => '機材搬送・大型部材の運搬に。荷台フラットで汎用性高め。' ),
             );
 
@@ -116,7 +116,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="veh-gallery js-fade-up" style="column-count:4;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-097', 'wf-098', 'wf-099', 'wf-082', 'wf-083', 'wf-086', 'wf-087', 'wf-088' );
+                $gallery = array( 'wf-097', 'wf-007', 'wf-042', 'wf-008', 'wf-009', 'wf-040' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">

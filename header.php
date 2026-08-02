@@ -19,11 +19,11 @@
             <!-- ナビ -->
             <nav>
                 <ul style="list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:40px;">
-                    <li><a href="#service"    style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">SERVICE</a></li>
-                    <li><a href="#workflow"   style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">WORKFLOW</a></li>
-                    <li><a href="#vehicles"   style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">VEHICLES</a></li>
-                    <li><a href="#case-study" style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">CASE</a></li>
-                    <li><a href="#company"    style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">COMPANY</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/service/' ) ); ?>"    style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">SERVICE</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/workflow/' ) ); ?>"   style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">WORKFLOW</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/vehicles/' ) ); ?>"   style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">VEHICLES</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/casestudy/' ) ); ?>"  style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">CASE</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/mission/' ) ); ?>"    style="color:#2d5c8a;font-size:16px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">COMPANY</a></li>
                 </ul>
             </nav>
 

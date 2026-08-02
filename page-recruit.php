@@ -184,7 +184,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="recruit-photo-grid js-fade-up" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
                 <?php
-                $photos = array( 'wf-073', 'wf-076', 'wf-079', 'wf-092', 'wf-089' );
+                $photos = array( 'wf-073', 'wf-076', 'wf-079', 'wf-092', 'wf-086' );
                 foreach ( $photos as $p ) :
                 ?>
                     <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/5;">
