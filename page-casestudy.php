@@ -51,7 +51,7 @@ window.addEventListener('load', function() {
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:40;">
     </section>
 
-    <!-- 案件カード ×4 -->
+    <!-- 案件カード ×3 -->
     <section class="relative w-full bg-white" style="padding:clamp(64px,8vw,120px) 0;">
         <div class="max-w-6xl mx-auto px-6 md:px-12">
             <div class="text-center mb-16">
@@ -63,27 +63,20 @@ window.addEventListener('load', function() {
             $cases = array(
                 array(
                     'no'    => '01',
-                    'title' => 'マンション解体工事',
-                    'meta'  => '建築廃材 / 鉄骨 / コンクリート',
-                    'desc'  => '築40年の中層マンションを近隣配慮しながら解体。発生する廃材を当社で分別・リサイクル処理まで一貫対応。',
-                    'photos'=> array( 'wf-070', 'wf-066', 'wf-001', 'wf-003' ),
-                ),
-                array(
-                    'no'    => '02',
                     'title' => '工場リノベーション廃材処理',
                     'meta'  => '産業廃棄物 / 金属類 / 機械設備',
                     'desc'  => '稼働中の工場を一部解体し、設備更新に伴う大量の廃材を選別。再資源化率 92% を達成。',
                     'photos'=> array( 'wf-106', 'wf-107', 'wf-108', 'wf-109' ),
                 ),
                 array(
-                    'no'    => '03',
+                    'no'    => '02',
                     'title' => '大型工事現場での連続搬出',
                     'meta'  => '公共工事 / 大量運搬 / 安全管理',
                     'desc'  => '都市部の再開発現場で連日大量に発生する廃材を、複数台体制で連続搬出。工程遅延ゼロで完遂。',
                     'photos'=> array( 'wf-050', 'wf-048', 'wf-110', 'wf-111' ),
                 ),
                 array(
-                    'no'    => '04',
+                    'no'    => '03',
                     'title' => '広域運搬・回収実績',
                     'meta'  => '関東一円 / 定期回収 / 中継拠点活用',
                     'desc'  => '複数拠点を持つお客様の廃材を、自社車両網で集約・効率搬送。月間稼働 600 件超。',
