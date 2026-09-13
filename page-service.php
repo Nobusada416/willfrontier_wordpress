@@ -127,7 +127,7 @@ window.addEventListener('resize', scaleServiceLayout);
                 array( 'photo' => 'wf-086', 'name' => '選別作業', 'desc' => '材質ごとに細かく仕分け、再資源化率を最大化します。' ),
                 array( 'photo' => 'wf-087', 'name' => '中間処理', 'desc' => '自社処理場で破砕・圧縮・分別を行い、適正処理へつなぎます。' ),
                 array( 'photo' => 'wf-095', 'name' => 'リサイクル', 'desc' => '鉄・非鉄・コンクリート等を再資源として循環させる仕組み。' ),
-                array( 'photo' => 'wf-073', 'name' => '鉄・非鉄買取', 'desc' => '発生現場での買取査定で、処分コスト削減もご提案可能。' ),
+                array( 'photo' => 'wf-112', 'name' => '鉄・非鉄買取', 'desc' => '発生現場での買取査定で、処分コスト削減もご提案可能。' ),
             );
             ?>
             <div class="js-fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">

@@ -90,7 +90,7 @@ window.addEventListener('load', function() {
             <div style="flex-shrink:0;width:min(550px, 42%);display:flex;align-items:center;justify-content:flex-end;padding-top:40px;">
                 <div class="js-fade-up" style="width:100%;aspect-ratio:1/1;border-radius:50%;background:#f3f4f6;overflow:hidden;position:relative;">
                     <div style="position:absolute;inset:0;animation:missionPageFade1 12s infinite;">
-                        <?php echo wf_picture( 'wf-073', '受付スタッフ', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
+                        <?php echo wf_picture( 'wf-112', '事務スタッフ', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
                     </div>
                     <div style="position:absolute;inset:0;animation:missionPageFade2 12s infinite;">
                         <?php echo wf_picture( 'wf-079', '安全朝礼', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
