@@ -11,7 +11,7 @@
         <!-- パターンC: 9枚モザイク自動フェード -->
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;">
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:0s;">
-                <?php echo wf_picture( 'wf-073', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-112', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:1s;">
                 <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
@@ -295,7 +295,7 @@
                 <?php
                 // タグ付きアイテムリスト（写真と動画）
                 $items = [
-                    ['type'=>'photo', 'slug'=>'wf-073', 'tag'=>'people'],
+                    ['type'=>'photo', 'slug'=>'wf-112', 'tag'=>'people'],
                     ['type'=>'photo', 'slug'=>'wf-076', 'tag'=>'indoor'],
                     ['type'=>'photo', 'slug'=>'wf-100', 'tag'=>'indoor'],
                     ['type'=>'video', 'slug'=>'shorts/s08', 'tag'=>'video'],
@@ -496,7 +496,7 @@
                 </dl>
                 <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:none;background-image:repeating-linear-gradient(to right,#4a9db5 0,#4a9db5 20px,transparent 20px,transparent 36px);background-repeat:repeat-x;background-position:bottom;background-size:100% 1px;align-items:flex-start;">
                     <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:280px;flex-shrink:0;font-size:18px;">REPRESENTATIVE</dt>
-                    <dd style="color:#2d5c8a;font-weight:700;font-size:20px;letter-spacing:.04em;">代表取締役　石政 章治</dd>
+                    <dd style="color:#2d5c8a;font-weight:700;font-size:20px;letter-spacing:.04em;">代表取締役　佐々木 宏幸</dd>
                 </dl>
                 <dl class="js-fade-up" style="display:flex;padding:20px 0;border-bottom:none;background-image:repeating-linear-gradient(to right,#4a9db5 0,#4a9db5 20px,transparent 20px,transparent 36px);background-repeat:repeat-x;background-position:bottom;background-size:100% 1px;align-items:flex-start;">
                     <dt style="color:#4a9db5;font-weight:700;letter-spacing:.12em;width:280px;flex-shrink:0;font-size:18px;">ADDRESS</dt>

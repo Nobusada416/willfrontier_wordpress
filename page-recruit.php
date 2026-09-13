@@ -104,7 +104,7 @@ window.addEventListener('load', function() {
                     <?php
                     $voices = [
                         ['name' => 'T さん（入社 3年目）', 'role' => '職種：ドライバー', 'quote' => '「スマイル宣言が業務にも活かされることが入社の決め手です。」', 'slug' => 'wf-074'],
-                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'slug' => 'wf-093'],
+                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'slug' => 'wf-112'],
                     ];
                     foreach ($voices as $v) : ?>
                     <div style="display:flex;align-items:flex-start;gap:20px;">
