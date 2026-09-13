@@ -11,7 +11,7 @@
         <!-- パターンC: 9枚モザイク自動フェード -->
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;">
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:0s;">
-                <?php echo wf_picture( 'wf-073', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-112', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:1s;">
                 <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
@@ -295,7 +295,7 @@
                 <?php
                 // タグ付きアイテムリスト（写真と動画）
                 $items = [
-                    ['type'=>'photo', 'slug'=>'wf-073', 'tag'=>'people'],
+                    ['type'=>'photo', 'slug'=>'wf-112', 'tag'=>'people'],
                     ['type'=>'photo', 'slug'=>'wf-076', 'tag'=>'indoor'],
                     ['type'=>'photo', 'slug'=>'wf-100', 'tag'=>'indoor'],
                     ['type'=>'video', 'slug'=>'shorts/s08', 'tag'=>'video'],
