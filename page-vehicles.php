@@ -49,7 +49,7 @@ window.addEventListener('load', function() {
         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:40;">
     </section>
 
-    <!-- 車両カード 6種 -->
+    <!-- 車両カード 5種 -->
     <section class="relative w-full bg-white" style="padding:clamp(64px,8vw,120px) 0;">
         <div class="max-w-6xl mx-auto px-6 md:px-12">
             <div class="text-center mb-16">
@@ -62,7 +62,6 @@ window.addEventListener('load', function() {
                 array( 'photo' => 'wf-007', 'name' => 'アームロール', 'spec' => '4t / 8t', 'desc' => 'コンテナ着脱で現場間移動を効率化。狭小現場にも対応。' ),
                 array( 'photo' => 'wf-097', 'name' => '大型ダンプ', 'spec' => '2t〜10t', 'desc' => '建材・廃材の大量運搬の主力。荷台後部からの一気積み下ろし。' ),
                 array( 'photo' => 'wf-042', 'name' => 'コンテナ運搬車', 'spec' => '10〜20㎥対応', 'desc' => '大容量コンテナでの長距離輸送。複数現場の集約搬送に。' ),
-                array( 'photo' => 'wf-040', 'name' => 'アームロール車', 'spec' => '構内作業用', 'desc' => '中間処理場での選別・積込作業。狭所での旋回性能を活かす。' ),
                 array( 'photo' => 'wf-049', 'name' => '中型運搬車', 'spec' => '4t', 'desc' => '都市部の細い道や中小規模現場をカバーする中型主力車。' ),
                 array( 'photo' => 'wf-009', 'name' => '平ボディトラック', 'spec' => '汎用 / 多用途', 'desc' => '機材搬送・大型部材の運搬に。荷台フラットで汎用性高め。' ),
             );
