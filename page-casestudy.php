@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
     <section class="relative w-full overflow-hidden" style="height:calc(100vh - 72px);min-height:560px;">
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:0;">
             <?php
-            $hero_photos = array( 'wf-112', 'wf-076', 'wf-079', 'wf-086', 'wf-087', 'wf-092' );
+            $hero_photos = array( 'wf-112', 'wf-114', 'wf-079', 'wf-086', 'wf-087', 'wf-092' );
             foreach ( $hero_photos as $i => $slug ) :
             ?>
                 <div class="hero-tile" style="overflow:hidden;animation:caseHeroFade 6s infinite;animation-delay:<?php echo $i; ?>s;">

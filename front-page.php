@@ -14,7 +14,7 @@
                 <?php echo wf_picture( 'wf-112', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:1s;">
-                <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-114', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:2s;">
                 <?php echo wf_picture( 'wf-079', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
@@ -74,7 +74,7 @@
         <!-- パターンC: ミッション背景に写真自動切替 -->
         <div class="absolute inset-0 z-0">
             <div style="position:absolute;inset:0;animation:missionFade1 12s infinite;">
-                <?php echo wf_picture( 'wf-076', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
+                <?php echo wf_picture( 'wf-114', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
             </div>
             <div style="position:absolute;inset:0;animation:missionFade2 12s infinite;">
                 <?php echo wf_picture( 'wf-079', '', array( 'class' => 'w-full h-full object-cover opacity-40' ) ); ?>
@@ -296,7 +296,7 @@
                 // タグ付きアイテムリスト（写真と動画）
                 $items = [
                     ['type'=>'photo', 'slug'=>'wf-112', 'tag'=>'people'],
-                    ['type'=>'photo', 'slug'=>'wf-076', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-114', 'tag'=>'indoor'],
                     ['type'=>'photo', 'slug'=>'wf-100', 'tag'=>'indoor'],
                     ['type'=>'video', 'slug'=>'shorts/s08', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-079', 'tag'=>'safety'],
@@ -440,7 +440,7 @@
             <div class="js-fade-up">
                 <?php
                 $recruit_people = array(
-                    array( 'photo' => 'wf-076', 'sub' => 'TEAM',        'label' => '仲間と、共に。' ),
+                    array( 'photo' => 'wf-114', 'sub' => 'TEAM',        'label' => '仲間と、共に。' ),
                     array( 'photo' => 'wf-092', 'sub' => 'SMILE',       'label' => '笑顔で、つながる。' ),
                     array( 'photo' => 'wf-079', 'sub' => 'COMMUNITY',   'label' => '地域と、共に生きる。' ),
                 );
