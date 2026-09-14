@@ -90,7 +90,7 @@ window.addEventListener('load', function() {
             <div style="flex-shrink:0;width:min(550px, 42%);display:flex;align-items:center;justify-content:flex-end;padding-top:40px;">
                 <div class="js-fade-up" style="width:100%;aspect-ratio:1/1;border-radius:50%;background:#f3f4f6;overflow:hidden;position:relative;">
                     <div style="position:absolute;inset:0;animation:missionPageFade1 12s infinite;">
-                        <?php echo wf_picture( 'wf-073', '受付スタッフ', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
+                        <?php echo wf_picture( 'wf-112', '事務スタッフ', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
                     </div>
                     <div style="position:absolute;inset:0;animation:missionPageFade2 12s infinite;">
                         <?php echo wf_picture( 'wf-079', '安全朝礼', array( 'class' => 'w-full h-full object-cover block' ) ); ?>
@@ -125,7 +125,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="mission-gallery js-fade-up" style="column-count:3;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-076', 'wf-092', 'wf-017', 'wf-105', 'wf-101', 'wf-100' );
+                $gallery = array( 'wf-114', 'wf-092', 'wf-017', 'wf-105', 'wf-101', 'wf-100' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">
