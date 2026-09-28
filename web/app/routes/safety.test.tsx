@@ -6,6 +6,11 @@ import { stubIntersectionObserver } from '~/test/intersectionObserver'
 import { stubMatchMedia } from '~/test/matchMedia'
 import SafetyPage, { meta } from './safety'
 
+vi.mock('~/lib/submitInquiry', () => ({
+  submitInquiry: vi.fn(),
+  prepareSubmitInquiry: vi.fn(),
+}))
+
 beforeEach(() => {
   stubMatchMedia()
   stubIntersectionObserver()
@@ -99,9 +104,11 @@ describe('安全ページ', () => {
     })
   })
 
-  it('フォームの枠見出しと末尾のお問い合わせ誘導は置かない（フォーム側で作る）', () => {
+  it('ページ下部にお問い合わせフォームを置き、末尾のお問い合わせ誘導は置かない', () => {
     renderPage()
-    expect(screen.queryByText('メールフォームからのお問い合わせ')).toBeNull()
+    expect(
+      screen.getByRole('form', { name: 'メールフォームからのお問い合わせ' }),
+    ).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'お問い合わせ' })).toBeNull()
   })
 

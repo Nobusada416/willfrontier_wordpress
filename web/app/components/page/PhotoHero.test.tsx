@@ -27,4 +27,27 @@ describe('PhotoHero', () => {
     // 文字の枠は幕より手前
     expect(heading.closest('.z-30')).not.toBeNull()
   })
+
+  it('既定では画面の高さいっぱいに広げる', () => {
+    render(<PhotoHero background={null} title="VEHICLES" subtitle="副題" />)
+    expect(screen.getByRole('heading', { level: 1 }).closest('section')).toHaveClass(
+      'h-[calc(100svh-var(--spacing-header))]',
+    )
+  })
+
+  it('compact なら低めの帯にし、見出しに黄色の下線を引ける', () => {
+    render(
+      <PhotoHero background={null} title="CONTACT" subtitle="副題" height="compact" underline />,
+    )
+    const heading = screen.getByRole('heading', { level: 1, name: 'CONTACT' })
+    expect(heading.closest('section')).toHaveClass('h-[clamp(360px,55vh,640px)]')
+    expect(heading).toHaveClass('after:bg-wf-yellow')
+  })
+
+  it('leaves={false} なら葉の装飾を置かない', () => {
+    const { container } = render(
+      <PhotoHero background={null} title="CONTACT" subtitle="副題" leaves={false} />,
+    )
+    expect(container.querySelector('img')).toBeNull()
+  })
 })

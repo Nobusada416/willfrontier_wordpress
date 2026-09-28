@@ -31,6 +31,10 @@
   --color-wf-notice: #fef9e7;
   --color-wf-notice-border: #f0d96a;
 
+  /* 色：フォーム（旧採用フォームの必須バッジの色。白背景・白文字どちらでもコントラスト比 5.4:1） */
+  --color-wf-danger: #c0392b; /* 必須バッジ・入力エラー */
+  --color-wf-field-border: #d1d5db; /* 入力欄の枠（お問い合わせページ） */
+
   /* レイアウト */
   --spacing-header: 72px; /* ヘッダー・フッターの高さ */
 
