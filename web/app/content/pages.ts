@@ -43,7 +43,10 @@ export const PAGES: readonly Page[] = [
 ]
 
 // ビルド時に静的 HTML を生成するパス一覧
-export const prerenderPaths = (): string[] => PAGES.map((page) => page.path)
+// 末尾スラッシュ付き（'/mission/'）で渡すと React Router が中身の空の HTML を出力するため除去する。
+// 出力先はどちらも mission/index.html で、Firebase Hosting の trailingSlash: true で '/mission/' として配信される
+export const prerenderPaths = (): string[] =>
+  PAGES.map((page) => (page.path === '/' ? page.path : page.path.replace(/\/$/, '')))
 
 export const getPage = (id: PageId): Page => {
   const page = PAGES.find((p) => p.id === id)

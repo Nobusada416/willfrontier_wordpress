@@ -2,8 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { CONTACT_LINK, FOOTER_NAV, GLOBAL_NAV } from './navigation'
 import { PAGES, getPage, prerenderPaths } from './pages'
 
-// ナビゲーションの href からパス部分（ハッシュを除く）を取り出す
-const pathnameOf = (href: string) => new URL(href, 'https://example.com').pathname
+// ナビゲーションの href からパス部分（ハッシュと末尾スラッシュを除く）を取り出す
+const pathnameOf = (href: string) =>
+  new URL(href, 'https://example.com').pathname.replace(/(.)\/$/, '$1')
 
 describe('PAGES（ページ定義）', () => {
   it('id とパスが重複しない', () => {
@@ -43,8 +44,19 @@ describe('getPage', () => {
 })
 
 describe('prerenderPaths', () => {
-  it('全ページのパスを返す', () => {
-    expect(prerenderPaths()).toEqual(PAGES.map((page) => page.path))
+  it('全ページのパスを末尾スラッシュなしで返す', () => {
+    // 末尾スラッシュ付き（'/mission/'）で渡すと React Router が中身の空の HTML を出力するため
+    expect(prerenderPaths()).toEqual([
+      '/',
+      '/mission',
+      '/service',
+      '/workflow',
+      '/vehicles',
+      '/casestudy',
+      '/safety',
+      '/recruit',
+      '/contact',
+    ])
   })
 })
 
