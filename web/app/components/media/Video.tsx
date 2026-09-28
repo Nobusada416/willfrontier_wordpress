@@ -19,7 +19,7 @@ type VideoProps = {
 const PRELOAD_MARGIN = '200px'
 
 // 旧テーマの wf_video を移植した、ミュート・ループの自動再生動画
-// 旧実装は全動画をページ表示時に読み込んでいたため、画面に近づくまで src を付けず、
+// 旧実装は全動画をページ表示時に読み込んでいたため、画面に近づくまで src と poster を付けず、
 // 画面外では一時停止する。自動で動く映像は止められる必要がある（WCAG 2.2.2）ため一時停止ボタンを付ける
 export function Video({ slug, poster, label, className, videoClassName }: VideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -74,7 +74,9 @@ export function Video({ slug, poster, label, className, videoClassName }: VideoP
       <video
         ref={videoRef}
         src={loaded ? videoSrc(slug) : undefined}
-        poster={poster ? posterSrc(poster) : undefined}
+        // poster は preload="none" でもページ表示時に読み込まれるため、src と同じく画面に近づいてから付ける。
+        // 読み込み前も width / height で場所は確保している。ファーストビューに置く動画は無い（置く場合は見直す）
+        poster={poster && loaded ? posterSrc(poster) : undefined}
         preload={loaded ? 'metadata' : 'none'}
         width={size?.width}
         height={size?.height}

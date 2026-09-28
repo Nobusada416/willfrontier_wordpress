@@ -32,3 +32,10 @@ assets/videos/originals_compressed/
 .secret.local
 *.local
 .env.local
+
+# E2E（Playwright）と Lighthouse CI の結果
+web/test-results/
+web/playwright-report/
+web/blob-report/
+.lighthouseci/
+web/.lighthouseci/

@@ -5,17 +5,17 @@
 
 ## 技術スタック
 
-| 領域                 | 採用技術                                                                  | 備考                                                                         |
-| -------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| UI                   | React 19 + TypeScript 6（strict）                                         |                                                                              |
-| ルーティング・ビルド | React Router 7（framework mode）+ Vite 8                                  | `ssr: false` + `prerender` で全ページをビルド時に静的 HTML 化                |
-| CSS                  | Tailwind CSS v4（`@tailwindcss/vite`）                                    | デザイントークンは `web/app/app.css` の `@theme`。複雑な部分のみ CSS Modules |
-| フォント             | Google Fonts（Zen Maru Gothic / Quicksand）                               | 自前配信は `@font-face` だけで数百 KB になるため不採用                       |
-| ホスティング         | Firebase Hosting                                                          | 設定は `firebase.json`                                                       |
-| フォーム             | Cloud Functions v2 → Firestore → Trigger Email 拡張                       | 詳細は [forms.md](./forms.md)                                                |
-| アニメーション       | GSAP 3（ScrollTrigger・`@gsap/react`）+ Lenis（慣性スクロール）           | 旧テーマの CDN 読み込みから npm 管理へ                                       |
-| テスト               | Vitest + React Testing Library（jsdom）                                   | E2E は Playwright（P9 以降）                                                 |
-| 静的解析             | ESLint 9（typescript-eslint strict / react-hooks / jsx-a11y）+ Prettier 3 |                                                                              |
+| 領域                 | 採用技術                                                                        | 備考                                                                                                            |
+| -------------------- | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| UI                   | React 19 + TypeScript 6（strict）                                               |                                                                                                                 |
+| ルーティング・ビルド | React Router 7（framework mode）+ Vite 8                                        | `ssr: false` + `prerender` で全ページをビルド時に静的 HTML 化                                                   |
+| CSS                  | Tailwind CSS v4（`@tailwindcss/vite`）                                          | デザイントークンは `web/app/app.css` の `@theme`。複雑な部分のみ CSS Modules                                    |
+| フォント             | Google Fonts（Zen Maru Gothic / Quicksand）                                     | 自前配信は `@font-face` だけで数百 KB になるため不採用。描画を止めないようスクリプトで読み込む                  |
+| ホスティング         | Firebase Hosting                                                                | 設定は `firebase.json`                                                                                          |
+| フォーム             | Cloud Functions v2 → Firestore → Trigger Email 拡張                             | 詳細は [forms.md](./forms.md)                                                                                   |
+| アニメーション       | GSAP 3（ScrollTrigger・`@gsap/react`）+ Lenis（慣性スクロール）                 | 旧テーマの CDN 読み込みから npm 管理へ                                                                          |
+| テスト               | Vitest + React Testing Library（jsdom）/ Playwright + axe（E2E）/ Lighthouse CI | E2E と Lighthouse はビルド済みの静的サイトに対して実行（[development.md](./development.md#e2eplaywright--axe)） |
+| 静的解析             | ESLint 9（typescript-eslint strict / react-hooks / jsx-a11y）+ Prettier 3       |                                                                                                                 |
 
 ## ディレクトリ構成
 
@@ -49,9 +49,15 @@ functions/              # @wf/functions: Cloud Functions v2（Node 22 / ESM）
 web/
   react-router.config.ts  # ssr: false / prerender
   vite.config.ts          # Tailwind v4 + React Router
-  vitest.config.ts
+  vitest.config.ts        # ユニットテスト（app/・scripts/ の *.test.ts(x)。e2e/ は含めない）
+  playwright.config.ts    # E2E（Chromium。webServer で scripts/serve-static.ts を起動）
+  lighthouserc.json       # Lighthouse CI（モバイル・主要 5 ページ・目標値）
+  e2e/                    # E2E（*.spec.ts）。axe（a11y）・キーボード操作・フォーム・画面遷移・コンソールエラー
+    support/axe.ts        # axe の実行と、許容するコントラスト不足の振り分け
+    support/knownContrastIssues.ts  # 色の判断待ちで許容するコントラスト不足の色の組み合わせ（P9 でユーザー判断待ち）
+    support/page.ts       # hydrate を待つ移動・外部への通信の遮断
   app/
-    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・favicon とフォントの読み込み・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
+    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・favicon とフォントの読み込み（<head> のスクリプト）・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
     routes.ts             # content/pages.ts からルートを生成（一致しない URL は routes/not-found.tsx）
     app.css               # Tailwind v4 とデザイントークン
     content/
@@ -83,6 +89,7 @@ web/
                           # PillSubmitButton / Honeypot / SubmitDialog（送信完了）
     lib/firebase.ts       # フォーム送信時に Firebase（App Check・Functions）を遅延読み込みする
     lib/submitInquiry.ts  # 送信処理 submitInquiry の呼び出しと結果（ok / invalid / error）への変換
+    lib/fonts.ts          # Google Fonts の URL と、stylesheet を描画を止めずに追加する <head> のインラインスクリプト
     lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP・robots（noindex）・トップの JSON-LD、404 の noindex を組み立てる
     lib/indexing.ts       # 環境変数 VITE_ALLOW_INDEXING から検索エンジンへの登録の可否を判定（既定は禁止）
     lib/structuredData.ts # トップに出力する Organization（schema.org）の JSON-LD。住所を都道府県・市区町村・番地に分ける
@@ -105,6 +112,8 @@ web/
   scripts/seoFiles.ts           # sitemap.xml・robots.txt の中身を組み立てる純粋関数（URL の組み立て・XML エスケープ）
   scripts/verify-prerender.mjs  # ビルド後に各ページの title・h1・canonical・og:image、404.html の noindex、
                                 # sitemap.xml と canonical の一致、robots.txt と noindex の方針の一致を検証（postbuild）
+  scripts/serve-static.ts       # ビルド済みのサイトを配信する（E2E・Lighthouse 用。ポート 4313）
+  scripts/staticRouting.ts      # 配信の振り分け（firebase.json の cleanUrls・trailingSlash・redirects・Cache-Control と同じ。404 は 404.html）
   scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
   scripts/mediaManifest.ts      # web/public/media の写真・poster の寸法を読み取る。テストで mediaManifest.json と一致することを検証する
   scripts/generate-media-manifest.ts  # mediaManifest.json を作り直す（npm run media:manifest -w web）
@@ -143,11 +152,13 @@ web/
     （`/#company` などへの移動後に位置がずれる不具合の対策。`Video` も poster の実寸を付ける）。
     旧実装の `<picture>` はフォールバックも webp で意味がなかったため使わない。既定は遅延読み込みで、
     ファーストビューの主画像だけ `priority`（即時読み込み＋`fetchpriority="high"`）を付ける。
-  - `Video`: ミュート・ループの自動再生動画。画面に近づくまで `src` を付けず（旧実装は全動画を表示時に読み込んでいた）、
+  - `Video`: ミュート・ループの自動再生動画。画面に近づくまで `src` と `poster` を付けず（旧実装は全動画を表示時に読み込んでいた。
+    poster は `preload="none"` でも表示時に読み込まれ、トップでは画面外の poster だけで約 600KB あった）、
     画面外では一時停止する。自動で動く映像は止められる必要がある（WCAG 2.2.2）ため一時停止ボタンを付ける。
     「視差効果を減らす」設定では自動再生しない。
   - `CrossfadeHero`（3 枚の切り替え）/ `MosaicHero`（タイルの明滅）: 親要素いっぱいに広がる背景写真。
     装飾なので `aria-hidden` にし、アニメーションは `motion-safe:` で付ける（keyframes は [design-tokens.md](./design-tokens.md#アニメーション)）。
+    `CrossfadeHero` の `priority` は 1 枚目だけを即時読み込みにし、4 秒後から表示される 2 枚目以降は遅延読み込みにして帯域を譲る。
   - 旧実装はクラスを `<picture>` と `<img>` の両方に付けていたため、`opacity-40` などが二重にかかっていた。
     新実装は `<img>` だけに付けるので、ページ移植時に見た目を合わせる（トップの MISSION は `opacity-16`）。
 - **トップページ（P6）は旧サイトで実際に表示されていた見た目に合わせる**
@@ -158,6 +169,7 @@ web/
   - 旧実装の画面収め（COMPANY の `transform: scale()`、スマホで全セクションを高さ 1000px に固定）は廃止し、高さは中身に合わせる。
     旧サイトのスマホ表示はこの固定でセクション同士が重なって崩れていた。
   - 葉の装飾はスマホでは表示しない（文字に重なるため。旧実装も画像を隠していた）。
+    画像は webp（各 40KB 前後。旧テーマ用の同名 png は各 220KB で P11 で削除）を遅延読み込みにし、非表示のスマホでは読み込ませない。
   - 車両スライダーは CDN の Swiper をやめ、自前の `VehicleSlider`（WAI-ARIA のカルーセル。前後ボタン・ページ送り・スワイプ・端で反対側へ戻る）にした。
     3 枚の単純な切り替えに依存を増やさないため。
   - GALLERY の絞り込みは `aria-pressed` で選択状態を伝え、表示件数を `role="status"` で読み上げる。
@@ -172,6 +184,11 @@ web/
     `intro-skip` クラスを付けて幕を最初から隠す。JS が動かなくても幕は CSS だけで 3.5 秒後に消える。演出中はスクロールを止める。
   - 慣性スクロール（Lenis）は `gsap.ticker` で駆動して ScrollTrigger と同期する。「動きを減らす」設定では使わない。
     ページ遷移時のスクロール位置は React Router の `ScrollRestoration` に任せ、遷移後に `ScrollTrigger.refresh()` する。
+- **Web フォントは描画を止めずに読み込む**: Google Fonts の CSS（日本語フォントの分割で 100KB 超）を
+  `<link rel="stylesheet">` で直接読み込むと、別オリジンの CSS を取得し終えるまで最初の描画が止まる
+  （P9 の Lighthouse でモバイルの FCP が 7 秒前後）。`<head>` のインラインスクリプト（`lib/fonts.ts`）から追加して
+  描画を止めないようにし、先にシステムフォントで表示して読み込み後に切り替える。JS が動かない環境は `<noscript>` で読み込む。
+  CSP を設定する際は、アニメーションの `<head>` スクリプトと同じくハッシュを許可する。
 - **Firestore はクライアントから直接触らない**: フォームの送信内容は個人情報を含むため、
   セキュリティルールで読み書きをすべて拒否し、Cloud Functions（Admin SDK）だけが書き込む。
 - **shared は functions にバンドルする**: Firebase のデプロイは `functions/` だけをアップロードして

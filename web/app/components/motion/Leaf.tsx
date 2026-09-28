@@ -12,13 +12,17 @@ type LeafProps = {
   className?: string
 }
 
+// 旧テーマは同名の png（各 220KB 前後）を参照している。新サイトは webp（各 40KB 前後）を使う（png は P11 で削除）
 const LEAF_IMAGES = {
-  top: { left: '/media/images/plant-top-left.png', right: '/media/images/plant-top-right.png' },
+  top: { left: '/media/images/plant-top-left.webp', right: '/media/images/plant-top-right.webp' },
   bottom: {
-    left: '/media/images/plant-bottom-left.png',
-    right: '/media/images/plant-bottom-right.png',
+    left: '/media/images/plant-bottom-left.webp',
+    right: '/media/images/plant-bottom-right.webp',
   },
 } as const
+
+// 4 枚とも同じ寸法
+const LEAF_SIZE = { width: 360, height: 949 }
 
 // 飛び出す距離（px）
 const OFFSET = 120
@@ -53,7 +57,17 @@ export function Leaf({ side, position, trigger = 'scroll', className = '' }: Lea
       aria-hidden="true"
       className={`pointer-events-none absolute h-full ${side === 'left' ? 'left-0' : 'right-0'} ${position === 'top' ? 'top-0' : 'bottom-0'} ${className}`}
     >
-      <img src={LEAF_IMAGES[position][side]} alt="" data-reveal className="h-full w-auto" />
+      {/* スマホでは外枠ごと非表示にしているため、遅延読み込みにして非表示の間は読み込ませない */}
+      <img
+        src={LEAF_IMAGES[position][side]}
+        alt=""
+        width={LEAF_SIZE.width}
+        height={LEAF_SIZE.height}
+        loading="lazy"
+        decoding="async"
+        data-reveal
+        className="h-full w-auto"
+      />
     </div>
   )
 }

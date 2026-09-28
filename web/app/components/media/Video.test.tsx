@@ -36,14 +36,23 @@ const scrollIntoView = (inView: boolean) =>
   })
 
 describe('Video', () => {
-  it('画面に近づくまでは動画を読み込まない', () => {
+  it('画面に近づくまでは動画も poster も読み込まない', () => {
     stubMatchMedia()
     render(<Video slug="shorts/s08" poster="shorts/s08" />)
     const video = getVideo()
     expect(video).not.toHaveAttribute('src')
     expect(video).toHaveAttribute('preload', 'none')
-    expect(video).toHaveAttribute('poster', '/media/videos/shorts/s08.jpg')
+    // poster は preload="none" でもページ表示時に読み込まれるため、画面に近づくまで付けない
+    // （P9 の Lighthouse で、トップでは画面外の動画の poster 7 枚・約 600KB が最初に読み込まれていた）
+    expect(video).not.toHaveAttribute('poster')
     expect(play).not.toHaveBeenCalled()
+  })
+
+  it('画面に近づくと poster を付ける', () => {
+    stubMatchMedia()
+    render(<Video slug="shorts/s08" poster="shorts/s08" />)
+    scrollIntoView(true)
+    expect(getVideo()).toHaveAttribute('poster', '/media/videos/shorts/s08.jpg')
   })
 
   it('poster の実寸を width / height に付け、読み込み前から高さを確保する', () => {

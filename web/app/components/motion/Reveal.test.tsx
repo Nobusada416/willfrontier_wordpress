@@ -134,8 +134,8 @@ describe('Leaf', () => {
     const leaves = container.querySelectorAll('[aria-hidden="true"]')
     expect(leaves).toHaveLength(2)
     const images = container.querySelectorAll('img')
-    expect(images[0]).toHaveAttribute('src', '/media/images/plant-bottom-left.png')
-    expect(images[1]).toHaveAttribute('src', '/media/images/plant-bottom-right.png')
+    expect(images[0]).toHaveAttribute('src', '/media/images/plant-bottom-left.webp')
+    expect(images[1]).toHaveAttribute('src', '/media/images/plant-bottom-right.webp')
     images.forEach((img) => {
       expect(img).toHaveAttribute('alt', '')
       expect(img).toHaveAttribute('data-reveal')
@@ -147,7 +147,17 @@ describe('Leaf', () => {
     const { container } = render(<Leaf side="left" position="top" />)
     expect(container.querySelector('img')).toHaveAttribute(
       'src',
-      '/media/images/plant-top-left.png',
+      '/media/images/plant-top-left.webp',
     )
+  })
+
+  it('遅延読み込みにし、寸法を指定する（スマホでは非表示のため読み込まない。P9 の Lighthouse で初回の通信量の大半を占めていた）', () => {
+    stubMatchMedia()
+    const { container } = render(<Leaf side="right" position="top" trigger="load" />)
+    const image = container.querySelector('img')
+    expect(image).toHaveAttribute('loading', 'lazy')
+    expect(image).toHaveAttribute('decoding', 'async')
+    expect(image).toHaveAttribute('width', '360')
+    expect(image).toHaveAttribute('height', '949')
   })
 })

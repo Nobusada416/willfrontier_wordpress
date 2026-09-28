@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { collectSourceFiles, findMediaReferences, normalizeThemeSource } from './mediaReferences'
@@ -71,5 +71,21 @@ describe('web/app が参照するメディア', () => {
       .flatMap((file) => findMediaReferences(readFileSync(file, 'utf8')))
       .filter((path) => !existsSync(join(publicDir, path)))
     expect(missing).toEqual([])
+  })
+
+  // P9 の Lighthouse で、24px で表示するアイコンに 976px・800KB 超の png を使っていたなど、
+  // 表示に対して大きすぎる画像が初回の通信量を押し上げていた。装飾・イラストの画像が大きくなりすぎないようにする
+  it('/media/images/ の画像はどれも 300KB 以下', () => {
+    const MAX_BYTES = 300 * 1024
+    const tooLarge = [
+      ...new Set(
+        collectSourceFiles(appDir).flatMap((file) =>
+          findMediaReferences(readFileSync(file, 'utf8')),
+        ),
+      ),
+    ]
+      .filter((path) => path.startsWith('/media/images/'))
+      .filter((path) => statSync(join(publicDir, path)).size > MAX_BYTES)
+    expect(tooLarge).toEqual([])
   })
 })

@@ -41,12 +41,17 @@ describe('CrossfadeHero', () => {
     rest.forEach((frame) => expect(frame).toHaveClass('opacity-0'))
   })
 
-  it('priority 指定時は 1 枚目だけ優先度を上げ、残りは即時読み込みにする', () => {
+  it('priority 指定時は 1 枚目だけ即時読み込み・優先度を上げ、残りは遅延読み込みにする', () => {
+    // 2 枚目以降は 4 秒後から表示されるため、1 枚目の読み込みと帯域を取り合わないようにする（P9 の Lighthouse）
+    // 画面内にあるため、遅延読み込みでも描画後すぐに読み込まれる
     const { container } = renderHero({ priority: true })
-    const images = container.querySelectorAll('img')
-    expect(images[0]).toHaveAttribute('fetchpriority', 'high')
-    expect(images[1]).toHaveAttribute('loading', 'eager')
-    expect(images[1]).not.toHaveAttribute('fetchpriority')
+    const [first, ...rest] = container.querySelectorAll('img')
+    expect(first).toHaveAttribute('fetchpriority', 'high')
+    expect(first).toHaveAttribute('loading', 'eager')
+    rest.forEach((img) => {
+      expect(img).toHaveAttribute('loading', 'lazy')
+      expect(img).not.toHaveAttribute('fetchpriority')
+    })
   })
 
   it('priority 無しでは遅延読み込み', () => {
