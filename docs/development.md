@@ -47,6 +47,9 @@ Emulator 専用の仮プロジェクトで、本番の Firebase にはアクセ�
 
 Hosting の Emulator は `web/build/client` を配信するため、事前に `npm run build` しておく。
 
+Functions の Emulator には、フォームの通知先のパラメータを書いた `functions/.env.local`（リポジトリには含めない）が必要。
+内容と、App Check・メール送信の確認方法は [forms.md](./forms.md#ローカル開発emulator) を参照。
+
 ## CI
 
 `.github/workflows/ci.yml` で次の 2 ジョブを実行する。

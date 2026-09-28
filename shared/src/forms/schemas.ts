@@ -10,15 +10,15 @@ const maxMessage = (label: string, max: number) => `${label}は${max}文字以�
 
 // 1 行の項目に入った改行・タブ・制御文字を空白にする。
 // 旧実装の sanitize_text_field と同じく、メールの件名や「項目名：値」の行を偽装されないようにする
-// eslint-disable-next-line no-control-regex -- 制御文字を取り除くための正規表現
-const CONTROL_CHARS = /[\u0000-\u001f\u007f]+/g
-const toSingleLine = (value: string) => value.replace(CONTROL_CHARS, ' ')
+// 制御文字（C0・C1）と Unicode の行区切り・段落区切り
+const LINE_BREAKING_CHARS = /[\p{Cc}\p{Zl}\p{Zp}]+/gu
+const toSingleLine = (value: string) => value.replace(LINE_BREAKING_CHARS, ' ')
 
-// 複数行の項目は改行（\n）だけを残し、そのほかの制御文字を取り除く
-// eslint-disable-next-line no-control-regex -- 制御文字を取り除くための正規表現
-const CONTROL_CHARS_EXCEPT_NEWLINE = /[\u0000-\u0009\u000b-\u001f\u007f]/g
+// 複数行の項目は改行を \n にそろえて残し、そのほかの制御文字を取り除く
+const NEWLINES = /\r\n?|[\u2028\u2029]/g
+const CONTROL_CHARS_EXCEPT_NEWLINE = /[^\P{Cc}\n]/gu
 const toMultiline = (value: string) =>
-  value.replace(/\r\n?/g, '\n').replace(CONTROL_CHARS_EXCEPT_NEWLINE, '')
+  value.replace(NEWLINES, '\n').replace(CONTROL_CHARS_EXCEPT_NEWLINE, '')
 
 type TextOptions = { multiline?: boolean }
 
