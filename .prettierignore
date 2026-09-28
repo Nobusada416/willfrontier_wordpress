@@ -1,0 +1,21 @@
+# WordPress テーマ（移行完了まで残す既存ファイル）
+*.php
+style.css
+src/
+assets/
+data/
+docker/
+scripts/
+static/
+.wrangler/
+docs/3patterns-presentation.md
+tailwind.config.js
+.claude/
+
+# 生成物
+node_modules/
+**/build/
+**/lib/
+**/.react-router/
+coverage/
+package-lock.json
