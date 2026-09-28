@@ -11,6 +11,8 @@ import { buildRobotsTxt, buildSitemapXml } from './seoFiles.ts'
 const root = join(import.meta.dirname, '..')
 const clientDir = join(root, 'build/client')
 // react-router build の既定のモード（production）で .env 系ファイルを読む。process.env の値が優先される
+// アプリ側（lib/seo.ts の import.meta.env）と同じモード・同じ web/ の .env を読む前提。ビルドのモードを変える場合はここも合わせる。
+// 食い違った場合は verify-prerender.mjs が robots.txt と各ページの noindex を突き合わせてビルドを失敗させる
 const env = loadEnv('production', root, 'VITE_')
 const allowIndexing = parseAllowIndexing(env.VITE_ALLOW_INDEXING)
 

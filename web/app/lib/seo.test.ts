@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { getPage } from '~/content/pages'
 import { OG_IMAGE, SITE } from '~/content/site'
 import { buildMeta, buildNotFoundMeta } from './seo'
@@ -69,8 +69,11 @@ describe('buildMeta の検索エンジン向け設定', () => {
     expect(find(meta, 'name', 'robots')).toBeUndefined()
   })
 
-  it('環境変数の指定がないテスト環境では noindex になる', () => {
+  it('環境変数の指定がなければ noindex になる', () => {
+    // 開発者のシェルなどに VITE_ALLOW_INDEXING が残っていても既定の動きを確かめられるよう、明示的に消す
+    vi.stubEnv('VITE_ALLOW_INDEXING', undefined)
     const meta = buildMeta(getPage('mission'))
+    vi.unstubAllEnvs()
     expect(find(meta, 'name', 'robots')).toEqual({ name: 'robots', content: 'noindex' })
   })
 })

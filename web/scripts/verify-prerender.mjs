@@ -52,7 +52,9 @@ for (const path of pages) {
 
   const ogImage = capture(html, /<meta property="og:image" content="([^"]+)"/)
   if (!ogImage) errors.push(`og:image がありません: ${path}`)
-  else if (!existsSync(join(clientDir, new URL(ogImage).pathname))) {
+  else if (!URL.canParse(ogImage)) {
+    errors.push(`og:image が絶対 URL ではありません（${ogImage}）: ${path}`)
+  } else if (!existsSync(join(clientDir, new URL(ogImage).pathname))) {
     errors.push(`og:image の画像がビルド結果にありません（${ogImage}）: ${path}`)
   }
 
