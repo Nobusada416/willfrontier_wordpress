@@ -58,6 +58,7 @@ web/
       workflow.ts         # 処理の流れページだけで使う内容（処理ネットワーク図の説明文・処理の 5 ステップ）
       vehicles.ts         # 車両ページだけで使う内容（ヒーローの写真・主要車両・背景動画・車両ギャラリー）
       safety.ts           # 安全ページだけで使う内容（安全の取り組み・背景動画・装備ギャラリー・お問い合わせ後の流れ・よくあるご質問）
+      recruit.ts          # 採用ページだけで使う内容（募集職種とアイコン・1 日の流れ・従業員の声・応募の流れ・動画・職場環境の写真）
     features/home/        # トップの各セクション（Hero / Mission / Service / Workflow / Vehicles / Gallery / CaseStudy / Safety / Recruit / Company）
                           # と共通の枠 HomeSection（見出し・葉・背景）、VehicleSlider（カルーセル）
     components/ui/        # MoreLink（セクション末尾の「もっと見る ▼」ボタン）
