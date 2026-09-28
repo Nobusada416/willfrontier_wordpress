@@ -48,6 +48,22 @@
 | `--z-intro`     | `70` | イントロ演出（P5）                                 |
 | `--z-skip-link` | `80` | スキップリンク（フォーカス時にヘッダーの上に出す） |
 
+## アニメーション
+
+背景写真の切り替えに使う。旧実装ではページごとに名前だけ違う同じ keyframes を `<style>` で定義していた
+（`heroFade` / `caseHeroFade` / `missionFade*` / `missionPageFade*` / `contactHeroFade*` / `vehHeroFade*`）ため、2 つにまとめた。
+どちらも `motion-safe:` で付けるため、OS の「視差効果を減らす」設定ではアニメーションしない。
+
+| トークン                | 内容                                           | 使う部品        |
+| ----------------------- | ---------------------------------------------- | --------------- |
+| `animate-wf-crossfade`  | 3 枚を 12 秒で一巡（1 枚 4 秒・フェード 1 秒） | `CrossfadeHero` |
+| `animate-wf-tile-pulse` | タイルを順に明滅（周期・遅延は枚数から算出）   | `MosaicHero`    |
+
+- `wf-crossfade` のキーフレームは 3 枚・周期 12 秒・フェード比率 1/12 を前提にしている。
+  変える場合は `web/app/lib/media.ts` の定数（`CROSSFADE_FRAMES`・`CROSSFADE_CYCLE_SECONDS`・`CROSSFADE_FADE_RATIO`）もあわせて直す。
+- 旧実装の 3 枚切り替えは切り替えの間隔が不均等だった（1 枚目だけ長く見えていた）ため、均等にした。
+- 施工事例のモザイクは明滅の深さが少し浅かった（opacity 0.35 / scale 1.04）が、トップと同じ値（0.4 / 1.05）に揃えた。
+
 ## ブレークポイント
 
 Tailwind 標準（`sm` 640 / `md` 768 / `lg` 1024 / `xl` 1280 / `2xl` 1536）に統一する。

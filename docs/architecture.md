@@ -47,7 +47,11 @@ web/
       navigation.ts       # ヘッダー・フッターのリンク定義
       site.ts             # サイト名・正式社名・キャッチコピー・URL
     components/layout/    # Header（PC ナビ・ハンバーガー）/ MobileNav / Footer / SkipLink / Logo
+    components/media/     # Picture（写真）/ Video（自動再生動画）/ CrossfadeHero・MosaicHero（背景写真の切り替え）
     lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP、404 の noindex を組み立てる
+    lib/media.ts          # 写真・動画の配信パス、クロスフェードの遅延計算
+    lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
+    test/                 # テスト用スタブ（matchMedia / IntersectionObserver）
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
   public/media/           # ハッシュなしで配信する画像・動画（/media/**）
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
@@ -69,6 +73,17 @@ web/
   title・description・canonical・OGP を `content/pages.ts` と `content/site.ts` から組み立てる。
 - **404 ページもプリレンダーする**: `*` ルートを `/404` としてプリレンダーし、ビルド後に `404.html` へ移す。
   Firebase Hosting は存在しない URL に `404.html` を 404 ステータスで返す。
+- **写真・動画は部品を通して表示する**: 旧テーマの `wf_picture` / `wf_video` と同じく、スラッグ（`wf-079`、`shorts/s08`）だけを渡す。
+  - `Picture`: `/media/photos/{small,large}/<slug>.webp` を `srcset`（768w / 1600w）に並べた `<img>`。
+    旧実装の `<picture>` はフォールバックも webp で意味がなかったため使わない。既定は遅延読み込みで、
+    ファーストビューの主画像だけ `priority`（即時読み込み＋`fetchpriority="high"`）を付ける。
+  - `Video`: ミュート・ループの自動再生動画。画面に近づくまで `src` を付けず（旧実装は全動画を表示時に読み込んでいた）、
+    画面外では一時停止する。自動で動く映像は止められる必要がある（WCAG 2.2.2）ため一時停止ボタンを付ける。
+    「視差効果を減らす」設定では自動再生しない。
+  - `CrossfadeHero`（3 枚の切り替え）/ `MosaicHero`（タイルの明滅）: 親要素いっぱいに広がる背景写真。
+    装飾なので `aria-hidden` にし、アニメーションは `motion-safe:` で付ける（keyframes は [design-tokens.md](./design-tokens.md#アニメーション)）。
+  - 旧実装はクラスを `<picture>` と `<img>` の両方に付けていたため、`opacity-40` などが二重にかかっていた。
+    新実装は `<img>` だけに付けるので、ページ移植時（P6・P7）に見た目を合わせる。
 - **Firestore はクライアントから直接触らない**: フォームの送信内容は個人情報を含むため、
   セキュリティルールで読み書きをすべて拒否し、Cloud Functions（Admin SDK）だけが書き込む。
 - **shared は functions にバンドルする**: Firebase のデプロイは `functions/` だけをアップロードして
