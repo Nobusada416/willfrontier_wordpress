@@ -47,22 +47,32 @@ web/
       pages.ts            # 全ページ定義（ルート・プリレンダー対象の唯一の情報源）
       navigation.ts       # ヘッダー・フッターのリンク定義
       site.ts             # サイト名・正式社名・キャッチコピー・URL
+      home.ts             # トップだけで使う内容（ヒーローの写真・SERVICE の 5 項目・WORKFLOW・車両スライド・採用）
+      gallery.ts          # GALLERY の写真・動画とタグ、絞り込み（filterGallery）
+      cases.ts            # 施工事例の一覧（旧サイトの時点で仮の値）
+      company.ts          # 会社概要と拠点（横浜本社・WF-A.BASE）
+    features/home/        # トップの各セクション（Hero / Mission / Service / Workflow / Vehicles / Gallery / CaseStudy / Safety / Recruit / Company）
+                          # と共通の枠 HomeSection（見出し・葉・背景）、VehicleSlider（カルーセル）
+    components/ui/        # MoreLink（セクション末尾の「もっと見る ▼」ボタン）
     components/layout/    # Header（PC ナビ・ハンバーガー）/ MobileNav / Footer / SkipLink / Logo
     components/motion/    # SmoothScroll（Lenis）/ IntroOverlay / HeadingReveal / FadeUp / Leaf
     components/media/     # Picture（写真）/ Video（自動再生動画）/ CrossfadeHero・MosaicHero（背景写真の切り替え）
     lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP、404 の noindex を組み立てる
-    lib/media.ts          # 写真・動画の配信パス、クロスフェードの遅延計算
+    lib/media.ts          # 写真・動画の配信パスと寸法、クロスフェードの遅延計算
+    lib/mediaManifest.json  # 写真・poster の実寸（npm run media:manifest -w web で生成）
     lib/motion/           # gsap（プラグイン登録・useMotion）/ headScript（<head> のインラインスクリプト）/ intro / scrollLock
     lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
     test/                 # テスト用スタブ（matchMedia / IntersectionObserver）。GSAP が読み込み時に matchMedia を呼ぶため、既定の実装は web/vitest.setup.ts に置く
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
   public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
-    photos/{small,large}/ # 写真（wf-NNN.webp。small は幅 768px、large は幅 1600px）
+    photos/{small,large}/ # 写真（wf-NNN.webp。small・large とも寸法は写真ごとに異なる。実寸は lib/mediaManifest.json）
     videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
     images/               # ロゴ・イラスト・装飾画像
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
   scripts/verify-prerender.mjs  # ビルド後に各ページの title と h1、404.html の noindex を検証（postbuild）
   scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
+  scripts/mediaManifest.ts      # web/public/media の写真・poster の寸法を読み取る。テストで mediaManifest.json と一致することを検証する
+  scripts/generate-media-manifest.ts  # mediaManifest.json を作り直す（npm run media:manifest -w web）
 ```
 
 ## 設計方針
@@ -81,7 +91,11 @@ web/
 - **404 ページもプリレンダーする**: `*` ルートを `/404` としてプリレンダーし、ビルド後に `404.html` へ移す。
   Firebase Hosting は存在しない URL に `404.html` を 404 ステータスで返す。
 - **写真・動画は部品を通して表示する**: 旧テーマの `wf_picture` / `wf_video` と同じく、スラッグ（`wf-079`、`shorts/s08`）だけを渡す。
-  - `Picture`: `/media/photos/{small,large}/<slug>.webp` を `srcset`（768w / 1600w）に並べた `<img>`。
+  - `Picture`: `/media/photos/{small,large}/<slug>.webp` を `srcset` に並べた `<img>`。
+    `srcset` の幅（w）と `width`・`height` 属性には実寸（`lib/mediaManifest.json`）を使う。
+    旧実装は一律 768w / 1600w としていたが、実際の small は幅 117〜768px とばらばらで、粗い画像が選ばれることがあった。
+    `width`・`height` で読み込み前から高さを確保するため、遅延読み込みの写真が後から読み込まれてもページの位置がずれない
+    （`/#company` などへの移動後に位置がずれる不具合の対策。`Video` も poster の実寸を付ける）。
     旧実装の `<picture>` はフォールバックも webp で意味がなかったため使わない。既定は遅延読み込みで、
     ファーストビューの主画像だけ `priority`（即時読み込み＋`fetchpriority="high"`）を付ける。
   - `Video`: ミュート・ループの自動再生動画。画面に近づくまで `src` を付けず（旧実装は全動画を表示時に読み込んでいた）、
@@ -90,7 +104,20 @@ web/
   - `CrossfadeHero`（3 枚の切り替え）/ `MosaicHero`（タイルの明滅）: 親要素いっぱいに広がる背景写真。
     装飾なので `aria-hidden` にし、アニメーションは `motion-safe:` で付ける（keyframes は [design-tokens.md](./design-tokens.md#アニメーション)）。
   - 旧実装はクラスを `<picture>` と `<img>` の両方に付けていたため、`opacity-40` などが二重にかかっていた。
-    新実装は `<img>` だけに付けるので、ページ移植時（P6・P7）に見た目を合わせる。
+    新実装は `<img>` だけに付けるので、ページ移植時に見た目を合わせる（トップの MISSION は `opacity-16`）。
+- **トップページ（P6）は旧サイトで実際に表示されていた見た目に合わせる**
+  - 旧 `style.css` の末尾にトップ用の上書き（`!important`）があり、見出しの色とフォント（`wf-text`・Quicksand）、
+    セクションの背景（`wf-bg`）と上下の余白（100px、スマホ 64px）はテンプレートのクラスではなくこちらが効いていた。
+  - テンプレートに書かれていても旧 CSS に含まれていなかったクラス（MISSION の暗い幕 `bg-black/40`、
+    セクションの最小高さ `min-h-[calc(100vh-72px)]` など）は表示されていなかったため再現しない。
+  - 旧実装の画面収め（COMPANY の `transform: scale()`、スマホで全セクションを高さ 1000px に固定）は廃止し、高さは中身に合わせる。
+    旧サイトのスマホ表示はこの固定でセクション同士が重なって崩れていた。
+  - 葉の装飾はスマホでは表示しない（文字に重なるため。旧実装も画像を隠していた）。
+  - 車両スライダーは CDN の Swiper をやめ、自前の `VehicleSlider`（WAI-ARIA のカルーセル。前後ボタン・ページ送り・スワイプ・端で反対側へ戻る）にした。
+    3 枚の単純な切り替えに依存を増やさないため。
+  - GALLERY の絞り込みは `aria-pressed` で選択状態を伝え、表示件数を `role="status"` で読み上げる。
+  - ヒーローの文字は、イントロの幕が消えてから（`useIntroDone`）順に表示する。h1 はヒーローのキャッチコピー、各セクションの見出しは h2。
+  - 同じ文言の「もっと見る」が並ぶため、読み上げ用に行き先（例:「もっと見る（SERVICE）」）を補う。
 - **アニメーションはプリレンダーと両立させる**（旧 `assets/js/animation.js` と各ページの埋め込みスクリプトを移植）
   - `window` などに触る処理は `useGSAP` / `useEffect` の中だけに置く。アニメーションは `useMotion`（`gsap.matchMedia`）で
     「動きを減らす」設定でないときだけ登録する。見出しのマスクは JS で DOM を書き換えず JSX で描画する（hydrate の不整合を防ぐ）。
