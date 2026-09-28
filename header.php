@@ -13,7 +13,7 @@
 
             <!-- ロゴ -->
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="block transition hover:opacity-80 flex-shrink-0">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="ウィルフロンティア" style="height:40px;width:auto;object-fit:contain;">
+                <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/logocolor.svg" alt="ウィルフロンティア" style="height:40px;width:auto;object-fit:contain;">
             </a>
 
             <!-- ナビ -->

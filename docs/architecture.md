@@ -53,9 +53,13 @@ web/
     lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
     test/                 # テスト用スタブ（matchMedia / IntersectionObserver）
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
-  public/media/           # ハッシュなしで配信する画像・動画（/media/**）
+  public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
+    photos/{small,large}/ # 写真（wf-NNN.webp。small は幅 768px、large は幅 1600px）
+    videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
+    images/               # ロゴ・イラスト・装飾画像
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
   scripts/verify-prerender.mjs  # ビルド後に各ページの title と h1、404.html の noindex を検証（postbuild）
+  scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
 ```
 
 ## 設計方針

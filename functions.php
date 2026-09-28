@@ -61,7 +61,7 @@ add_action( 'wp_enqueue_scripts', 'will_frontier_scripts' );
 /**
  * 写真用 <picture> ラッパー
  *
- * assets/photos/large/ と assets/photos/small/ の WebP を srcset で出し分け、
+ * web/public/media/photos/large/ と small/（移行 P4 で assets/ から移動） の WebP を srcset で出し分け、
  * フォールバックは assets/photos/originals/ の JPG（git管理外なのでローカル検証時のみ有効）。
  *
  * @param string $slug   写真のスラッグ（例: 'wf-001'）
@@ -75,7 +75,7 @@ function wf_picture( $slug, $alt = '', $opts = array() ) {
         'loading' => 'lazy',
     );
     $opts = array_merge( $defaults, $opts );
-    $base = get_template_directory_uri() . '/assets/photos';
+    $base = get_template_directory_uri() . '/web/public/media/photos';
 
     $webp_small = esc_url( $base . '/small/' . $slug . '.webp' );
     $webp_large = esc_url( $base . '/large/' . $slug . '.webp' );
@@ -99,7 +99,7 @@ HTML;
 /**
  * 動画埋め込みラッパー
  *
- * 現在は assets/videos/<dir>/<slug>.mp4 を <video> で直接配信。
+ * 現在は web/public/media/videos/<dir>/<slug>.mp4（移行 P4 で assets/ から移動） を <video> で直接配信。
  * 将来 Vimeo 等へ移行する場合はこの関数だけ書き換えれば全テンプレートに反映される。
  *
  * @param string $slug  動画スラッグ（例: 'hero/intro', 'service/demolition'）
@@ -117,7 +117,7 @@ function wf_video( $slug, $opts = array() ) {
         'class'    => '',
     );
     $opts = array_merge( $defaults, $opts );
-    $base = get_template_directory_uri() . '/assets/videos';
+    $base = get_template_directory_uri() . '/web/public/media/videos';
 
     $src    = esc_url( $base . '/' . $slug . '.mp4' );
     // poster は動画と同じディレクトリの同名 .jpg を参照する（例: hero/intro → assets/videos/hero/intro.jpg）

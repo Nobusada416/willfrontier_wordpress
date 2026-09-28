@@ -39,8 +39,8 @@ window.addEventListener('load', function() {
 
     <!-- セクション1: 求人情報 -->
     <section style="position:relative;width:100%;height:calc(100vh - 72px);overflow:hidden;box-sizing:border-box;padding:30px 40px;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf detail-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf detail-leaf-right">
         <div id="recruit-sec1-inner" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
 
             <!-- 募集職種 -->
@@ -197,8 +197,8 @@ window.addEventListener('load', function() {
 
     <!-- セクション2: 応募フォーム -->
     <section style="position:relative;width:100%;height:calc(100vh - 72px);overflow:hidden;box-sizing:border-box;padding:30px 40px;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf detail-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-50 detail-leaf detail-leaf-right">
         <div id="recruit-sec2-inner" style="max-width:1200px;margin:0 auto;position:relative;z-index:2;">
 
             <?php

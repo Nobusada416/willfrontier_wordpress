@@ -45,8 +45,8 @@ window.addEventListener('load', function() {
             <p class="text-lg md:text-2xl text-white font-bold tracking-wide js-fade-up" style="text-shadow:0 2px 8px rgba(0,0,0,0.5);">車両ラインナップ ─ 現場を支える12種類の頼れる相棒</p>
         </div>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="detail-leaf" style="position:absolute;top:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:40;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:40;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png" alt="" class="detail-leaf" style="position:absolute;top:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:40;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:40;">
     </section>
 
     <!-- 車両カード 5種 -->

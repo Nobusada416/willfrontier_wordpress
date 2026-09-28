@@ -2,7 +2,7 @@
 
 <!-- イントロオーバーレイ -->
 <div id="intro-overlay" style="position:fixed;inset:0;z-index:99999;background:rgba(245,158,11,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;pointer-events:none;">
-    <img id="intro-logo" src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="Will Frontier" style="width:320px;max-width:70vw;opacity:0;">
+    <img id="intro-logo" src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/logocolor.svg" alt="Will Frontier" style="width:320px;max-width:70vw;opacity:0;">
 </div>
 
 <main class="relative w-full overflow-x-hidden bg-white">
@@ -52,7 +52,7 @@
         <div id="hero-content" class="relative z-10 px-6 flex justify-center w-full" style="opacity:0;">
             <!-- frosted glass パネル：可読性を確実に確保 -->
             <div style="background: rgba(255,255,255,0.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: clamp(36px, 5vw, 64px) clamp(28px, 6vw, 80px); border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.18); max-width: min(900px, 92vw); text-align: center; display:flex; flex-direction:column; align-items:center;">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logocolor.svg" alt="willF" class="w-44 md:w-56 lg:w-72 mb-7">
+                <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/logocolor.svg" alt="willF" class="w-44 md:w-56 lg:w-72 mb-7">
                 <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-widest mb-4 leading-tight"
                     style="color:#1a3a5c;">
                     都市インフラを支える、<br>産業廃棄物テック。
@@ -69,8 +69,8 @@
     </section>
 
     <section id="mission" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
         <!-- パターンC: ミッション背景に写真自動切替 -->
         <div class="absolute inset-0 z-0">
             <div style="position:absolute;inset:0;animation:missionFade1 12s infinite;">
@@ -106,7 +106,7 @@
 
             <!-- PLUS スマイル宣言 -->
             <div class="js-fade-up mt-4 mb-8 flex flex-col items-center">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/+.svg" alt="plus" style="width:100px;height:100px;display:block;margin-left:2vw;">
+                <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/+.svg" alt="plus" style="width:100px;height:100px;display:block;margin-left:2vw;">
                 <p class="tracking-wide leading-tight mt-3" style="color:#f59e0b; font-size:clamp(1.2rem, 2.5vw, 2rem); white-space:nowrap; font-weight:900; margin-right:1vw; text-shadow:0 2px 10px rgba(0,0,0,0.6), 0 0 4px rgba(0,0,0,0.4);">スマイル宣言</p>
             </div>
 
@@ -121,8 +121,8 @@
     </section>
 
     <section id="service" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
@@ -179,8 +179,8 @@
     </section>
 
     <section id="workflow" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col justify-center">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-30 w-full text-center" style="padding:0 8vw;">
@@ -215,10 +215,10 @@
     </section>
 
     <section id="vehicles" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/車両-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
+            <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/車両-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
         </div>
 
 
@@ -362,8 +362,8 @@
 
     <!-- CASE STUDY セクション -->
     <section id="case-study" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-20 w-full max-w-2xl mx-auto px-8">
@@ -396,8 +396,8 @@
     </section>
 
     <section id="safety" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-30 w-full max-w-7xl mx-auto px-8 md:px-12">
@@ -427,8 +427,8 @@
 
     <!-- RECRUIT セクション -->
     <section id="recruit" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png" alt="" class="absolute top-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="absolute bottom-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
 
 
         <div class="relative z-20 w-full max-w-7xl mx-auto px-8 md:px-16">
@@ -479,10 +479,10 @@
     </section>
 
     <section id="company" class="relative w-full min-h-[calc(100vh-72px)] bg-white flex flex-col items-center justify-center" style="overflow:hidden;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="absolute bottom-0 left-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-right.png" alt="" class="absolute top-0 right-0 h-full w-auto z-40 pointer-events-none opacity-95 js-leaf js-leaf-right">
         <div class="absolute inset-0 z-0">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/横浜全景-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
+            <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/横浜全景-イラスト風.jpg" alt="背景" class="w-full h-full object-cover opacity-10">
         </div>
 
 
@@ -652,13 +652,13 @@ window.addEventListener('resize', scaleCompanySection);
         /* 奇数セクション（MISSION / WORKFLOW / CASE）: bottom-left を下から積む */
         #mission::before, #workflow::before, #case::before,
         #mission::after,  #workflow::after,  #case::after {
-            background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.svg');
+            background-image: url('<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png');
             background-position: left bottom;
         }
         /* 偶数セクション（SERVICE / VEHICLES / COMPANY）: top-left を上から積む */
         #service::before, #vehicles::before, #company::before,
         #service::after,  #vehicles::after,  #company::after {
-            background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.svg');
+            background-image: url('<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png');
             background-position: left top;
         }
     }
