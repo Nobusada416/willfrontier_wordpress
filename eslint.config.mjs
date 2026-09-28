@@ -34,6 +34,12 @@ export default tseslint.config(
       ...jsxA11y.flatConfigs.recommended.languageOptions,
       globals: globals.browser,
     },
+    rules: {
+      ...jsxA11y.flatConfigs.recommended.rules,
+      // 横にスクロールする領域（role="region"）はキーボードでスクロールできるよう tabIndex={0} を付ける
+      // （axe の scrollable-region-focusable）。既定の tabpanel に region を加える
+      'jsx-a11y/no-noninteractive-tabindex': ['error', { roles: ['tabpanel', 'region'] }],
+    },
   },
   {
     files: ['web/app/**/*.{ts,tsx}'],
