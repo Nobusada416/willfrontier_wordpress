@@ -1,15 +1,33 @@
 {
   "name": "will-frontier",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "description": "ウィルフロンティア コーポレートサイト",
+  "workspaces": [
+    "web"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run dev -w web",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
-    "tailwindcss": "^3.4.19"
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.1"
   }
 }

@@ -1,0 +1,37 @@
+{
+  "name": "@wf/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "react-router dev",
+    "build": "react-router build",
+    "postbuild": "node scripts/verify-prerender.mjs",
+    "preview": "vite preview --outDir build/client",
+    "typecheck": "react-router typegen && tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@react-router/dev": "~7.18.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^22.20.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^29.1.1",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  },
+  "dependencies": {
+    "@react-router/node": "~7.18.4",
+    "isbot": "^5.2.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router": "~7.18.4"
+  }
+}
