@@ -17,4 +17,5 @@ const getSnapshot = () => getMediaQuery()?.matches ?? false
 const getServerSnapshot = () => false
 
 // OS の「視差効果を減らす」設定が有効かどうか
-export const useReducedMotion = () => useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+export const useReducedMotion = () =>
+  useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)

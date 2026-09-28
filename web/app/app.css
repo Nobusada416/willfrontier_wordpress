@@ -102,3 +102,33 @@
     @apply bg-wf-bg font-sans text-wf-text antialiased;
   }
 }
+
+/*
+ * アニメーション（components/motion）の初期表示
+ * <head> のスクリプト（lib/motion/headScript.ts）が付けるクラスを使い、hydrate 前のちらつきを防ぐ
+ */
+@layer base {
+  /* スクロールで表示する要素は最初は隠す。動きを減らす設定では隠さない */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] {
+      opacity: 0;
+    }
+  }
+
+  /* イントロを再生しない場合は、プリレンダーされた幕を最初から出さない */
+  .intro-skip [data-intro-overlay] {
+    display: none;
+  }
+
+  /* JS が動かなくても幕が残り続けないよう、演出の長さ（2.5 秒。IntroOverlay.tsx）より後に CSS だけで消す */
+  [data-intro-overlay] {
+    animation: wf-intro-fallback 0.5s 3.5s forwards;
+  }
+
+  @keyframes wf-intro-fallback {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}

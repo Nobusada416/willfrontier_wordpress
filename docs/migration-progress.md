@@ -10,7 +10,7 @@
 - [x] P2: レイアウト（Header・MobileNav・Footer・SkipLink・404・SEO ヘルパー）
 - [x] P3: メディアコンポーネント（Picture / Video / CrossfadeHero / MosaicHero）
 - [x] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
-- [ ] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
+- [x] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [ ] P6: トップページ 10 セクション
 - [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）
 - [ ] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0〜P3 は統合ブランチ `migration/react-firebase` にマージ済み。P4 完了（ブランチ `migration/p4-assets`）。次は P5（モーション）
+P0〜P4 は統合ブランチ `migration/react-firebase` にマージ済み。P5 完了（ブランチ `migration/p5-motion`）。次は P6（トップページ）
 
 ## 問題・ブロッカー
 
@@ -39,6 +39,10 @@ P0〜P3 は統合ブランチ `migration/react-firebase` にマージ済み。P4
 - `data/`（627MB の生素材）は git 履歴から消さない（ユーザー判断、2026-09-28）
 - 存在しない動画 `hero/intro`・`service/demolition` は `functions.php` のコメント内の例でのみ参照されており、実際のページでは使われていなかった（P11 で PHP ごと削除）
 - 旧実装は写真のクラスを `<picture>` と `<img>` の両方に付けており `opacity-40` が二重にかかっていた。P6・P7 の移植時に見た目を合わせる
+- P5 の `<head>` インラインスクリプト（`lib/motion/headScript.ts`）は、P9 で CSP を設定する際にハッシュを許可する必要がある
+- P5 の部品（見出し・フェード・葉）はまだページで使っていない。旧実装の画面収め（`transform: scale()`）とスライダー（Swiper）は P6・P7 で扱う
+- スクロールのロック（`overflow: hidden`）は iOS Safari でタッチスクロールを完全には止められない既知の制限がある。P10 の実機確認で見る
+- 旧実装の `.js-parallax` はどのページでも使われていなかったため移植しない
 - フォントは計画の自前配信（@fontsource）から Google Fonts 読み込みに変更（自前配信では CSS が 572KB に膨らむため）
 
 ## ユーザー確認待ち
