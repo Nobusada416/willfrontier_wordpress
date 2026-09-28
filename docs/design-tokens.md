@@ -20,6 +20,8 @@
 | `wf-deep`                        | `#1a3a5c`             | 暗い背景・オーバーレイ                                                               | -                          |
 | `wf-yellow`                      | `#ffe066`             | 黄色マーカー・下線                                                                   | -                          |
 | `wf-notice` / `wf-notice-border` | `#fef9e7` / `#f0d96a` | お知らせボックス                                                                     | -                          |
+| `wf-danger`                      | `#c0392b`             | フォームの必須バッジ・入力エラーの文字（白背景・白文字とも 5.4:1）                   | 1                          |
+| `wf-field-border`                | `#d1d5db`             | お問い合わせページの入力欄の枠                                                       | 1                          |
 | `wf-text`                        | `#2e5a6a`             | body の既定文字色（旧 `--wf-text`）・トップの見出し                                  | -                          |
 | `wf-text-mid`                    | `#4a8a9e`             | 補足の文字（旧 `--wf-text-mid`。旧 CSS が `text-gray-600` をこの色に上書きしていた） | -                          |
 | `wf-bg`                          | `#f5fafb`             | body の既定背景（旧 `--wf-bg`）                                                      | -                          |

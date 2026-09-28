@@ -201,3 +201,30 @@ npm run emulators   # functions をビルドしてから Functions・Firestore�
 2. 一時的に `firebase.json` に拡張を登録し、`extensions/firestore-send-email.env.local`（git 管理外）に
    `SMTP_CONNECTION_URI=smtp://127.0.0.1:1025` を書く（Extensions Emulator が拡張のソースを取得するためネットワーク接続が必要）
 3. `npm run emulators` で起動し、フォームを送信すると Mailpit にメールが届く
+## 画面（web）
+
+- `web/app/features/forms/useInquiryForm.ts`: 3 フォーム共通の hook。react-hook-form + `zodResolver`（`@wf/shared` のスキーマ）で入力をチェックし、送信・送信後の状態（完了ダイアログ・失敗の案内）を管理する
+  - 送信中はボタンを押せなくして二重送信を防ぐ
+  - 送信処理の入力チェックで弾かれた場合（`invalid-argument`）は、その項目にエラーを出して最初の項目へフォーカスを移す
+  - 通信エラーなどで送れなかった場合は入力を残し、電話での連絡先を含む案内（`SubmitError`、`role="alert"`）を出す
+  - フォームに初めてフォーカスが入ったときに Firebase の読み込みを始める（`prepareSubmitInquiry`）
+- `web/app/features/forms/ContactForm.tsx`: お問い合わせページのフォーム（安全・採用ページのフォームも同じ構成で置く）
+- `web/app/components/form/`: `TextField`（ラベル・必須バッジ・補足・エラー文を入力欄に結び付ける。枠つきの `boxed` と［ ］で挟む `bracket`）、`Honeypot`、`SubmitDialog`（送信完了。ネイティブの `<dialog>` をモーダルで開く）
+- 旧実装の `?sent=1` 付き URL への移動と、「閉じる」での `history.back()` は廃止した。送信後はページを移動せずにダイアログを出し、入力欄を空にする
+- 旧実装はエラーをページ上部にまとめて出すだけで、ラベルと入力欄も結び付いていなかった。エラーは項目の下に出し、入力欄の説明として読み上げさせる（`aria-invalid`・`aria-describedby`）。必須の項目には「必須」を表示する
+- スマホで入力欄にフォーカスしたときに iOS が画面を拡大しないよう、入力欄の文字はスマホで 16px にする
+
+### Firebase の読み込み（`web/app/lib/firebase.ts`・`submitInquiry.ts`）
+
+Firebase の SDK は大きいため、ページ表示時には読み込まず、フォームの操作を始めたときに dynamic import する（ビルドでは別チャンクになる）。
+App Check（reCAPTCHA v3）を初期化してから、`asia-northeast1` の `submitInquiry` を `httpsCallable` で呼ぶ。
+
+| 環境変数（`web/.env.local` など）  | 内容                                                                                      |
+| ---------------------------------- | ----------------------------------------------------------------------------------------- |
+| `VITE_FIREBASE_API_KEY`            | Firebase の Web アプリ設定                                                                |
+| `VITE_FIREBASE_PROJECT_ID`         | 同上                                                                                      |
+| `VITE_FIREBASE_APP_ID`             | 同上                                                                                      |
+| `VITE_RECAPTCHA_SITE_KEY`          | App Check（reCAPTCHA v3）のサイトキー                                                     |
+| `VITE_USE_FIREBASE_EMULATORS=true` | Emulator に接続する。上の 4 つが無ければ demo プロジェクト（`demo-willfrontier`）で動かす |
+
+本番向けのビルドで設定が欠けている場合は、送信時に欠けている変数名を挙げて失敗する（画面には送信失敗の案内が出る）。
