@@ -12,7 +12,7 @@
 - [x] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [x] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [x] P6: トップページ 10 セクション
-- [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）
+- [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission 完了（ブランチ `migration/p7-mission`）
 - [ ] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）
 - [ ] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0〜P5 は統合ブランチ `migration/react-firebase` にマージ済み。P6 完了（ブランチ `migration/p6-home`）。次は P7（下層ページ）
+P0〜P6 は統合ブランチ `migration/react-firebase` にマージ済み。P7（下層ページ）着手、mission 完了（ブランチ `migration/p7-mission`）
 
 ## 問題・ブロッカー
 
@@ -49,8 +49,12 @@ P0〜P5 は統合ブランチ `migration/react-firebase` にマージ済み。P6
 - スクロールのロック（`overflow: hidden`）は iOS Safari でタッチスクロールを完全には止められない既知の制限がある。P10 の実機確認で見る
 - 旧実装の `.js-parallax` はどのページでも使われていなかったため移植しない
 - フォントは計画の自前配信（@fontsource）から Google Fonts 読み込みに変更（自前配信では CSS が 572KB に膨らむため）
+- 旧ミッションページはスマホでも PC の 2 段組のまま横にはみ出していたため、P7 の移植では 1 段組にした
+- 旧テンプレートの英字小見出しの字間 `tracking-[0.3em]`、オレンジ文字 `text-[#d4874a]`、写真ヒーローの暗い幕 `bg-black/55`、`md:order-first` は旧 CSS に含まれず表示されていなかった（P7 の各ページで実際の見た目に合わせる）
+- 文字のコントラスト不足: 下層ページの CTA ボタン（白文字 × `wf-orange` #d4874a、約 2.9:1）と見出し上の英字ラベル（`wf-blue` #4a9db5 × 白背景、約 3.1:1）が WCAG AA に届かない。色は旧デザインのままにしており、P9 の Lighthouse・axe 確認で色の調整を相談する
 
 ## ユーザー確認待ち
 
 1. 本番を Firebase Hosting に切り替える時期と sakura 環境の廃止（P10）
 2. `scripts/generate-pdfs.js` を残すか（P11）
+3. 旧ミッションページ本文の誤字と思われる箇所「当社の方々に住みやすく」（地域の方々に？）「毎日２行っている」（毎日行っている？）を原文のまま移植した

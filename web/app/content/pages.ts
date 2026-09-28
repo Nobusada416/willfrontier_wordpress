@@ -37,7 +37,7 @@ export const PAGES: readonly Page[] = [
     file: 'routes/mission.tsx',
     title: 'MISSION・会社概要',
     description:
-      'ウィルフロンティアのミッションと会社概要（所在地・設立・事業内容）をご紹介します。',
+      'ウィルフロンティアのミッション「環境＝地球＋Forest＋水＋Animal＋街＋人」と、スマイル宣言・地域の美化運動など地域と共に歩む取り組みをご紹介します。',
   },
   {
     id: 'service',
