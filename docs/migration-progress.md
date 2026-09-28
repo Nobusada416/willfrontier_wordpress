@@ -12,7 +12,7 @@
 - [x] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [x] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [x] P6: トップページ 10 セクション
-- [x] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（PR #28）・vehicles（PR #29）・casestudy（ブランチ `migration/p7-casestudy`）
+- [x] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（PR #28）・vehicles（PR #29）・casestudy（PR #30）
 - [ ] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）
 - [ ] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0〜P6 と P7 の mission・service・workflow・vehicles は統合ブランチ `migration/react-firebase` にマージ済み。P7 の casestudy はレビュー中。次は P8（フォーム）
+P0〜P7 は統合ブランチ `migration/react-firebase` にマージ済み。P8（フォーム）を作業中: shared のスキーマ（ブランチ `migration/p8-schemas`）
 
 ## 問題・ブロッカー
 

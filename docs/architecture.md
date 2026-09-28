@@ -31,7 +31,9 @@ firestore.rules  firestore.indexes.json # クライアントからの読み書�
 tests/rules/            # Firestore セキュリティルールのテスト（Emulator 上で実行）
 shared/                 # @wf/shared: web と functions で共有するフォーム定義（zod）
   src/index.ts
-  src/forms/formTypes.ts
+  src/forms/formTypes.ts  # フォーム種別（contact / safety / recruit）
+  src/forms/normalize.ts  # 全角→半角の正規化（電話番号・メールアドレス）
+  src/forms/schemas.ts    # 3 フォームの入力チェック・送信値（inquirySchema）・メール本文の項目（FORM_FIELDS）。詳細は forms.md
 functions/              # @wf/functions: Cloud Functions v2（Node 22 / ESM）
   esbuild.config.mjs    # @wf/shared と zod を lib/index.js にバンドル
   src/index.ts          # 共通設定（asia-northeast1 / maxInstances 5）
