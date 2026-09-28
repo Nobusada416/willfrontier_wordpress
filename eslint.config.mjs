@@ -20,7 +20,7 @@ export default tseslint.config(
       'tailwind.config.js',
       '**/node_modules/**',
       '**/build/**',
-      '**/lib/**',
+      'functions/lib/**',
       '**/.react-router/**',
       '**/coverage/**',
     ],
@@ -33,6 +33,12 @@ export default tseslint.config(
     languageOptions: {
       ...jsxA11y.flatConfigs.recommended.languageOptions,
       globals: globals.browser,
+    },
+    rules: {
+      ...jsxA11y.flatConfigs.recommended.rules,
+      // 横にスクロールする領域（role="region"）はキーボードでスクロールできるよう tabIndex={0} を付ける
+      // （axe の scrollable-region-focusable）。既定の tabpanel に region を加える
+      'jsx-a11y/no-noninteractive-tabindex': ['error', { roles: ['tabpanel', 'region'] }],
     },
   },
   {

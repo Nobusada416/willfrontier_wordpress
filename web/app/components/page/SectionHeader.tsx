@@ -23,7 +23,8 @@ const SIZES = {
   lg: 'text-4xl md:text-5xl',
 } as const
 
-const UNDERLINE_CLASS =
+// 見出しの下の黄色の線（旧 .yellow-underline）。見出しに relative inline-block を含めて付ける
+export const UNDERLINE_CLASS =
   'relative inline-block pb-3.5 after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:rounded-xs after:bg-wf-yellow'
 
 // 下層ページの各セクションの見出し（英字の小見出し＋日本語の見出し＋説明文）
