@@ -46,7 +46,7 @@ export function SectionHeader({
       <HeadingReveal
         as="h2"
         id={id}
-        className={`font-black tracking-wider ${SIZES[size]} ${tone === 'white' ? 'text-white [text-shadow:0_2px_12px_rgb(0_0_0/0.6)]' : 'text-wf-navy'} ${underline ? UNDERLINE_CLASS : ''}`}
+        className={`font-black tracking-wider [word-break:auto-phrase] ${SIZES[size]} ${tone === 'white' ? 'text-white [text-shadow:0_2px_12px_rgb(0_0_0/0.6)]' : 'text-wf-navy'} ${underline ? UNDERLINE_CLASS : ''}`}
       >
         {children}
       </HeadingReveal>
