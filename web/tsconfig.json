@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.base.json",
-  "include": ["app/**/*", "scripts/**/*", ".react-router/types/**/*", "*.ts"],
+  "include": ["app/**/*", "scripts/**/*", "e2e/**/*", ".react-router/types/**/*", "*.ts"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["node", "vite/client", "@testing-library/jest-dom/vitest"],
