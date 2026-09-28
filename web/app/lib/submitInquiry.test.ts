@@ -24,10 +24,12 @@ describe('submitInquiry', () => {
     const call = vi.fn().mockRejectedValue(
       functionsError('invalid-argument', {
         issues: [
-          { path: ['tel'], message: '電話番号を正しく入力してください' },
-          { path: ['name'], message: '担当者名を入力してください' },
+          { path: 'tel', message: '電話番号を正しく入力してください' },
+          { path: 'name', message: '担当者名を入力してください' },
           // 同じ項目の 2 件目以降は最初のものを優先する
-          { path: ['tel'], message: '別のエラー' },
+          { path: 'tel', message: '別のエラー' },
+          // 項目に紐づかないエラー（path が空文字）は項目のエラーにしない
+          { path: '', message: '項目に紐づかないエラー' },
         ],
       }),
     )

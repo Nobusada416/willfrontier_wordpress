@@ -201,6 +201,7 @@ npm run emulators   # functions をビルドしてから Functions・Firestore�
 2. 一時的に `firebase.json` に拡張を登録し、`extensions/firestore-send-email.env.local`（git 管理外）に
    `SMTP_CONNECTION_URI=smtp://127.0.0.1:1025` を書く（Extensions Emulator が拡張のソースを取得するためネットワーク接続が必要）
 3. `npm run emulators` で起動し、フォームを送信すると Mailpit にメールが届く
+
 ## 画面（web）
 
 - `web/app/features/forms/useInquiryForm.ts`: 3 フォーム共通の hook。react-hook-form + `zodResolver`（`@wf/shared` のスキーマ）で入力をチェックし、送信・送信後の状態（完了ダイアログ・失敗の案内）を管理する

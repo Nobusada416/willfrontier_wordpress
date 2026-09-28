@@ -1,4 +1,4 @@
-import type { InquiryPayload } from '@wf/shared'
+import { SUBMIT_INQUIRY_FUNCTION, type InquiryPayload } from '@wf/shared'
 
 // フォームの送信処理（Cloud Functions の submitInquiry）を呼ぶための Firebase の準備。
 // Firebase の SDK は大きいため、フォームを操作し始めたときに初めて読み込む（ページ表示時には読み込まない）
@@ -87,7 +87,10 @@ async function createInquiryCallable(): Promise<InquiryCallable> {
       FUNCTIONS_EMULATOR.port,
     )
   }
-  const callable = functionsSdk.httpsCallable<InquiryPayload, unknown>(functions, 'submitInquiry')
+  const callable = functionsSdk.httpsCallable<InquiryPayload, unknown>(
+    functions,
+    SUBMIT_INQUIRY_FUNCTION,
+  )
   return (payload) => callable(payload)
 }
 

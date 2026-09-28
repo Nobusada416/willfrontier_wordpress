@@ -1,4 +1,4 @@
-import type { InquiryPayload } from '@wf/shared'
+import { isInquiryErrorDetails, type InquiryPayload } from '@wf/shared'
 import { loadInquiryCallable, type InquiryCallable } from './firebase'
 
 export type SubmitResult =
@@ -14,15 +14,13 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
 
 // 送信処理（Cloud Functions）が invalid-argument の details に入れる項目ごとのエラー
-// { issues: [{ path: ['tel'], message: '…' }] } から、項目ごとに最初のエラー文を取り出す
+// { issues: [{ path: 'tel', message: '…' }] }（shared/src/forms/submit.ts）から、項目ごとに最初のエラー文を取り出す
 function fieldErrorsFrom(details: unknown): Record<string, string> {
   const fieldErrors: Record<string, string> = {}
-  if (!isRecord(details) || !Array.isArray(details.issues)) return fieldErrors
-  for (const issue of details.issues) {
-    if (!isRecord(issue) || !Array.isArray(issue.path) || typeof issue.message !== 'string')
-      continue
-    const [field] = issue.path
-    if (typeof field === 'string' && !(field in fieldErrors)) fieldErrors[field] = issue.message
+  if (!isInquiryErrorDetails(details)) return fieldErrors
+  for (const { path, message } of details.issues) {
+    // path が空文字のエラーは項目に紐づかないため、送信の失敗として扱う
+    if (path !== '' && !(path in fieldErrors)) fieldErrors[path] = message
   }
   return fieldErrors
 }
