@@ -4,6 +4,8 @@ import type { Route } from './+types/root'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { MAIN_CONTENT_ID, SkipLink } from './components/layout/SkipLink'
+import { SmoothScroll } from './components/motion/SmoothScroll'
+import { MOTION_HEAD_SCRIPT } from './lib/motion/headScript'
 import './app.css'
 
 // 日本語フォントは unicode-range で細かく分割されるため、自前配信だと @font-face 宣言だけで
@@ -19,10 +21,14 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ja">
+    // <head> のスクリプトが hydrate 前に class（js / intro-skip）を、SmoothScroll が data-motion を、
+    // Lenis が class を <html> に付ける。React が管理しない属性の差分として警告を出さないようにする
+    <html lang="ja" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* 描画前に実行してアニメーション対象を隠す（中身は定数のみで、外部入力を含まない） */}
+        <script dangerouslySetInnerHTML={{ __html: MOTION_HEAD_SCRIPT }} />
         <Meta />
         <Links />
       </head>
@@ -34,6 +40,7 @@ export function Layout({ children }: { children: ReactNode }) {
           {children}
         </main>
         <Footer />
+        <SmoothScroll />
         <ScrollRestoration />
         <Scripts />
       </body>

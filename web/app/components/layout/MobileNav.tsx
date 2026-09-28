@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { NavLink } from 'react-router'
 import { CONTACT_LINK, GLOBAL_NAV } from '~/content/navigation'
+import { lockScroll } from '~/lib/motion/scrollLock'
 
 type Props = {
   id: string
@@ -23,13 +24,8 @@ export function MobileNav({ id, onClose }: Props) {
   }, [])
 
   // 背面のページがスクロールしないようにする
-  useEffect(() => {
-    const { overflow } = document.body.style
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = overflow
-    }
-  }, [])
+  // イントロ演出中に開いた場合も正しく戻せるよう、スクロールのロックは lib/motion/scrollLock にまとめている
+  useEffect(() => lockScroll(), [])
 
   // 背面（ヘッダー・本文・フッター）を操作・読み上げの対象から外す
   // Tab キーを使わないタッチ端末のスクリーンリーダーは、下のフォーカストラップだけでは背面に移動できてしまうため

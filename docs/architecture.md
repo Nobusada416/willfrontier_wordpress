@@ -13,6 +13,7 @@
 | フォント             | Google Fonts（Zen Maru Gothic / Quicksand）                               | 自前配信は `@font-face` だけで数百 KB になるため不採用                       |
 | ホスティング         | Firebase Hosting                                                          | 設定は `firebase.json`                                                       |
 | フォーム             | Cloud Functions v2 → Firestore → Trigger Email 拡張                       | P8 以降                                                                      |
+| アニメーション       | GSAP 3（ScrollTrigger・`@gsap/react`）+ Lenis（慣性スクロール）           | 旧テーマの CDN 読み込みから npm 管理へ                                       |
 | テスト               | Vitest + React Testing Library（jsdom）                                   | E2E は Playwright（P9 以降）                                                 |
 | 静的解析             | ESLint 9（typescript-eslint strict / react-hooks / jsx-a11y）+ Prettier 3 |                                                                              |
 
@@ -39,7 +40,7 @@ web/
   vite.config.ts          # Tailwind v4 + React Router
   vitest.config.ts
   app/
-    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・フォント読み込み・エラー表示
+    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・フォント読み込み・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
     routes.ts             # content/pages.ts からルートを生成（一致しない URL は routes/not-found.tsx）
     app.css               # Tailwind v4 とデザイントークン
     content/
@@ -47,11 +48,13 @@ web/
       navigation.ts       # ヘッダー・フッターのリンク定義
       site.ts             # サイト名・正式社名・キャッチコピー・URL
     components/layout/    # Header（PC ナビ・ハンバーガー）/ MobileNav / Footer / SkipLink / Logo
+    components/motion/    # SmoothScroll（Lenis）/ IntroOverlay / HeadingReveal / FadeUp / Leaf
     components/media/     # Picture（写真）/ Video（自動再生動画）/ CrossfadeHero・MosaicHero（背景写真の切り替え）
     lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP、404 の noindex を組み立てる
     lib/media.ts          # 写真・動画の配信パス、クロスフェードの遅延計算
+    lib/motion/           # gsap（プラグイン登録・useMotion）/ headScript（<head> のインラインスクリプト）/ intro / scrollLock
     lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
-    test/                 # テスト用スタブ（matchMedia / IntersectionObserver）
+    test/                 # テスト用スタブ（matchMedia / IntersectionObserver）。GSAP が読み込み時に matchMedia を呼ぶため、既定の実装は web/vitest.setup.ts に置く
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
   public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
     photos/{small,large}/ # 写真（wf-NNN.webp。small は幅 768px、large は幅 1600px）
@@ -88,6 +91,15 @@ web/
     装飾なので `aria-hidden` にし、アニメーションは `motion-safe:` で付ける（keyframes は [design-tokens.md](./design-tokens.md#アニメーション)）。
   - 旧実装はクラスを `<picture>` と `<img>` の両方に付けていたため、`opacity-40` などが二重にかかっていた。
     新実装は `<img>` だけに付けるので、ページ移植時（P6・P7）に見た目を合わせる。
+- **アニメーションはプリレンダーと両立させる**（旧 `assets/js/animation.js` と各ページの埋め込みスクリプトを移植）
+  - `window` などに触る処理は `useGSAP` / `useEffect` の中だけに置く。アニメーションは `useMotion`（`gsap.matchMedia`）で
+    「動きを減らす」設定でないときだけ登録する。見出しのマスクは JS で DOM を書き換えず JSX で描画する（hydrate の不整合を防ぐ）。
+  - 初期表示のちらつき防止: `<head>` のインラインスクリプトが `<html>` に `js` クラスを付け、`.js [data-reveal]` を隠す。
+    React の準備ができなければ 3 秒後に `js` を外して内容を表示する（JS の読み込み失敗で内容が隠れたままにならないように）。
+  - イントロ（トップのロゴ演出）は 1 セッションにつき 1 回（`sessionStorage`）。再生しない場合は `<head>` のスクリプトが
+    `intro-skip` クラスを付けて幕を最初から隠す。JS が動かなくても幕は CSS だけで 3.5 秒後に消える。演出中はスクロールを止める。
+  - 慣性スクロール（Lenis）は `gsap.ticker` で駆動して ScrollTrigger と同期する。「動きを減らす」設定では使わない。
+    ページ遷移時のスクロール位置は React Router の `ScrollRestoration` に任せ、遷移後に `ScrollTrigger.refresh()` する。
 - **Firestore はクライアントから直接触らない**: フォームの送信内容は個人情報を含むため、
   セキュリティルールで読み書きをすべて拒否し、Cloud Functions（Admin SDK）だけが書き込む。
 - **shared は functions にバンドルする**: Firebase のデプロイは `functions/` だけをアップロードして
