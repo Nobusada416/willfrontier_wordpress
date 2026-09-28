@@ -61,8 +61,7 @@ add_action( 'wp_enqueue_scripts', 'will_frontier_scripts' );
 /**
  * 写真用 <picture> ラッパー
  *
- * web/public/media/photos/large/ と small/（移行 P4 で assets/ から移動） の WebP を srcset で出し分け、
- * フォールバックは assets/photos/originals/ の JPG（git管理外なのでローカル検証時のみ有効）。
+ * web/public/media/photos/large/ と small/（移行 P4 で assets/ から移動） の WebP を srcset で出し分ける。
  *
  * @param string $slug   写真のスラッグ（例: 'wf-001'）
  * @param string $alt    alt 属性
@@ -79,7 +78,6 @@ function wf_picture( $slug, $alt = '', $opts = array() ) {
 
     $webp_small = esc_url( $base . '/small/' . $slug . '.webp' );
     $webp_large = esc_url( $base . '/large/' . $slug . '.webp' );
-    $jpg_full   = esc_url( $base . '/originals/' . $slug . '.jpg' );
 
     $class   = esc_attr( $opts['class'] );
     $sizes   = esc_attr( $opts['sizes'] );

@@ -9,7 +9,7 @@
 - [x] P1: Firebase 基盤（firebase.json / 全拒否ルール / Emulator / functions・shared 雛形）
 - [x] P2: レイアウト（Header・MobileNav・Footer・SkipLink・404・SEO ヘルパー）
 - [x] P3: メディアコンポーネント（Picture / Video / CrossfadeHero / MosaicHero）
-- [ ] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
+- [x] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [ ] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [ ] P6: トップページ 10 セクション
 - [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0〜P3 は統合ブランチ `migration/react-firebase` にマージ済み。P4（ブランチ `migration/p4-assets`）作業中
+P0〜P3 は統合ブランチ `migration/react-firebase` にマージ済み。P4 完了（ブランチ `migration/p4-assets`）。次は P5（モーション）
 
 ## 問題・ブロッカー
 
