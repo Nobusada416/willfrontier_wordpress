@@ -50,3 +50,68 @@ jobs:
       - run: npm ci
       - name: Firestore セキュリティルールのテスト
         run: npm run test:rules
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # ブラウザ本体はバージョンごとにキャッシュする（OS の依存ライブラリはキャッシュできないため毎回入れる）
+      - name: Playwright のバージョンを調べる
+        id: playwright
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+        working-directory: web
+      - uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-chromium
+      - name: Chromium をインストール
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+        working-directory: web
+      - name: Chromium の依存ライブラリをインストール
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+        working-directory: web
+      - name: Build
+        run: npm run build -w web
+      - name: E2E（axe・キーボード操作・画面遷移）
+        run: npm run e2e -w web
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            web/playwright-report/
+            web/test-results/
+          retention-days: 7
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build
+        run: npm run build -w web
+      # ubuntu-latest の Google Chrome で計測する。Performance はランナーの性能で揺れるため warn にとどめる（docs/development.md）
+      - name: Lighthouse CI（モバイル）
+        run: npm run lighthouse -w web
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: web/.lighthouseci/
+          retention-days: 7
