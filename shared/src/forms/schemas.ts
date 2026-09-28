@@ -8,22 +8,47 @@ import { normalizeEmail, normalizeTel } from './normalize'
 const requiredMessage = (label: string) => `${label}を入力してください`
 const maxMessage = (label: string, max: number) => `${label}は${max}文字以内で入力してください`
 
+// 1 行の項目に入った改行・タブ・制御文字を空白にする。
+// 旧実装の sanitize_text_field と同じく、メールの件名や「項目名：値」の行を偽装されないようにする
+// eslint-disable-next-line no-control-regex -- 制御文字を取り除くための正規表現
+const CONTROL_CHARS = /[\u0000-\u001f\u007f]+/g
+const toSingleLine = (value: string) => value.replace(CONTROL_CHARS, ' ')
+
+// 複数行の項目は改行（\n）だけを残し、そのほかの制御文字を取り除く
+// eslint-disable-next-line no-control-regex -- 制御文字を取り除くための正規表現
+const CONTROL_CHARS_EXCEPT_NEWLINE = /[\u0000-\u0009\u000b-\u001f\u007f]/g
+const toMultiline = (value: string) =>
+  value.replace(/\r\n?/g, '\n').replace(CONTROL_CHARS_EXCEPT_NEWLINE, '')
+
+type TextOptions = { multiline?: boolean }
+
+const cleanText = ({ multiline = false }: TextOptions) =>
+  z.string().transform((value) => (multiline ? toMultiline(value) : toSingleLine(value)).trim())
+
 // 必須の文字列。前後の空白を除いてから判定し、未入力のときは「入力してください」だけを出す
-const requiredText = (label: string, max: number) =>
-  z
-    .string()
-    .trim()
-    .min(1, { error: requiredMessage(label), abort: true })
-    .max(max, maxMessage(label, max))
+const requiredText = (label: string, max: number, options: TextOptions = {}) =>
+  cleanText(options).pipe(
+    z
+      .string()
+      .min(1, { error: requiredMessage(label), abort: true })
+      .max(max, maxMessage(label, max)),
+  )
 
 // 任意の文字列（未入力は空文字として扱う）
-const optionalText = (label: string, max: number) =>
-  z.string().trim().max(max, maxMessage(label, max)).default('')
+const optionalText = (label: string, max: number, options: TextOptions = {}) =>
+  z
+    .string()
+    .default('')
+    .pipe(cleanText(options))
+    .pipe(z.string().max(max, maxMessage(label, max)))
 
-// 電話番号: 数字・ハイフン・括弧・空白（国番号の + も可）で、数字が 10〜15 桁
+// 電話番号: 数字・ハイフン・括弧・空白（国番号の + も可）で 25 文字以内、数字が 10〜15 桁
+const TEL_MAX = 25
 const isTel = (value: string) => {
   const digits = value.replace(/\D/g, '').length
-  return /^\+?[\d\-() ]+$/.test(value) && digits >= 10 && digits <= 15
+  return (
+    value.length <= TEL_MAX && /^\+?[\d\-() ]+$/.test(value) && digits >= 10 && digits <= 15
+  )
 }
 
 const telField = (label: string) =>
@@ -39,7 +64,8 @@ const telField = (label: string) =>
 
 const EMAIL_MAX = 254
 const EMAIL_MESSAGE = 'メールアドレスを正しく入力してください'
-const isEmail = (value: string) => value.length <= EMAIL_MAX && z.email().safeParse(value).success
+const emailFormat = z.email()
+const isEmail = (value: string) => value.length <= EMAIL_MAX && emailFormat.safeParse(value).success
 
 const requiredEmail = (label: string) =>
   z
@@ -59,8 +85,9 @@ const optionalEmail = z
   .refine((value) => value === '' || isEmail(value), EMAIL_MESSAGE)
 
 // ボット対策の隠し項目。人には見えない欄のため、値が入っていればボットとみなす。
-// 検証エラーにするとボットに対策を学習されるため、ここでは受け付けて送信処理で黙って捨てる
-export const HONEYPOT_FIELD = 'website'
+// 検証エラーにするとボットに対策を学習されるため、ここでは受け付けて送信処理で黙って捨てる。
+// website・url などの名前はブラウザの自動入力が値を入れ、人の送信を捨ててしまうおそれがあるため避ける
+export const HONEYPOT_FIELD = 'wf_hp'
 const honeypot = { [HONEYPOT_FIELD]: z.string().optional() } as const
 
 export const isSpam = (value: { [HONEYPOT_FIELD]?: string | undefined }) =>
@@ -72,7 +99,7 @@ const contactShape = {
   company: optionalText('会社名', 100),
   name: requiredText('担当者名', 50),
   tel: telField('電話番号'),
-  message: requiredText('内容', MESSAGE_MAX),
+  message: requiredText('内容', MESSAGE_MAX, { multiline: true }),
   ...honeypot,
 }
 
@@ -82,7 +109,7 @@ const safetyShape = {
   company: optionalText('会社名', 100),
   tel: telField('電話番号'),
   email: optionalEmail,
-  message: optionalText('問い合わせ内容', MESSAGE_MAX),
+  message: optionalText('問い合わせ内容', MESSAGE_MAX, { multiline: true }),
   ...honeypot,
 }
 
@@ -98,16 +125,17 @@ const recruitShape = {
   school: optionalText('学校名', 100),
   faculty: optionalText('卒業学部・学科', 100),
   graduation: optionalText('卒業年月', 50),
-  career: optionalText('職歴', 500),
-  note: requiredText('備考', MESSAGE_MAX),
+  career: optionalText('職歴', 500, { multiline: true }),
+  note: requiredText('備考', MESSAGE_MAX, { multiline: true }),
   // 旧フォームには無かったが、応募者の個人情報を受け取るため同意を必須にする
-  privacyConsent: z.literal(true, { error: '個人情報の取り扱いに同意してください' }),
+  // チェックボックスは未チェック（false）から始まるため、型は boolean にして true だけを通す
+  privacyConsent: z.boolean().refine((value) => value, '個人情報の取り扱いに同意してください'),
   ...honeypot,
 }
 
-// 確認用のメールアドレスが一致すること（エラーは確認欄に出す）
+// 確認用のメールアドレスが一致すること（エラーは確認欄に出す）。大文字と小文字の違いは無視する
 const emailsMatch = (value: { email: string; emailConfirm: string }) =>
-  value.email === value.emailConfirm
+  value.email.toLowerCase() === value.emailConfirm.toLowerCase()
 const EMAILS_MISMATCH = { error: 'メールアドレスが一致しません', path: ['emailConfirm'] }
 
 export const contactSchema = z.object(contactShape)

@@ -67,6 +67,26 @@ describe('contactSchema（お問い合わせページ）', () => {
     expect(result.tel).toBe('045-123-4567')
   })
 
+  it('1 行の項目に入った改行・タブ・制御文字は空白にする（メールの件名・本文の偽装を防ぐ）', () => {
+    const result = contactSchema.parse({
+      ...validContact,
+      name: '田中\r\n太郎\t様\u0000',
+      company: 'A社\n担当者名：偽',
+    })
+    expect(result.name).toBe('田中 太郎 様')
+    expect(result.company).toBe('A社 担当者名：偽')
+  })
+
+  it('複数行の項目は改行を残す', () => {
+    const result = contactSchema.parse({ ...validContact, message: '1 行目\n2 行目' })
+    expect(result.message).toBe('1 行目\n2 行目')
+  })
+
+  it('電話番号として長すぎるものは受け付けない', () => {
+    const result = contactSchema.safeParse({ ...validContact, tel: `045${'-'.repeat(30)}1234567` })
+    expect(errorPaths(result)).toEqual(['tel'])
+  })
+
   it('電話番号として桁数が足りないものは受け付けない', () => {
     const result = contactSchema.safeParse({ ...validContact, tel: '045-123' })
     expect(errorPaths(result)).toEqual(['tel'])
@@ -126,6 +146,20 @@ describe('recruitSchema（採用応募）', () => {
     expect(firstMessage(result)).toBe('メールアドレスが一致しません')
   })
 
+  it('大文字と小文字の違いだけなら一致とみなす', () => {
+    const result = recruitSchema.safeParse({ ...validRecruit, emailConfirm: 'Taro@Example.JP' })
+    expect(result.success).toBe(true)
+  })
+
+  it('送信値（inquirySchema）でも、確認用メールアドレスの不一致は確認欄のエラーにする', () => {
+    const result = inquirySchema.safeParse({
+      formType: 'recruit',
+      ...validRecruit,
+      emailConfirm: 'jiro@example.jp',
+    })
+    expect(errorPaths(result)).toEqual(['emailConfirm'])
+  })
+
   it('全角と半角の違いだけなら一致とみなす', () => {
     const result = recruitSchema.safeParse({
       ...validRecruit,
@@ -160,12 +194,13 @@ describe('inquirySchema（送信処理が受け取る値）', () => {
 })
 
 describe('honeypot（ボット対策の隠し項目）', () => {
-  it('隠し項目の名前は website', () => {
-    expect(HONEYPOT_FIELD).toBe('website')
+  it('隠し項目の名前は、ブラウザの自動入力が値を入れない名前にする', () => {
+    // website・url などは自動入力やパスワードマネージャーが値を入れ、人の送信を捨ててしまうおそれがある
+    expect(HONEYPOT_FIELD).toBe('wf_hp')
   })
 
   it('隠し項目が空なら人の送信とみなす', () => {
-    const value = inquirySchema.parse({ formType: 'contact', ...validContact, website: '' })
+    const value = inquirySchema.parse({ formType: 'contact', ...validContact, [HONEYPOT_FIELD]: '' })
     expect(isSpam(value)).toBe(false)
     expect(isSpam(inquirySchema.parse({ formType: 'contact', ...validContact }))).toBe(false)
   })
@@ -174,7 +209,7 @@ describe('honeypot（ボット対策の隠し項目）', () => {
     const result = inquirySchema.safeParse({
       formType: 'contact',
       ...validContact,
-      website: 'https://spam.example',
+      [HONEYPOT_FIELD]: 'https://spam.example',
     })
     expect(result.success).toBe(true)
     if (result.success) expect(isSpam(result.data)).toBe(true)
