@@ -7,6 +7,7 @@ import { Leaf } from '~/components/motion/Leaf'
 import { PhotoMasonry } from '~/components/page/PhotoMasonry'
 import { SectionHeader } from '~/components/page/SectionHeader'
 import { getPage } from '~/content/pages'
+import { SafetyForm } from '~/features/forms/SafetyForm'
 import {
   INQUIRY_STEPS,
   type InquiryStepIcon,
@@ -252,7 +253,7 @@ export default function SafetyPage() {
             </dl>
           </div>
 
-          {/* P8: SafetyForm をここに置く */}
+          <SafetyForm />
         </div>
       </section>
     </>

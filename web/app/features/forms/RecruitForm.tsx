@@ -28,9 +28,10 @@ const DEFAULT_VALUES: RecruitInput = {
 
 const TITLE_ID = 'recruit-form-title'
 
+// ラベルの列は、必須の印を付けても折り返さないよう旧実装の 170px から 200px にした
 // 旧実装はラベルの先頭に「○」（最終学歴の補足の 3 項目は全角空白）を付けていた。読み上げには含めない
-const LABEL_CLASS = "sm:w-[170px] before:content-['○'_/_'']"
-const SUB_LABEL_CLASS = "sm:w-[170px] before:content-['\\3000'_/_'']"
+const LABEL_CLASS = "sm:w-[200px] before:content-['○'_/_'']"
+const SUB_LABEL_CLASS = "sm:w-[200px] before:content-['\\3000'_/_'']"
 
 // 採用ページの応募フォーム（旧 page-recruit.php）
 export function RecruitForm() {
@@ -111,7 +112,7 @@ export function RecruitForm() {
             {/* 旧実装はラベルの無い 2 つ目の入力欄だったため、確認用であることをラベルで示す */}
             <TextField
               {...sub}
-              label="メールアドレス（確認用）"
+              label="確認用メールアドレス"
               required
               type="email"
               autoComplete="email"

@@ -5,6 +5,7 @@ import { FadeUp } from '~/components/motion/FadeUp'
 import { Leaf } from '~/components/motion/Leaf'
 import { SectionHeader } from '~/components/page/SectionHeader'
 import { getPage } from '~/content/pages'
+import { RecruitForm } from '~/features/forms/RecruitForm'
 import {
   RECRUIT_APPLY_STEPS,
   RECRUIT_DAY_FLOW,
@@ -263,7 +264,9 @@ export default function RecruitPage() {
         {/* 旧実装はページ表示時に飛び出していたが、ページ下部で見えないうちに終わるためスクロールに合わせる */}
         <Leaf side="left" position="top" className={LEAF_CLASS} />
         <Leaf side="right" position="top" className={LEAF_CLASS} />
-        <div className="mx-auto max-w-[1200px]">{/* P8: RecruitForm をここに置く */}</div>
+        <div className="mx-auto max-w-[1200px]">
+          <RecruitForm />
+        </div>
       </section>
     </>
   )

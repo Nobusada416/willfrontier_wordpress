@@ -13,6 +13,11 @@ import { stubIntersectionObserver } from '~/test/intersectionObserver'
 import { stubMatchMedia } from '~/test/matchMedia'
 import RecruitPage, { meta } from './recruit'
 
+vi.mock('~/lib/submitInquiry', () => ({
+  submitInquiry: vi.fn(),
+  prepareSubmitInquiry: vi.fn(),
+}))
+
 beforeEach(() => {
   stubMatchMedia()
   stubIntersectionObserver()
@@ -123,6 +128,11 @@ describe('採用ページ', () => {
   it('旧ページと同じく末尾のお問い合わせ誘導は置かない', () => {
     renderPage()
     expect(screen.queryByRole('link', { name: 'お問い合わせ' })).not.toBeInTheDocument()
+  })
+
+  it('ページ下部に応募フォームを置く', () => {
+    renderPage()
+    expect(screen.getByRole('form', { name: 'メールフォームからのご応募' })).toBeInTheDocument()
   })
 
   it('ページ名を title に使う', () => {

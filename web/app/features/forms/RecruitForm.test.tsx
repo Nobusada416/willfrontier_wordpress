@@ -28,7 +28,7 @@ const REQUIRED = [
   ['ご住所', '神奈川県横浜市'],
   ['電話番号', '090-1234-5678'],
   ['メールアドレス', 'taro@example.jp'],
-  ['メールアドレス（確認用）', 'taro@example.jp'],
+  ['確認用メールアドレス', 'taro@example.jp'],
   ['希望職種', '作業員'],
   ['最終学歴', '大学卒業'],
   ['備考', '平日の日中が連絡のつきやすい時間です。'],
@@ -62,12 +62,12 @@ describe('RecruitForm', () => {
     const user = userEvent.setup()
     render(<RecruitForm />)
     await fillRequired(user)
-    await user.clear(field('メールアドレス（確認用）'))
-    await user.type(field('メールアドレス（確認用）'), 'jiro@example.jp')
+    await user.clear(field('確認用メールアドレス'))
+    await user.type(field('確認用メールアドレス'), 'jiro@example.jp')
     await user.click(screen.getByRole('checkbox', { name: /同意する/ }))
     await user.click(screen.getByRole('button', { name: /応募する/ }))
 
-    expect(field('メールアドレス（確認用）')).toHaveAccessibleDescription(
+    expect(field('確認用メールアドレス')).toHaveAccessibleDescription(
       expect.stringContaining('メールアドレスが一致しません'),
     )
     expect(submitMock).not.toHaveBeenCalled()

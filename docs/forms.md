@@ -210,7 +210,7 @@ npm run emulators   # functions をビルドしてから Functions・Firestore�
   - フォームに初めてフォーカスが入ったときに Firebase の読み込みを始める（`prepareSubmitInquiry`）
 - `web/app/features/forms/`: `ContactForm`（お問い合わせページ）・`SafetyForm`（安全ページ下部）・`RecruitForm`（採用ページ）
   - 安全・採用のフォームは、見出しを枠線に重ねた旧デザインを `fieldset` と `legend`（`FormFrame`）で作り、見出しをフォームの名前にする
-  - 採用応募の確認用メールアドレスは、旧実装ではラベルの無い 2 つ目の入力欄だったため「メールアドレス（確認用）」のラベルを付けた。職歴・備考は複数行の入力欄にした
+  - 採用応募の確認用メールアドレスは、旧実装ではラベルの無い 2 つ目の入力欄だったため「確認用メールアドレス」のラベルを付けた。職歴・備考は複数行の入力欄にした
   - 採用応募に個人情報の取り扱いへの同意（`CheckboxField`）を加えた。利用目的の文面（「採用選考とそのご連絡のためにのみ利用します」）は仮で、確認が必要
 - `web/app/components/form/`: `TextField`（ラベル・必須バッジ・補足・エラー文を入力欄に結び付ける。枠つきの `boxed` と［ ］で挟む `bracket`）、`CheckboxField`、`FormFrame`、`PillSubmitButton`、`Honeypot`、`SubmitDialog`（送信完了。ネイティブの `<dialog>` をモーダルで開く）
 - 旧実装の `?sent=1` 付き URL への移動と、「閉じる」での `history.back()` は廃止した。送信後はページを移動せずにダイアログを出し、入力欄を空にする
