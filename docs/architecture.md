@@ -12,7 +12,7 @@
 | CSS                  | Tailwind CSS v4（`@tailwindcss/vite`）                                    | デザイントークンは `web/app/app.css` の `@theme`。複雑な部分のみ CSS Modules |
 | フォント             | Google Fonts（Zen Maru Gothic / Quicksand）                               | 自前配信は `@font-face` だけで数百 KB になるため不採用                       |
 | ホスティング         | Firebase Hosting                                                          | 設定は `firebase.json`                                                       |
-| フォーム             | Cloud Functions v2 → Firestore → Trigger Email 拡張                       | P8 以降                                                                      |
+| フォーム             | Cloud Functions v2 → Firestore → Trigger Email 拡張                       | 詳細は [forms.md](./forms.md)                                                |
 | アニメーション       | GSAP 3（ScrollTrigger・`@gsap/react`）+ Lenis（慣性スクロール）           | 旧テーマの CDN 読み込みから npm 管理へ                                       |
 | テスト               | Vitest + React Testing Library（jsdom）                                   | E2E は Playwright（P9 以降）                                                 |
 | 静的解析             | ESLint 9（typescript-eslint strict / react-hooks / jsx-a11y）+ Prettier 3 |                                                                              |
@@ -27,16 +27,25 @@ eslint.config.mjs  .prettierrc.json  tsconfig.base.json  .nvmrc
 tsconfig.json           # ルート直下のテスト（tests/）用
 .github/workflows/ci.yml
 firebase.json  .firebaserc              # Hosting / Functions / Firestore / Emulator の設定
-firestore.rules  firestore.indexes.json # クライアントからの読み書きはすべて拒否
+firestore.rules         # クライアントからの読み書きはすべて拒否
+firestore.indexes.json  # inquiries・mail の expireAt に TTL を設定
+extensions/firestore-send-email.env  # Trigger Email 拡張の非秘密の設定（導入は P10。forms.md の「メール」）
 tests/rules/            # Firestore セキュリティルールのテスト（Emulator 上で実行）
 shared/                 # @wf/shared: web と functions で共有するフォーム定義（zod）
   src/index.ts
   src/forms/formTypes.ts  # フォーム種別（contact / safety / recruit）
   src/forms/normalize.ts  # 全角→半角の正規化（電話番号・メールアドレス）
   src/forms/schemas.ts    # 3 フォームの入力チェック・送信値（inquirySchema）・メール本文の項目（FORM_FIELDS）。詳細は forms.md
+  src/forms/submit.ts     # 送信処理との取り決め（関数名・戻り値・入力エラーの details の形）
 functions/              # @wf/functions: Cloud Functions v2（Node 22 / ESM）
   esbuild.config.mjs    # @wf/shared と zod を lib/index.js にバンドル
-  src/index.ts          # 共通設定（asia-northeast1 / maxInstances 5）
+  src/index.ts          # デプロイする関数の一覧（submitInquiry）
+  src/globalOptions.ts  # 共通設定（asia-northeast1 / maxInstances 5）。関数の定義より先に import する
+  src/submitInquiry.ts  # フォーム送信の callable 関数（App Check 強制）。結果を応答・HttpsError に変換し、batch で書き込む
+  src/handleInquiry.ts  # 検証 → ボット判定 → inquiries・mail のドキュメント組み立て（Firebase に依存しない）
+  src/buildMail.ts      # メールの件名・本文・返信先
+  src/params.ts         # 宛先のパラメータ（CONTACT_MAIL_TO など）と App Check を強制するかの判定
+  test/bundle.test.ts   # @wf/shared と zod がバンドルに取り込まれることの検証
 web/
   react-router.config.ts  # ssr: false / prerender
   vite.config.ts          # Tailwind v4 + React Router

@@ -28,6 +28,9 @@ tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
 | 全体                                                 | `nosniff` / HSTS / `X-Frame-Options: DENY` など | セキュリティヘッダー                                                                                                     |
 
 Functions は `asia-northeast1`（東京）、Node 22。デプロイ前に `predeploy` で esbuild によるバンドルを行う。
+フォームの通知先（`CONTACT_MAIL_TO` など）はパラメータで、値がないとデプロイ時に入力を求められる。
+`firestore.indexes.json` の TTL（`inquiries`・`mail` の `expireAt`）は `firebase deploy --only firestore:indexes` で反映される。
+Trigger Email 拡張の導入手順は [forms.md](./forms.md#メール)。
 
 ### 既知の制約
 
