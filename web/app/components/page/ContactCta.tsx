@@ -23,7 +23,7 @@ export function ContactCta({ title, className = 'bg-white' }: ContactCtaProps) {
         <FadeUp>
           <Link
             to="/contact/"
-            className="inline-flex items-center gap-3 rounded-full bg-wf-orange px-10 py-[18px] text-[1.2rem] font-black tracking-[0.1em] text-white transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-orange sm:px-14"
+            className="inline-flex items-center gap-3 rounded-full bg-wf-orange px-10 py-[18px] text-[1.2rem] font-black tracking-[0.1em] text-white transition-colors hover:bg-wf-orange-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-orange sm:px-14"
           >
             お問い合わせ
             <span aria-hidden="true">▼</span>

@@ -16,7 +16,9 @@
   --color-wf-sky: #7fc8de; /* 淡いアクセント */
   --color-wf-deep: #1a3a5c; /* 暗い背景・オーバーレイ */
   --color-wf-royal: #003894; /* ロゴ色に合わせた濃紺 */
+  --color-wf-blue-hover: #215b6c; /* wf-blue の塗りのボタンにマウスを重ねたとき（通常時より暗くする） */
   --color-wf-orange: #a95f27; /* 下層ページの CTA ボタン（旧 #d4874a は白文字とのコントラスト不足のため暗くした） */
+  --color-wf-orange-hover: #8a4c1f; /* wf-orange の塗りのボタンにマウスを重ねたとき */
   --color-wf-yellow: #ffe066; /* 黄色マーカー・下線 */
 
   /* 色：テキスト・面・罫線 */

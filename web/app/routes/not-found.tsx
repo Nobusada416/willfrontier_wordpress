@@ -17,7 +17,7 @@ export default function NotFoundPage() {
       </p>
       <Link
         to="/"
-        className="mt-10 inline-flex items-center rounded-full bg-wf-blue px-10 py-3 font-bold tracking-[.1em] text-white transition-opacity hover:opacity-80"
+        className="mt-10 inline-flex items-center rounded-full bg-wf-blue px-10 py-3 font-bold tracking-[.1em] text-white transition-colors hover:bg-wf-blue-hover"
       >
         トップページへ戻る
       </Link>

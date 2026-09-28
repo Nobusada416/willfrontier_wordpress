@@ -32,7 +32,7 @@ export function MoreLink({
   return (
     <Link
       to={to}
-      className={`inline-flex items-center gap-2.5 bg-wf-blue font-black tracking-wider [word-break:keep-all] text-white sm:tracking-widest transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue ${box} ${textClassName ?? text} ${className}`}
+      className={`inline-flex items-center gap-2.5 bg-wf-blue font-black tracking-wider [word-break:keep-all] text-white sm:tracking-widest transition-colors hover:bg-wf-blue-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue ${box} ${textClassName ?? text} ${className}`}
     >
       {children}
       {context && <span className="sr-only">（{context}）</span>}

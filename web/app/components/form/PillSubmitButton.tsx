@@ -10,7 +10,7 @@ export function PillSubmitButton({ label, submitting, className = '' }: PillSubm
     <button
       type="submit"
       disabled={submitting}
-      className={`inline-flex items-center gap-2 rounded-full bg-wf-blue py-[18px] font-black tracking-[0.1em] text-white transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue disabled:cursor-wait disabled:opacity-70 ${className}`}
+      className={`inline-flex items-center gap-2 rounded-full bg-wf-blue py-[18px] font-black tracking-[0.1em] text-white transition-colors hover:bg-wf-blue-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue disabled:cursor-wait disabled:opacity-70 ${className}`}
     >
       {submitting ? '送信中…' : label}
       <span aria-hidden="true">▼</span>

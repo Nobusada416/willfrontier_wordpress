@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
@@ -40,10 +40,36 @@ describe('色のトークンのコントラスト（WCAG AA）', () => {
   )
 
   // 白い文字を載せるボタンなどの背景
-  it.each(['wf-blue', 'wf-orange', 'wf-navy', 'wf-danger'])(
+  it.each(['wf-blue', 'wf-blue-hover', 'wf-orange', 'wf-orange-hover', 'wf-navy', 'wf-danger'])(
     '%s の背景に白い文字を載せて 4.5:1 以上',
     (name) => {
       expect(contrast(WHITE, token(name))).toBeGreaterThanOrEqual(AA)
     },
   )
+})
+
+describe('塗りのボタンのマウスを重ねたときの色', () => {
+  it.each([
+    ['wf-blue-hover', 'wf-blue'],
+    ['wf-orange-hover', 'wf-orange'],
+  ])('%s は %s より暗い（重ねたときに明るくならない）', (hover, base) => {
+    expect(luminance(token(hover))).toBeLessThan(luminance(token(base)))
+  })
+
+  // 不透明度を下げたり固定の色にしたりすると、トークンを変えたときに通常時より明るくなり、
+  // 白い文字とのコントラストが落ちる（P9 で wf-blue を暗くした際に起きた）
+  it('bg-wf-blue・bg-wf-orange のボタンは、hover で不透明度や固定の色を使わない', () => {
+    const appDir = join(import.meta.dirname, '../app')
+    const files = readdirSync(appDir, { recursive: true, encoding: 'utf8' }).filter(
+      (file) => file.endsWith('.tsx') && !file.endsWith('.test.tsx'),
+    )
+    const offending = files.flatMap((file) =>
+      readFileSync(join(appDir, file), 'utf8')
+        .split('\n')
+        .filter((line) => /bg-wf-(blue|orange)\b/.test(line))
+        .filter((line) => /hover:(opacity-|bg-\[)/.test(line))
+        .map((line) => `${file}: ${line.trim().slice(0, 80)}`),
+    )
+    expect(offending).toEqual([])
+  })
 })

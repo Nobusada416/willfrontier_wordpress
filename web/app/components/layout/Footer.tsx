@@ -26,7 +26,7 @@ export function Footer() {
 
         <Link
           to={CONTACT_LINK.href}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border-2 border-white bg-wf-blue px-7 py-2.5 text-[13px] font-bold tracking-[.12em] transition-opacity hover:opacity-80"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border-2 border-white bg-wf-blue px-7 py-2.5 text-[13px] font-bold tracking-[.12em] transition-colors hover:bg-wf-blue-hover"
         >
           <span aria-hidden="true" className="text-[22px] leading-none font-thin">
             &gt;
