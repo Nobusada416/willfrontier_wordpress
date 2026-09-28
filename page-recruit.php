@@ -103,8 +103,8 @@ window.addEventListener('load', function() {
                 <div style="display:flex;gap:40px;flex:1;">
                     <?php
                     $voices = [
-                        ['name' => 'T さん（入社 3年目）', 'role' => '職種：ドライバー', 'quote' => '「スマイル宣言が業務にも活かされることが入社の決め手です。」', 'slug' => 'wf-074'],
-                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'slug' => 'wf-112'],
+                        ['name' => 'T さん（入社 3年目）', 'role' => '職種：ドライバー', 'quote' => '「スマイル宣言が業務にも活かされることが入社の決め手です。」', 'slug' => 'wf-115'],
+                        ['name' => 'S さん（入社 1年目）', 'role' => '職種：作業員',     'quote' => '「未経験でも丁寧に教えてもらえました。」',                   'slug' => 'wf-116'],
                     ];
                     foreach ($voices as $v) : ?>
                     <div style="display:flex;align-items:flex-start;gap:20px;">
@@ -184,7 +184,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="recruit-photo-grid js-fade-up" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
                 <?php
-                $photos = array( 'wf-073', 'wf-114', 'wf-079', 'wf-092', 'wf-086' );
+                $photos = array( 'wf-112', 'wf-114', 'wf-079', 'wf-092', 'wf-086' );
                 foreach ( $photos as $p ) :
                 ?>
                     <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/5;">
