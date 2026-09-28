@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
+import { HONEYPOT_FIELD } from '@wf/shared'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { prepareSubmitInquiry, submitInquiry, type SubmitResult } from '~/lib/submitInquiry'
@@ -61,7 +62,7 @@ describe('ContactForm', () => {
       name: '田中 太郎',
       tel: '045-123-4567',
       message: '見積もりをお願いします。',
-      website: '',
+      [HONEYPOT_FIELD]: '',
     })
     expect(await screen.findByRole('dialog', { name: '送信完了' })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /担当者名/ })).toHaveValue('')
