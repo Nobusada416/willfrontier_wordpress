@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+/*
+ * デザイントークン
+ * 旧 style.css の --wf-* 変数は実際にテンプレートで使われている色とずれていたため、
+ * テンプレートでの使用実績（出現回数）をもとに整理し直した。詳細は docs/design-tokens.md
+ */
+@theme {
+  /* フォント */
+  --font-sans: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+  --font-en: 'Quicksand', sans-serif;
+
+  /* 色：ブランド */
+  --color-wf-navy: #2d5c8a; /* 見出し・本文強調・フッター背景（旧 #2d5c8a） */
+  --color-wf-blue: #4a9db5; /* ボタン・英字ラベル・アクセント（旧 #4a9db5） */
+  --color-wf-sky: #7fc8de; /* 淡いアクセント */
+  --color-wf-deep: #1a3a5c; /* 暗い背景・オーバーレイ */
+  --color-wf-royal: #003894; /* ロゴ色に合わせた濃紺 */
+  --color-wf-orange: #d4874a; /* 下層ページの CTA ボタン */
+  --color-wf-yellow: #ffe066; /* 黄色マーカー・下線 */
+
+  /* 色：テキスト・面・罫線 */
+  --color-wf-ink: #374151; /* 本文 */
+  --color-wf-text: #2e5a6a; /* body の既定文字色 */
+  --color-wf-bg: #f5fafb; /* body の既定背景 */
+  --color-wf-surface: #f6f8fa; /* セクション背景 */
+  --color-wf-border: #c8d9e6; /* 罫線・区切り */
+
+  /* 色：お知らせボックス */
+  --color-wf-notice: #fef9e7;
+  --color-wf-notice-border: #f0d96a;
+
+  /* レイアウト */
+  --spacing-header: 72px; /* ヘッダー・フッターの高さ */
+
+  /*
+   * ブレークポイントは Tailwind 標準（sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536）に統一する。
+   * 旧実装の 480 / 560 / 900 などの独自値は近い標準値に寄せる。
+   */
+}
+
+/* 高さの低い画面（ノート PC 等）向けのレイアウト調整に使う */
+@custom-variant short (@media (max-height: 800px));
+
+@layer base {
+  html {
+    scroll-padding-top: var(--spacing-header);
+  }
+
+  body {
+    @apply bg-wf-bg font-sans text-wf-text antialiased;
+  }
+}
