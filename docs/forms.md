@@ -208,8 +208,11 @@ npm run emulators   # functions をビルドしてから Functions・Firestore�
   - 送信処理の入力チェックで弾かれた場合（`invalid-argument`）は、その項目にエラーを出して最初の項目へフォーカスを移す
   - 通信エラーなどで送れなかった場合は入力を残し、電話での連絡先を含む案内（`SubmitError`、`role="alert"`）を出す
   - フォームに初めてフォーカスが入ったときに Firebase の読み込みを始める（`prepareSubmitInquiry`）
-- `web/app/features/forms/ContactForm.tsx`: お問い合わせページのフォーム（安全・採用ページのフォームも同じ構成で置く）
-- `web/app/components/form/`: `TextField`（ラベル・必須バッジ・補足・エラー文を入力欄に結び付ける。枠つきの `boxed` と［ ］で挟む `bracket`）、`Honeypot`、`SubmitDialog`（送信完了。ネイティブの `<dialog>` をモーダルで開く）
+- `web/app/features/forms/`: `ContactForm`（お問い合わせページ）・`SafetyForm`（安全ページ下部）・`RecruitForm`（採用ページ）
+  - 安全・採用のフォームは、見出しを枠線に重ねた旧デザインを `fieldset` と `legend`（`FormFrame`）で作り、見出しをフォームの名前にする
+  - 採用応募の確認用メールアドレスは、旧実装ではラベルの無い 2 つ目の入力欄だったため「メールアドレス（確認用）」のラベルを付けた。職歴・備考は複数行の入力欄にした
+  - 採用応募に個人情報の取り扱いへの同意（`CheckboxField`）を加えた。利用目的の文面（「採用選考とそのご連絡のためにのみ利用します」）は仮で、確認が必要
+- `web/app/components/form/`: `TextField`（ラベル・必須バッジ・補足・エラー文を入力欄に結び付ける。枠つきの `boxed` と［ ］で挟む `bracket`）、`CheckboxField`、`FormFrame`、`PillSubmitButton`、`Honeypot`、`SubmitDialog`（送信完了。ネイティブの `<dialog>` をモーダルで開く）
 - 旧実装の `?sent=1` 付き URL への移動と、「閉じる」での `history.back()` は廃止した。送信後はページを移動せずにダイアログを出し、入力欄を空にする
 - 旧実装はエラーをページ上部にまとめて出すだけで、ラベルと入力欄も結び付いていなかった。エラーは項目の下に出し、入力欄の説明として読み上げさせる（`aria-invalid`・`aria-describedby`）。必須の項目には「必須」を表示する
 - スマホで入力欄にフォーカスしたときに iOS が画面を拡大しないよう、入力欄の文字はスマホで 16px にする

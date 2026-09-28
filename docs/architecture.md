@@ -69,7 +69,7 @@ web/
       safety.ts           # 安全ページだけで使う内容（安全の取り組み・背景動画・装備ギャラリー・お問い合わせ後の流れ・よくあるご質問）
       recruit.ts          # 採用ページだけで使う内容（募集職種とアイコン・1 日の流れ・従業員の声・応募の流れ・動画・職場環境の写真）
       contact.ts          # お問い合わせページだけで使う内容（ヒーローの写真・お問い合わせ後の流れ・よくあるご質問）
-    features/forms/       # フォーム（ContactForm）と共通の hook useInquiryForm・送信失敗の案内 SubmitError（docs/forms.md）
+    features/forms/       # フォーム（ContactForm / SafetyForm / RecruitForm）と共通の hook useInquiryForm・送信失敗の案内 SubmitError（docs/forms.md）
     features/home/        # トップの各セクション（Hero / Mission / Service / Workflow / Vehicles / Gallery / CaseStudy / Safety / Recruit / Company）
                           # と共通の枠 HomeSection（見出し・葉・背景）、VehicleSlider（カルーセル）
     components/ui/        # MoreLink（セクション末尾の「もっと見る ▼」ボタン）
@@ -79,7 +79,8 @@ web/
     components/page/      # 下層ページ（P7）共通部品：SectionHeader（英字小見出し＋見出し＋説明文）/
                           # ContactCta（末尾のお問い合わせ誘導）/ PhotoMasonry（写真の一覧）/
                           # PhotoHero（写真を敷いたファーストビュー。車両・施工事例・お問い合わせ）
-    components/form/      # TextField（ラベル・必須・エラーを結び付けた入力欄）/ Honeypot / SubmitDialog（送信完了）
+    components/form/      # TextField（ラベル・必須・エラーを結び付けた入力欄）/ CheckboxField / FormFrame（見出しを枠線に重ねた枠）/
+                          # PillSubmitButton / Honeypot / SubmitDialog（送信完了）
     lib/firebase.ts       # フォーム送信時に Firebase（App Check・Functions）を遅延読み込みする
     lib/submitInquiry.ts  # 送信処理 submitInquiry の呼び出しと結果（ok / invalid / error）への変換
     lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP、404 の noindex を組み立てる
