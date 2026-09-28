@@ -12,7 +12,7 @@
 - [x] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [x] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [x] P6: トップページ 10 セクション
-- [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission 完了（ブランチ `migration/p7-mission`）
+- [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（ブランチ `migration/p7-service`）完了
 - [ ] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）
 - [ ] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0〜P6 は統合ブランチ `migration/react-firebase` にマージ済み。P7（下層ページ）着手、mission 完了（ブランチ `migration/p7-mission`）
+P0〜P6 は統合ブランチ `migration/react-firebase` にマージ済み。P7（下層ページ）着手、mission（PR #26）・service（ブランチ `migration/p7-service`）完了
 
 ## 問題・ブロッカー
 
@@ -40,7 +40,7 @@ P0〜P6 は統合ブランチ `migration/react-firebase` にマージ済み。P7
 - 存在しない動画 `hero/intro`・`service/demolition` は `functions.php` のコメント内の例でのみ参照されており、実際のページでは使われていなかった（P11 で PHP ごと削除）
 - 旧実装は写真のクラスを `<picture>` と `<img>` の両方に付けており `opacity-40` が二重にかかっていた。P6・P7 の移植時に見た目を合わせる
 - P5 の `<head>` インラインスクリプト（`lib/motion/headScript.ts`）は、P9 で CSP を設定する際にハッシュを許可する必要がある
-- P6 でトップの画面収め（`transform: scale()`・スマホの高さ 1000px 固定）を廃止し、車両スライダーは Swiper をやめて自前実装にした。下層ページの画面収めは P7 で扱う
+- P6 でトップの画面収め（`transform: scale()`・スマホの高さ 1000px 固定）を廃止し、車両スライダーは Swiper をやめて自前実装にした。下層ページの画面収めは P7 で扱う（service の図は JS の scale() をやめ、画面の高さから幅を決める CSS に置き換えた。スマホでは特長と吹き出しを 1 行ずつ並べる）
 - P6 で、旧 CSS の上書き（`!important`）で実際に表示されていた見た目（見出しの色とフォント・背景色・余白・イントロの幕の青）に合わせた。テンプレートにあっても旧 CSS に含まれず表示されていなかったクラス（MISSION の暗い幕など）は再現していない
 - P6 で、srcset の幅（旧実装は一律 768w / 1600w）が実寸と合っておらず粗い画像が選ばれていた不具合と、写真の高さが読み込み後に決まるため `/#company` などへの移動後に位置がずれる不具合を、実寸の一覧（`web/app/lib/mediaManifest.json`）で修正した
 - トップの背景イラスト（車両・横浜全景）は原寸の jpg（最大 3666px・1.3MB）だったため、幅 1600px の webp（70KB 前後）を追加して使う。旧テーマが参照する jpg は P11 で削除する

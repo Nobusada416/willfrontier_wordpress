@@ -52,6 +52,7 @@ web/
       cases.ts            # 施工事例の一覧（旧サイトの時点で仮の値）
       company.ts          # 会社概要と拠点（横浜本社・WF-A.BASE）
       mission.ts          # ミッションページだけで使う内容（式の各語と色・丸写真の切り替え・「地域と共に」の写真一覧）
+      service.ts          # サービスページだけで使う内容（図の 5 つの特長と画像の文字の書き起こし・事業内容のカード）
     features/home/        # トップの各セクション（Hero / Mission / Service / Workflow / Vehicles / Gallery / CaseStudy / Safety / Recruit / Company）
                           # と共通の枠 HomeSection（見出し・葉・背景）、VehicleSlider（カルーセル）
     components/ui/        # MoreLink（セクション末尾の「もっと見る ▼」ボタン）
