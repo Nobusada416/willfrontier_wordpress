@@ -5,11 +5,11 @@ import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { MAIN_CONTENT_ID, SkipLink } from './components/layout/SkipLink'
 import { SmoothScroll } from './components/motion/SmoothScroll'
+import { FONT_LOADER_SCRIPT, FONT_STYLESHEET_URL } from './lib/fonts'
 import { MOTION_HEAD_SCRIPT } from './lib/motion/headScript'
 import './app.css'
 
-// 日本語フォントは unicode-range で細かく分割されるため、自前配信だと @font-face 宣言だけで
-// 数百 KB の CSS になる。ブラウザごとに最適化された CSS を返す Google Fonts から読み込む
+// フォントの stylesheet は描画を止めないよう <head> のスクリプトで追加する（lib/fonts.ts）。ここでは接続だけ先に始める
 export const links: Route.LinksFunction = () => [
   // ロゴの「F」から作ったアイコン。ico は svg に対応しないブラウザ向け（/favicon.ico への自動リクエストも 404 にしない）
   { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
@@ -17,10 +17,6 @@ export const links: Route.LinksFunction = () => [
   { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap',
-  },
 ]
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -33,6 +29,11 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* 描画前に実行してアニメーション対象を隠す（中身は定数のみで、外部入力を含まない） */}
         <script dangerouslySetInnerHTML={{ __html: MOTION_HEAD_SCRIPT }} />
+        {/* フォントの stylesheet を描画を止めずに読み込む（中身は定数のみ）。JS が動かない環境は <noscript> で読み込む */}
+        <script dangerouslySetInnerHTML={{ __html: FONT_LOADER_SCRIPT }} />
+        <noscript>
+          <link rel="stylesheet" href={FONT_STYLESHEET_URL} />
+        </noscript>
         <Meta />
         <Links />
       </head>
