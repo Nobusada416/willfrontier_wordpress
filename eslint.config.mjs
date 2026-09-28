@@ -20,7 +20,7 @@ export default tseslint.config(
       'tailwind.config.js',
       '**/node_modules/**',
       '**/build/**',
-      '**/lib/**',
+      'functions/lib/**',
       '**/.react-router/**',
       '**/coverage/**',
     ],
