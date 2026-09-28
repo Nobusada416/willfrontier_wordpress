@@ -4,6 +4,7 @@ import { normalizeEmail, normalizeTel } from './normalize'
 
 // zod v4 は検証を速くするため new Function が使えるかを試す。CSP で unsafe-eval を許可していないと
 // 失敗しても動作は変わらないが、ブラウザが違反として報告するため、試さない設定にする（入力項目が少なく速度差は無い）
+// zod 全体の設定のため、このモジュールを読み込む Cloud Functions（Node）にも効く（CSP は無関係だが実害も無い）
 z.config({ jitless: true })
 
 // 3 つのフォームの入力チェック。画面（react-hook-form）と送信処理（Cloud Functions）の両方で同じものを使う。

@@ -43,34 +43,45 @@ describe('Content-Security-Policy（Report-Only）', () => {
     expect(csp.get('form-action')).toEqual(["'self'"])
   })
 
-  it('Google Fonts の CSS とフォントを許可する', () => {
-    expect(csp.get('style-src')).toContain('https://fonts.googleapis.com')
-    expect(csp.get('font-src')).toContain('https://fonts.gstatic.com')
-  })
+  // 外部のオリジンを並べるディレクティブは完全に一致させ、意図しない許可の追加を検知する
+  const sorted = (name: string) => [...(csp.get(name) ?? [])].sort()
 
-  it('App Check（reCAPTCHA v3）のスクリプトと iframe を許可する', () => {
-    expect(csp.get('script-src')).toEqual(
-      expect.arrayContaining([
+  it('スクリプトは自サイト・インライン（プリレンダーの hydration 用）・reCAPTCHA（App Check）だけ', () => {
+    expect(sorted('script-src')).toEqual(
+      [
+        "'self'",
+        "'unsafe-inline'",
         'https://www.google.com/recaptcha/',
         'https://www.gstatic.com/recaptcha/',
-      ]),
+      ].sort(),
     )
-    expect(csp.get('frame-src')).toContain('https://www.google.com/recaptcha/')
   })
 
-  it('送信処理（Cloud Functions）と App Check のトークン交換への通信を許可する', () => {
-    expect(csp.get('connect-src')).toEqual(
-      expect.arrayContaining([
+  it('スタイルとフォントは自サイトと Google Fonts だけ', () => {
+    expect(sorted('style-src')).toEqual(
+      ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'].sort(),
+    )
+    expect(sorted('font-src')).toEqual(["'self'", 'https://fonts.gstatic.com'].sort())
+  })
+
+  it('通信は送信処理（Cloud Functions）・App Check のトークン交換・reCAPTCHA だけ', () => {
+    expect(sorted('connect-src')).toEqual(
+      [
         "'self'",
-        // ワイルドカードは先頭のラベルにしか使えないため、リージョンまでは絞れない
+        // ワイルドカードは先頭のラベルにしか使えないため、リージョンまでは絞れない（P10 でプロジェクト ID に絞る）
         'https://*.cloudfunctions.net',
         'https://content-firebaseappcheck.googleapis.com',
-      ]),
+        'https://www.google.com/recaptcha/',
+      ].sort(),
     )
   })
 
-  it('写真・動画は同じオリジンから配信する（poster などの data: も許可）', () => {
-    expect(csp.get('img-src')).toEqual(expect.arrayContaining(["'self'", 'data:']))
+  it('iframe は reCAPTCHA だけ', () => {
+    expect(csp.get('frame-src')).toEqual(['https://www.google.com/recaptcha/'])
+  })
+
+  it('写真・動画は同じオリジンから配信する（reCAPTCHA の画像を除く）', () => {
+    expect(sorted('img-src')).toEqual(["'self'", 'https://www.gstatic.com/recaptcha/'].sort())
     expect(csp.get('media-src')).toEqual(["'self'"])
   })
 })

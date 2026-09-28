@@ -61,6 +61,7 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
 
 - プリレンダーした HTML には、React Router の hydration 用のインラインスクリプト（ページごとに中身が違う）と `<head>` のアニメーション用スクリプトがあるため、`script-src` に `'unsafe-inline'` を許可している。強制（`Content-Security-Policy`）に切り替える場合は、postbuild で各ページのインラインスクリプトのハッシュを集めてヘッダーに入れる必要がある
 - zod は `jitless` にして `new Function` を使わない（`unsafe-eval` を許可しないため。`shared/src/forms/schemas.ts`）
+- P10 で行うこと: `connect-src` の `https://*.cloudfunctions.net` は誰のプロジェクトでも一致するため、本番のプロジェクト ID が決まったら `https://asia-northeast1-<project-id>.cloudfunctions.net` に絞る。違反を集めるなら `report-to`（`Reporting-Endpoints`）の追加を検討する
 - P9 時点で、全 9 ページと 404 を Hosting Emulator で開き、違反の報告が出ないことを確認した。reCAPTCHA の読み込みは本番の設定が必要なため、P10 の preview channel で確認する
 
 ### 既知の制約
