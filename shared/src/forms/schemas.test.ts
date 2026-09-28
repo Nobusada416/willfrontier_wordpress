@@ -77,6 +77,19 @@ describe('contactSchema（お問い合わせページ）', () => {
     expect(result.company).toBe('A社 担当者名：偽')
   })
 
+  it('Unicode の行区切り・段落区切りと C1 制御文字も 1 行の項目では空白にする', () => {
+    const result = contactSchema.parse({
+      ...validContact,
+      name: '田中\u2028内容：偽\u2029太郎\u0085様',
+    })
+    expect(result.name).toBe('田中 内容：偽 太郎 様')
+  })
+
+  it('複数行の項目では Unicode の行区切りも改行にそろえ、C1 制御文字は取り除く', () => {
+    const result = contactSchema.parse({ ...validContact, message: '1 行目\u20282 行目\u0085' })
+    expect(result.message).toBe('1 行目\n2 行目')
+  })
+
   it('複数行の項目は改行を残す', () => {
     const result = contactSchema.parse({ ...validContact, message: '1 行目\n2 行目' })
     expect(result.message).toBe('1 行目\n2 行目')

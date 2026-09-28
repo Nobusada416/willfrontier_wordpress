@@ -107,6 +107,16 @@ describe('handleInquiry', () => {
       expect(save).not.toHaveBeenCalled()
     })
 
+    it('隠し項目に値があれば、ほかの入力が不正でも入力エラーを返さず spam として扱う', async () => {
+      const { deps, save } = createDeps()
+      const result = await handleInquiry(
+        { formType: 'contact', name: '', [HONEYPOT_FIELD]: 'https://spam.example.com' },
+        deps,
+      )
+      expect(result).toEqual({ kind: 'spam' })
+      expect(save).not.toHaveBeenCalled()
+    })
+
     it('隠し項目が空白だけなら通常どおり受け付ける', async () => {
       const { deps } = createDeps()
       const result = await handleInquiry({ ...contact, [HONEYPOT_FIELD]: ' ' }, deps)

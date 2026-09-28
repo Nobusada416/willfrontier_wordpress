@@ -9,7 +9,7 @@ import {
 import { buildMail } from './buildMail'
 
 // 問い合わせの受け付け処理（Firebase に依存しない部分）。
-// 入力チェック → ボット判定 → 保存するドキュメントの組み立て → 保存 の順に行う
+// ボット判定 → 入力チェック → 保存するドキュメントの組み立て → 保存 の順に行う
 
 // 保持期間（Firestore の TTL で削除する）。
 // inquiries は問い合わせへの対応に必要な期間として 180 日（提案。確定は docs/forms.md の確認事項）。
@@ -48,7 +48,18 @@ const EXCLUDED_KEYS: ReadonlySet<string> = new Set(['formType', 'emailConfirm', 
 const valuesToStore = (inquiry: Inquiry) =>
   Object.fromEntries(Object.entries(inquiry).filter(([key]) => !EXCLUDED_KEYS.has(key)))
 
+// 検証の前に、受け取った値の隠し項目だけを見てボットかを判定する
+// （検証エラーの詳細を返すと、ボットにどの項目が必要かを教えてしまうため）
+const isSpamPayload = (data: unknown) => {
+  if (typeof data !== 'object' || data === null) return false
+  const honeypot: unknown = Reflect.get(data, HONEYPOT_FIELD)
+  return typeof honeypot === 'string' && isSpam({ [HONEYPOT_FIELD]: honeypot })
+}
+
 export const handleInquiry = async (data: unknown, deps: InquiryDeps): Promise<InquiryResult> => {
+  // ボットには成功と同じ応答を返し、保存もメール送信もしない
+  if (isSpamPayload(data)) return { kind: 'spam' }
+
   const parsed = inquirySchema.safeParse(data)
   if (!parsed.success) {
     return {
@@ -62,8 +73,6 @@ export const handleInquiry = async (data: unknown, deps: InquiryDeps): Promise<I
   }
 
   const inquiry = parsed.data
-  // ボットには成功と同じ応答を返し、保存もメール送信もしない
-  if (isSpam(inquiry)) return { kind: 'spam' }
 
   const to = deps.mailTo(inquiry.formType).trim()
   if (to === '') throw new Error(`${inquiry.formType} の宛先（通知先メールアドレス）が未設定です`)
