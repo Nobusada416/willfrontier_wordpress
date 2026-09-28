@@ -17,7 +17,7 @@ function decodePath(pathname: string): string | undefined {
   try {
     return decodeURIComponent(pathname)
   } catch (error: unknown) {
-    // 不正な % エンコード（URIError）は存在しない URL として扱う。それ以外は想定外のため投げ直す
+    // 不正な % エンコード（URIError）は存在しない URL として扱う。それ以外は想定外のため投げ直す（呼び出し側で 500 にする）
     if (error instanceof URIError) return undefined
     throw error
   }
