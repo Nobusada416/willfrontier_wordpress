@@ -1,7 +1,8 @@
 // プリレンダー結果の検証（npm run build の直後に postbuild として実行）
-// 各ページの HTML に <title> と <main> が含まれることを確認し、
+// 各ページの HTML に <title> と <h1>（ページ本文の見出し）が含まれることを確認し、
 // 中身の空の HTML（SPA の殻だけ）が出力される不具合を検出する
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+// あわせて 404.html が存在し、検索エンジンに登録されない（noindex）ことを確認する
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -15,14 +16,17 @@ const findHtml = (dir) =>
     return name === 'index.html' ? [path] : []
   })
 
-const pages = findHtml(clientDir)
+const notFoundPage = join(clientDir, '404.html')
+const pages = [...findHtml(clientDir), notFoundPage]
 const broken = pages.filter((path) => {
+  if (!existsSync(path)) return true
   const html = readFileSync(path, 'utf8')
-  return !/<title>[^<]+<\/title>/.test(html) || !html.includes('<main')
+  if (path === notFoundPage && !html.includes('content="noindex"')) return true
+  return !/<title>[^<]+<\/title>/.test(html) || !html.includes('<h1')
 })
 
 if (pages.length === 0 || broken.length > 0) {
-  console.error('プリレンダー結果に title または本文がないページがあります:')
+  console.error('プリレンダー結果に不備があるページがあります（ファイルがない・title や本文がない・404 に noindex がない）:')
   for (const path of broken) console.error(`  ${path}`)
   process.exit(1)
 }

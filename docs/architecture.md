@@ -39,14 +39,19 @@ web/
   vite.config.ts          # Tailwind v4 + React Router
   vitest.config.ts
   app/
-    root.tsx              # HTML の骨格・フォント読み込み・エラー表示
-    routes.ts             # content/pages.ts からルートを生成
+    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・フォント読み込み・エラー表示
+    routes.ts             # content/pages.ts からルートを生成（一致しない URL は routes/not-found.tsx）
     app.css               # Tailwind v4 とデザイントークン
     content/
       pages.ts            # 全ページ定義（ルート・プリレンダー対象の唯一の情報源）
       navigation.ts       # ヘッダー・フッターのリンク定義
-    routes/*.tsx          # 各ページ
-  scripts/verify-prerender.mjs  # ビルド後に各ページの title と本文の有無を検証（postbuild）
+      site.ts             # サイト名・正式社名・キャッチコピー・URL
+    components/layout/    # Header（PC ナビ・ハンバーガー）/ MobileNav / Footer / SkipLink / Logo
+    lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP、404 の noindex を組み立てる
+    routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
+  public/media/           # ハッシュなしで配信する画像・動画（/media/**）
+  scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
+  scripts/verify-prerender.mjs  # ビルド後に各ページの title と h1、404.html の noindex を検証（postbuild）
 ```
 
 ## 設計方針
@@ -58,6 +63,12 @@ web/
   - リンクやページ定義のパスは `/mission/` とし、Hosting の `trailingSlash: true` で `/mission` は `/mission/` へ 301 する。
   - ただし React Router の `prerender` には末尾スラッシュなし（`/mission`）で渡す。
     スラッシュ付きで渡すと中身の空の HTML が出力されるため（`prerenderPaths()` で変換済み）。
+- **ヘッダー・フッター・`<main>` は `root.tsx` の `Layout` が持つ**: 各ページは `<main>` の中身だけを描画する。
+  エラー表示や 404 ページにも同じヘッダー・フッターが付く。
+- **meta はページ定義から生成する**: 各ルートは `export const meta = () => buildMeta(page)` とし、
+  title・description・canonical・OGP を `content/pages.ts` と `content/site.ts` から組み立てる。
+- **404 ページもプリレンダーする**: `*` ルートを `/404` としてプリレンダーし、ビルド後に `404.html` へ移す。
+  Firebase Hosting は存在しない URL に `404.html` を 404 ステータスで返す。
 - **Firestore はクライアントから直接触らない**: フォームの送信内容は個人情報を含むため、
   セキュリティルールで読み書きをすべて拒否し、Cloud Functions（Admin SDK）だけが書き込む。
 - **shared は functions にバンドルする**: Firebase のデプロイは `functions/` だけをアップロードして

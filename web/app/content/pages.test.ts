@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CONTACT_LINK, FOOTER_NAV, GLOBAL_NAV } from './navigation'
-import { PAGES, getPage, prerenderPaths } from './pages'
+import { NOT_FOUND_PATH, PAGES, getPage, prerenderPaths } from './pages'
 
 // ナビゲーションの href からパス部分（ハッシュと末尾スラッシュを除く）を取り出す
 const pathnameOf = (href: string) =>
@@ -35,6 +35,13 @@ describe('PAGES（ページ定義）', () => {
       ]),
     )
   })
+
+  it('全ページに検索結果用の説明文（120 字以内）がある', () => {
+    for (const page of PAGES) {
+      expect(page.description.length).toBeGreaterThan(0)
+      expect(page.description.length).toBeLessThanOrEqual(120)
+    }
+  })
 })
 
 describe('getPage', () => {
@@ -56,7 +63,12 @@ describe('prerenderPaths', () => {
       '/safety',
       '/recruit',
       '/contact',
+      '/404',
     ])
+  })
+
+  it('404 ページはサイトのページ一覧（PAGES）には含めない', () => {
+    expect(PAGES.map((page) => page.path)).not.toContain(NOT_FOUND_PATH)
   })
 })
 
