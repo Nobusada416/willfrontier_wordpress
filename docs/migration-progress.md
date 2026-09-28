@@ -13,14 +13,14 @@
 - [x] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [x] P6: トップページ 10 セクション
 - [x] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（PR #28）・vehicles（PR #29）・casestudy（PR #30）
-- [ ] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）
+- [x] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）。スキーマ（PR #31）・安全ページ（PR #32）・採用ページ（PR #33）・送信処理（PR #34）・フォーム画面とお問い合わせページ（PR #35）
 - [ ] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
 - [ ] P11: WordPress 関連ファイル削除
 
 ## 現在の状態
 
-P0〜P7 は統合ブランチ `migration/react-firebase` にマージ済み。P8（フォーム）を作業中: shared のスキーマ（ブランチ `migration/p8-schemas`）
+P0〜P8 は統合ブランチ `migration/react-firebase` にマージ済み。P9（SEO と品質）を作業中: SEO（ブランチ `migration/p9-seo`）
 
 ## 問題・ブロッカー
 

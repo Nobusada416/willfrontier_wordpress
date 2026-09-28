@@ -83,8 +83,6 @@ web/
                           # PillSubmitButton / Honeypot / SubmitDialog（送信完了）
     lib/firebase.ts       # フォーム送信時に Firebase（App Check・Functions）を遅延読み込みする
     lib/submitInquiry.ts  # 送信処理 submitInquiry の呼び出しと結果（ok / invalid / error）への変換
-    lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP、404 の noindex を組み立てる
-                          # PhotoHero（写真を敷いたファーストビュー。車両・施工事例）
     lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP・robots（noindex）・トップの JSON-LD、404 の noindex を組み立てる
     lib/indexing.ts       # 環境変数 VITE_ALLOW_INDEXING から検索エンジンへの登録の可否を判定（既定は禁止）
     lib/structuredData.ts # トップに出力する Organization（schema.org）の JSON-LD。住所を都道府県・市区町村・番地に分ける
