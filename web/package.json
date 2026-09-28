@@ -13,10 +13,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "lighthouse": "lhci autorun",
     "media:manifest": "node --experimental-strip-types --no-warnings scripts/generate-media-manifest.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.63.0",
     "@react-router/dev": "~7.18.4",
     "@tailwindcss/vite": "^4.3.3",
