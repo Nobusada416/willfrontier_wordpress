@@ -58,7 +58,7 @@ Hosting の Emulator は `web/build/client` を配信するため、事前に `n
 
 移行完了（P11）まではルート直下の `*.php`・`style.css`・`assets/` などを残す。
 旧テーマのローカル確認は `docker compose up`（http://localhost:8081）。
-画像・動画は P4 で `web/public/media/` へ移動したため、旧テーマもそこを参照している（`assets/` には `js/` だけが残る）。
+画像・動画は P4 で `web/public/media/` へ移動したため、旧テーマもそこを参照している（`assets/` には `js/` と、git 管理外の元素材の索引 `_index.md` だけが残る。未使用の素材は削除済み）。
 
 新しい写真・動画を使う場合は `web/public/media/` に置く。ソースから参照したファイル（写真スラッグ `wf-NNN`、
 動画スラッグ `shorts/sNN`、`/media/...` のパス）が実在することは `web/scripts/mediaReferences.test.ts` が検証する。
