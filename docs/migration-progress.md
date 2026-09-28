@@ -14,13 +14,13 @@
 - [x] P6: トップページ 10 セクション
 - [x] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（PR #28）・vehicles（PR #29）・casestudy（PR #30）
 - [x] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）。スキーマ（PR #31）・安全ページ（PR #32）・採用ページ（PR #33）・送信処理（PR #34）・フォーム画面とお問い合わせページ（PR #35）
-- [x] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）。SEO（PR #36）・CSP Report-Only（PR #37）・E2E と Lighthouse CI（ブランチ `migration/p9-quality`）。色のコントラストはユーザー判断待ち
+- [x] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）。SEO（PR #36）・CSP Report-Only（PR #37）・E2E と Lighthouse CI（PR #38）・色のコントラストの修正（ブランチ `migration/p9-contrast`）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
 - [ ] P11: WordPress 関連ファイル削除
 
 ## 現在の状態
 
-P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み（P9 の E2E と Lighthouse CI はレビュー中）。色のコントラスト不足の修正はユーザー判断待ち。次は P10（デプロイ）
+P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み（P9 の色のコントラストの修正はレビュー中）。次は P10（デプロイ）。本番の Firebase プロジェクト・メールの送信元と SMTP・切り替え時期はユーザーの準備待ち
 
 ## 問題・ブロッカー
 
@@ -51,7 +51,7 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み（P9
 - フォントは計画の自前配信（@fontsource）から Google Fonts 読み込みに変更（自前配信では CSS が 572KB に膨らむため）
 - 旧ミッションページはスマホでも PC の 2 段組のまま横にはみ出していたため、P7 の移植では 1 段組にした
 - 旧テンプレートの英字小見出しの字間 `tracking-[0.3em]`、オレンジ文字 `text-[#d4874a]`、写真ヒーローの暗い幕 `bg-black/55`、`md:order-first` は旧 CSS に含まれず表示されていなかった（P7 の各ページで実際の見た目に合わせる）
-- 文字のコントラスト不足: 下層ページの CTA ボタン（白文字 × `wf-orange` #d4874a、約 2.9:1）と見出し上の英字ラベル（`wf-blue` #4a9db5 × 白背景、約 3.1:1）が WCAG AA に届かない。色は旧デザインのままにしており、P9 の Lighthouse・axe 確認で色の調整を相談する
+- 文字のコントラスト不足: 下層ページの CTA ボタン（白文字 × `wf-orange` #d4874a、約 2.9:1）と見出し上の英字ラベル（`wf-blue` #4a9db5 × 白背景、約 3.1:1）が WCAG AA に届かない。P9 でユーザーの判断により色を直した（下記）
 - 旧処理の流れページはスマホで写真が表示されず、本文も細い列に押し込まれていた。P7 では写真と本文を縦に並べ、文字の小さい処理ネットワーク図は幅を保って横にスクロールさせる
 - 安全ページは旧デザインのまま、本文の大部分（取り組みの説明・流れの補足・よくあるご質問）も `wf-blue`（白背景で約 3.1:1）で、WCAG AA に届かない。P9 の色の相談に含める
 - P8 で旧フォームの `?sent=1` への移動と `history.back()` を廃止し、送信後はページを移動せずに完了のダイアログを出す。エラーは項目の下に出す。安全・採用フォームの枠は、画面収めの廃止で葉の装飾が入力欄の後ろに入るため白くした
@@ -61,7 +61,9 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み（P9
 - P9 で、検索エンジンへの登録を既定で禁止（全ページ noindex・robots.txt で `Disallow: /`）にし、`VITE_ALLOW_INDEXING=true` のビルドだけ許可するようにした。本番切り替え（P10）で `SITE.url` の変更とあわせて設定する（[deployment.md](./deployment.md#本番切り替え時の-seo-設定)）
 - P9 の OGP 画像は写真 `wf-097`（荷台を傾けた自社車両）を 1200×630 に切り出した仮の選定。favicon はロゴの「F」の部分から作った
 - P9 の E2E（axe・WCAG 2.1 AA、全 9 ページ＋404、PC 1280px・スマホ 375px）で見つかった違反は文字のコントラスト不足だけだった（ほかのルールの違反は 0 件）。
-  色は変えずに、次の色の組み合わせに限って E2E で許容している（`web/e2e/support/knownContrastIssues.ts`。**色の変更はユーザー判断待ち**）。比率は axe の計算値で、AA の基準は通常の文字 4.5:1・大きな文字 3:1
+  いったん次の色の組み合わせに限って E2E で許容したうえで、ユーザーの判断（すべて直す）により色を直し、許容リスト（`web/e2e/support/knownContrastIssues.ts`）は空にした。
+  直した色: `wf-orange` #d4874a → #a95f27（白文字 4.82:1）、`wf-blue` #4a9db5 → #2b7489（白系の背景で 4.98:1 以上）、`wf-text-mid` #4a8a9e → #3a7385（5.02:1 以上）、フッターの著作権表示 opacity-70 → opacity-85（5.59:1）。
+  トークンの組み合わせは `web/scripts/designTokens.test.ts` で 4.5:1 以上を確かめる。直す前の一覧（比率は axe の計算値。AA の基準は通常の文字 4.5:1・大きな文字 3:1）
 
   | 前景 × 背景                                                 | 比率       | 主な箇所                                                                                                                                                                                                  |
   | ----------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -76,7 +78,7 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み（P9
   axe が自動で判定できず「要確認」とした項目: トップ・採用の動画の字幕（`video-caption`。音声の無いミュートの装飾動画のため対象外と判断）、
   トップの文中リンクの見分け（`link-in-text-block`）、背景が写真・グラデーションの文字のコントラスト
 
-- P9 の Lighthouse（モバイル。ローカルの Mac で 3 回ずつ計測し、回によって揺れたページは幅で示す）。Accessibility は全ページ 96（減点は上記のコントラストのみ）、Best Practices は全ページ 100、
+- P9 の Lighthouse（モバイル。ローカルの Mac で 3 回ずつ計測し、回によって揺れたページは幅で示す）。Accessibility は色を直す前で全ページ 96（減点は上記のコントラストのみ）、Best Practices は全ページ 100、
   SEO は全ページ 69（noindex による `is-crawlable` のみ。本番切り替えで解消）
 
   | ページ  | 対応前 | 対応後 | 対応後の FCP / LCP   |

@@ -34,7 +34,8 @@ export function Footer() {
           {CONTACT_LINK.label}
         </Link>
       </div>
-      <p className="pb-4 text-center text-xs opacity-70">
+      {/* 旧実装の opacity-70 は背景の wf-navy とのコントラストが 4.35:1 で AA に届かないため 85% にした */}
+      <p className="pb-4 text-center text-xs opacity-85">
         <small>© {SITE.legalName}</small>
       </p>
     </footer>
