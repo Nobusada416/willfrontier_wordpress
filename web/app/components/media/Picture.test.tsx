@@ -13,6 +13,13 @@ describe('Picture', () => {
     )
   })
 
+  it('実寸の width / height を付け、読み込み前から高さを確保する', () => {
+    render(<Picture slug="wf-079" alt="安全朝礼" />)
+    const img = screen.getByRole('img')
+    expect(img).toHaveAttribute('width', '1600')
+    expect(img).toHaveAttribute('height', '2133')
+  })
+
   it('既定では遅延読み込みし、sizes は 100vw', () => {
     render(<Picture slug="wf-079" alt="安全朝礼" />)
     const img = screen.getByRole('img')

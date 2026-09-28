@@ -10,7 +10,8 @@
     "preview": "vite preview --outDir build/client",
     "typecheck": "react-router typegen && tsc -p tsconfig.json",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "media:manifest": "node --experimental-strip-types --no-warnings scripts/generate-media-manifest.ts"
   },
   "devDependencies": {
     "@react-router/dev": "~7.18.4",
@@ -22,6 +23,7 @@
     "@types/node": "^22.20.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "image-size": "^2.0.4",
     "jsdom": "^29.1.1",
     "tailwindcss": "^4.3.3",
     "vite": "^8.3.1",
