@@ -26,3 +26,9 @@ assets/videos/originals_compressed/
 # worktrees は node_modules 込みで数百MB、settings.local.json は個人設定
 .claude/*
 !.claude/skills/
+
+# Firebase（デプロイキャッシュ・Emulator のローカル秘密情報・環境変数のローカル上書き）
+.firebase/
+.secret.local
+*.local
+.env.local

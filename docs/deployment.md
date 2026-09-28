@@ -6,11 +6,31 @@ main ブランチの WordPress テーマを sakura サーバーへ rsync でデ�
 移行用のファイルは WordPress テーマの表示に不要なため、rsync で次も除外すること。
 
 ```
-web/  functions/  shared/  .github/  extensions/
+web/  functions/  shared/  tests/  .github/  extensions/
 firebase.json  .firebaserc  firestore.rules  firestore.indexes.json
-eslint.config.mjs  .prettierrc.json  .prettierignore  tsconfig.base.json  .nvmrc
+eslint.config.mjs  .prettierrc.json  .prettierignore  .nvmrc
+tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
 ```
 
 ## 移行後（Firebase Hosting）
 
-P10 で整備する。
+デプロイ手順は P10 で整備する。`firebase.json` の Hosting 設定は次のとおり。
+
+| 項目                                                 | 設定                                            | 理由                                                                                                                     |
+| ---------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `public`                                             | `web/build/client`                              | React Router のビルド出力                                                                                                |
+| `cleanUrls` / `trailingSlash`                        | `true` / `true`                                 | 現行サイトと同じ `/mission/` 形式の URL を維持                                                                           |
+| リダイレクト                                         | `/company/` → `/mission/`（301）                | 旧サイトの `/company/` は空白ページだった                                                                                |
+| `/assets/**`                                         | `max-age=31536000, immutable`                   | Vite がハッシュ付きファイル名で出力する                                                                                  |
+| `/media/**`                                          | `max-age=604800`（7 日）                        | 写真・動画はハッシュなしのため長期キャッシュしない                                                                       |
+| `/assets/`・`/media/` 以外で拡張子のない URL（HTML） | `no-cache`                                      | デプロイ直後から新しい HTML を配信する。`cleanUrls` ではリクエスト URL に `.html` が付かないため、正規表現で判定している |
+| 全体                                                 | `nosniff` / HSTS / `X-Frame-Options: DENY` など | セキュリティヘッダー                                                                                                     |
+
+Functions は `asia-northeast1`（東京）、Node 22。デプロイ前に `predeploy` で esbuild によるバンドルを行う。
+
+### 既知の制約
+
+- `functions/` には専用の `package-lock.json` がない（lockfile は npm workspaces のルートにのみある）。
+  デプロイ時は `functions/package.json` の semver 範囲で `firebase-functions` / `firebase-admin` が解決されるため、
+  ローカルとデプロイ先でマイナーバージョンがずれる可能性がある。P10 で対応方針を決める。
+- `predeploy` はビルドのみで、型チェックとテストは含まない。デプロイは CI を通過したコミットから行う。
