@@ -1,4 +1,4 @@
-import type { FormType } from '@wf/shared'
+import { HONEYPOT_FIELD, type FormType } from '@wf/shared'
 import { HttpsError } from 'firebase-functions/v2/https'
 import { describe, expect, it, vi } from 'vitest'
 import type { Write } from './handleInquiry'
@@ -50,7 +50,7 @@ describe('createSubmitInquiryHandler', () => {
   it('ボットと判定したら保存せず、受け付けたときと同じ応答を返す', async () => {
     const { deps, save } = createDeps()
     const response = await createSubmitInquiryHandler(deps)({
-      data: { ...contact, website: 'https://spam.example.com' },
+      data: { ...contact, [HONEYPOT_FIELD]: 'https://spam.example.com' },
     })
     expect(response).toEqual({ ok: true })
     expect(save).not.toHaveBeenCalled()

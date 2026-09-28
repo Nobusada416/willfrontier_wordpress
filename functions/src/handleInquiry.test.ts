@@ -1,4 +1,4 @@
-import type { FormType } from '@wf/shared'
+import { HONEYPOT_FIELD, type FormType } from '@wf/shared'
 import { describe, expect, it, vi } from 'vitest'
 import {
   handleInquiry,
@@ -102,14 +102,14 @@ describe('handleInquiry', () => {
   describe('ボット対策（honeypot）', () => {
     it('隠し項目に値があれば保存せず spam を返す', async () => {
       const { deps, save } = createDeps()
-      const result = await handleInquiry({ ...contact, website: 'https://spam.example.com' }, deps)
+      const result = await handleInquiry({ ...contact, [HONEYPOT_FIELD]: 'https://spam.example.com' }, deps)
       expect(result).toEqual({ kind: 'spam' })
       expect(save).not.toHaveBeenCalled()
     })
 
     it('隠し項目が空白だけなら通常どおり受け付ける', async () => {
       const { deps } = createDeps()
-      const result = await handleInquiry({ ...contact, website: ' ' }, deps)
+      const result = await handleInquiry({ ...contact, [HONEYPOT_FIELD]: ' ' }, deps)
       expect(result).toEqual({ kind: 'accepted', id: 'abc123', formType: 'contact' })
     })
   })
@@ -127,7 +127,7 @@ describe('handleInquiry', () => {
 
     it('inquiries には種別・検証後（正規化済み）の値・受付日時・TTL を保存する', async () => {
       const { deps, save } = createDeps()
-      await handleInquiry({ ...contact, extra: '不要な項目', website: '' }, deps)
+      await handleInquiry({ ...contact, extra: '不要な項目', [HONEYPOT_FIELD]: '' }, deps)
       const inquiry = findWrite(savedWrites(save), 'inquiries')
       expect(inquiry.data).toEqual({
         formType: 'contact',
@@ -149,7 +149,7 @@ describe('handleInquiry', () => {
         values: Record<string, unknown>
       }
       expect(values).not.toHaveProperty('emailConfirm')
-      expect(values).not.toHaveProperty('website')
+      expect(values).not.toHaveProperty(HONEYPOT_FIELD)
       expect(values.privacyConsent).toBe(true)
     })
 
