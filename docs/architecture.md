@@ -103,7 +103,10 @@ web/
     videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
     images/               # ロゴ・イラスト・装飾画像
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
-  scripts/verify-prerender.mjs  # ビルド後に各ページの title と h1、404.html の noindex を検証（postbuild）
+  scripts/generate-seo-files.ts # sitemap.xml（404 を除く全ページ）と robots.txt を build/client に書き出す（postbuild）
+  scripts/seoFiles.ts           # sitemap.xml・robots.txt の中身を組み立てる純粋関数（URL の組み立て・XML エスケープ）
+  scripts/verify-prerender.mjs  # ビルド後に各ページの title・h1・canonical・og:image、404.html の noindex、
+                                # sitemap.xml と canonical の一致、robots.txt と noindex の方針の一致を検証（postbuild）
   scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
   scripts/mediaManifest.ts      # web/public/media の写真・poster の寸法を読み取る。テストで mediaManifest.json と一致することを検証する
   scripts/generate-media-manifest.ts  # mediaManifest.json を作り直す（npm run media:manifest -w web）
@@ -128,7 +131,10 @@ web/
 - **検索エンジンへの登録は既定で禁止し、ビルド時の環境変数で許可する**: 本番切り替え（P10）までは現行の
   WordPress サイトが本番のため、このビルドが検索結果に載らないようにする。
   `VITE_ALLOW_INDEXING=true` のときだけ許可し、それ以外（未設定を含む）は全ページに `<meta name="robots" content="noindex">` を付ける。
-  robots.txt も同じ変数で切り替える（下記）。切り替え手順は [deployment.md](./deployment.md#本番切り替え時の-seo-設定) を参照。
+  robots.txt も同じ変数で切り替える（禁止時は `Disallow: /`、許可時は `Allow: /` と `Sitemap:` 行）。切り替え手順は [deployment.md](./deployment.md#本番切り替え時の-seo-設定) を参照。
+- **sitemap.xml と robots.txt は postbuild で生成する**: `content/pages.ts` の全ページ（404 を除く）から、
+  canonical と同じ URL（`SITE.url` + 末尾スラッシュ付きのパス）を並べる。インデックスの可否はアプリと同じく
+  `VITE_ALLOW_INDEXING`（Vite の `loadEnv` で環境変数と `.env` 系ファイルを読む）で決める。
 - **404 ページもプリレンダーする**: `*` ルートを `/404` としてプリレンダーし、ビルド後に `404.html` へ移す。
   Firebase Hosting は存在しない URL に `404.html` を 404 ステータスで返す。
 - **写真・動画は部品を通して表示する**: 旧テーマの `wf_picture` / `wf_video` と同じく、スラッグ（`wf-079`、`shorts/s08`）だけを渡す。

@@ -58,6 +58,9 @@ P0〜P7 は統合ブランチ `migration/react-firebase` にマージ済み。P8
 - ESLint の除外指定 `**/lib/**` が `web/app/lib` まで除外していたため、`functions/lib/**` に絞った（P7）
 - 車両・施工事例ページのヒーローは、旧テンプレートの暗い幕 `bg-black/55` が旧 CSS に含まれず、明るい写真の上の白い文字が読めなかった。P7 ではテンプレートの意図どおり幕を敷いた（共通部品 `PhotoHero`）。車両ページの動画の帯は、幕の代わりに動画を暗くして一時停止ボタンを隠さないようにした
 
+- P9 で、検索エンジンへの登録を既定で禁止（全ページ noindex・robots.txt で `Disallow: /`）にし、`VITE_ALLOW_INDEXING=true` のビルドだけ許可するようにした。本番切り替え（P10）で `SITE.url` の変更とあわせて設定する（[deployment.md](./deployment.md#本番切り替え時の-seo-設定)）
+- P9 の OGP 画像は写真 `wf-097`（荷台を傾けた自社車両）を 1200×630 に切り出した仮の選定。favicon はロゴの「F」の部分から作った
+
 ## ユーザー確認待ち
 
 1. 本番を Firebase Hosting に切り替える時期と sakura 環境の廃止（P10）
