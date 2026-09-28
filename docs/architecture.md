@@ -51,7 +51,7 @@ web/
   vite.config.ts          # Tailwind v4 + React Router
   vitest.config.ts
   app/
-    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・フォント読み込み・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
+    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・favicon とフォントの読み込み・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
     routes.ts             # content/pages.ts からルートを生成（一致しない URL は routes/not-found.tsx）
     app.css               # Tailwind v4 とデザイントークン
     content/
@@ -90,6 +90,7 @@ web/
     lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
     test/                 # テスト用スタブ（matchMedia / IntersectionObserver）。GSAP が読み込み時に matchMedia を呼ぶため、既定の実装は web/vitest.setup.ts に置く
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
+  public/favicon.svg  favicon.ico  apple-touch-icon.png  # ロゴの「F」から作ったアイコン（ico は 16・32・48px、touch は白背景 180px）
   public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
     photos/{small,large}/ # 写真（wf-NNN.webp。small・large とも寸法は写真ごとに異なる。実寸は lib/mediaManifest.json）
     videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
