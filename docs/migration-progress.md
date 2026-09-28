@@ -12,7 +12,7 @@
 - [x] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [x] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [x] P6: トップページ 10 セクション
-- [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（ブランチ `migration/p7-service`）完了
+- [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（ブランチ `migration/p7-workflow`）完了
 - [ ] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）
 - [ ] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0〜P6 は統合ブランチ `migration/react-firebase` にマージ済み。P7（下層ページ）着手、mission（PR #26）・service（ブランチ `migration/p7-service`）完了
+P0〜P6 は統合ブランチ `migration/react-firebase` にマージ済み。P7（下層ページ）着手、mission（PR #26）・service（PR #27）・workflow（ブランチ `migration/p7-workflow`）完了
 
 ## 問題・ブロッカー
 
@@ -52,6 +52,8 @@ P0〜P6 は統合ブランチ `migration/react-firebase` にマージ済み。P7
 - 旧ミッションページはスマホでも PC の 2 段組のまま横にはみ出していたため、P7 の移植では 1 段組にした
 - 旧テンプレートの英字小見出しの字間 `tracking-[0.3em]`、オレンジ文字 `text-[#d4874a]`、写真ヒーローの暗い幕 `bg-black/55`、`md:order-first` は旧 CSS に含まれず表示されていなかった（P7 の各ページで実際の見た目に合わせる）
 - 文字のコントラスト不足: 下層ページの CTA ボタン（白文字 × `wf-orange` #d4874a、約 2.9:1）と見出し上の英字ラベル（`wf-blue` #4a9db5 × 白背景、約 3.1:1）が WCAG AA に届かない。色は旧デザインのままにしており、P9 の Lighthouse・axe 確認で色の調整を相談する
+- 旧処理の流れページはスマホで写真が表示されず、本文も細い列に押し込まれていた。P7 では写真と本文を縦に並べ、文字の小さい処理ネットワーク図は幅を保って横にスクロールさせる
+- ESLint の除外指定 `**/lib/**` が `web/app/lib` まで除外していたため、`functions/lib/**` に絞った（P7）
 
 ## ユーザー確認待ち
 
