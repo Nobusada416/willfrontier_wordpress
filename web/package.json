@@ -8,6 +8,7 @@
     "build": "react-router build",
     "postbuild": "node scripts/create-404.mjs && node --experimental-strip-types --no-warnings scripts/generate-seo-files.ts && node scripts/verify-prerender.mjs",
     "preview": "vite preview --outDir build/client",
+    "serve:static": "node --experimental-strip-types --no-warnings scripts/serve-static.ts",
     "typecheck": "react-router typegen && tsc -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
