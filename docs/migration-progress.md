@@ -13,14 +13,14 @@
 - [x] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [x] P6: トップページ 10 セクション
 - [x] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（PR #28）・vehicles（PR #29）・casestudy（PR #30）
-- [ ] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）
+- [x] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）。スキーマ（PR #31）・安全ページ（PR #32）・採用ページ（PR #33）・送信処理（PR #34）・フォーム画面とお問い合わせページ（PR #35）
 - [ ] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
 - [ ] P11: WordPress 関連ファイル削除
 
 ## 現在の状態
 
-P0〜P7 は統合ブランチ `migration/react-firebase` にマージ済み。P8（フォーム）を作業中: shared のスキーマ（ブランチ `migration/p8-schemas`）
+P0〜P8 は統合ブランチ `migration/react-firebase` にマージ済み。P9（SEO と品質）を作業中: SEO（ブランチ `migration/p9-seo`）
 
 ## 問題・ブロッカー
 
@@ -57,6 +57,9 @@ P0〜P7 は統合ブランチ `migration/react-firebase` にマージ済み。P8
 - P8 で旧フォームの `?sent=1` への移動と `history.back()` を廃止し、送信後はページを移動せずに完了のダイアログを出す。エラーは項目の下に出す。安全・採用フォームの枠は、画面収めの廃止で葉の装飾が入力欄の後ろに入るため白くした
 - ESLint の除外指定 `**/lib/**` が `web/app/lib` まで除外していたため、`functions/lib/**` に絞った（P7）
 - 車両・施工事例ページのヒーローは、旧テンプレートの暗い幕 `bg-black/55` が旧 CSS に含まれず、明るい写真の上の白い文字が読めなかった。P7 ではテンプレートの意図どおり幕を敷いた（共通部品 `PhotoHero`）。車両ページの動画の帯は、幕の代わりに動画を暗くして一時停止ボタンを隠さないようにした
+
+- P9 で、検索エンジンへの登録を既定で禁止（全ページ noindex・robots.txt で `Disallow: /`）にし、`VITE_ALLOW_INDEXING=true` のビルドだけ許可するようにした。本番切り替え（P10）で `SITE.url` の変更とあわせて設定する（[deployment.md](./deployment.md#本番切り替え時の-seo-設定)）
+- P9 の OGP 画像は写真 `wf-097`（荷台を傾けた自社車両）を 1200×630 に切り出した仮の選定。favicon はロゴの「F」の部分から作った
 
 ## ユーザー確認待ち
 

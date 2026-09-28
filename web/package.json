@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "react-router dev",
     "build": "react-router build",
-    "postbuild": "node scripts/create-404.mjs && node scripts/verify-prerender.mjs",
+    "postbuild": "node scripts/create-404.mjs && node --experimental-strip-types --no-warnings scripts/generate-seo-files.ts && node scripts/verify-prerender.mjs",
     "preview": "vite preview --outDir build/client",
     "typecheck": "react-router typegen && tsc -p tsconfig.json",
     "test": "vitest run",

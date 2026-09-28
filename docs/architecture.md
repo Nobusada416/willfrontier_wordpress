@@ -51,17 +51,17 @@ web/
   vite.config.ts          # Tailwind v4 + React Router
   vitest.config.ts
   app/
-    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・フォント読み込み・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
+    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・favicon とフォントの読み込み・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
     routes.ts             # content/pages.ts からルートを生成（一致しない URL は routes/not-found.tsx）
     app.css               # Tailwind v4 とデザイントークン
     content/
       pages.ts            # 全ページ定義（ルート・プリレンダー対象の唯一の情報源）
       navigation.ts       # ヘッダー・フッターのリンク定義
-      site.ts             # サイト名・正式社名・キャッチコピー・URL
+      site.ts             # サイト名・正式社名・キャッチコピー・URL・OGP 画像（寸法と代替テキスト）・構造化データのロゴ
       home.ts             # トップだけで使う内容（ヒーローの写真・SERVICE の 5 項目・WORKFLOW・車両スライド・採用）
       gallery.ts          # GALLERY の写真・動画とタグ、絞り込み（filterGallery）
       cases.ts            # トップの施工事例の一覧（旧サイトの時点で仮の値）と、施工事例ページのヒーロー写真・主要施工事例
-      company.ts          # 会社概要と拠点（横浜本社・WF-A.BASE）
+      company.ts          # 会社概要と拠点（横浜本社・WF-A.BASE）・設立日（構造化データ用）
       mission.ts          # ミッションページだけで使う内容（式の各語と色・丸写真の切り替え・「地域と共に」の写真一覧）
       service.ts          # サービスページだけで使う内容（図の 5 つの特長と画像の文字の書き起こし・事業内容のカード）
       workflow.ts         # 処理の流れページだけで使う内容（処理ネットワーク図の説明文・処理の 5 ステップ）
@@ -83,19 +83,28 @@ web/
                           # PillSubmitButton / Honeypot / SubmitDialog（送信完了）
     lib/firebase.ts       # フォーム送信時に Firebase（App Check・Functions）を遅延読み込みする
     lib/submitInquiry.ts  # 送信処理 submitInquiry の呼び出しと結果（ok / invalid / error）への変換
-    lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP、404 の noindex を組み立てる
+    lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP・robots（noindex）・トップの JSON-LD、404 の noindex を組み立てる
+    lib/indexing.ts       # 環境変数 VITE_ALLOW_INDEXING から検索エンジンへの登録の可否を判定（既定は禁止）
+    lib/structuredData.ts # トップに出力する Organization（schema.org）の JSON-LD。住所を都道府県・市区町村・番地に分ける
+    env.d.ts              # import.meta.env の型（VITE_ALLOW_INDEXING）
     lib/media.ts          # 写真・動画の配信パスと寸法、クロスフェードの遅延計算
     lib/mediaManifest.json  # 写真・poster の実寸（npm run media:manifest -w web で生成）
     lib/motion/           # gsap（プラグイン登録・useMotion）/ headScript（<head> のインラインスクリプト）/ intro / scrollLock
     lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
     test/                 # テスト用スタブ（matchMedia / IntersectionObserver）。GSAP が読み込み時に matchMedia を呼ぶため、既定の実装は web/vitest.setup.ts に置く
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
+  public/favicon.svg  favicon.ico  apple-touch-icon.png  # ロゴの「F」から作ったアイコン（ico は 16・32・48px、touch は白背景 180px）
+  public/og-image.jpg     # SNS シェア用の画像（1200×630。写真 wf-097 から切り出し）
+  public/logo.png         # 構造化データのロゴ（512px 正方形・白背景。media/images/logocolor.svg から書き出し）
   public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
     photos/{small,large}/ # 写真（wf-NNN.webp。small・large とも寸法は写真ごとに異なる。実寸は lib/mediaManifest.json）
     videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
     images/               # ロゴ・イラスト・装飾画像
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
-  scripts/verify-prerender.mjs  # ビルド後に各ページの title と h1、404.html の noindex を検証（postbuild）
+  scripts/generate-seo-files.ts # sitemap.xml（404 を除く全ページ）と robots.txt を build/client に書き出す（postbuild）
+  scripts/seoFiles.ts           # sitemap.xml・robots.txt の中身を組み立てる純粋関数（URL の組み立て・XML エスケープ）
+  scripts/verify-prerender.mjs  # ビルド後に各ページの title・h1・canonical・og:image、404.html の noindex、
+                                # sitemap.xml と canonical の一致、robots.txt と noindex の方針の一致を検証（postbuild）
   scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
   scripts/mediaManifest.ts      # web/public/media の写真・poster の寸法を読み取る。テストで mediaManifest.json と一致することを検証する
   scripts/generate-media-manifest.ts  # mediaManifest.json を作り直す（npm run media:manifest -w web）
@@ -114,6 +123,16 @@ web/
   エラー表示や 404 ページにも同じヘッダー・フッターが付く。
 - **meta はページ定義から生成する**: 各ルートは `export const meta = () => buildMeta(page)` とし、
   title・description・canonical・OGP を `content/pages.ts` と `content/site.ts` から組み立てる。
+  - OGP 画像は全ページ共通の `og-image.jpg`（1200×630）で、`twitter:card` は `summary_large_image`。
+  - トップページには会社情報の構造化データ（`Organization`。所在地は本社、両拠点を `location`）を出力する。
+    React Router の meta の `"script:ld+json"` 記法を使い、JSON 中の `<` などのエスケープは React Router に任せる。
+- **検索エンジンへの登録は既定で禁止し、ビルド時の環境変数で許可する**: 本番切り替え（P10）までは現行の
+  WordPress サイトが本番のため、このビルドが検索結果に載らないようにする。
+  `VITE_ALLOW_INDEXING=true` のときだけ許可し、それ以外（未設定を含む）は全ページに `<meta name="robots" content="noindex">` を付ける。
+  robots.txt も同じ変数で切り替える（禁止時は `Disallow: /`、許可時は `Allow: /` と `Sitemap:` 行）。切り替え手順は [deployment.md](./deployment.md#本番切り替え時の-seo-設定) を参照。
+- **sitemap.xml と robots.txt は postbuild で生成する**: `content/pages.ts` の全ページ（404 を除く）から、
+  canonical と同じ URL（`SITE.url` + 末尾スラッシュ付きのパス）を並べる。インデックスの可否はアプリと同じく
+  `VITE_ALLOW_INDEXING`（Vite の `loadEnv` で環境変数と `.env` 系ファイルを読む）で決める。
 - **404 ページもプリレンダーする**: `*` ルートを `/404` としてプリレンダーし、ビルド後に `404.html` へ移す。
   Firebase Hosting は存在しない URL に `404.html` を 404 ステータスで返す。
 - **写真・動画は部品を通して表示する**: 旧テーマの `wf_picture` / `wf_video` と同じく、スラッグ（`wf-079`、`shorts/s08`）だけを渡す。

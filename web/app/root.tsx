@@ -11,6 +11,10 @@ import './app.css'
 // 日本語フォントは unicode-range で細かく分割されるため、自前配信だと @font-face 宣言だけで
 // 数百 KB の CSS になる。ブラウザごとに最適化された CSS を返す Google Fonts から読み込む
 export const links: Route.LinksFunction = () => [
+  // ロゴの「F」から作ったアイコン。ico は svg に対応しないブラウザ向け（/favicon.ico への自動リクエストも 404 にしない）
+  { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
+  { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+  { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
   {
