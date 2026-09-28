@@ -9,7 +9,7 @@
 - [x] P1: Firebase 基盤（firebase.json / 全拒否ルール / Emulator / functions・shared 雛形）
 - [x] P2: レイアウト（Header・MobileNav・Footer・SkipLink・404・SEO ヘルパー）
 - [x] P3: メディアコンポーネント（Picture / Video / CrossfadeHero / MosaicHero）
-- [ ] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
+- [x] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [ ] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [ ] P6: トップページ 10 セクション
 - [ ] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0〜P2 は統合ブランチ `migration/react-firebase` にマージ済み。P3 完了（ブランチ `migration/p3-media`）。次は P4（アセット移行）
+P0〜P3 は統合ブランチ `migration/react-firebase` にマージ済み。P4 完了（ブランチ `migration/p4-assets`）。次は P5（モーション）
 
 ## 問題・ブロッカー
 
@@ -30,16 +30,18 @@ P0〜P2 は統合ブランチ `migration/react-firebase` にマージ済み。P3
 - jsdom 30 は Node 22.22 以上が必要なため、jsdom 29 系を採用
 - P0 で、prerender に末尾スラッシュ付きパスを渡すと空の HTML になる不具合を見つけて修正（postbuild で再発検知）
 - `npm audit`: firebase-admin 経由の uuid（moderate）が残る。buf 引数を渡す使い方のみ影響し本件は該当しないため、上流の更新待ち
-- P2 でロゴ（`logocolor.svg`）だけ先に `web/public/media/images/` へコピーした。旧テーマも同じファイルを使うため、`assets/images/` 側は P11 で削除する
 - `content/site.ts` の `SITE.url`（canonical・OGP に使う）は現行の公開 URL を仮に設定している。本番ドメインは P10 で確定する
 - 各ページの説明文（meta description）は旧サイトに無かったため新規に作成した。文面の確認が必要
-- P3 のメディア部品は `/media/...` を参照するが、実ファイルの移動は P4 で行う（それまでは部品をページで使わない）
+- P4 で使用中の画像・動画を `web/public/media/` へ移動し、旧テーマ（PHP）の参照先も書き換えた。WordPress 側を sakura へデプロイする main には、P11 まで取り込まない
+- 旧テーマの動画 poster（`shorts/s08`〜`s14` の jpg）が存在せずリンク切れだったため、ffmpeg で生成した
+- 旧トップのスマホ表示で参照していた葉の画像（`plant-*-left.svg`）が削除済みでリンク切れだったため、同名の png に差し替えた
+- P4 で、どこからも参照されていない素材 240 ファイル（約 75MB。画像 55・写真 134・動画と poster 51）を削除した。必要になれば git 履歴から戻せる
+- `data/`（627MB の生素材）は git 履歴から消さない（ユーザー判断、2026-09-28）
+- 存在しない動画 `hero/intro`・`service/demolition` は `functions.php` のコメント内の例でのみ参照されており、実際のページでは使われていなかった（P11 で PHP ごと削除）
 - 旧実装は写真のクラスを `<picture>` と `<img>` の両方に付けており `opacity-40` が二重にかかっていた。P6・P7 の移植時に見た目を合わせる
 - フォントは計画の自前配信（@fontsource）から Google Fonts 読み込みに変更（自前配信では CSS が 572KB に膨らむため）
 
 ## ユーザー確認待ち
 
-1. 実在しない動画 `hero/intro`・`service/demolition` の扱い（P4）
-2. `data/`（627MB）を git 履歴から消すか（P4 / P11）
-3. 本番を Firebase Hosting に切り替える時期と sakura 環境の廃止（P10）
-4. `scripts/generate-pdfs.js` を残すか（P11）
+1. 本番を Firebase Hosting に切り替える時期と sakura 環境の廃止（P10）
+2. `scripts/generate-pdfs.js` を残すか（P11）

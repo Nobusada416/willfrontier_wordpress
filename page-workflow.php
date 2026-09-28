@@ -21,8 +21,8 @@ window.addEventListener('load', function() {
 
     <!-- 既存：処理ネットワーク図 -->
     <section style="position:relative;width:100%;padding:clamp(48px,6vw,80px) 24px;overflow:hidden;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="detail-leaf" style="position:absolute;bottom:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="detail-leaf" style="position:absolute;bottom:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
 
         <div style="max-width:1200px;margin:0 auto;position:relative;z-index:2;text-align:center;width:100%;">
             <h2 class="js-heading-up yellow-underline" style="font-size:2.6rem;font-weight:900;color:#4a9db5;letter-spacing:.05em;margin-bottom:20px;">ウィルフロンティア 処理ネットワーク</h2>
@@ -31,7 +31,7 @@ window.addEventListener('load', function() {
                 委託契約書、マニフェスト伝票の作成・発行はもちろん、お見積りは無料ですので、お気軽にお問い合わせください。
             </p>
             <div style="display:flex;justify-content:center;" class="js-fade-up">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/network.svg" alt="ウィルフロンティア 処理ネットワーク" style="width:100%;max-width:1000px;height:auto;display:block;">
+                <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/network.svg" alt="ウィルフロンティア 処理ネットワーク" style="width:100%;max-width:1000px;height:auto;display:block;">
             </div>
         </div>
     </section>

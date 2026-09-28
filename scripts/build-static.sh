@@ -99,8 +99,14 @@ cp -R "$PROJECT_ROOT/assets/." "$ASSETS_DEST/"
 
 # 不要な素材プール（git 管理外、サイズ大）を削除
 rm -rf "$ASSETS_DEST/photos/originals"
-rm -rf "$ASSETS_DEST/photos/originals_compressed"
 rm -rf "$ASSETS_DEST/videos/originals_compressed"
+
+# 移行 P4 以降のブランチでは写真・動画が web/public/media にあるため、そちらもコピーする
+if [ -d "$PROJECT_ROOT/web/public/media" ]; then
+  MEDIA_DEST="$OUTDIR/wp-content/themes/will-frontier/web/public/media"
+  mkdir -p "$MEDIA_DEST"
+  cp -R "$PROJECT_ROOT/web/public/media/." "$MEDIA_DEST/"
+fi
 
 echo ""
 echo "[$PATTERN] Output directory:"

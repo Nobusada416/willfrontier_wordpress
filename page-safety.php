@@ -39,8 +39,8 @@ window.addEventListener('load', function() {
 
     <!-- セクション1: 写真＋テキスト3行 -->
     <section style="position:relative;width:100%;height:calc(100vh - 72px);padding:30px 40px;overflow:hidden;box-sizing:border-box;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="detail-leaf" style="position:absolute;bottom:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;top:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="detail-leaf" style="position:absolute;bottom:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;top:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
         <div id="safety-sec1-inner" style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:60px;padding-left:80px;">
 
             <?php
@@ -122,8 +122,8 @@ window.addEventListener('load', function() {
 
     <!-- セクション2: お問い合わせ -->
     <section style="position:relative;width:100%;height:calc(100vh - 72px);padding:30px 40px;overflow:hidden;box-sizing:border-box;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-top-left.png" alt="" class="detail-leaf" style="position:absolute;top:0;left:0px;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-top-left.png" alt="" class="detail-leaf" style="position:absolute;top:0;left:0px;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.5;z-index:1;">
         <div id="safety-sec2-inner" style="max-width:1200px;margin:0 auto;">
 
             <!-- 見出し -->
@@ -161,7 +161,7 @@ window.addEventListener('load', function() {
                     </div>
                     <div style="flex:1;text-align:center;">
                         <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/handshake.png" alt="" style="width:24px;height:24px;object-fit:contain;">
+                            <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/handshake.png" alt="" style="width:24px;height:24px;object-fit:contain;">
                             <div style="font-size:18px;font-weight:700;color:#2d5c8a;">STEP3</div>
                         </div>
                         <div style="font-size:1rem;font-weight:900;color:#2d5c8a;margin-bottom:6px;">ご契約・回収開始</div>

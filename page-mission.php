@@ -20,18 +20,18 @@ window.addEventListener('load', function() {
 <main class="relative w-full bg-white" style="margin:0;padding:0;flex:1;display:flex;flex-direction:column;">
 
     <section style="position:relative;width:100%;padding:20px 40px;box-sizing:border-box;flex:1;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/bg_blue.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/bg_blue.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;">
         <!-- 装飾円 -->
         <div style="position:absolute;top:-550px;left:-60px;width:1000px;height:1000px;border-radius:50%;background:#ffffff;z-index:2;pointer-events:none;"></div>
         <div style="position:absolute;top:330px;left:-100px;width:900px;height:400px;border-radius:50%;background:#ffffff;z-index:2;pointer-events:none;"></div>
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-left.png" alt="" class="detail-leaf" style="position:absolute;bottom:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.2;z-index:1;">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.2;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-left.png" alt="" class="detail-leaf" style="position:absolute;bottom:0;left:0;height:100%;width:auto;pointer-events:none;opacity:.2;z-index:1;">
+        <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/plant-bottom-right.png" alt="" class="detail-leaf detail-leaf-right" style="position:absolute;bottom:0;right:0;height:100%;width:auto;pointer-events:none;opacity:.2;z-index:1;">
 
         <!-- 当社は、＋環境＝画像 -->
         <div style="max-width:1200px;margin:0 auto;position:relative;z-index:3;overflow:visible;">
             <p style="font-size:1.1rem;font-weight:700;color:#374151;margin-bottom:8px;">当社は、</p>
             <div style="margin:0 0 8px;overflow:visible;">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/calculation.svg" alt="環境＝地球＋Forest＋水＋Animal＋街＋人" style="width:100%;max-width:100%;height:auto;display:block;margin-left:0;">
+                <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/calculation.svg" alt="環境＝地球＋Forest＋水＋Animal＋街＋人" style="width:100%;max-width:100%;height:auto;display:block;margin-left:0;">
             </div>
             <p style="font-size:1rem;font-weight:700;color:#374151;margin-top:-10px;margin-bottom:4px;padding-left:75%;">を重要なテーマとして捉えています。</p>
         </div>
@@ -55,8 +55,8 @@ window.addEventListener('load', function() {
 
                 <!-- + PLUS スマイル宣言 -->
                 <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-bottom:14px;">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/+.svg" alt="plus" style="width:50px;height:auto;margin-left:110px;">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/smile.svg" alt="スマイル宣言" style="height:80px;width:auto;display:block;margin-left:20px;">
+                    <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/+.svg" alt="plus" style="width:50px;height:auto;margin-left:110px;">
+                    <img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/smile.svg" alt="スマイル宣言" style="height:80px;width:auto;display:block;margin-left:20px;">
                 </div>
 
                 <!-- 地域と共に -->
