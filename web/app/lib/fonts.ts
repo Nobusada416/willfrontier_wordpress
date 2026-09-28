@@ -11,4 +11,5 @@ export const FONT_STYLESHEET_URL =
  * スクリプトから追加した stylesheet は描画を止めないため、先にシステムフォントで表示し、
  * 読み込み後に切り替える（font-display: swap と同じ見え方）。JS が動かない環境は root.tsx の <noscript> で読み込む
  */
-export const FONT_LOADER_SCRIPT = `(function(){var h=${JSON.stringify(FONT_STYLESHEET_URL)};if(document.querySelector('link[rel="stylesheet"][href="'+h+'"]'))return;var l=document.createElement('link');l.rel='stylesheet';l.href=h;document.head.appendChild(l)})()`
+// 追加済みかは href を 1 つずつ比べて確かめる（URL の @ ; & をセレクターの属性値に埋め込むと、実装によって一致しないため）
+export const FONT_LOADER_SCRIPT = `(function(){var h=${JSON.stringify(FONT_STYLESHEET_URL)};var s=document.querySelectorAll('link[rel="stylesheet"]');for(var i=0;i<s.length;i++){if(s[i].getAttribute('href')===h)return}var l=document.createElement('link');l.rel='stylesheet';l.href=h;document.head.appendChild(l)})()`
