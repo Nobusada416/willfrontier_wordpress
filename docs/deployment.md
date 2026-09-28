@@ -45,6 +45,25 @@ Trigger Email 拡張の導入手順は [forms.md](./forms.md#メール)。
 preview channel など本番以外のビルドでは設定しないこと。
 postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` が同じ方針になっていることを検証する。
 
+### Content-Security-Policy（Report-Only）
+
+`firebase.json` で全ページに `Content-Security-Policy-Report-Only` を付けている（テスト: `web/scripts/hostingHeaders.test.ts`）。
+違反してもブロックせず、ブラウザのコンソールに報告するだけ。許可している通信先は次のとおり。
+
+| ディレクティブ | 許可するもの                                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------------------------ |
+| `script-src`   | 自サイト・インラインスクリプト・reCAPTCHA（App Check）                                                       |
+| `style-src`    | 自サイト・インラインの style 属性・Google Fonts の CSS                                                       |
+| `font-src`     | 自サイト・Google Fonts                                                                                       |
+| `connect-src`  | 自サイト・Cloud Functions（`*.cloudfunctions.net`）・App Check のトークン交換・reCAPTCHA                     |
+| `frame-src`    | reCAPTCHA                                                                                                    |
+| その他         | `default-src 'self'`・`object-src 'none'`・`base-uri 'self'`・`form-action 'self'`・`frame-ancestors 'none'` |
+
+- プリレンダーした HTML には、React Router の hydration 用のインラインスクリプト（ページごとに中身が違う）と `<head>` のアニメーション用スクリプトがあるため、`script-src` に `'unsafe-inline'` を許可している。強制（`Content-Security-Policy`）に切り替える場合は、postbuild で各ページのインラインスクリプトのハッシュを集めてヘッダーに入れる必要がある
+- zod は `jitless` にして `new Function` を使わない（`unsafe-eval` を許可しないため。`shared/src/forms/schemas.ts`）
+- P10 で行うこと: `connect-src` の `https://*.cloudfunctions.net` は誰のプロジェクトでも一致するため、本番のプロジェクト ID が決まったら `https://asia-northeast1-<project-id>.cloudfunctions.net` に絞る。違反を集めるなら `report-to`（`Reporting-Endpoints`）の追加を検討する
+- P9 時点で、全 9 ページと 404 を Hosting Emulator で開き、違反の報告が出ないことを確認した。reCAPTCHA の読み込みは本番の設定が必要なため、P10 の preview channel で確認する
+
 ### 既知の制約
 
 - `functions/` には専用の `package-lock.json` がない（lockfile は npm workspaces のルートにのみある）。

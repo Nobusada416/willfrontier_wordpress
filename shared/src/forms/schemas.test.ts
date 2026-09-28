@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { z } from 'zod'
 import {
   contactSchema,
   FORM_FIELDS,
@@ -252,5 +253,11 @@ describe('FORM_FIELDS（メール本文の項目名と順番）', () => {
     expect(names).not.toContain('emailConfirm')
     expect(names).not.toContain('privacyConsent')
     expect(names).toHaveLength(12)
+  })
+})
+
+describe('zod の設定', () => {
+  it('new Function を使わない（jitless）。CSP で unsafe-eval を許可せずに済み、違反の報告も出さない', () => {
+    expect(z.config().jitless).toBe(true)
   })
 })
