@@ -32,7 +32,8 @@ export function CrossfadeHero({
             slug={slug}
             alt=""
             priority={priority && index === 0}
-            loading={priority ? 'eager' : 'lazy'}
+            // 2 枚目以降は表示まで 4 秒あるため、ファーストビューでも遅延読み込みにして 1 枚目に帯域を譲る
+            loading={priority && index === 0 ? 'eager' : 'lazy'}
             className={`h-full w-full object-cover ${imageClassName ?? ''}`}
           />
         </div>

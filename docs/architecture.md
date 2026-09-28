@@ -149,6 +149,7 @@ web/
     「視差効果を減らす」設定では自動再生しない。
   - `CrossfadeHero`（3 枚の切り替え）/ `MosaicHero`（タイルの明滅）: 親要素いっぱいに広がる背景写真。
     装飾なので `aria-hidden` にし、アニメーションは `motion-safe:` で付ける（keyframes は [design-tokens.md](./design-tokens.md#アニメーション)）。
+    `CrossfadeHero` の `priority` は 1 枚目だけを即時読み込みにし、4 秒後から表示される 2 枚目以降は遅延読み込みにして帯域を譲る。
   - 旧実装はクラスを `<picture>` と `<img>` の両方に付けていたため、`opacity-40` などが二重にかかっていた。
     新実装は `<img>` だけに付けるので、ページ移植時に見た目を合わせる（トップの MISSION は `opacity-16`）。
 - **トップページ（P6）は旧サイトで実際に表示されていた見た目に合わせる**
