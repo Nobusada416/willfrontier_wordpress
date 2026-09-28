@@ -52,12 +52,15 @@ function LinedHeading({
 function StepIcon({ icon }: { icon: InquiryStepIcon }) {
   if (icon === 'handshake') {
     return (
+      // 旧テーマの handshake.png（976px・800KB 超）を表示寸法の 3 倍（72px）に縮めた webp。png は P11 で削除
       <img
-        src="/media/images/handshake.png"
+        src="/media/images/handshake.webp"
         alt=""
         aria-hidden="true"
         width={24}
         height={24}
+        loading="lazy"
+        decoding="async"
         className="size-6 object-contain"
       />
     )
