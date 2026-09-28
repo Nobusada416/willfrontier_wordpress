@@ -64,4 +64,6 @@ Hosting の Emulator は `web/build/client` を配信するため、事前に `n
 動画スラッグ `shorts/sNN`、`/media/...` のパス）が実在することは `web/scripts/mediaReferences.test.ts` が検証する。
 検証対象は `web/app` のソースと、旧テーマ（ルート直下の `*.php`）。動画スラッグは `shorts/sNN` 形式だけを検出するため、別の形式を使う場合は正規表現も直す。
 動画の poster は `ffmpeg -ss 1 -i sNN.mp4 -frames:v 1 -q:v 5 sNN.jpg` で作る。
+写真・poster を追加・差し替えたら `npm run media:manifest -w web` で寸法一覧（`web/app/lib/mediaManifest.json`）を作り直す。
+作り直し忘れは `web/scripts/mediaManifest.test.ts` が検出する。
 旧テーマの `style.css` はルートの `tailwindcss@3` で生成しているため、P11 まで依存を残す。

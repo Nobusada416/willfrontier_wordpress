@@ -21,7 +21,8 @@
 
   /* 色：テキスト・面・罫線 */
   --color-wf-ink: #374151; /* 本文 */
-  --color-wf-text: #2e5a6a; /* body の既定文字色 */
+  --color-wf-text: #2e5a6a; /* body の既定文字色・トップの見出し */
+  --color-wf-text-mid: #4a8a9e; /* 補足の文字（旧 text-gray-600 の上書き色） */
   --color-wf-bg: #f5fafb; /* body の既定背景 */
   --color-wf-surface: #f6f8fa; /* セクション背景 */
   --color-wf-border: #c8d9e6; /* 罫線・区切り */

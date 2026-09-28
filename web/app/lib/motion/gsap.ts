@@ -21,10 +21,12 @@ const reveal = (element: HTMLElement) => {
 /**
  * ref の要素に対して、動きを減らす設定でないときだけアニメーションを登録する
  * 設定が切り替わったときやアンマウント時は gsap.matchMedia が元に戻す
+ * dependencies が変わると、登録したアニメーションを元に戻してから setup をやり直す
  */
 export const useMotion = <T extends HTMLElement>(
   ref: RefObject<T | null>,
   setup: (element: T) => void,
+  dependencies: readonly unknown[] = [],
 ) =>
   useGSAP(
     () => {
@@ -42,5 +44,5 @@ export const useMotion = <T extends HTMLElement>(
       })
       return () => mm.revert()
     },
-    { scope: ref },
+    { scope: ref, dependencies: [...dependencies], revertOnUpdate: true },
   )

@@ -3,13 +3,14 @@ import { gsap, useMotion } from '~/lib/motion/gsap'
 
 type HeadingRevealProps = {
   as: 'h1' | 'h2' | 'h3' | 'h4'
+  id?: string
   className?: string
   children: ReactNode
 }
 
 // 見出しがマスクの下からせり上がる演出（旧 .js-heading-up）
 // 旧実装は JS で DOM を書き換えてマスクを作っていたが、hydrate の不整合を防ぐため JSX で描画する
-export function HeadingReveal({ as: Tag, className, children }: HeadingRevealProps) {
+export function HeadingReveal({ as: Tag, id, className, children }: HeadingRevealProps) {
   const ref = useRef<HTMLHeadingElement>(null)
 
   useMotion(ref, (heading) => {
@@ -27,7 +28,7 @@ export function HeadingReveal({ as: Tag, className, children }: HeadingRevealPro
   })
 
   return (
-    <Tag ref={ref} className={className}>
+    <Tag ref={ref} id={id} className={className}>
       <span className="block overflow-hidden pb-[0.1em]">
         <span data-reveal className="block will-change-transform">
           {children}

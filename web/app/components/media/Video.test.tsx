@@ -46,6 +46,13 @@ describe('Video', () => {
     expect(play).not.toHaveBeenCalled()
   })
 
+  it('poster の実寸を width / height に付け、読み込み前から高さを確保する', () => {
+    stubMatchMedia()
+    render(<Video slug="shorts/s08" poster="shorts/s08" />)
+    expect(getVideo()).toHaveAttribute('width', '1280')
+    expect(getVideo()).toHaveAttribute('height', '720')
+  })
+
   it('画面に入ると読み込んで自動再生する（ミュート・ループ・インライン再生）', () => {
     stubMatchMedia()
     render(<Video slug="shorts/s08" />)

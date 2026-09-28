@@ -1,4 +1,4 @@
-import { photoSrc, photoSrcSet } from '~/lib/media'
+import { photoSize, photoSrc, photoSrcSet } from '~/lib/media'
 
 type PictureProps = {
   // 'wf-079' のような写真スラッグ
@@ -23,9 +23,12 @@ export function Picture({
   loading = 'lazy',
   priority = false,
 }: PictureProps) {
+  const size = photoSize(slug)
   return (
     <img
       src={photoSrc(slug)}
+      width={size?.width}
+      height={size?.height}
       srcSet={photoSrcSet(slug)}
       sizes={sizes}
       alt={alt}

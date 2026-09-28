@@ -1,6 +1,6 @@
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { photoSrc, photoSrcSet, posterSrc, videoSrc } from '../app/lib/media'
+import { photoSmallSrc, photoSrc, posterSrc, videoSrc } from '../app/lib/media'
 
 // ソース中の文字列リテラルから、参照しているメディアファイル（/media/...）を求める
 // 写真スラッグ（'wf-079'）・動画スラッグ（'shorts/s08'）・直接のパス（'/media/images/x.svg'）を対象にする
@@ -14,8 +14,7 @@ const matchesOf = (source: string, pattern: RegExp) =>
 
 export const findMediaReferences = (source: string): string[] => {
   const photos = matchesOf(source, PHOTO_SLUG).flatMap((slug) => [
-    // srcset の 1 つ目（small）と src（large）
-    photoSrcSet(slug).split(' ')[0] ?? '',
+    photoSmallSrc(slug),
     photoSrc(slug),
   ])
   const videos = matchesOf(source, VIDEO_SLUG).flatMap((slug) => [videoSrc(slug), posterSrc(slug)])

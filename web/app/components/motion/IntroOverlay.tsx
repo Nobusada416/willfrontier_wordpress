@@ -47,7 +47,7 @@ export function IntroOverlay() {
       ref={overlayRef}
       data-intro-overlay
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-(--z-intro) flex items-center justify-center bg-[rgb(245_158_11/0.65)] backdrop-blur-sm"
+      className="pointer-events-none fixed inset-0 z-(--z-intro) flex items-center justify-center bg-[rgb(74_157_191/0.65)] backdrop-blur-sm"
     >
       <img
         ref={logoRef}

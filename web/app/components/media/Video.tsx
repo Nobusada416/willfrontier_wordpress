@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { posterSrc, videoSrc } from '~/lib/media'
+import { posterSize, posterSrc, videoSrc } from '~/lib/media'
 import { useReducedMotion } from '~/lib/useReducedMotion'
 
 type VideoProps = {
@@ -30,6 +30,8 @@ export function Video({ slug, poster, label, className, videoClassName }: VideoP
   // 利用者がボタンで選んだ状態。未操作なら OS の設定に従う
   const [userChoice, setUserChoice] = useState<'play' | 'pause' | null>(null)
   const wantsPlay = userChoice ? userChoice === 'play' : !reducedMotion
+  // poster と同じ縦横比で場所を確保し、読み込みの前後でページの高さが変わらないようにする
+  const size = poster ? posterSize(poster) : undefined
 
   useEffect(() => {
     const video = videoRef.current
@@ -74,6 +76,8 @@ export function Video({ slug, poster, label, className, videoClassName }: VideoP
         src={loaded ? videoSrc(slug) : undefined}
         poster={poster ? posterSrc(poster) : undefined}
         preload={loaded ? 'metadata' : 'none'}
+        width={size?.width}
+        height={size?.height}
         muted
         loop
         playsInline

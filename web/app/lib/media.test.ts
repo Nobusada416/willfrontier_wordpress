@@ -1,15 +1,34 @@
 import { describe, expect, it } from 'vitest'
-import { crossfadeDelay, photoSrc, photoSrcSet, posterSrc, videoSrc } from './media'
+import {
+  crossfadeDelay,
+  photoSize,
+  photoSrc,
+  photoSrcSet,
+  posterSize,
+  posterSrc,
+  videoSrc,
+} from './media'
 
 describe('写真のパス', () => {
   it('大きい写真を src に使う', () => {
     expect(photoSrc('wf-079')).toBe('/media/photos/large/wf-079.webp')
   })
 
-  it('srcset は small を 768w、large を 1600w として並べる', () => {
+  it('srcset には small / large の実際の幅を書く', () => {
     expect(photoSrcSet('wf-079')).toBe(
       '/media/photos/small/wf-079.webp 768w, /media/photos/large/wf-079.webp 1600w',
     )
+    // 旧実装は一律 768w としていたため、実際は幅 480px の small が 768px 相当として選ばれていた
+    expect(photoSrcSet('wf-112')).toMatch(/^\/media\/photos\/small\/wf-112\.webp 480w, /)
+  })
+
+  it('large の実寸を返す（width / height 属性で読み込み前から高さを確保する）', () => {
+    expect(photoSize('wf-079')).toEqual({ width: 1600, height: 2133 })
+  })
+
+  it('一覧に無い写真は srcset と寸法を返さない', () => {
+    expect(photoSrcSet('wf-000')).toBeUndefined()
+    expect(photoSize('wf-000')).toBeUndefined()
   })
 })
 
@@ -20,6 +39,11 @@ describe('動画のパス', () => {
 
   it('poster は動画と同じ場所の同名 jpg', () => {
     expect(posterSrc('shorts/s13')).toBe('/media/videos/shorts/s13.jpg')
+  })
+
+  it('poster の実寸を返す', () => {
+    expect(posterSize('shorts/s08')).toEqual({ width: 1280, height: 720 })
+    expect(posterSize('shorts/s00')).toBeUndefined()
   })
 })
 
