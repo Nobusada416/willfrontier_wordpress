@@ -39,7 +39,7 @@ export function SubmitDialog({ open, title, children, onClose }: SubmitDialogPro
       <button
         type="button"
         onClick={() => dialogRef.current?.close()}
-        className="rounded-full bg-wf-blue px-[60px] py-3.5 text-[1.1rem] font-black text-white transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue"
+        className="rounded-full bg-wf-blue px-[60px] py-3.5 text-[1.1rem] font-black text-white transition-colors hover:bg-wf-blue-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue"
       >
         閉じる
       </button>

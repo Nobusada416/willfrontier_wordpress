@@ -17,6 +17,8 @@ export default tseslint.config(
       'static/**',
       'src/**',
       '.wrangler/**',
+      // Claude Code の作業用 worktree（リポジトリの複製）
+      '.claude/**',
       'tailwind.config.js',
       '**/node_modules/**',
       '**/build/**',

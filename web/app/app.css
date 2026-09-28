@@ -12,17 +12,19 @@
 
   /* 色：ブランド */
   --color-wf-navy: #2d5c8a; /* 見出し・本文強調・フッター背景（旧 #2d5c8a） */
-  --color-wf-blue: #4a9db5; /* ボタン・英字ラベル・アクセント（旧 #4a9db5） */
+  --color-wf-blue: #2b7489; /* ボタン・英字ラベル・アクセント（旧 #4a9db5 は文字色・白文字の背景としてコントラスト不足のため暗くした） */
   --color-wf-sky: #7fc8de; /* 淡いアクセント */
   --color-wf-deep: #1a3a5c; /* 暗い背景・オーバーレイ */
   --color-wf-royal: #003894; /* ロゴ色に合わせた濃紺 */
-  --color-wf-orange: #d4874a; /* 下層ページの CTA ボタン */
+  --color-wf-blue-hover: #215b6c; /* wf-blue の塗りのボタンにマウスを重ねたとき（通常時より暗くする） */
+  --color-wf-orange: #a95f27; /* 下層ページの CTA ボタン（旧 #d4874a は白文字とのコントラスト不足のため暗くした） */
+  --color-wf-orange-hover: #8a4c1f; /* wf-orange の塗りのボタンにマウスを重ねたとき */
   --color-wf-yellow: #ffe066; /* 黄色マーカー・下線 */
 
   /* 色：テキスト・面・罫線 */
   --color-wf-ink: #374151; /* 本文 */
   --color-wf-text: #2e5a6a; /* body の既定文字色・トップの見出し */
-  --color-wf-text-mid: #4a8a9e; /* 補足の文字（旧 text-gray-600 の上書き色） */
+  --color-wf-text-mid: #3a7385; /* 補足の文字（旧 text-gray-600 の上書き色 #4a8a9e はコントラスト不足のため暗くした） */
   --color-wf-bg: #f5fafb; /* body の既定背景 */
   --color-wf-surface: #f6f8fa; /* セクション背景 */
   --color-wf-border: #c8d9e6; /* 罫線・区切り */

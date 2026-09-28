@@ -78,7 +78,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2.5 rounded-md bg-wf-blue px-16 py-[18px] text-base font-black tracking-[0.1em] text-white transition hover:-translate-y-0.5 hover:bg-[#3a85a0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue disabled:translate-y-0 disabled:cursor-wait disabled:opacity-70"
+            className="inline-flex items-center gap-2.5 rounded-md bg-wf-blue px-16 py-[18px] text-base font-black tracking-[0.1em] text-white transition hover:-translate-y-0.5 hover:bg-wf-blue-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue disabled:translate-y-0 disabled:cursor-wait disabled:opacity-70"
           >
             {isSubmitting ? '送信中…' : '送信する'}
             <span aria-hidden="true">→</span>

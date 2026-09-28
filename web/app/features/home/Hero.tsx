@@ -71,7 +71,7 @@ export function Hero() {
           <div data-hero-item data-reveal>
             <Link
               to="/contact/"
-              className="inline-flex items-center gap-3 rounded-full bg-wf-blue px-10 py-4 text-lg font-black tracking-widest text-white shadow-lg transition-colors hover:bg-[#3a85a0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue md:text-xl"
+              className="inline-flex items-center gap-3 rounded-full bg-wf-blue px-10 py-4 text-lg font-black tracking-widest text-white shadow-lg transition-colors hover:bg-wf-blue-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-wf-blue md:text-xl"
             >
               <span aria-hidden="true" className="text-4xl leading-none font-thin">
                 &gt;

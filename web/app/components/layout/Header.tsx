@@ -59,7 +59,7 @@ export function Header() {
 
         <Link
           to={CONTACT_LINK.href}
-          className="hidden shrink-0 items-center gap-1.5 rounded bg-wf-blue px-6 py-2.5 text-[13px] font-bold tracking-[.12em] text-white transition-opacity hover:opacity-80 lg:inline-flex"
+          className="hidden shrink-0 items-center gap-1.5 rounded bg-wf-blue px-6 py-2.5 text-[13px] font-bold tracking-[.12em] text-white transition-colors hover:bg-wf-blue-hover lg:inline-flex"
         >
           <span aria-hidden="true" className="text-[15px] font-black">
             &gt;
