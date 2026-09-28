@@ -26,6 +26,9 @@ export const OFFICES: readonly Office[] = [
   },
 ]
 
+// 設立日（平成 25 年 10 月 25 日）。構造化データ（JSON-LD）の foundingDate に使う
+export const COMPANY_ESTABLISHED = '2013-10-25'
+
 // 所在地（ADDRESS）は OFFICES から描画するため、それ以外の項目を並び順どおりに持つ
 export const COMPANY_PROFILE = {
   before: [
