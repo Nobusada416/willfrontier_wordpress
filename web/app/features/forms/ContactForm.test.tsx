@@ -68,6 +68,17 @@ describe('ContactForm', () => {
     expect(screen.getByRole('textbox', { name: /担当者名/ })).toHaveValue('')
   })
 
+  it('完了のダイアログを閉じたら、最初の入力欄へフォーカスを戻す', async () => {
+    const user = userEvent.setup()
+    render(<ContactForm />)
+    await fillValid(user)
+    await user.click(screen.getByRole('button', { name: /送信する/ }))
+    await user.click(await screen.findByRole('button', { name: '閉じる' }))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: '会社名' })).toHaveFocus()
+  })
+
   it('送信中はボタンを押せなくし、二重に送らない', async () => {
     let finish: (result: SubmitResult) => void = () => undefined
     submitMock.mockReturnValue(new Promise((resolve) => (finish = resolve)))

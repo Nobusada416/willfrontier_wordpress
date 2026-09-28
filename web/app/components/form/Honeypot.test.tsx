@@ -15,5 +15,7 @@ describe('Honeypot', () => {
     const input = document.querySelector(`input[name="${HONEYPOT_FIELD}"]`)
     expect(input).toHaveAttribute('tabindex', '-1')
     expect(input).toHaveAttribute('autocomplete', 'off')
+    // aria-hidden の中にフォーカスできる要素を残さない
+    expect(input?.closest('[aria-hidden="true"]')).toHaveAttribute('inert')
   })
 })

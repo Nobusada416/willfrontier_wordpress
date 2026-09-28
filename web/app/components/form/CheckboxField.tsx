@@ -1,5 +1,6 @@
 import { useId, type ReactNode } from 'react'
 import type { UseFormRegisterReturn } from 'react-hook-form'
+import { RequiredBadge } from './RequiredBadge'
 
 type CheckboxFieldProps = {
   label: string
@@ -41,6 +42,7 @@ export function CheckboxField({
           className="size-5 accent-wf-navy"
         />
         {label}
+        {required && <RequiredBadge />}
       </label>
       {error && (
         <p id={errorId} className="mt-1 text-xs font-bold text-wf-danger">

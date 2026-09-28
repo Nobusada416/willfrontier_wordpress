@@ -58,12 +58,15 @@ let callablePromise: Promise<InquiryCallable> | undefined
 
 async function createInquiryCallable(): Promise<InquiryCallable> {
   const settings = readFirebaseSettings(import.meta.env)
-  const [{ initializeApp }, functionsSdk, appCheckSdk] = await Promise.all([
+  const [appSdk, functionsSdk, appCheckSdk] = await Promise.all([
     import('firebase/app'),
     import('firebase/functions'),
     import('firebase/app-check'),
   ])
-  const app = initializeApp(settings.config)
+  // 前回の準備が途中（App Check の初期化など）で失敗していた場合は、作成済みのアプリを使い回す
+  // （同じ名前のアプリを 2 回作ると duplicate-app で失敗し、以後ずっと送信できなくなるため）
+  const [existingApp] = appSdk.getApps()
+  const app = existingApp ?? appSdk.initializeApp(settings.config)
 
   if (settings.recaptchaSiteKey) {
     // Emulator で App Check を試す場合は、コンソールに出るデバッグトークンを登録して使う（docs/forms.md）

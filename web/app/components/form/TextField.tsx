@@ -1,5 +1,6 @@
 import { useId } from 'react'
 import type { UseFormRegisterReturn } from 'react-hook-form'
+import { RequiredBadge } from './RequiredBadge'
 
 type TextFieldProps = {
   label: string
@@ -77,11 +78,7 @@ export function TextField({
     <div className={styles.row}>
       <label htmlFor={id} className={`${styles.label} ${labelClassName}`}>
         {label}
-        {required && (
-          <span className="ml-1.5 inline-block rounded-xs bg-wf-danger px-1.5 py-0.5 align-middle text-[10px] leading-none font-bold text-white">
-            必須
-          </span>
-        )}
+        {required && <RequiredBadge />}
       </label>
       <div className="min-w-0 flex-1">
         {variant === 'bracket' ? (

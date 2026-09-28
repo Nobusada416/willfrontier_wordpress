@@ -56,6 +56,14 @@ export function useInquiryForm<TInput extends FieldValues, TOutput>({
     setFailed(true)
   })
 
+  // 送信中はボタンを押せなくするため、ダイアログを閉じたときにブラウザが戻すフォーカス先（送信ボタン）が
+  // 無効になっている。入力欄を空にした後なので、最初の入力欄へフォーカスを戻す
+  const closeDialog = () => {
+    setSent(false)
+    const [firstField] = Object.keys(defaultValues)
+    if (firstField) form.setFocus(firstField as Path<TInput>)
+  }
+
   // フォームに初めてフォーカスが入ったときに送信の準備を始める
   const onFocusCapture = () => {
     if (prepared.current) return
@@ -68,7 +76,7 @@ export function useInquiryForm<TInput extends FieldValues, TOutput>({
     onSubmit,
     onFocusCapture,
     sent,
-    closeDialog: () => setSent(false),
+    closeDialog,
     failed,
   }
 }
