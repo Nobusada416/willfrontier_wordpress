@@ -41,7 +41,10 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div className={`text-center ${className}`}>
-      <FadeUp as="p" className="mb-3 text-sm font-bold text-wf-blue">
+      <FadeUp
+        as="p"
+        className={`mb-3 text-sm font-bold ${tone === 'white' ? 'text-wf-sky' : 'text-wf-blue'}`}
+      >
         {eyebrow}
       </FadeUp>
       <HeadingReveal
