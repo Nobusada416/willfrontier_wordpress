@@ -8,7 +8,7 @@
 - [x] P0: 基盤（workspaces / web 雛形 / TS strict / ESLint・Prettier / Vitest / Tailwind v4 トークン / CI）
 - [x] P1: Firebase 基盤（firebase.json / 全拒否ルール / Emulator / functions・shared 雛形）
 - [x] P2: レイアウト（Header・MobileNav・Footer・SkipLink・404・SEO ヘルパー）
-- [ ] P3: メディアコンポーネント（Picture / Video / CrossfadeHero）
+- [x] P3: メディアコンポーネント（Picture / Video / CrossfadeHero / MosaicHero）
 - [ ] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [ ] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
 - [ ] P6: トップページ 10 セクション
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P0・P1 は統合ブランチ `migration/react-firebase` にマージ済み。P2 完了（ブランチ `migration/p2-layout`）。次は P3（メディアコンポーネント）
+P0〜P2 は統合ブランチ `migration/react-firebase` にマージ済み。P3 完了（ブランチ `migration/p3-media`）。次は P4（アセット移行）
 
 ## 問題・ブロッカー
 
@@ -33,6 +33,8 @@ P0・P1 は統合ブランチ `migration/react-firebase` にマージ済み。P2
 - P2 でロゴ（`logocolor.svg`）だけ先に `web/public/media/images/` へコピーした。旧テーマも同じファイルを使うため、`assets/images/` 側は P11 で削除する
 - `content/site.ts` の `SITE.url`（canonical・OGP に使う）は現行の公開 URL を仮に設定している。本番ドメインは P10 で確定する
 - 各ページの説明文（meta description）は旧サイトに無かったため新規に作成した。文面の確認が必要
+- P3 のメディア部品は `/media/...` を参照するが、実ファイルの移動は P4 で行う（それまでは部品をページで使わない）
+- 旧実装は写真のクラスを `<picture>` と `<img>` の両方に付けており `opacity-40` が二重にかかっていた。P6・P7 の移植時に見た目を合わせる
 - フォントは計画の自前配信（@fontsource）から Google Fonts 読み込みに変更（自前配信では CSS が 572KB に膨らむため）
 
 ## ユーザー確認待ち

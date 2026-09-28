@@ -44,6 +44,47 @@
   --z-skip-link: 80;
 
   /*
+   * 背景写真の切り替え（components/media）。旧実装でページごとに重複していた keyframes をまとめた
+   * wf-crossfade: 3 枚を 12 秒で一巡（1 枚 4 秒・フェード 1 秒）。遅延は lib/media.ts の crossfadeDelay で付ける
+   *   枚数・周期・フェード比率は lib/media.ts の CROSSFADE_* 定数と一致させる
+   * wf-tile-pulse: タイルを 1 枚ずつ明滅させる。周期と遅延は MosaicHero が枚数から付ける
+   *   （ここの 9s は MosaicHero を通さずに使った場合の既定値で、トップの 9 枚に合わせてある）
+   */
+  --animate-wf-crossfade: wf-crossfade 12s ease-in-out infinite both;
+  --animate-wf-tile-pulse: wf-tile-pulse 9s ease infinite;
+
+  @keyframes wf-crossfade {
+    0% {
+      opacity: 0;
+    }
+    8.333% {
+      opacity: 1;
+    }
+    33.333% {
+      opacity: 1;
+    }
+    41.667% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes wf-tile-pulse {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    85% {
+      opacity: 0.4;
+      transform: scale(1.05);
+    }
+  }
+
+  /*
    * ブレークポイントは Tailwind 標準（sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536）に統一する。
    * 旧実装の 480 / 560 / 900 などの独自値は近い標準値に寄せる。
    */
