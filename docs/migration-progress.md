@@ -39,7 +39,7 @@ P0〜P8 は統合ブランチ `migration/react-firebase` にマージ済み。P9
 - `data/`（627MB の生素材）は git 履歴から消さない（ユーザー判断、2026-09-28）
 - 存在しない動画 `hero/intro`・`service/demolition` は `functions.php` のコメント内の例でのみ参照されており、実際のページでは使われていなかった（P11 で PHP ごと削除）
 - 旧実装は写真のクラスを `<picture>` と `<img>` の両方に付けており `opacity-40` が二重にかかっていた。P6・P7 の移植時に見た目を合わせる
-- P5 の `<head>` インラインスクリプト（`lib/motion/headScript.ts`）は、P9 で CSP を設定する際にハッシュを許可する必要がある
+- P9 で CSP を Report-Only で設定した（`docs/deployment.md`）。インラインスクリプト（`<head>` のアニメーション用と React Router の hydration 用）のため `'unsafe-inline'` を許可している。強制に切り替える場合はハッシュの収集が必要。reCAPTCHA まわりの違反の有無は P10 の preview channel で確認する
 - P6 でトップの画面収め（`transform: scale()`・スマホの高さ 1000px 固定）を廃止し、車両スライダーは Swiper をやめて自前実装にした。下層ページの画面収めは P7 で扱う（service の図は JS の scale() をやめ、画面の高さから幅を決める CSS に置き換えた。スマホでは特長と吹き出しを 1 行ずつ並べる）
 - P6 で、旧 CSS の上書き（`!important`）で実際に表示されていた見た目（見出しの色とフォント・背景色・余白・イントロの幕の青）に合わせた。テンプレートにあっても旧 CSS に含まれず表示されていなかったクラス（MISSION の暗い幕など）は再現していない
 - P6 で、srcset の幅（旧実装は一律 768w / 1600w）が実寸と合っておらず粗い画像が選ばれていた不具合と、写真の高さが読み込み後に決まるため `/#company` などへの移動後に位置がずれる不具合を、実寸の一覧（`web/app/lib/mediaManifest.json`）で修正した
