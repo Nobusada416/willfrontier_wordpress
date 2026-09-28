@@ -21,6 +21,7 @@ tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
 | `public`                                             | `web/build/client`                              | React Router のビルド出力                                                                                                |
 | `cleanUrls` / `trailingSlash`                        | `true` / `true`                                 | 現行サイトと同じ `/mission/` 形式の URL を維持                                                                           |
 | リダイレクト                                         | `/company/` → `/mission/`（301）                | 旧サイトの `/company/` は空白ページだった                                                                                |
+| 404                                                  | `404.html`（ビルド時に生成）                    | 存在しない URL には Hosting が 404 ステータスで返す。`noindex` 付き                                                      |
 | `/assets/**`                                         | `max-age=31536000, immutable`                   | Vite がハッシュ付きファイル名で出力する                                                                                  |
 | `/media/**`                                          | `max-age=604800`（7 日）                        | 写真・動画はハッシュなしのため長期キャッシュしない                                                                       |
 | `/assets/`・`/media/` 以外で拡張子のない URL（HTML） | `no-cache`                                      | デプロイ直後から新しい HTML を配信する。`cleanUrls` ではリクエスト URL に `.html` が付かないため、正規表現で判定している |

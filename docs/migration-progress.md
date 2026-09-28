@@ -7,7 +7,7 @@
 
 - [x] P0: 基盤（workspaces / web 雛形 / TS strict / ESLint・Prettier / Vitest / Tailwind v4 トークン / CI）
 - [x] P1: Firebase 基盤（firebase.json / 全拒否ルール / Emulator / functions・shared 雛形）
-- [ ] P2: レイアウト（Header・MobileNav・Footer・SkipLink・404・SEO ヘルパー）
+- [x] P2: レイアウト（Header・MobileNav・Footer・SkipLink・404・SEO ヘルパー）
 - [ ] P3: メディアコンポーネント（Picture / Video / CrossfadeHero）
 - [ ] P4: アセット移行（web/public/media へ移動・リンク切れ修正・未使用削除）
 - [ ] P5: モーション（Lenis / GSAP / イントロ / 見出し・フェード・葉っぱ）
@@ -20,7 +20,7 @@
 
 ## 現在の状態
 
-P1 完了（ブランチ `migration/p1-firebase`、P0 の上に積んでいる）。次は P2（レイアウト）
+P0・P1 は統合ブランチ `migration/react-firebase` にマージ済み。P2 完了（ブランチ `migration/p2-layout`）。次は P3（メディアコンポーネント）
 
 ## 問題・ブロッカー
 
@@ -30,6 +30,9 @@ P1 完了（ブランチ `migration/p1-firebase`、P0 の上に積んでいる�
 - jsdom 30 は Node 22.22 以上が必要なため、jsdom 29 系を採用
 - P0 で、prerender に末尾スラッシュ付きパスを渡すと空の HTML になる不具合を見つけて修正（postbuild で再発検知）
 - `npm audit`: firebase-admin 経由の uuid（moderate）が残る。buf 引数を渡す使い方のみ影響し本件は該当しないため、上流の更新待ち
+- P2 でロゴ（`logocolor.svg`）だけ先に `web/public/media/images/` へコピーした。旧テーマも同じファイルを使うため、`assets/images/` 側は P11 で削除する
+- `content/site.ts` の `SITE.url`（canonical・OGP に使う）は現行の公開 URL を仮に設定している。本番ドメインは P10 で確定する
+- 各ページの説明文（meta description）は旧サイトに無かったため新規に作成した。文面の確認が必要
 - フォントは計画の自前配信（@fontsource）から Google Fonts 読み込みに変更（自前配信では CSS が 572KB に膨らむため）
 
 ## ユーザー確認待ち

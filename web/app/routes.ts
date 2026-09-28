@@ -3,6 +3,10 @@ import { PAGES } from './content/pages'
 
 // ページ定義（content/pages.ts）からルートを生成する
 // route() は先頭・末尾のスラッシュなしのパスを受け取るため除去する（'/mission/' → 'mission'）
-export default PAGES.map((page) =>
-  page.path === '/' ? index(page.file) : route(page.path.replace(/^\/|\/$/g, ''), page.file),
-) satisfies RouteConfig
+export default [
+  ...PAGES.map((page) =>
+    page.path === '/' ? index(page.file) : route(page.path.replace(/^\/|\/$/g, ''), page.file),
+  ),
+  // どのページにも一致しない URL（プリレンダー時は '/404'）
+  route('*', 'routes/not-found.tsx'),
+] satisfies RouteConfig
