@@ -14,13 +14,14 @@
 - [x] P6: トップページ 10 セクション
 - [x] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（PR #28）・vehicles（PR #29）・casestudy（PR #30）
 - [x] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）。スキーマ（PR #31）・安全ページ（PR #32）・採用ページ（PR #33）・送信処理（PR #34）・フォーム画面とお問い合わせページ（PR #35）
-- [x] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）。SEO（PR #36）・CSP Report-Only（PR #37）・E2E と Lighthouse CI（PR #38）・色のコントラストの修正（ブランチ `migration/p9-contrast`）
+- [x] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）。SEO（PR #36）・CSP Report-Only（PR #37）・E2E と Lighthouse CI（PR #38）・色のコントラストの修正（PR #39）
 - [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
 - [ ] P11: WordPress 関連ファイル削除
 
 ## 現在の状態
 
-P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み（P9 の色のコントラストの修正はレビュー中）。次は P10（デプロイ）。本番の Firebase プロジェクト・メールの送信元と SMTP・切り替え時期はユーザーの準備待ち
+P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。次は P10（デプロイ）。本番の Firebase プロジェクト・メールの送信元と SMTP・切り替え時期はユーザーの準備待ち。
+残りの作業は [remaining-work.md](./remaining-work.md) にまとめた
 
 ## 問題・ブロッカー
 
