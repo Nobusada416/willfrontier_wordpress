@@ -9,33 +9,34 @@
 
     <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-white overflow-hidden">
         <!-- パターンC: 9枚モザイク自動フェード -->
+        <!-- 左上の wf-112（生成AI画像）に合わせ、残り8枚は明るく加工した -hero 版を使う（scripts/hero-highkey.py で生成） -->
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;">
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:0s;">
                 <?php echo wf_picture( 'wf-112', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:1s;">
-                <?php echo wf_picture( 'wf-114', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-114-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:2s;">
-                <?php echo wf_picture( 'wf-079', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-079-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:3s;">
-                <?php echo wf_picture( 'wf-095', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-095-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:4s;">
-                <?php echo wf_picture( 'wf-086', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-086-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:5s;">
-                <?php echo wf_picture( 'wf-092', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-092-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:6s;">
-                <?php echo wf_picture( 'wf-104', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-104-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:7s;">
-                <?php echo wf_picture( 'wf-105', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-105-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:8s;">
-                <?php echo wf_picture( 'wf-102', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-102-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
         </div>
         <style>
@@ -46,8 +47,6 @@
         /* 写真の彩度を落として文字色を読みやすく */
         #hero .hero-tile img { filter: saturate(0.7); }
         </style>
-        <!-- 軽い暗 overlay（写真モザイクのコントラストを少し整える） -->
-        <div class="absolute inset-0 z-[1] pointer-events-none" style="background: rgba(0,0,0,0.15);"></div>
 
         <div id="hero-content" class="relative z-10 px-6 flex justify-center w-full" style="opacity:0;">
             <!-- frosted glass パネル：可読性を確実に確保 -->
