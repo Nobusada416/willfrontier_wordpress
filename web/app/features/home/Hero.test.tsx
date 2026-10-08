@@ -42,6 +42,22 @@ describe('Hero', () => {
     expect(tiles[0]).toHaveAttribute('fetchpriority', 'high')
   })
 
+  it('9 枚とも明るく加工した -hero 版でトーンを揃える（左上は実写の wf-112）', () => {
+    stubMotion(false)
+    renderHero()
+    const sources = Array.from(document.querySelectorAll('[data-tile] img'), (img) =>
+      img.getAttribute('src'),
+    )
+    expect(sources[0]).toBe('/media/photos/large/wf-112-hero.webp')
+    sources.forEach((src) => expect(src).toMatch(/^\/media\/photos\/large\/wf-\d{3}-hero\.webp$/))
+  })
+
+  it('写真の上に黒の暗幕を重ねない（加工した写真の明るさをそのまま見せる）', () => {
+    stubMotion(false)
+    const { container } = renderHero()
+    expect(container.querySelector('[class*="bg-black"]')).toBeNull()
+  })
+
   it('イントロが終わってから文字を順に表示する', () => {
     stubMotion(false)
     renderHero()

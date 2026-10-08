@@ -4,7 +4,8 @@ import { photoSmallSrc, photoSrc, posterSrc, videoSrc } from '../app/lib/media'
 
 // ソース中の文字列リテラルから、参照しているメディアファイル（/media/...）を求める
 // 写真スラッグ（'wf-079'）・動画スラッグ（'shorts/s08'）・直接のパス（'/media/images/x.svg'）を対象にする
-const PHOTO_SLUG = /['"`](wf-\d{3})['"`]/g
+// トップヒーロー用に加工した写真は 'wf-079-hero' のように -hero を付ける
+const PHOTO_SLUG = /['"`](wf-\d{3}(?:-hero)?)['"`]/g
 // 動画は現在 shorts/sNN 形式だけを使っている。別のディレクトリを使う場合はここも直す
 const VIDEO_SLUG = /['"`](shorts\/s\d{2})['"`]/g
 const MEDIA_PATH = /['"`](\/media\/[^'"`\s]+)['"`]/g

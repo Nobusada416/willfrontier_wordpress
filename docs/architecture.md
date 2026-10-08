@@ -105,6 +105,7 @@ web/
   public/logo.png         # 構造化データのロゴ（512px 正方形・白背景。media/images/logocolor.svg から書き出し）
   public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
     photos/{small,large}/ # 写真（wf-NNN.webp。small・large とも寸法は写真ごとに異なる。実寸は lib/mediaManifest.json）
+                          # wf-NNN-hero.webp はトップヒーロー用に明るく加工した版（ルートの scripts/hero-highkey.py で生成）
     videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
     images/               # ロゴ・イラスト・装飾画像
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
