@@ -54,7 +54,7 @@ web/
   lighthouserc.json       # Lighthouse CI（モバイル・主要 5 ページ・目標値）
   e2e/                    # E2E（*.spec.ts）。axe（a11y）・キーボード操作・フォーム・画面遷移・コンソールエラー
     support/axe.ts        # axe の実行と、許容するコントラスト不足の振り分け
-    support/knownContrastIssues.ts  # 色の判断待ちで許容するコントラスト不足の色の組み合わせ（P9 でユーザー判断待ち）
+    support/knownContrastIssues.ts  # やむを得ず許容するコントラスト不足の色の組み合わせ（P9 で色を直したため現在は空）
     support/page.ts       # hydrate を待つ移動・外部への通信の遮断
   app/
     root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・favicon とフォントの読み込み（<head> のスクリプト）・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
