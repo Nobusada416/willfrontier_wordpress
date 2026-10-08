@@ -400,14 +400,24 @@
         "height": 731
       }
     },
-    "wf-112": {
+    "wf-112-hero": {
       "small": {
-        "width": 480,
-        "height": 320
+        "width": 768,
+        "height": 576
       },
       "large": {
-        "width": 1200,
-        "height": 800
+        "width": 1448,
+        "height": 1086
+      }
+    },
+    "wf-112": {
+      "small": {
+        "width": 768,
+        "height": 576
+      },
+      "large": {
+        "width": 1448,
+        "height": 1086
       }
     },
     "wf-114-hero": {

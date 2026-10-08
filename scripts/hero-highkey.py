@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """トップヒーロー用に写真を明るく柔らかいトーン（ハイキー）へ加工する。
 
-左上の生成AI画像（wf-112）だけが明るく浮いて見えるため、残りの実写 8 枚を
-同じ明るさ・コントラストに寄せた `<slug>-hero.webp` を別ファイルとして書き出す。
+ヒーローの 9 枚を同じ明るさ・コントラストに揃えた `<slug>-hero.webp` を別ファイルとして書き出す。
 元の webp は他ページでも使っているので上書きしない。
 
 使い方（Pillow が必要。-I はユーザー site-packages を読まないため、Pillow は venv か system に入れる）:
   python3 -I scripts/hero-highkey.py                      # 元写真と同じディレクトリに出力
-  python3 -I scripts/hero-highkey.py --stats-only         # 現状の輝度だけ表示
+  python3 -I scripts/hero-highkey.py --stats-only         # 元写真の輝度だけ表示
 元写真の場所は旧テーマ（assets/photos）と React 版（web/public/media/photos）のどちらかを自動で選ぶ。
 React 版では出力後に npm run media:manifest -w web で寸法一覧を作り直す。
 """
@@ -22,11 +21,9 @@ ROOT = Path(__file__).resolve().parent.parent
 # 旧テーマ（main）と React 版（web/public/media）で写真の置き場所が違うため、存在する方を使う
 PHOTO_DIR_CANDIDATES = [ROOT / 'assets' / 'photos', ROOT / 'web' / 'public' / 'media' / 'photos']
 
-# 基準にする AI 画像（加工しない）
-REFERENCE_SLUG = 'wf-112'
-
-# ヒーローで加工する 8 枚（front-page.php / web/app/content/home.ts の HERO_TILES と合わせる）
+# ヒーローで加工する 9 枚（front-page.php / web/app/content/home.ts の HERO_TILES と合わせる）
 HERO_SLUGS = [
+    'wf-112',
     'wf-114',
     'wf-079',
     'wf-095',
@@ -37,9 +34,9 @@ HERO_SLUGS = [
     'wf-102',
 ]
 
-# 既定のトーン（AI 画像の実測 mean=179 / p5=58 / p95=252 に寄せる）
+# 既定のトーン（以前左上にあった生成AI画像の実測 mean=179 / p5=58 / p95=252 を目安に決めた）
 DEFAULT_TONE = {
-    # 加工後の平均輝度。AI 画像は白い壁が多く平均が高く出るため、実写を 179 まで上げると霞んで見える。少し下げて揃えた
+    # 加工後の平均輝度。179 まで上げると実写は霞んで見えるため、少し下げて揃えた
     'target_mean': 172,
     'black': 18,  # 出力の黒レベル（持ち上げすぎると霞んだ印象になる）
     'white': 252,  # 出力の白レベル（完全な白飛びを避ける）
@@ -156,7 +153,7 @@ def process(slug: str, src_dir: Path, out_dir: Path) -> None:
 
 def find_photo_dir() -> Path:
     for candidate in PHOTO_DIR_CANDIDATES:
-        if (candidate / 'large' / f'{REFERENCE_SLUG}.webp').exists():
+        if (candidate / 'large' / f'{HERO_SLUGS[0]}.webp').exists():
             return candidate
     sys.exit(f'写真が見つかりません: {", ".join(str(c) for c in PHOTO_DIR_CANDIDATES)}')
 
@@ -165,11 +162,8 @@ def main() -> None:
     src_dir = find_photo_dir()
     parser = argparse.ArgumentParser(description='トップヒーロー用のハイキー写真を書き出す')
     parser.add_argument('--out-dir', type=Path, default=src_dir, help='large/ と small/ を置くディレクトリ')
-    parser.add_argument('--stats-only', action='store_true', help='加工せず現状の輝度だけ表示する')
+    parser.add_argument('--stats-only', action='store_true', help='加工せず元写真の輝度だけ表示する')
     args = parser.parse_args()
-
-    reference = open_rgb(src_dir / 'large' / f'{REFERENCE_SLUG}.webp')
-    print(f'{REFERENCE_SLUG}（基準）: {format_stats(stats(reference))}')
 
     if args.stats_only:
         for slug in HERO_SLUGS:
