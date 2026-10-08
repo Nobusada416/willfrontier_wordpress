@@ -1,16 +1,18 @@
 // トップページだけで使う内容（旧 front-page.php にハードコードされていたもの）
 
 // ヒーローの背景に並べる 9 枚（3 × 3）
+// 左上の wf-112（生成AI画像）が明るいため、残り 8 枚は明るく加工した -hero 版を使う
+// （元の写真は他ページでも使うので別ファイル。scripts/hero-highkey.py で生成する）
 export const HERO_TILES = [
   'wf-112',
-  'wf-114',
-  'wf-079',
-  'wf-095',
-  'wf-086',
-  'wf-092',
-  'wf-104',
-  'wf-105',
-  'wf-102',
+  'wf-114-hero',
+  'wf-079-hero',
+  'wf-095-hero',
+  'wf-086-hero',
+  'wf-092-hero',
+  'wf-104-hero',
+  'wf-105-hero',
+  'wf-102-hero',
 ] as const
 
 export const MISSION_BACKGROUND = ['wf-114', 'wf-079', 'wf-092'] as const

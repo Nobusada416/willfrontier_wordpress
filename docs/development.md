@@ -127,4 +127,7 @@ Functions の Emulator には、フォームの通知先のパラメータを書
 動画の poster は `ffmpeg -ss 1 -i sNN.mp4 -frames:v 1 -q:v 5 sNN.jpg` で作る。
 写真・poster を追加・差し替えたら `npm run media:manifest -w web` で寸法一覧（`web/app/lib/mediaManifest.json`）を作り直す。
 作り直し忘れは `web/scripts/mediaManifest.test.ts` が検出する。
+トップヒーローの写真は、左上の生成AI画像（`wf-112`）に明るさをそろえるため、残り 8 枚に加工版（`wf-NNN-hero`）を使う。
+元の写真は他ページでも使うので上書きしない。加工版は `python3 -I scripts/hero-highkey.py` で作り直せる（トーンの値はスクリプト冒頭）。
+作り直した後は `npm run media:manifest -w web` で寸法一覧も更新する。
 旧テーマの `style.css` はルートの `tailwindcss@3` で生成しているため、P11 まで依存を残す。

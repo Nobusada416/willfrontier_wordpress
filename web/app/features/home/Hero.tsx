@@ -32,9 +32,8 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="relative isolate flex h-[calc(100svh-var(--spacing-header))] min-h-[600px] w-full items-center justify-center overflow-hidden bg-white"
     >
-      {/* 写真の彩度を落とし、薄く暗くして文字を読みやすくする */}
+      {/* 写真の彩度を落として文字を読みやすくする。明るさは加工した写真のまま見せる（暗幕は重ねない） */}
       <MosaicHero slugs={HERO_TILES} columns={3} priority imageClassName="saturate-70" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/15" />
 
       <div className="relative z-10 flex w-full justify-center px-6">
         <div

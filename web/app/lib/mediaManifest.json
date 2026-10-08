@@ -130,6 +130,16 @@
         "height": 2133
       }
     },
+    "wf-079-hero": {
+      "small": {
+        "width": 768,
+        "height": 1024
+      },
+      "large": {
+        "width": 1600,
+        "height": 2133
+      }
+    },
     "wf-079": {
       "small": {
         "width": 768,
@@ -160,6 +170,16 @@
         "height": 2133
       }
     },
+    "wf-086-hero": {
+      "small": {
+        "width": 768,
+        "height": 577
+      },
+      "large": {
+        "width": 1600,
+        "height": 1201
+      }
+    },
     "wf-086": {
       "small": {
         "width": 768,
@@ -180,7 +200,27 @@
         "height": 2133
       }
     },
+    "wf-092-hero": {
+      "small": {
+        "width": 768,
+        "height": 1024
+      },
+      "large": {
+        "width": 1600,
+        "height": 2133
+      }
+    },
     "wf-092": {
+      "small": {
+        "width": 768,
+        "height": 1024
+      },
+      "large": {
+        "width": 1600,
+        "height": 2133
+      }
+    },
+    "wf-095-hero": {
       "small": {
         "width": 768,
         "height": 1024
@@ -230,6 +270,16 @@
         "height": 1200
       }
     },
+    "wf-102-hero": {
+      "small": {
+        "width": 480,
+        "height": 360
+      },
+      "large": {
+        "width": 1200,
+        "height": 900
+      }
+    },
     "wf-102": {
       "small": {
         "width": 480,
@@ -250,7 +300,27 @@
         "height": 1200
       }
     },
+    "wf-104-hero": {
+      "small": {
+        "width": 360,
+        "height": 480
+      },
+      "large": {
+        "width": 900,
+        "height": 1200
+      }
+    },
     "wf-104": {
+      "small": {
+        "width": 360,
+        "height": 480
+      },
+      "large": {
+        "width": 900,
+        "height": 1200
+      }
+    },
+    "wf-105-hero": {
       "small": {
         "width": 360,
         "height": 480
@@ -338,6 +408,16 @@
       "large": {
         "width": 1200,
         "height": 800
+      }
+    },
+    "wf-114-hero": {
+      "small": {
+        "width": 360,
+        "height": 480
+      },
+      "large": {
+        "width": 900,
+        "height": 1200
       }
     },
     "wf-114": {
