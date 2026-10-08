@@ -9,10 +9,10 @@
 
     <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center bg-white overflow-hidden">
         <!-- パターンC: 9枚モザイク自動フェード -->
-        <!-- 左上の wf-112（生成AI画像）に合わせ、残り8枚は明るく加工した -hero 版を使う（scripts/hero-highkey.py で生成） -->
+        <!-- 9枚とも明るく加工した -hero 版でトーンを揃える（scripts/hero-highkey.py で生成） -->
         <div class="absolute inset-0 z-0" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;">
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:0s;">
-                <?php echo wf_picture( 'wf-112', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
+                <?php echo wf_picture( 'wf-112-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
             </div>
             <div class="hero-tile" style="overflow:hidden;animation:heroFade 9s infinite;animation-delay:1s;">
                 <?php echo wf_picture( 'wf-114-hero', '', array( 'class' => 'w-full h-full object-cover', 'loading' => 'eager' ) ); ?>
