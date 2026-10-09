@@ -99,6 +99,7 @@ describe('採用ページ', () => {
     renderPage()
     const list = screen.getByRole('list', { name: '【従業員の声】' })
     const worker = within(list).getAllByRole('listitem')[1]
+    expect(worker).toHaveTextContent('S さん（入社 10年目）')
     expect(worker).toHaveTextContent('職種：作業員（副工場長）')
     expect(worker).toHaveTextContent('「諸先輩方に教えてもらってステップアップができる会社です。」')
   })
