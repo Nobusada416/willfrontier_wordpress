@@ -296,7 +296,7 @@
                 $items = [
                     ['type'=>'photo', 'slug'=>'wf-112', 'tag'=>'people'],
                     ['type'=>'photo', 'slug'=>'wf-114', 'tag'=>'indoor'],
-                    ['type'=>'photo', 'slug'=>'wf-100', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-117', 'tag'=>'safety'],
                     ['type'=>'video', 'slug'=>'shorts/s08', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-079', 'tag'=>'safety'],
                     ['type'=>'photo', 'slug'=>'wf-101', 'tag'=>'indoor'],
@@ -307,7 +307,6 @@
                     ['type'=>'video', 'slug'=>'shorts/s11', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-103', 'tag'=>'people'],
                     ['type'=>'video', 'slug'=>'shorts/s13', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-087', 'tag'=>'indoor'],
                     ['type'=>'photo', 'slug'=>'wf-104', 'tag'=>'people'],
                     ['type'=>'video', 'slug'=>'shorts/s10', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-095', 'tag'=>'indoor'],
