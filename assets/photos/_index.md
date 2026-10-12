@@ -113,3 +113,14 @@
 トップの 3×3 モザイクは 9 枚（wf-112 / 114 / 079 / 095 / 086 / 092 / 104 / 105 / 102）とも、明るく柔らかいトーンに揃えた `-hero` 版を使う。元の webp は他ページで使っているので上書きしない。
 wf-112 は以前の生成AI画像から実写（事務スタッフ）に差し替えた。
 再生成は `python3 -I scripts/hero-highkey.py`（トーンの値はスクリプト冒頭の `DEFAULT_TONE` / `TONE_OVERRIDES`）。
+
+## 2026-10 の差し替え（クライアント修正要望）
+
+| slug | 元画像 | サイズ | 使用先 |
+|---|---|---|---|
+| wf-117 | `assets/images/IMG_2295.JPG`（工場内の安全朝礼） | large 1200x900 / small 480x360 | トップ GALLERY、mission ギャラリー（wf-100 の代わり） |
+| wf-118 | `data/images/20260621/屋内作業_01.jpg`（ショベル＋振動ふるい） | large 1600x2133 / small 768x1024 | service・workflow の「中間処理」、casestudy ヒーロー（wf-087 の代わり） |
+
+- WebP は Pillow で `exif_transpose` → LANCZOS 縮小 → quality 82 / method 6（メタデータは付けない）。
+- wf-100（研修風景）は写っている方が退職したため、元画像 `IMG_2292.JPG` ごと削除した。
+- wf-087（選別ラインの俯瞰）はクライアント指示で全ページから外し、ファイルも削除した。safety の装備ギャラリーは wf-084 に置き換え。

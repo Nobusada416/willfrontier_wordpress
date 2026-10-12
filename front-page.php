@@ -296,7 +296,7 @@
                 $items = [
                     ['type'=>'photo', 'slug'=>'wf-112', 'tag'=>'people'],
                     ['type'=>'photo', 'slug'=>'wf-114', 'tag'=>'indoor'],
-                    ['type'=>'photo', 'slug'=>'wf-100', 'tag'=>'indoor'],
+                    ['type'=>'photo', 'slug'=>'wf-117', 'tag'=>'safety'],
                     ['type'=>'video', 'slug'=>'shorts/s08', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-079', 'tag'=>'safety'],
                     ['type'=>'photo', 'slug'=>'wf-101', 'tag'=>'indoor'],
