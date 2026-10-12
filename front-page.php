@@ -307,7 +307,6 @@
                     ['type'=>'video', 'slug'=>'shorts/s11', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-103', 'tag'=>'people'],
                     ['type'=>'video', 'slug'=>'shorts/s13', 'tag'=>'video'],
-                    ['type'=>'photo', 'slug'=>'wf-087', 'tag'=>'indoor'],
                     ['type'=>'photo', 'slug'=>'wf-104', 'tag'=>'people'],
                     ['type'=>'video', 'slug'=>'shorts/s10', 'tag'=>'video'],
                     ['type'=>'photo', 'slug'=>'wf-095', 'tag'=>'indoor'],

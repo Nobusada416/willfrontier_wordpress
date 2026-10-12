@@ -109,7 +109,7 @@ window.addEventListener('load', function() {
             </style>
             <div class="safety-gallery js-fade-up" style="column-count:4;column-gap:8px;">
                 <?php
-                $gallery = array( 'wf-079', 'wf-080', 'wf-081', 'wf-087' );
+                $gallery = array( 'wf-079', 'wf-080', 'wf-081', 'wf-084' );
                 foreach ( $gallery as $g ) :
                 ?>
                     <div style="break-inside:avoid;margin-bottom:8px;border-radius:6px;overflow:hidden;">
