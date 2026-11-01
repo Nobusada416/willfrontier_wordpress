@@ -95,6 +95,15 @@ describe('採用ページ', () => {
     })
   })
 
+  it('作業員の声は副工場長としてのコメントを載せる', () => {
+    renderPage()
+    const list = screen.getByRole('list', { name: '【従業員の声】' })
+    const worker = within(list).getAllByRole('listitem')[1]
+    expect(worker).toHaveTextContent('S さん（入社 10年目）')
+    expect(worker).toHaveTextContent('職種：作業員（副工場長）')
+    expect(worker).toHaveTextContent('「諸先輩方に教えてもらってステップアップができる会社です。」')
+  })
+
   it('応募の流れを順序付きの一覧で描画する', () => {
     renderPage()
     const list = screen.getByRole('list', { name: '応募の流れ' })

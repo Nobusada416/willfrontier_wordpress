@@ -42,9 +42,9 @@ export const RECRUIT_VOICES = [
   },
   {
     photo: 'wf-116',
-    name: 'S さん（入社 1年目）',
-    role: '職種：作業員',
-    quote: '「未経験でも丁寧に教えてもらえました。」',
+    name: 'S さん（入社 10年目）',
+    role: '職種：作業員（副工場長）',
+    quote: '「諸先輩方に教えてもらってステップアップができる会社です。」',
   },
 ] as const
 
