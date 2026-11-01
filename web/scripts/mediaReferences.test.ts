@@ -11,6 +11,13 @@ describe('findMediaReferences', () => {
     ])
   })
 
+  it('トップヒーロー用に加工した -hero 付きの写真スラッグも small / large の webp を求める', () => {
+    expect(findMediaReferences(`const TILES = ['wf-079-hero']`)).toEqual([
+      '/media/photos/small/wf-079-hero.webp',
+      '/media/photos/large/wf-079-hero.webp',
+    ])
+  })
+
   it('動画スラッグから mp4 と poster の jpg を求める', () => {
     expect(findMediaReferences(`const VIDEOS = ['shorts/s08']`)).toEqual([
       '/media/videos/shorts/s08.mp4',

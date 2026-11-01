@@ -18,8 +18,8 @@ describe('写真のパス', () => {
     expect(photoSrcSet('wf-079')).toBe(
       '/media/photos/small/wf-079.webp 768w, /media/photos/large/wf-079.webp 1600w',
     )
-    // 旧実装は一律 768w としていたため、実際は幅 480px の small が 768px 相当として選ばれていた
-    expect(photoSrcSet('wf-112')).toMatch(/^\/media\/photos\/small\/wf-112\.webp 480w, /)
+    // 旧実装は一律 768w としていたため、実際は幅 360px の small が 768px 相当として選ばれていた
+    expect(photoSrcSet('wf-114')).toMatch(/^\/media\/photos\/small\/wf-114\.webp 360w, /)
   })
 
   it('large の実寸を返す（width / height 属性で読み込み前から高さを確保する）', () => {
