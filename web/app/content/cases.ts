@@ -19,7 +19,7 @@ export const CASE_HERO_PHOTOS = [
   'wf-114',
   'wf-079',
   'wf-086',
-  'wf-087',
+  'wf-118',
   'wf-092',
 ] as const
 

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { MosaicHero } from './MosaicHero'
 
-const SLUGS = ['wf-112', 'wf-114', 'wf-079', 'wf-086', 'wf-087', 'wf-092']
+const SLUGS = ['wf-112', 'wf-114', 'wf-079', 'wf-086', 'wf-118', 'wf-092']
 
 const tiles = (container: HTMLElement) =>
   Array.from(container.querySelectorAll<HTMLElement>('[data-tile]'))

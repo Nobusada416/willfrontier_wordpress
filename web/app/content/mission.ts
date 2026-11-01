@@ -30,5 +30,5 @@ export const COMMUNITY_GALLERY = [
   'wf-017',
   'wf-105',
   'wf-101',
-  'wf-100',
+  'wf-117',
 ] as const

@@ -23,7 +23,7 @@ export const SAFETY_PRACTICES = [
 export const SAFETY_TRAINING_VIDEO = 'shorts/s13'
 
 // 装備・点検ギャラリー
-export const SAFETY_GALLERY = ['wf-079', 'wf-080', 'wf-081', 'wf-087'] as const
+export const SAFETY_GALLERY = ['wf-079', 'wf-080', 'wf-081', 'wf-084'] as const
 
 // お問い合わせ後の流れ。title は旧デザインの改行位置で分けた行
 export const INQUIRY_STEPS = [
