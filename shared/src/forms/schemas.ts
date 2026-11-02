@@ -1,51 +1,11 @@
 import { z } from 'zod'
+// 文字列の部品。zod の jitless の設定（CSP で unsafe-eval を許可しないため）もここで読み込む
+import { optionalText, requiredMessage, requiredText } from '../text'
 import type { FormType } from './formTypes'
 import { normalizeEmail, normalizeTel } from './normalize'
 
-// zod v4 は検証を速くするため new Function が使えるかを試す。CSP で unsafe-eval を許可していないと
-// 失敗しても動作は変わらないが、ブラウザが違反として報告するため、試さない設定にする（入力項目が少なく速度差は無い）
-// zod 全体の設定のため、このモジュールを読み込む Cloud Functions（Node）にも効く（CSP は無関係だが実害も無い）
-z.config({ jitless: true })
-
 // 3 つのフォームの入力チェック。画面（react-hook-form）と送信処理（Cloud Functions）の両方で同じものを使う。
 // 必須項目は旧フォーム（page-contact.php / page-safety.php / page-recruit.php）の必須チェックに合わせる
-
-const requiredMessage = (label: string) => `${label}を入力してください`
-const maxMessage = (label: string, max: number) => `${label}は${max}文字以内で入力してください`
-
-// 1 行の項目に入った改行・タブ・制御文字を空白にする。
-// 旧実装の sanitize_text_field と同じく、メールの件名や「項目名：値」の行を偽装されないようにする
-// 制御文字（C0・C1）と Unicode の行区切り・段落区切り
-const LINE_BREAKING_CHARS = /[\p{Cc}\p{Zl}\p{Zp}]+/gu
-const toSingleLine = (value: string) => value.replace(LINE_BREAKING_CHARS, ' ')
-
-// 複数行の項目は改行を \n にそろえて残し、そのほかの制御文字を取り除く
-const NEWLINES = /\r\n?|[\u2028\u2029]/g
-const CONTROL_CHARS_EXCEPT_NEWLINE = /[^\P{Cc}\n]/gu
-const toMultiline = (value: string) =>
-  value.replace(NEWLINES, '\n').replace(CONTROL_CHARS_EXCEPT_NEWLINE, '')
-
-type TextOptions = { multiline?: boolean }
-
-const cleanText = ({ multiline = false }: TextOptions) =>
-  z.string().transform((value) => (multiline ? toMultiline(value) : toSingleLine(value)).trim())
-
-// 必須の文字列。前後の空白を除いてから判定し、未入力のときは「入力してください」だけを出す
-const requiredText = (label: string, max: number, options: TextOptions = {}) =>
-  cleanText(options).pipe(
-    z
-      .string()
-      .min(1, { error: requiredMessage(label), abort: true })
-      .max(max, maxMessage(label, max)),
-  )
-
-// 任意の文字列（未入力は空文字として扱う）
-const optionalText = (label: string, max: number, options: TextOptions = {}) =>
-  z
-    .string()
-    .default('')
-    .pipe(cleanText(options))
-    .pipe(z.string().max(max, maxMessage(label, max)))
 
 // 電話番号: 数字・ハイフン・括弧・空白（国番号の + も可）で 25 文字以内、数字が 10〜15 桁
 const TEL_MAX = 25
