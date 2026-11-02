@@ -77,7 +77,19 @@
       "codebase": "default",
       "runtime": "nodejs22",
       "predeploy": ["npm run build -w @wf/functions"],
-      "ignore": ["node_modules", "src", "test", "*.mjs", "*.ts", "tsconfig.json", ".gitignore"]
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local",
+        "src",
+        "test",
+        "*.mjs",
+        "*.ts",
+        "tsconfig.json",
+        ".gitignore"
+      ]
     }
   ],
   "firestore": {

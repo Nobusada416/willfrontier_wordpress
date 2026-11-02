@@ -33,6 +33,16 @@ Functions は `asia-northeast1`（東京）、Node 22。デプロイ前に `pred
 `firestore.indexes.json` の TTL（`inquiries`・`mail` の `expireAt`）は `firebase deploy --only firestore:indexes` で反映される。
 Trigger Email 拡張の導入手順は [forms.md](./forms.md#メール)。
 
+Functions のソースとしてアップロードするのはビルド結果（`lib/`）と `package.json` だけで、`firebase.json` の `functions.ignore` で残りを除く。
+
+- firebase-tools（15.34 で確認）は、`ignore` を指定しないときの既定が `["node_modules", ".git"]` で、指定するとその値で置き換わる。
+  どちらの場合も `firebase-debug.log`・`firebase-debug.*.log`・`.runtimeconfig.json` だけは常に除かれる
+  （`node_modules/firebase-tools/lib/deploy/functions/prepareFunctionsUpload.js` の `packageSource`）
+- `firebase init functions` が書く既定の ignore（`node_modules`・`.git`・`firebase-debug.log`・`firebase-debug.*.log`・`*.local`。
+  `lib/init/features/functions/index.js`）を含めないと、Emulator 用の `functions/.env.local`・`.secret.local` もアップロードされる
+- 照合は minimatch の `matchBase: true, dot: true` で、`/` を含まないパターンはどの階層のファイル名にも一致する（`lib/fsAsync.js`）
+- `functions/test/uploadIgnore.test.ts` で、firebase-tools の照合を使ってアップロード対象を確かめる
+
 ### 本番切り替え時の SEO 設定
 
 既定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
