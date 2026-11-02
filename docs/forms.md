@@ -127,7 +127,7 @@ App Check の動作確認（reCAPTCHA v3 のサイトキー・debug token の登
 - 削除は Firestore の TTL ポリシーで行う（`firestore.indexes.json` の `fieldOverrides` で `inquiries` と `mail` の `expireAt` に `ttl: true`）。
   TTL の削除は期限から最大 24 時間ほど遅れることがある。`expireAt` は検索に使わないため単一フィールドのインデックスを作らない（`indexes: []`）
 - `mail` の本文には問い合わせと同じ個人情報が入り、送信結果（拡張が書き込む `delivery`）の確認にしか使わないため、`inquiries` より短くする
-- Firestore のセキュリティルールはすべて拒否のまま（Admin SDK はルールの対象外）。内容の確認は Firebase コンソールか Admin SDK で行う
+- `inquiries`・`mail` のセキュリティルールはすべて拒否のまま（Admin SDK はルールの対象外）。内容の確認は Firebase コンソールか Admin SDK で行う
 - **確認事項**: 保持期間（`inquiries` 180 日・`mail` 30 日）は提案値。個人情報の取り扱い方針（プライバシーポリシー）と合わせて確定する。
   変更する場合は `functions/src/handleInquiry.ts` の `INQUIRY_RETENTION_DAYS` / `MAIL_RETENTION_DAYS` を変える（既存のドキュメントの `expireAt` は変わらない）
 

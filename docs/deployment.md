@@ -6,8 +6,8 @@ main ブランチの WordPress テーマを sakura サーバーへ rsync でデ�
 移行用のファイルは WordPress テーマの表示に不要なため、rsync で次も除外すること。
 
 ```
-web/  functions/  shared/  tests/  .github/  extensions/
-firebase.json  .firebaserc  firestore.rules  firestore.indexes.json
+web/  functions/  shared/  tests/  tools/  .github/  extensions/
+firebase.json  .firebaserc  firestore.rules  firestore.indexes.json  storage.rules
 eslint.config.mjs  .prettierrc.json  .prettierignore  .nvmrc
 tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
 ```
@@ -30,7 +30,8 @@ tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
 
 Functions は `asia-northeast1`（東京）、Node 22。デプロイ前に `predeploy` で esbuild によるバンドルを行う。
 フォームの通知先（`CONTACT_MAIL_TO` など）はパラメータで、値がないとデプロイ時に入力を求められる。
-`firestore.indexes.json` の TTL（`inquiries`・`mail` の `expireAt`）は `firebase deploy --only firestore:indexes` で反映される。
+`firestore.indexes.json` の TTL（`inquiries`・`mail` の `expireAt`）と施工事例の複合インデックス（`caseStudies` の `status` + `date`）は
+`firebase deploy --only firestore:indexes` で反映される。セキュリティルールは `firebase deploy --only firestore:rules,storage`。
 Trigger Email 拡張の導入手順は [forms.md](./forms.md#メール)。
 
 Functions のソースとしてアップロードするのはビルド結果（`lib/`）と `package.json` だけで、`firebase.json` の `functions.ignore` で残りを除く。

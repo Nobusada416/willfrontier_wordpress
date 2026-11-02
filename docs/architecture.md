@@ -24,15 +24,22 @@ npm workspaces 構成。移行期間中は WordPress テーマ（ルート直下
 ```
 package.json            # workspaces: web / shared / functions
 eslint.config.mjs  .prettierrc.json  tsconfig.base.json  .nvmrc
-tsconfig.json           # ルート直下のテスト（tests/）用
+tsconfig.json           # ルート直下のテスト（tests/）と運用スクリプト（tools/）用
 .github/workflows/ci.yml
-firebase.json  .firebaserc              # Hosting / Functions / Firestore / Emulator の設定
-firestore.rules         # クライアントからの読み書きはすべて拒否
-firestore.indexes.json  # inquiries・mail の expireAt に TTL を設定
+firebase.json  .firebaserc              # Hosting / Functions / Firestore / Storage / Emulator の設定
+firestore.rules         # 公開の施工事例の読み取りと管理者（admin クレーム）の編集だけを許可。ほかはすべて拒否
+storage.rules           # 施工事例の写真（case-studies/）の読み取りと管理者のアップロードだけを許可
+firestore.indexes.json  # caseStudies の status + date の複合インデックス、inquiries・mail の expireAt に TTL
 extensions/firestore-send-email.env  # Trigger Email 拡張の非秘密の設定（導入は P10。forms.md の「メール」）
-tests/rules/            # Firestore セキュリティルールのテスト（Emulator 上で実行）
-shared/                 # @wf/shared: web と functions で共有するフォーム定義（zod）
+tests/rules/            # Firestore・Storage のセキュリティルールのテスト（Emulator 上で実行）
+tests/integration/      # Emulator での結合テスト（フォームの送信・管理者の付与）
+tools/                  # 運用スクリプト（node --experimental-strip-types で実行）
+  grant-admin.ts        # 管理画面の管理者（カスタムクレーム admin）を付ける・外す（npm run admin:grant）
+shared/                 # @wf/shared: web と functions で共有する定義（zod）
   src/index.ts
+  src/text.ts             # 文字列の入力チェックの部品（必須・任意・改行の扱い）。zod の jitless の設定もここ
+  src/caseStudies/constants.ts  # 施工事例のコレクション名・Storage のパスの規則・画像サイズ・上限
+  src/caseStudies/schema.ts     # 施工事例の編集フォーム（caseStudyFormSchema）と保存される内容（caseStudyContentSchema）
   src/forms/formTypes.ts  # フォーム種別（contact / safety / recruit）
   src/forms/normalize.ts  # 全角→半角の正規化（電話番号・メールアドレス）
   src/forms/schemas.ts    # 3 フォームの入力チェック・送信値（inquirySchema）・メール本文の項目（FORM_FIELDS）。詳細は forms.md
@@ -192,10 +199,21 @@ web/
   （P9 の Lighthouse でモバイルの FCP が 7 秒前後）。`<head>` のインラインスクリプト（`lib/fonts.ts`）から追加して
   描画を止めないようにし、先にシステムフォントで表示して読み込み後に切り替える。JS が動かない環境は `<noscript>` で読み込む。
   CSP を設定する際は、アニメーションの `<head>` スクリプトと同じくハッシュを許可する。
-- **Firestore はクライアントから直接触らない**: フォームの送信内容は個人情報を含むため、
+- **Firestore は施工事例だけをクライアントから触る**: フォームの送信内容（`inquiries`・`mail`）は個人情報を含むため、
   セキュリティルールで読み書きをすべて拒否し、Cloud Functions（Admin SDK）だけが書き込む。
+  施工事例（`caseStudies`）だけは例外で、公開サイトが未ログインで読み、管理画面（`/admin/`）が直接書き込む（次項）。
 - **shared は functions にバンドルする**: Firebase のデプロイは `functions/` だけをアップロードして
   `npm install` するため、ワークスペースの `@wf/shared` を解決できない。
   `functions/tsconfig.json` の `paths` で `../shared/src` を参照し、esbuild で 1 ファイルにまとめる。
-- **コンテンツは TypeScript の定数で管理する**: 旧テーマは WordPress の投稿機能を使っておらず、
-  すべてテンプレートにハードコードされていたため CMS は導入しない。
+- **コンテンツは TypeScript の定数で管理する。施工事例だけは管理画面で編集する**: 旧テーマは WordPress の投稿機能を使っておらず、
+  すべてテンプレートにハードコードされていたため、汎用の CMS は導入しない。
+  ただし施工事例は社内の非エンジニアが追加・公開したいため、Firebase の機能だけで小さな管理画面を作る（再デプロイなしで反映する）。
+  - データ: Firestore の `caseStudies/{事例の ID}`（項目と上限は `shared/src/caseStudies/`）。写真は Storage の
+    `case-studies/{事例の ID}/{写真の ID}-{small|large}.webp`（幅 768px・1600px。管理画面がブラウザで変換する）
+  - 公開: `status == 'published'` の事例だけを誰でも読める。一覧は `where('status', '==', 'published')` 付きのクエリだけが通る
+    （ルールは絞り込みではないため）。公開サイトは Firestore の REST で読み、Firebase の SDK は読み込ませない
+  - 編集: Firebase Auth でログインし、カスタムクレーム `admin: true` を持つユーザーだけが読み書きできる。
+    新規登録の機能は置かず、アカウントと権限は開発側が `npm run admin:grant`（`tools/grant-admin.ts`）で付ける
+  - 書き込みはルールで項目・型・長さ・`status`・写真の枚数（1〜4）・`updatedBy == request.auth.uid`・
+    `updatedAt == request.time` を検証する（zod のスキーマと同じ上限。`tests/rules/` で確かめる）
+  - App Check は Firestore・Storage には強制しない（REST の公開読み取りを軽く保つため。守りはルールで行う）
