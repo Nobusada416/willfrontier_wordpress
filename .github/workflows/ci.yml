@@ -51,6 +51,26 @@ jobs:
       - name: Firestore セキュリティルールのテスト
         run: npm run test:rules
 
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      # Firestore Emulator の実行に Java が必要
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      # 宛先は functions/.env.demo-willfrontier（コミット済みの example.com の仮の値）を使う
+      - name: Emulator での結合テスト（フォームの送信から保存まで）
+        run: npm run test:integration
+
   e2e:
     runs-on: ubuntu-latest
     steps:
