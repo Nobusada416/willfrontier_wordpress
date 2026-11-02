@@ -9,7 +9,7 @@
 
 ### ログイン
 
-1. パソコンのブラウザ（Google Chrome か Microsoft Edge）で `https://<ホームページのアドレス>/admin/` を開きます
+1. パソコンのブラウザ（Google Chrome・Microsoft Edge・Safari など）で `https://<ホームページのアドレス>/admin/` を開きます
 2. 制作担当から受け取ったメールアドレスとパスワードを入れて「ログイン」を押します
 
 - アカウントの追加・パスワードを忘れたときは、制作担当にご連絡ください（画面からは登録・再設定できません）
@@ -50,7 +50,6 @@
 - 写真の右上の「×」で外せます。並び順を変えたいときは、外してから選び直してください
 - iPhone の写真（HEIC）は、ブラウザによっては読み込めません。そのときは iPhone の「設定 > カメラ > フォーマット」を
   「互換性優先」にして撮るか、JPEG に変換してから選んでください
-- Safari では写真を変換できないため、Google Chrome か Microsoft Edge をお使いください
 
 ### 削除
 
@@ -70,17 +69,21 @@
   `web/app/features/admin/`。静的に書き出すため、編集する事例の ID はクエリで渡す
 - ログイン: Firebase Auth（メールアドレスとパスワード）。カスタムクレーム `admin: true` が無いアカウントは、
   ログイン直後とページを開いたときに ID トークンを取り直して確かめ、「権限がありません」と出してログアウトさせる
-- データ: Firestore の `caseStudies/{事例の ID}`。写真は Storage の `case-studies/{事例の ID}/{写真の ID}-{small|large}.webp`
-  （幅 768px・1600px の webp。元の写真より大きくはしない。1 ファイル 2MB まで）。項目と上限は `shared/src/caseStudies/`、
+- データ: Firestore の `caseStudies/{事例の ID}`。写真は Storage の `case-studies/{事例の ID}/{写真の ID}-{small|large}.{webp|jpg}`
+  （幅 768px・1600px。元の写真より大きくはしない。1 ファイル 2MB まで）。`photos[].path` は拡張子付きの基準パス
+  `case-studies/{事例の ID}/{写真の ID}.{webp|jpg}` で、拡張子で形式が分かる（各サイズのファイルは `caseStudyPhotoFilePath`）。項目と上限は `shared/src/caseStudies/`、
   書き込みの条件は `firestore.rules`・`storage.rules`（[architecture.md](./architecture.md) の「コンテンツは TypeScript の定数で管理する」）
-- 写真の流れ: 新規作成の画面を開いた時点で事例の ID を決める → 写真を選ぶとブラウザで縮小（canvas）して webp に変換 →
+- 写真の流れ: 新規作成の画面を開いた時点で事例の ID を決める → 写真を選ぶとブラウザで縮小（canvas）して webp（できなければ JPEG）に変換 →
   すぐ Storage にアップロード → URL と large の寸法をフォームに入れる。外した写真は、保存前にアップロードしたものはすぐ、
   保存済みのものは保存が終わってから Storage から消す。事例の削除では `case-studies/{事例の ID}/` の下をすべて消す
   （保存せずに画面を閉じた場合など、使われない写真が残ることはある）
 - 検索エンジン: 管理画面は常に `noindex, nofollow`、canonical なし、sitemap に載せず、robots.txt で `Disallow: /admin/`
 - 表示速度: Auth・Firestore・Storage の SDK は管理画面のレイアウトから `import()` で読み込み、公開ページには入れない
   （ビルド後の `scripts/verify-prerender.mjs` で確かめる）
-- 写真の変換は canvas の `toBlob('image/webp')` を使う。Safari は webp で書き出せない（PNG になる）ため、変換できない旨を出す
+- 写真の変換は canvas の `toBlob('image/webp')` を使う。Safari は webp で書き出せず黙って PNG を返すため、結果の `type` を確かめ、
+  webp でなければ JPEG（画質 0.85）で書き出し直す（`photos.ts`）。Storage のルールは拡張子と形式の組（`.webp` は `image/webp`、
+  `.jpg` は `image/jpeg`）だけを許す。E2E（`npm run e2e:admin`）は Chromium だけで、Safari（WebKit）での変換は `photos.test.ts`
+  の単体テスト（`toBlob` が PNG を返す場合）で確かめている
 - 本番の CSP（`firebase.json`）は、管理画面のために `connect-src` に `identitytoolkit.googleapis.com`・`securetoken.googleapis.com`・
   `firestore.googleapis.com`・`firebasestorage.googleapis.com`、`img-src` に `firebasestorage.googleapis.com` が要る
 

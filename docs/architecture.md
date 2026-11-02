@@ -87,7 +87,7 @@ web/
       contact.ts          # お問い合わせページだけで使う内容（ヒーローの写真・お問い合わせ後の流れ・よくあるご質問）
     features/admin/       # 施工事例の管理画面（docs/case-studies.md）。AdminShell（ログインの判定・ヘッダー）/ LoginScreen /
                           # CaseStudyListScreen（一覧・公開の切り替え）/ CaseStudyEditor（編集・写真・削除・未保存の確認）/
-                          # photos.ts（ブラウザで webp に縮小）/ api.ts（画面が使う操作の型）/ firebaseAdminApi.ts（その Firebase での実装）/
+                          # photos.ts（ブラウザで webp・JPEG に縮小）/ api.ts（画面が使う操作の型）/ firebaseAdminApi.ts（その Firebase での実装）/
                           # loadAdminApi.ts（Auth・Firestore・Storage の SDK の準備。管理画面のレイアウトから import() する）
     features/forms/       # フォーム（ContactForm / SafetyForm / RecruitForm）と共通の hook useInquiryForm・送信失敗の案内 SubmitError（docs/forms.md）
     features/home/        # トップの各セクション（Hero / Mission / Service / Workflow / Vehicles / Gallery / CaseStudy / Safety / Recruit / Company）
@@ -220,7 +220,8 @@ web/
   すべてテンプレートにハードコードされていたため、汎用の CMS は導入しない。
   ただし施工事例は社内の非エンジニアが追加・公開したいため、Firebase の機能だけで小さな管理画面を作る（再デプロイなしで反映する）。
   - データ: Firestore の `caseStudies/{事例の ID}`（項目と上限は `shared/src/caseStudies/`）。写真は Storage の
-    `case-studies/{事例の ID}/{写真の ID}-{small|large}.webp`（幅 768px・1600px。管理画面がブラウザで変換する）
+    `case-studies/{事例の ID}/{写真の ID}-{small|large}.{webp|jpg}`（幅 768px・1600px。管理画面がブラウザで webp に変換し、
+    webp を書き出せないブラウザ（Safari）では JPEG。`photos[].path` は拡張子付きの基準パスで、形式が分かる）
   - 公開: `status == 'published'` の事例だけを誰でも読める。一覧は `where('status', '==', 'published')` 付きのクエリだけが通る
     （ルールは絞り込みではないため）。公開サイトは Firestore の REST で読み、Firebase の SDK は読み込ませない
   - 編集: Firebase Auth でログインし、カスタムクレーム `admin: true` を持つユーザーだけが読み書きできる。

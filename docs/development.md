@@ -76,7 +76,7 @@ ADMIN_SCREENSHOT_DIR=/tmp/admin-shots npm run e2e:admin
 ```
 
 - テストごとに Auth・Firestore のデータを消し、管理者（`admin` クレーム付き）と一般のアカウントを Admin SDK で作る
-- 内容: 権限のないアカウント（「権限がありません」でログアウト）、ログイン → 写真付きで新規作成（ブラウザで webp に縮小して Storage へ）→
+- 内容: 権限のないアカウント（「権限がありません」でログアウト）、ログイン → 写真付きで新規作成（ブラウザで webp に縮小して Storage へ。E2E は Chromium のみ）→
   公開 → 未ログインの REST で読める → 非公開で読めなくなる → 編集 → 削除で写真のファイルも消える、未保存で離れるときの確認、
   スマホ幅で一覧の表が枠の中で横にスクロールすること。ログイン・一覧・編集・確認ダイアログを axe（WCAG 2.1 A・AA）で検査する
 
@@ -143,7 +143,7 @@ Functions の Emulator は、フォームの通知先のパラメータを `func
   公開の一覧は `where('status', '==', 'published')` 付きのクエリだけが通ること。
   不正なデータ（項目の欠け・余分な項目・長すぎ・写真 0 枚と 5 枚・`status` の不正・`updatedBy` のなりすまし・
   `updatedAt` がサーバーの時刻でない）は admin でも拒否されること。上限は `@wf/shared` の定数を使い、ルールとずれたら失敗する
-- `storage.rules.test.ts`: `case-studies/` の下は誰でも読め、admin だけが決まったパスに webp（2MB まで）を書き込み・削除できること
+- `storage.rules.test.ts`: `case-studies/` の下は誰でも読め、admin だけが決まったパスに webp・JPEG（拡張子と形式が合うもの。2MB まで）を書き込み・削除できること
 
 ### 管理者の付与（施工事例の管理画面）
 
@@ -192,7 +192,8 @@ npm run admin:grant -- --project <本番のプロジェクト ID> editor@example
 Emulator と本物のセキュリティルールで確かめる。管理者でログイン → 写真付きで作成（下書き）→ 未ログインでは読めない →
 公開すると未ログインの REST（公開サイトと同じ読み方）で読める → 写真の差し替えで外した写真が消える → 削除で写真のファイルも消える、
 パスワードの誤り・管理者でないアカウント（ログアウトさせる）も見る。写真の縮小（canvas）はブラウザでしか動かないため、
-ここでは変換済みの webp の代わりのデータを使う（縮小は `photos.test.ts` と管理画面の E2E で確かめる）。
+ここでは変換済みの webp・JPEG の代わりのデータを使う（縮小は `photos.test.ts` と管理画面の E2E で確かめる。
+Safari の JPEG はアップロード・削除をここで、変換を `photos.test.ts` で確かめる）。
 
 関数の細かい分岐は `functions/src/*.test.ts`（Firestore を差し替えた単体テスト）で確かめ、ここでは Emulator を通した組み合わせを見る。
 宛先の期待値は、Emulator と同じ順（`.env` → `.env.demo-willfrontier` → `.env.local`）で `functions/` の値を重ねて求める（手元の `.env.local` で宛先を変えていても通る）。
