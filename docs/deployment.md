@@ -40,6 +40,7 @@ Functions のソースとしてアップロードするのはビルド結果（`
   （`node_modules/firebase-tools/lib/deploy/functions/prepareFunctionsUpload.js` の `packageSource`）
 - `firebase init functions` が書く既定の ignore（`node_modules`・`.git`・`firebase-debug.log`・`firebase-debug.*.log`・`*.local`。
   `lib/init/features/functions/index.js`）を含めないと、Emulator 用の `functions/.env.local`・`.secret.local` もアップロードされる
+- Emulator のデモプロジェクト（`demo-` で始まるプロジェクト ID）用の `.env.demo-*` も除く。本番のデプロイでは読まれず、アップロードする必要がない
 - 照合は minimatch の `matchBase: true, dot: true` で、`/` を含まないパターンはどの階層のファイル名にも一致する（`lib/fsAsync.js`）
 - `functions/test/uploadIgnore.test.ts` で、firebase-tools の照合を使ってアップロード対象を確かめる
 

@@ -57,6 +57,7 @@ describe('Functions のアップロード対象（firebase.json の functions.ig
     '.gitignore',
     '.env.local',
     '.secret.local',
+    '.env.demo-willfrontier',
     'firebase-debug.log',
     'firebase-debug.1.log',
     '.git/HEAD',
@@ -93,6 +94,11 @@ describe('Functions のアップロード対象（firebase.json の functions.ig
     const files = await uploadedFiles()
     expect(files).not.toContain('.env.local')
     expect(files).not.toContain('.secret.local')
+  })
+
+  // demo- で始まるプロジェクト ID は Emulator 専用で、本番のデプロイでは読まれない
+  it('Emulator のデモプロジェクト用の環境変数（.env.demo-*）をアップロードしない', async () => {
+    expect(await uploadedFiles()).not.toContain('.env.demo-willfrontier')
   })
 
   it('アップロードするのはビルド結果と package.json だけ', async () => {
