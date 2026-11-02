@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": ["tests/**/*", "vitest.rules.config.ts", "vitest.integration.config.ts"],
+  "include": ["tests/**/*", "tools/**/*", "vitest.rules.config.ts", "vitest.integration.config.ts"],
   "compilerOptions": {
     "types": ["node"]
   }
