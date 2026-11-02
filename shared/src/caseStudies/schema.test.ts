@@ -11,7 +11,7 @@ import {
 } from './schema'
 
 const photo = (n: number) => ({
-  path: `case-studies/case1/photo${n}`,
+  path: `case-studies/case1/photo${n}.webp`,
   smallUrl: `https://firebasestorage.googleapis.com/v0/b/demo/o/photo${n}-small.webp?alt=media`,
   largeUrl: `https://firebasestorage.googleapis.com/v0/b/demo/o/photo${n}-large.webp?alt=media`,
   width: 1600,
@@ -144,8 +144,12 @@ describe('caseStudyFormSchema（管理画面の編集フォーム）', () => {
 })
 
 describe('caseStudyPhotoSchema（保存される写真）', () => {
-  it('正しい写真を通す（Emulator の http の URL も可）', () => {
+  it('正しい写真を通す（JPEG・Emulator の http の URL も可）', () => {
     expect(caseStudyPhotoSchema.safeParse(photo(1)).success).toBe(true)
+    expect(
+      caseStudyPhotoSchema.safeParse({ ...photo(1), path: 'case-studies/case1/photo1.jpg' })
+        .success,
+    ).toBe(true)
     expect(
       caseStudyPhotoSchema.safeParse({
         ...photo(1),
@@ -156,7 +160,9 @@ describe('caseStudyPhotoSchema（保存される写真）', () => {
 
   it.each([
     ['path が case-studies/ で始まらない', { path: 'other/case1/photo1' }],
-    ['path に余分な階層がある', { path: 'case-studies/case1/a/b' }],
+    ['path に余分な階層がある', { path: 'case-studies/case1/a/b.webp' }],
+    ['path に拡張子が無い', { path: 'case-studies/case1/photo1' }],
+    ['path の拡張子が webp・jpg でない', { path: 'case-studies/case1/photo1.png' }],
     ['URL が http(s) でない', { largeUrl: 'javascript:alert(1)' }],
     ['幅が 0', { width: 0 }],
     ['高さが小数', { height: 10.5 }],

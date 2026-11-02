@@ -1,6 +1,7 @@
 import type {
   CaseStudy,
   CaseStudyFormValues,
+  CaseStudyImageContentType,
   CaseStudyImageSize,
   CaseStudyPhoto,
   CaseStudyStatus,
@@ -27,6 +28,8 @@ export type AdminCaseStudy = CaseStudy & { updatedAt: Date | null }
 export type ProcessedPhoto = {
   width: number
   height: number
+  // small・large の形式（webp。webp を書き出せないブラウザでは JPEG）
+  contentType: CaseStudyImageContentType
   files: Record<CaseStudyImageSize, Blob>
 }
 

@@ -1,6 +1,5 @@
 import {
   CASE_STUDIES_COLLECTION,
-  CASE_STUDY_IMAGE_CONTENT_TYPE,
   CASE_STUDY_IMAGE_SIZES,
   CASE_STUDY_STORAGE_ROOT,
   caseStudyContentSchema,
@@ -179,11 +178,12 @@ export function createFirebaseAdminApi({ auth, db, storage }: AdminFirebaseServi
     },
 
     async uploadPhoto(caseId, photo): Promise<CaseStudyPhoto> {
-      const basePath = caseStudyPhotoBasePath(caseId, newId())
+      // 基準パスの拡張子で形式が分かる（case-studies/{事例の ID}/{写真の ID}.{webp|jpg}）
+      const basePath = caseStudyPhotoBasePath(caseId, newId(), photo.contentType)
       const upload = async (size: CaseStudyImageSize) => {
         const fileRef = ref(storage, caseStudyPhotoFilePath(basePath, size))
         await uploadBytes(fileRef, photo.files[size], {
-          contentType: CASE_STUDY_IMAGE_CONTENT_TYPE,
+          contentType: photo.contentType,
           cacheControl: PHOTO_CACHE_CONTROL,
         })
         return getDownloadURL(fileRef)

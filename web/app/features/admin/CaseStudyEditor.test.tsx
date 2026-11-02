@@ -8,7 +8,7 @@ import {
   makePhoto,
   type FakeAdminApi,
 } from '~/test/fakeAdminApi'
-import { AdminApiContext, type AdminCaseStudy } from './api'
+import { AdminApiContext, type AdminCaseStudy, type ProcessedPhoto } from './api'
 import { CaseStudyEditor } from './CaseStudyEditor'
 import type * as PhotosModule from './photos'
 import { PhotoError, processPhotoFile } from './photos'
@@ -18,9 +18,10 @@ vi.mock('./photos', async (importOriginal) => ({
   processPhotoFile: vi.fn(),
 }))
 
-const processed = {
+const processed: ProcessedPhoto = {
   width: 1600,
   height: 1200,
+  contentType: 'image/webp',
   files: {
     small: new Blob(['s'], { type: 'image/webp' }),
     large: new Blob(['l'], { type: 'image/webp' }),
@@ -172,7 +173,7 @@ describe('施工事例の編集（新規作成）', () => {
     await userEvent.click(await screen.findByRole('button', { name: '1 枚目の写真を外す' }))
 
     expect(screen.queryByLabelText('写真の説明（1 枚目）')).not.toBeInTheDocument()
-    expect(api.deletePhotos).toHaveBeenCalledWith(['case-studies/newCase/photo101'])
+    expect(api.deletePhotos).toHaveBeenCalledWith(['case-studies/newCase/photo101.webp'])
   })
 
   it('「公開して保存」で、整えた値と status=published を新規として保存し、一覧に戻って通知する', async () => {
@@ -285,7 +286,7 @@ describe('施工事例の編集（既存）', () => {
     expect(api.saveCaseStudy.mock.calls[0]?.[0].values.photos).toEqual([
       makePhoto('factory', 1, '1 枚目'),
     ])
-    expect(api.deletePhotos).toHaveBeenCalledWith(['case-studies/factory/photo2'])
+    expect(api.deletePhotos).toHaveBeenCalledWith(['case-studies/factory/photo2.webp'])
   })
 
   it('「削除」は確認ダイアログを出し、「削除する」で写真ごと消して一覧に戻る', async () => {

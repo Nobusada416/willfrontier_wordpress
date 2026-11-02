@@ -81,12 +81,13 @@ beforeEach(async () => {
 })
 
 // ブラウザで縮小・変換した写真の代わり（中身は検証しない。形式と大きさだけルールで確かめられる）
-const fakePhoto = (): ProcessedPhoto => ({
+const fakePhoto = (contentType: ProcessedPhoto['contentType'] = 'image/webp'): ProcessedPhoto => ({
   width: 1600,
   height: 1067,
+  contentType,
   files: {
-    small: new Blob([new Uint8Array(64)], { type: 'image/webp' }),
-    large: new Blob([new Uint8Array(128)], { type: 'image/webp' }),
+    small: new Blob([new Uint8Array(64)], { type: contentType }),
+    large: new Blob([new Uint8Array(128)], { type: contentType }),
   },
 })
 
@@ -169,7 +170,7 @@ describe('施工事例の作成・公開・削除', () => {
     expect(isStorageId(id)).toBe(true)
     const photo = await api.uploadPhoto(id, fakePhoto())
     expect(photo).toMatchObject({ width: 1600, height: 1067, alt: '' })
-    expect(photo.path).toMatch(new RegExp(`^case-studies/${id}/[A-Za-z0-9_-]+$`))
+    expect(photo.path).toMatch(new RegExp(`^case-studies/${id}/[A-Za-z0-9_-]+\\.webp$`))
     expect((await fetch(photo.smallUrl)).status).toBe(200)
     expect((await fetch(photo.largeUrl)).status).toBe(200)
 
@@ -223,6 +224,27 @@ describe('施工事例の作成・公開・削除', () => {
     expect((await fetch(second.largeUrl)).status).toBe(404)
   })
 
+  it('webp を書き出せないブラウザ（Safari）の JPEG の写真も保存・削除できる', async () => {
+    await api.signIn(ADMIN_EMAIL, adminPassword)
+    const id = api.newCaseStudyId()
+    const photo = await api.uploadPhoto(id, fakePhoto('image/jpeg'))
+    // 基準パスの拡張子で形式が分かる
+    expect(photo.path).toMatch(new RegExp(`^case-studies/${id}/[A-Za-z0-9_-]+\\.jpg$`))
+    const large = await fetch(photo.largeUrl)
+    expect(large.status).toBe(200)
+    expect(large.headers.get('content-type')).toBe('image/jpeg')
+    expect((await fetch(photo.smallUrl)).status).toBe(200)
+
+    await api.saveCaseStudy({ id, isNew: true, status: 'draft', values: values([photo]) })
+    expect((await api.getCaseStudy(id))?.photos[0]?.path).toBe(photo.path)
+
+    // 写真を外したとき（deletePhotos）も、.jpg のファイルを消せる
+    await api.deletePhotos([photo.path])
+    expect((await fetch(photo.smallUrl)).status).toBe(404)
+    expect((await fetch(photo.largeUrl)).status).toBe(404)
+    await api.deleteCaseStudy({ id, photos: [] })
+  })
+
   it('下書きの状態を 2 回切り替えても作成日時は変わらない（ルールの createdAt 不変）', async () => {
     await api.signIn(ADMIN_EMAIL, adminPassword)
     const id = api.newCaseStudyId()
@@ -244,7 +266,7 @@ describe('施工事例の作成・公開・削除', () => {
         status: 'draft',
         values: values([
           {
-            path: `case-studies/${id}/photo1`,
+            path: `case-studies/${id}/photo1.webp`,
             smallUrl: 'https://example.com/s.webp',
             largeUrl: 'https://example.com/l.webp',
             width: 10,

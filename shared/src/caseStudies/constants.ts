@@ -33,18 +33,28 @@ export const CASE_STUDY_PHOTOS_MAX = 4
 // 写真の幅・高さ（px）の上限
 export const CASE_STUDY_PHOTO_DIMENSION_MAX = 10000
 
-// 写真は管理画面（ブラウザ）で縮小して、この幅（px）の webp を 2 種類アップロードする。
+// 写真は管理画面（ブラウザ）で縮小して、この幅（px）の画像を 2 種類アップロードする。
 // 元の画像のほうが小さければ拡大しない
 export const CASE_STUDY_IMAGE_WIDTHS = { small: 768, large: 1600 } as const
 export type CaseStudyImageSize = keyof typeof CASE_STUDY_IMAGE_WIDTHS
 export const CASE_STUDY_IMAGE_SIZES = Object.keys(CASE_STUDY_IMAGE_WIDTHS) as CaseStudyImageSize[]
 
-export const CASE_STUDY_IMAGE_CONTENT_TYPE = 'image/webp'
+// 保存する画像の形式と、Storage のファイルの拡張子。
+// webp を優先し、canvas で webp を書き出せないブラウザ（Safari）では JPEG にする
+const IMAGE_EXTENSIONS = { 'image/webp': 'webp', 'image/jpeg': 'jpg' } as const
+export type CaseStudyImageContentType = keyof typeof IMAGE_EXTENSIONS
+export type CaseStudyImageExtension = (typeof IMAGE_EXTENSIONS)[CaseStudyImageContentType]
+export const CASE_STUDY_IMAGE_CONTENT_TYPES = Object.keys(
+  IMAGE_EXTENSIONS,
+) as CaseStudyImageContentType[]
+
+export const caseStudyImageExtension = (contentType: CaseStudyImageContentType) =>
+  IMAGE_EXTENSIONS[contentType]
 
 // アップロードできる 1 ファイルの最大バイト数（storage.rules と同じ）
 export const CASE_STUDY_UPLOAD_MAX_BYTES = 2 * 1024 * 1024
 
-// Storage の置き場所: case-studies/{事例の ID}/{写真の ID}-{small|large}.webp
+// Storage の置き場所: case-studies/{事例の ID}/{写真の ID}-{small|large}.{webp|jpg}
 export const CASE_STUDY_STORAGE_ROOT = 'case-studies'
 
 // Storage のパスに使う ID（事例の ID・写真の ID）。Firestore の自動 ID（英数字 20 文字）も通る。
@@ -56,17 +66,39 @@ const assertStorageId = (label: string, value: string) => {
   if (!isStorageId(value)) throw new Error(`${label}が不正です: ${JSON.stringify(value)}`)
 }
 
-// 写真の基準パス（photos[].path に保存する）。small・large のファイルはここに -small.webp などを付ける
-export const caseStudyPhotoBasePath = (caseId: string, photoId: string) => {
+// 写真の基準パス（photos[].path に保存する）: case-studies/{事例の ID}/{写真の ID}.{webp|jpg}。
+// このパスのファイルは無く、small・large のファイルは拡張子の前に -small・-large を付けたもの。
+// 拡張子で、保存した形式（webp か JPEG か）が分かる
+export const caseStudyPhotoBasePath = (
+  caseId: string,
+  photoId: string,
+  contentType: CaseStudyImageContentType,
+) => {
   assertStorageId('事例の ID', caseId)
   assertStorageId('写真の ID', photoId)
-  return `${CASE_STUDY_STORAGE_ROOT}/${caseId}/${photoId}`
+  return `${CASE_STUDY_STORAGE_ROOT}/${caseId}/${photoId}.${caseStudyImageExtension(contentType)}`
 }
 
-// 写真のファイルのパス
-export const caseStudyPhotoPath = (caseId: string, photoId: string, size: CaseStudyImageSize) =>
-  `${caseStudyPhotoBasePath(caseId, photoId)}-${size}.webp`
+const splitBasePath = (basePath: string) => {
+  const match = /^(.+)\.([a-z]+)$/.exec(basePath)
+  const entry = Object.entries(IMAGE_EXTENSIONS).find(([, extension]) => extension === match?.[2])
+  if (!match || !entry) throw new Error(`写真の基準パスが不正です: ${JSON.stringify(basePath)}`)
+  return { stem: match[1], extension: entry[1], contentType: entry[0] as CaseStudyImageContentType }
+}
 
-// 基準パス（photos[].path）から、そのサイズのファイルのパスを求める（削除のときなど）
-export const caseStudyPhotoFilePath = (basePath: string, size: CaseStudyImageSize) =>
-  `${basePath}-${size}.webp`
+// 基準パス（photos[].path）から、そのサイズのファイルのパスを求める（アップロード・削除のとき）
+export const caseStudyPhotoFilePath = (basePath: string, size: CaseStudyImageSize) => {
+  const { stem, extension } = splitBasePath(basePath)
+  return `${stem}-${size}.${extension}`
+}
+
+// 基準パス（photos[].path）から、保存した形式（Content-Type）を求める
+export const caseStudyPhotoContentType = (basePath: string) => splitBasePath(basePath).contentType
+
+// 写真のファイルのパス
+export const caseStudyPhotoPath = (
+  caseId: string,
+  photoId: string,
+  size: CaseStudyImageSize,
+  contentType: CaseStudyImageContentType,
+) => caseStudyPhotoFilePath(caseStudyPhotoBasePath(caseId, photoId, contentType), size)

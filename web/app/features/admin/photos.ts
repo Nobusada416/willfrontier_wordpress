@@ -1,20 +1,22 @@
 import {
-  CASE_STUDY_IMAGE_CONTENT_TYPE,
+  CASE_STUDY_IMAGE_CONTENT_TYPES,
   CASE_STUDY_IMAGE_SIZES,
   CASE_STUDY_IMAGE_WIDTHS,
   CASE_STUDY_UPLOAD_MAX_BYTES,
+  type CaseStudyImageContentType,
   type CaseStudyImageSize,
 } from '@wf/shared'
 import type { ProcessedPhoto } from './api'
 
-// 施工事例の写真をブラウザで縮小し、webp の small（幅 768px）と large（幅 1600px）に変換する。
+// 施工事例の写真をブラウザで縮小し、small（幅 768px）と large（幅 1600px）に変換する。
+// 形式は webp。canvas で webp を書き出せないブラウザ（Safari）では JPEG にする。
 // 元の写真（スマホの 4000px 級・数 MB）はアップロードせず、変換したものだけを Storage に置く
 
 // 選べる写真の大きさ（変換前）
 export const SOURCE_MAX_BYTES = 20 * 1024 * 1024
 
-// webp の画質（0〜1）。写真の見た目とファイルの大きさの釣り合い
-const WEBP_QUALITY = 0.85
+// 画質（0〜1）。写真の見た目とファイルの大きさの釣り合い（webp・JPEG とも）
+const QUALITY = 0.85
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/heic', 'image/heif']
 const ACCEPTED_EXTENSIONS = /\.(jpe?g|png|heic|heif)$/i
@@ -71,38 +73,44 @@ export async function processPhotoFile(
   }
 
   try {
-    const entries = await Promise.all(
-      CASE_STUDY_IMAGE_SIZES.map(async (size) => {
-        const target = fitWidth(image.width, image.height, CASE_STUDY_IMAGE_WIDTHS[size])
-        const blob = await codec.encode(
-          image.source,
-          target.width,
-          target.height,
-          CASE_STUDY_IMAGE_CONTENT_TYPE,
-          WEBP_QUALITY,
-        )
-        return [size, blob, target] as const
-      }),
-    )
-    for (const [, blob] of entries) {
-      // 対応していない形式を指定すると、ブラウザは黙って PNG で書き出す（Safari など）
-      if (blob.type !== CASE_STUDY_IMAGE_CONTENT_TYPE) {
-        throw new PhotoError(
-          'このブラウザでは写真を変換できません。パソコンの Google Chrome か Microsoft Edge でお試しください。',
-        )
-      }
-      if (blob.size > CASE_STUDY_UPLOAD_MAX_BYTES) {
-        throw new PhotoError(
-          '変換した写真が 2MB を超えました。模様の細かい写真は、範囲を切り取ってから選んでください。',
-        )
+    const encodeAll = (contentType: CaseStudyImageContentType) =>
+      Promise.all(
+        CASE_STUDY_IMAGE_SIZES.map(async (size) => {
+          const target = fitWidth(image.width, image.height, CASE_STUDY_IMAGE_WIDTHS[size])
+          const blob = await codec.encode(
+            image.source,
+            target.width,
+            target.height,
+            contentType,
+            QUALITY,
+          )
+          return [size, blob] as const
+        }),
+      )
+
+    // 優先する形式（webp）から順に試す。対応していない形式を指定すると、ブラウザは黙って PNG で書き出す
+    let encoded:
+      { contentType: CaseStudyImageContentType; entries: [CaseStudyImageSize, Blob][] } | undefined
+    for (const contentType of CASE_STUDY_IMAGE_CONTENT_TYPES) {
+      const entries = await encodeAll(contentType)
+      if (entries.every(([, blob]) => blob.type === contentType)) {
+        encoded = { contentType, entries: entries.map(([size, blob]) => [size, blob]) }
+        break
       }
     }
-    const files = Object.fromEntries(entries.map(([size, blob]) => [size, blob])) as Record<
-      CaseStudyImageSize,
-      Blob
-    >
+    if (!encoded) {
+      throw new PhotoError(
+        'このブラウザでは写真を変換できませんでした。別のブラウザでお試しください。',
+      )
+    }
+    if (encoded.entries.some(([, blob]) => blob.size > CASE_STUDY_UPLOAD_MAX_BYTES)) {
+      throw new PhotoError(
+        '変換した写真が 2MB を超えました。模様の細かい写真は、範囲を切り取ってから選んでください。',
+      )
+    }
+    const files = Object.fromEntries(encoded.entries) as Record<CaseStudyImageSize, Blob>
     const large = fitWidth(image.width, image.height, CASE_STUDY_IMAGE_WIDTHS.large)
-    return { width: large.width, height: large.height, files }
+    return { width: large.width, height: large.height, contentType: encoded.contentType, files }
   } finally {
     image.close?.()
   }

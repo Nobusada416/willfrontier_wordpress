@@ -5,18 +5,19 @@ import { fitWidth, PhotoError, processPhotoFile, SOURCE_MAX_BYTES, type ImageCod
 const file = (name: string, type: string, size = 1000) =>
   new File([new Uint8Array(size)], name, { type, lastModified: 0 })
 
-// ブラウザの読み込み（createImageBitmap）と書き出し（canvas.toBlob）の代わり
+// ブラウザの読み込み（createImageBitmap）と書き出し（canvas.toBlob）の代わり。
+// canvas.toBlob と同じく、書き出せない形式を指定されたら PNG を返す
 const fakeCodec = ({
   width = 4000,
   height = 3000,
   decodeError,
-  outputType = 'image/webp',
+  encodableTypes = ['image/webp', 'image/jpeg'],
   outputSize = 1000,
 }: {
   width?: number
   height?: number
   decodeError?: Error
-  outputType?: string
+  encodableTypes?: string[]
   outputSize?: number
 } = {}) => {
   const close = vi.fn()
@@ -25,7 +26,12 @@ const fakeCodec = ({
       if (decodeError) throw decodeError
       return { width, height, source: 'bitmap', close }
     }),
-    encode: vi.fn(async () => new Blob([new Uint8Array(outputSize)], { type: outputType })),
+    encode: vi.fn(
+      async (_source, _width, _height, type: string) =>
+        new Blob([new Uint8Array(outputSize)], {
+          type: encodableTypes.includes(type) ? type : 'image/png',
+        }),
+    ),
   }
   return { codec, close }
 }
@@ -61,6 +67,7 @@ describe('processPhotoFile（写真の縮小と変換）', () => {
     )
     expect(result.width).toBe(1600)
     expect(result.height).toBe(1200)
+    expect(result.contentType).toBe('image/webp')
     expect(result.files.small.type).toBe('image/webp')
     expect(result.files.large.type).toBe('image/webp')
     // 読み込んだ画像のメモリを解放する
@@ -115,11 +122,33 @@ describe('processPhotoFile（写真の縮小と変換）', () => {
     )
   })
 
-  it('ブラウザが webp に変換できなければエラー（Safari など）', async () => {
-    const { codec } = fakeCodec({ outputType: 'image/png' })
+  it('webp を書き出せないブラウザ（Safari）では、画質 0.85 の JPEG で作る', async () => {
+    const { codec, close } = fakeCodec({ encodableTypes: ['image/jpeg'] })
+    const result = await processPhotoFile(file('a.jpg', 'image/jpeg'), codec)
+
+    expect(codec.encode).toHaveBeenCalledWith('bitmap', 768, 576, 'image/jpeg', 0.85)
+    expect(codec.encode).toHaveBeenCalledWith('bitmap', 1600, 1200, 'image/jpeg', 0.85)
+    expect(result.contentType).toBe('image/jpeg')
+    expect(result.files.small.type).toBe('image/jpeg')
+    expect(result.files.large.type).toBe('image/jpeg')
+    expect(result).toMatchObject({ width: 1600, height: 1200 })
+    expect(close).toHaveBeenCalled()
+  })
+
+  it('JPEG も書き出せなければエラー', async () => {
+    const { codec, close } = fakeCodec({ encodableTypes: [] })
     await expect(processPhotoFile(file('a.jpg', 'image/jpeg'), codec)).rejects.toThrow(
-      /このブラウザでは写真を変換できません/,
+      'このブラウザでは写真を変換できませんでした。',
     )
+    expect(close).toHaveBeenCalled()
+  })
+
+  it('JPEG にしても 2MB を超えればエラー', async () => {
+    const { codec } = fakeCodec({
+      encodableTypes: ['image/jpeg'],
+      outputSize: CASE_STUDY_UPLOAD_MAX_BYTES + 1,
+    })
+    await expect(processPhotoFile(file('a.jpg', 'image/jpeg'), codec)).rejects.toThrow(/2MB/)
   })
 
   it('変換後に 2MB を超えればエラー', async () => {

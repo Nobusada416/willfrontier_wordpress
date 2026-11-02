@@ -5,7 +5,7 @@ import type { AdminApi, AdminCaseStudy, AuthEvent } from '~/features/admin/api'
 // 管理画面のテスト用の偽の AdminApi。データはメモリに持ち、各メソッドは vi.fn で呼び出しを確かめられる
 
 export const makePhoto = (caseId: string, n: number, alt = ''): CaseStudyPhoto => ({
-  path: `case-studies/${caseId}/photo${n}`,
+  path: `case-studies/${caseId}/photo${n}.webp`,
   smallUrl: `https://storage.example.com/${caseId}/photo${n}-small.webp`,
   largeUrl: `https://storage.example.com/${caseId}/photo${n}-large.webp`,
   width: 1600,
