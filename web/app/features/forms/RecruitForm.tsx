@@ -105,7 +105,8 @@ export function RecruitForm() {
               required
               type="email"
               autoComplete="email"
-              placeholder="例）example@willfrontier.co.jp"
+              // 旧実装の例は会社のドメイン（example@willfrontier.co.jp）だったため、例示用のドメインにした
+              placeholder="例）example@example.com"
               registration={register('email')}
               error={errors.email?.message}
             />
