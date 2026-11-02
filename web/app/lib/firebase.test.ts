@@ -46,6 +46,12 @@ describe('readFirebaseSettings', () => {
       /VITE_FIREBASE_PROJECT_ID.*VITE_FIREBASE_APP_ID.*VITE_RECAPTCHA_SITE_KEY/,
     )
   })
+
+  it('空文字や空白だけの値も欠けているものとして失敗する（デプロイ前の確認と同じ判定）', () => {
+    expect(() => readFirebaseSettings({ ...env, VITE_RECAPTCHA_SITE_KEY: ' ' })).toThrow(
+      /VITE_RECAPTCHA_SITE_KEY/,
+    )
+  })
 })
 
 describe('loadInquiryCallable', () => {

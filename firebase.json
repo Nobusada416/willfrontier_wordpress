@@ -2,7 +2,7 @@
   "hosting": {
     "public": "web/build/client",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "__spa-fallback.html"],
-    "predeploy": ["npm run build -w @wf/web"],
+    "predeploy": ["npm run build:deploy -w @wf/web"],
     "cleanUrls": true,
     "trailingSlash": true,
     "redirects": [
