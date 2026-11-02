@@ -62,7 +62,8 @@ describe('ミッションページ', () => {
     expect(within(section).getAllByRole('listitem')).toHaveLength(COMMUNITY_GALLERY.length)
   })
 
+  // 会社概要はこのページに無く、トップの #company にある
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'MISSION・会社概要｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({ title: 'MISSION・理念と地域活動｜ウィルフロンティア' })
   })
 })

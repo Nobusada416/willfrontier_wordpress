@@ -11,7 +11,7 @@ const find = (meta: Descriptor[], key: string, value: string) =>
 describe('buildMeta', () => {
   it('下層ページの title は「ページ名｜サイト名」になる', () => {
     const meta = buildMeta(getPage('mission'))
-    expect(find(meta, 'title', 'MISSION・会社概要｜ウィルフロンティア')).toBeDefined()
+    expect(find(meta, 'title', 'MISSION・理念と地域活動｜ウィルフロンティア')).toBeDefined()
   })
 
   it('トップページの title は「サイト名｜キャッチコピー」になる', () => {
