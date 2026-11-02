@@ -166,14 +166,27 @@ P10 で行うこと:
 
 ### 宛先のパラメータ
 
-Emulator は `functions/.env.local`（git 管理外）を読む。次の内容で作る（実在のアドレスは使わない）。
-ファイルがないと、Emulator の起動時に値の入力を求められる（`emulators:exec` など対話できない実行では関数の読み込みに失敗する）。
+Emulator（プロジェクト `demo-willfrontier`）は `functions/.env.demo-willfrontier`（**コミット済み**）の次の値を読む。準備は不要。
 
 ```dotenv
 CONTACT_MAIL_TO=contact@example.com
 SAFETY_MAIL_TO=safety@example.com
 RECRUIT_MAIL_TO=recruit@example.com
 ```
+
+- 手元だけ宛先を変えたい場合は `functions/.env.local`（git 管理外）に書く。Emulator は `.env` → `.env.<プロジェクト ID>` → `.env.local` の順に重ね、後のものが優先される。
+  実在のアドレスは使わない
+- 値がないと、Emulator の起動時に入力を求められる（`emulators:exec` など対話できない実行では関数の読み込みに失敗する）
+- **コミットした理由**: 以前は `functions/.env.local` を各自で作る前提だったが、CI（結合テスト）や新しい作業環境にはファイルがない。
+  実行のたびに git 管理外のファイルを生成する方法もあるが、手元の `.env.local` を上書きしないための分岐が要り、`npm run emulators` には別の準備が残る。
+  `demo-` のプロジェクトはデプロイ先にならず実在のリソースにも接続しないため、このファイルが本番で読まれることはない。
+  値は `example.com`（RFC 2606 の例示用ドメイン）の仮のアドレスだけで秘密情報ではないため、コミットして準備を不要にした
+- 本番の宛先はこのファイルとは別に P10 で設定する（`functions/.env.<本番のプロジェクト ID>` をコミットするか、デプロイ時の入力にするか）
+
+### 結合テスト
+
+`npm run test:integration`（Java が必要）で、3 フォームの送信から `inquiries`・`mail` への保存までを Functions・Firestore の Emulator で確かめる。
+CI の `integration` ジョブでも実行する。内容は [development.md](./development.md#結合テストnpm-run-testintegration) を参照。
 
 ### 起動と確認
 

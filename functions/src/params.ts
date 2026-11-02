@@ -2,7 +2,7 @@ import type { FormType } from '@wf/shared'
 import { defineString } from 'firebase-functions/params'
 
 // 通知先メールアドレス（フォーム種別ごと）。コードには書かず、デプロイ時の環境ごとに設定する。
-// ローカル（Emulator）は functions/.env.local、本番は functions/.env.<プロジェクト ID> などで設定する（docs/forms.md の「ローカル開発」参照）。
+// ローカル（Emulator）は functions/.env.demo-willfrontier（仮の値。手元の上書きは .env.local）、本番は functions/.env.<プロジェクト ID> などで設定する（docs/forms.md の「ローカル開発」参照）。
 // 複数の宛先はカンマ区切り
 const MAIL_TO_PARAMS = {
   contact: defineString('CONTACT_MAIL_TO', {

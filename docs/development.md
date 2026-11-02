@@ -20,6 +20,8 @@ npm install
 | `npm run build`                           | 本番ビルド。`web/build/client/` に静的 HTML とアセットを出力                        |
 | `npm run test`                            | Vitest でユニットテスト                                                             |
 | `npm run typecheck`                       | ルート（tests/）と各ワークスペースの `tsc`（web は React Router の型生成も行う）    |
+| `npm run test:rules`                      | Firestore Emulator でセキュリティルールのテスト（`tests/rules/`）。Java が必要      |
+| `npm run test:integration`                | Functions・Firestore の Emulator で結合テスト（`tests/integration/`）。Java が必要  |
 | `npm run lint`                            | ESLint                                                                              |
 | `npm run format` / `npm run format:check` | Prettier で整形 / 整形チェック                                                      |
 | `npm run e2e -w web`                      | Playwright で E2E（axe・キーボード操作・画面遷移）。先に `npm run build`            |
@@ -102,15 +104,34 @@ Emulator 専用の仮プロジェクトで、本番の Firebase にはアクセ�
 
 Hosting の Emulator は `web/build/client` を配信するため、事前に `npm run build` しておく。
 
-Functions の Emulator には、フォームの通知先のパラメータを書いた `functions/.env.local`（リポジトリには含めない）が必要。
-内容と、App Check・メール送信の確認方法は [forms.md](./forms.md#ローカル開発emulator) を参照。
+Functions の Emulator は、フォームの通知先のパラメータを `functions/.env.demo-willfrontier`（コミット済み。`example.com` の仮のアドレス）から読む。
+手元だけ変えたい場合は `functions/.env.local`（リポジトリには含めない。こちらが優先）に書く。
+理由と、App Check・メール送信の確認方法は [forms.md](./forms.md#ローカル開発emulator) を参照。
+
+### 結合テスト（`npm run test:integration`）
+
+`tests/integration/` に置き、functions をビルドしてから `firebase emulators:exec --only functions,firestore --project demo-willfrontier` の中で Vitest を実行する
+（設定は `vitest.integration.config.ts`）。画面と同じく Firebase JS SDK の `httpsCallable`（`connectFunctionsEmulator`）で `submitInquiry` を呼び、
+保存された `inquiries`・`mail` を Admin SDK で読んで確かめる。テストごとに Firestore Emulator のデータを消す。
+
+- 3 フォームとも `inquiries` と `mail` に同じ ID で 1 件ずつ保存し、`expireAt` が受付日時の 180 日後・30 日後であること
+- 全角→半角（電話番号・メールアドレス）、改行コードの LF への統一、1 行の項目の改行の除去（件名に入る担当者名を含む）
+- 宛先（パラメータ）、件名・本文、`replyTo` の有無（contact は無し、safety は入力時のみ、recruit は常に）
+- 確認用メールアドレス・隠し項目・スキーマに無い項目を保存しないこと
+- 隠し項目（`wf_hp`）に値があれば `{ ok: true }` を返して保存しないこと（入力に誤りがあっても同じ）
+- 入力エラーは `invalid-argument` と `details.issues`（項目ごとのエラー）を返し、保存しないこと
+- App Check のトークンを付けずに呼ぶ（Functions Emulator では強制しない）
+
+関数の細かい分岐は `functions/src/*.test.ts`（Firestore を差し替えた単体テスト）で確かめ、ここでは Emulator を通した組み合わせを見る。
+宛先の期待値は、Emulator と同じ順（`.env` → `.env.demo-willfrontier` → `.env.local`）で `functions/` の値を重ねて求める（手元の `.env.local` で宛先を変えていても通る）。
 
 ## CI
 
-`.github/workflows/ci.yml` で次の 4 ジョブを実行する。
+`.github/workflows/ci.yml` で次の 5 ジョブを実行する。
 
 - `check`: lint → format チェック → 型チェック → テスト → ビルド（ビルド後にプリレンダー結果を検証）
 - `firestore-rules`: Java をセットアップして Firestore セキュリティルールのテスト
+- `integration`: Java をセットアップして Emulator での結合テスト（`npm run test:integration`）。宛先はコミット済みの `functions/.env.demo-willfrontier` を使う
 - `e2e`: ビルド → Playwright の E2E。Chromium は Playwright のバージョンごとに `~/.cache/ms-playwright` をキャッシュする
   （OS の依存ライブラリは毎回 `playwright install-deps` で入れる）。失敗時はレポートを成果物として保存する
 - `lighthouse`: ビルド → Lighthouse CI。レポートは成果物として保存する（Performance は warn）
