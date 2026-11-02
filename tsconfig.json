@@ -2,6 +2,8 @@
   "extends": "./tsconfig.base.json",
   "include": ["tests/**/*", "tools/**/*", "vitest.rules.config.ts", "vitest.integration.config.ts"],
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node"],
+    // tools/ は Node（--experimental-strip-types）で直接動かすため、shared の定数を拡張子付きで読む
+    "allowImportingTsExtensions": true
   }
 }
