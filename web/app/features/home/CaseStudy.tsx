@@ -14,18 +14,26 @@ const PRELOAD_MARGIN = '200px'
 
 const ROW_CLASS = 'border-b-[1.5px] border-wf-border'
 
-// 読み込み中に出す 4 行分の形（行の高さは読み込み後とそろえる）
+// 一覧の行と日付の欄（読み込み中の形と共通にし、読み込みの前後で行の高さを変えない）
+const ROW_BODY_CLASS =
+  'flex items-center gap-x-4 py-5 text-lg font-bold tracking-wider max-sm:flex-wrap'
+const DATE_CLASS = 'w-[140px] shrink-0 font-en text-wf-blue max-sm:w-full'
+// 文字の行の中に置く灰色の帯（行の高さは文字と同じフォントの行の高さで決まる）
+const BAR_CLASS = `inline-block h-5 align-middle ${SKELETON_CLASS}`
+
+// 読み込み中に出す 4 行分の形
 function SummarySkeleton() {
   return (
     <ul className="border-t-[1.5px] border-wf-border">
       {Array.from({ length: LIMIT }, (_, index) => (
-        <li key={index} className={`${ROW_CLASS} flex items-center gap-x-4 py-5 max-sm:flex-wrap`}>
-          <span className="flex h-7 w-[140px] shrink-0 items-center max-sm:w-full">
-            <span className={`block h-5 w-28 ${SKELETON_CLASS}`} />
+        <li key={index} className={`${ROW_CLASS} ${ROW_BODY_CLASS}`}>
+          <span className={DATE_CLASS}>
+            <span className={`${BAR_CLASS} w-28`} />
           </span>
-          <span className="flex h-7 flex-1 items-center">
-            <span className={`block h-5 w-3/5 ${SKELETON_CLASS}`} />
+          <span className="flex-1">
+            <span className={`${BAR_CLASS} w-3/5`} />
           </span>
+          <span className="text-2xl">&nbsp;</span>
         </li>
       ))}
     </ul>
@@ -70,12 +78,10 @@ export function CaseStudy() {
                 <li key={item.id} className={ROW_CLASS}>
                   <Link
                     to="/casestudy/"
-                    className="flex items-center gap-x-4 py-5 text-lg font-bold tracking-wider transition-colors hover:bg-[#f0f7fa] max-sm:flex-wrap"
+                    className={`${ROW_BODY_CLASS} transition-colors hover:bg-[#f0f7fa]`}
                   >
                     {/* スマホでは日付を 1 行目に置き、社名と矢印を 2 行目に並べる */}
-                    <span className="w-[140px] shrink-0 font-en text-wf-blue max-sm:w-full">
-                      {formatCaseStudyDate(item.date)}
-                    </span>
+                    <span className={DATE_CLASS}>{formatCaseStudyDate(item.date)}</span>
                     <span className="flex-1 text-wf-ink">{`${item.company}\u3000${item.tag}`}</span>
                     <span aria-hidden="true" className="text-2xl text-wf-blue">
                       →
