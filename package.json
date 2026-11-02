@@ -16,7 +16,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:rules": "firebase emulators:exec --only firestore --project demo-willfrontier-rules \"vitest run -c vitest.rules.config.ts\"",
+    "test:rules": "firebase emulators:exec --only firestore,storage --project demo-willfrontier-rules \"vitest run -c vitest.rules.config.ts\"",
     "test:integration": "npm run build -w @wf/functions && firebase emulators:exec --only functions,firestore --project demo-willfrontier \"vitest run -c vitest.integration.config.ts\"",
     "emulators": "npm run build -w @wf/functions && firebase emulators:start"
   },

@@ -1,12 +1,99 @@
 rules_version = '2';
 
-// クライアントからの読み書きはすべて拒否する。
 // フォームの送信内容（inquiries）とメール送信キュー（mail）は
-// Cloud Functions（Admin SDK。セキュリティルールの対象外）だけが書き込む。
+// Cloud Functions（Admin SDK。セキュリティルールの対象外）だけが書き込み、クライアントからは読み書きできない。
+// 施工事例（caseStudies）だけは、公開の事例を誰でも読め、管理者（カスタムクレーム admin）が管理画面から編集する。
+// 項目と上限は shared/src/caseStudies/（zod のスキーマと定数）と同じにする（tests/rules/ で確かめる）
 service cloud.firestore {
   match /databases/{database}/documents {
+    // 上の規則に当てはまらないものはすべて拒否する
     match /{document=**} {
       allow read, write: if false;
+    }
+
+    // 管理者。カスタムクレームは tools/grant-admin.ts（npm run admin:grant）で付ける（docs/development.md）
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    match /caseStudies/{caseId} {
+      // 公開の事例は誰でも読める。一覧は where('status', '==', 'published') 付きのクエリだけが通る
+      // （ルールは絞り込みではないため、条件の無いクエリは下書きを含みうるとして拒否される）
+      allow get, list: if resource.data.status == 'published' || isAdmin();
+
+      allow create: if isAdmin()
+        && isValidCaseStudy(request.resource.data, caseId)
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if isAdmin()
+        && isValidCaseStudy(request.resource.data, caseId)
+        && request.resource.data.createdAt == resource.data.createdAt;
+
+      allow delete: if isAdmin();
+    }
+
+    // Storage のパスに使う ID（shared の isStorageId と同じ）
+    function isStorageId(id) {
+      return id.matches('[A-Za-z0-9_-]{1,64}');
+    }
+
+    function isText(value, max) {
+      return value is string && value.size() >= 1 && value.size() <= max;
+    }
+
+    // 書き込み後のドキュメント全体（update では既存の値と合わせたもの）を検証する
+    function isValidCaseStudy(data, caseId) {
+      return isStorageId(caseId)
+        && data.keys().hasOnly(['status', 'date', 'tag', 'company', 'title', 'category',
+          'description', 'photos', 'createdAt', 'updatedAt', 'updatedBy'])
+        && data.keys().hasAll(['status', 'date', 'tag', 'company', 'title', 'category',
+          'description', 'photos', 'createdAt', 'updatedAt', 'updatedBy'])
+        && data.status in ['draft', 'published']
+        && data.date is string
+        && data.date.matches('[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])')
+        && isText(data.tag, 20)
+        && isText(data.company, 50)
+        && isText(data.title, 60)
+        && isText(data.category, 80)
+        && isText(data.description, 400)
+        && isValidPhotos(data.photos, caseId)
+        && data.createdAt is timestamp
+        && data.updatedAt == request.time
+        && data.updatedBy == request.auth.uid;
+    }
+
+    // 写真は 1〜4 枚（ルールでは繰り返しが書けないため、枚数ごとに確かめる）
+    function isValidPhotos(photos, caseId) {
+      return photos is list
+        && photos.size() >= 1
+        && photos.size() <= 4
+        && isValidPhoto(photos[0], caseId)
+        && (photos.size() < 2 || isValidPhoto(photos[1], caseId))
+        && (photos.size() < 3 || isValidPhoto(photos[2], caseId))
+        && (photos.size() < 4 || isValidPhoto(photos[3], caseId));
+    }
+
+    function isValidPhoto(photo, caseId) {
+      return photo is map
+        && photo.keys().hasOnly(['path', 'smallUrl', 'largeUrl', 'width', 'height', 'alt'])
+        && photo.keys().hasAll(['path', 'smallUrl', 'largeUrl', 'width', 'height', 'alt'])
+        // この事例の写真であること: case-studies/{事例の ID}/{写真の ID}
+        && photo.path is string
+        && photo.path.matches('case-studies/' + caseId + '/[A-Za-z0-9_-]{1,64}')
+        && isUrl(photo.smallUrl)
+        && isUrl(photo.largeUrl)
+        && isDimension(photo.width)
+        && isDimension(photo.height)
+        && photo.alt is string
+        && photo.alt.size() <= 100;
+    }
+
+    function isUrl(value) {
+      return value is string && value.size() <= 2048 && value.matches('https?://.+');
+    }
+
+    function isDimension(value) {
+      return value is int && value >= 1 && value <= 10000;
     }
   }
 }
