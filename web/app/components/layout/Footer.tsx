@@ -34,7 +34,8 @@ export function Footer() {
           {CONTACT_LINK.label}
         </Link>
       </div>
-      {/* 旧実装の opacity-70 は背景の wf-navy とのコントラストが 4.35:1 で AA に届かないため 85% にした */}
+      {/* 著作権表示は旧 footer.php に無く、新規に追加した（P2）。
+          当初の opacity-70 は背景の wf-navy とのコントラストが 4.35:1 で AA に届かないため、P9 で 85% にした */}
       <p className="pb-4 text-center text-xs opacity-85">
         <small>© {SITE.legalName}</small>
       </p>

@@ -35,7 +35,8 @@ export const PAGES: readonly Page[] = [
     id: 'mission',
     path: '/mission/',
     file: 'routes/mission.tsx',
-    title: 'MISSION・会社概要',
+    // 会社概要はこのページに無い（トップの #company）。ミッションと地域の取り組みの内容に合わせる
+    title: 'MISSION・理念と地域活動',
     description:
       'ウィルフロンティアのミッション「環境＝地球＋Forest＋水＋Animal＋街＋人」と、スマイル宣言・地域の美化運動など地域と共に歩む取り組みをご紹介します。',
   },
@@ -53,7 +54,7 @@ export const PAGES: readonly Page[] = [
     file: 'routes/workflow.tsx',
     title: 'WORKFLOW・処理の流れ',
     description:
-      '課題のヒアリングからプランニング、お見積り・ご提案、契約締結、運用開始・定期フォローまでの流れをご紹介します。',
+      'ウィルフロンティアの処理ネットワークと、産業廃棄物の受入・選別から中間処理、搬出、リサイクル・最終処分までの処理の流れをご紹介します。',
   },
   {
     id: 'vehicles',
