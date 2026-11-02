@@ -1,10 +1,19 @@
 import type { ReactNode } from 'react'
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from 'react-router'
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  isRouteErrorResponse,
+  useLocation,
+} from 'react-router'
 import type { Route } from './+types/root'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { MAIN_CONTENT_ID, SkipLink } from './components/layout/SkipLink'
 import { SmoothScroll } from './components/motion/SmoothScroll'
+import { isAdminPath } from './content/pages'
 import { FONT_LOADER_SCRIPT, FONT_STYLESHEET_URL } from './lib/fonts'
 import { MOTION_HEAD_SCRIPT } from './lib/motion/headScript'
 import './app.css'
@@ -20,6 +29,9 @@ export const links: Route.LinksFunction = () => [
 ]
 
 export function Layout({ children }: { children: ReactNode }) {
+  // 施工事例の管理画面（/admin/）は、サイト共通のヘッダー・フッター・慣性スクロールを出さない
+  // （管理画面の枠は routes/admin/layout.tsx。ページの読み込みの演出も無い）
+  const admin = isAdminPath(useLocation().pathname)
   return (
     // <head> のスクリプトが hydrate 前に class（js / intro-skip）を、SmoothScroll が data-motion を、
     // Lenis が class を <html> に付ける。React が管理しない属性の差分として警告を出さないようにする
@@ -38,14 +50,20 @@ export function Layout({ children }: { children: ReactNode }) {
         <Links />
       </head>
       <body className="flex min-h-screen flex-col">
-        <SkipLink />
-        <Header />
-        {/* スキップリンクで移動したときにフォーカスを受けられるよう tabIndex={-1} を付ける */}
-        <main id={MAIN_CONTENT_ID} tabIndex={-1} className="flex-1 outline-hidden">
-          {children}
-        </main>
-        <Footer />
-        <SmoothScroll />
+        {admin ? (
+          children
+        ) : (
+          <>
+            <SkipLink />
+            <Header />
+            {/* スキップリンクで移動したときにフォーカスを受けられるよう tabIndex={-1} を付ける */}
+            <main id={MAIN_CONTENT_ID} tabIndex={-1} className="flex-1 outline-hidden">
+              {children}
+            </main>
+            <Footer />
+            <SmoothScroll />
+          </>
+        )}
         <ScrollRestoration />
         <Scripts />
       </body>
