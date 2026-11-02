@@ -88,12 +88,13 @@ web/
     components/form/      # TextField（ラベル・必須・エラーを結び付けた入力欄）/ CheckboxField / FormFrame（見出しを枠線に重ねた枠）/
                           # PillSubmitButton / Honeypot / SubmitDialog（送信完了）
     lib/firebase.ts       # フォーム送信時に Firebase（App Check・Functions）を遅延読み込みする
+    lib/firebaseEnv.ts    # フォームの送信に必要な環境変数（VITE_FIREBASE_*・VITE_RECAPTCHA_SITE_KEY）の判定。デプロイ前の確認と共通
     lib/submitInquiry.ts  # 送信処理 submitInquiry の呼び出しと結果（ok / invalid / error）への変換
     lib/fonts.ts          # Google Fonts の URL と、stylesheet を描画を止めずに追加する <head> のインラインスクリプト
     lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP・robots（noindex）・トップの JSON-LD、404 の noindex を組み立てる
     lib/indexing.ts       # 環境変数 VITE_ALLOW_INDEXING から検索エンジンへの登録の可否を判定（既定は禁止）
     lib/structuredData.ts # トップに出力する Organization（schema.org）の JSON-LD。住所を都道府県・市区町村・番地に分ける
-    env.d.ts              # import.meta.env の型（VITE_ALLOW_INDEXING）
+    env.d.ts              # import.meta.env の型（VITE_ALLOW_INDEXING・VITE_FIREBASE_* など。例は web/.env.example）
     lib/media.ts          # 写真・動画の配信パスと寸法、クロスフェードの遅延計算
     lib/mediaManifest.json  # 写真・poster の実寸（npm run media:manifest -w web で生成）
     lib/motion/           # gsap（プラグイン登録・useMotion）/ headScript（<head> のインラインスクリプト）/ intro / scrollLock
@@ -113,6 +114,7 @@ web/
   scripts/seoFiles.ts           # sitemap.xml・robots.txt の中身を組み立てる純粋関数（URL の組み立て・XML エスケープ）
   scripts/verify-prerender.mjs  # ビルド後に各ページの title・h1・canonical・og:image、404.html の noindex、
                                 # sitemap.xml と canonical の一致、robots.txt と noindex の方針の一致を検証（postbuild）
+  scripts/verify-deploy-env.ts  # デプロイ用のビルド（npm run build:deploy）の前に、Firebase の設定がそろっているかを確かめる
   scripts/serve-static.ts       # ビルド済みのサイトを配信する（E2E・Lighthouse 用。ポート 4313）
   scripts/staticRouting.ts      # 配信の振り分け（firebase.json の cleanUrls・trailingSlash・redirects・Cache-Control と同じ。404 は 404.html）
   scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
