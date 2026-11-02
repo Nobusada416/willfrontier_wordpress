@@ -246,3 +246,5 @@ App Check（reCAPTCHA v3）を初期化してから、`asia-northeast1` の `sub
 | `VITE_USE_FIREBASE_EMULATORS=true` | Emulator に接続する。上の 4 つが無ければ demo プロジェクト（`demo-willfrontier`）で動かす |
 
 本番向けのビルドで設定が欠けている場合は、送信時に欠けている変数名を挙げて失敗する（画面には送信失敗の案内が出る）。
+通常の `npm run build`（CI・E2E）は設定が無くても通るが、`firebase deploy` の predeploy（`npm run build:deploy`）はビルドの前に確かめて失敗する（[deployment.md](./deployment.md#フォームの送信に必要な設定firebase)）。
+値の例は `web/.env.example`。必須の変数と空の扱いの判定は `web/app/lib/firebaseEnv.ts`（送信時とデプロイ前で共通）。

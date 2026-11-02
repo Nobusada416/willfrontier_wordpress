@@ -33,6 +33,21 @@ Functions は `asia-northeast1`（東京）、Node 22。デプロイ前に `pred
 `firestore.indexes.json` の TTL（`inquiries`・`mail` の `expireAt`）は `firebase deploy --only firestore:indexes` で反映される。
 Trigger Email 拡張の導入手順は [forms.md](./forms.md#メール)。
 
+### フォームの送信に必要な設定（Firebase）
+
+フォームの送信には、ビルド時の環境変数 `VITE_FIREBASE_API_KEY`・`VITE_FIREBASE_PROJECT_ID`・`VITE_FIREBASE_APP_ID`・`VITE_RECAPTCHA_SITE_KEY` が必要（内容は [forms.md](./forms.md#firebase-の読み込みwebapplibfirebasetssubmitinquiryts)、例は `web/.env.example`）。
+Vite がビルド時にバンドルへ埋め込むため、ビルドするときに渡す（環境変数か、リポジトリに含めない `web/.env.production.local`。環境変数が優先される）。
+
+`firebase deploy` の Hosting の `predeploy` は、通常のビルドではなくデプロイ用のビルド `npm run build:deploy -w @wf/web` を実行する。
+ビルドの前に `web/scripts/verify-deploy-env.ts` が上の 4 つを確かめ、無い・空（空白だけを含む）なら欠けている変数名を挙げて失敗する。
+アプリ（`lib/firebase.ts`）は送信時にしか設定を確かめないため、確認が無いと「ページは表示できるがフォームが送れないサイト」をデプロイできてしまう。
+
+- 確かめるのはビルド前の環境変数。ビルドと同じモード（production）・同じ `web/` の `.env` 系ファイルを Vite の `loadEnv` で読むため、バンドルに入る値と一致する（`VITE_ALLOW_INDEXING` を読む `generate-seo-files.ts` と同じ前提）。
+  ビルド後にバンドルを調べる方式は、値を知らないと探せず、圧縮後のコードの形に依存するため採らなかった
+- 通常の `npm run build`（CI の check・e2e・lighthouse）は確かめない。E2E（`web/e2e/forms.spec.ts`）は設定の無いビルドで送信失敗の案内が出ることを確かめている
+- `VITE_USE_FIREBASE_EMULATORS=true` のビルドは demo プロジェクトで動くため確かめない。本番向けのビルドでは設定しないこと
+- 判定（必須の変数・空の扱い）は `web/app/lib/firebaseEnv.ts` にあり、送信時の確認と共通。テストは `web/scripts/deployEnv.test.ts`
+
 ### 本番切り替え時の SEO 設定
 
 既定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
@@ -69,4 +84,4 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
 - `functions/` には専用の `package-lock.json` がない（lockfile は npm workspaces のルートにのみある）。
   デプロイ時は `functions/package.json` の semver 範囲で `firebase-functions` / `firebase-admin` が解決されるため、
   ローカルとデプロイ先でマイナーバージョンがずれる可能性がある。P10 で対応方針を決める。
-- `predeploy` はビルドのみで、型チェックとテストは含まない。デプロイは CI を通過したコミットから行う。
+- `predeploy` はビルド（Firebase の設定の確認を含む）のみで、型チェックとテストは含まない。デプロイは CI を通過したコミットから行う。

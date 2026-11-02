@@ -1,4 +1,5 @@
 import { SUBMIT_INQUIRY_FUNCTION, type InquiryPayload } from '@wf/shared'
+import { missingFirebaseEnv, REQUIRED_FIREBASE_ENV, usesFirebaseEmulators } from './firebaseEnv'
 
 // フォームの送信処理（Cloud Functions の submitInquiry）を呼ぶための Firebase の準備。
 // Firebase の SDK は大きいため、フォームを操作し始めたときに初めて読み込む（ページ表示時には読み込まない）
@@ -17,15 +18,8 @@ const DEMO_PROJECT_ID = 'demo-willfrontier'
 const FUNCTIONS_REGION = 'asia-northeast1'
 const FUNCTIONS_EMULATOR = { host: '127.0.0.1', port: 5001 }
 
-const REQUIRED_ENV = [
-  'VITE_FIREBASE_API_KEY',
-  'VITE_FIREBASE_PROJECT_ID',
-  'VITE_FIREBASE_APP_ID',
-  'VITE_RECAPTCHA_SITE_KEY',
-] as const
-
 export function readFirebaseSettings(env: Env): FirebaseSettings {
-  const useEmulators = env.VITE_USE_FIREBASE_EMULATORS === 'true'
+  const useEmulators = usesFirebaseEmulators(env)
   if (useEmulators) {
     const projectId = env.VITE_FIREBASE_PROJECT_ID ?? DEMO_PROJECT_ID
     return {
@@ -40,8 +34,9 @@ export function readFirebaseSettings(env: Env): FirebaseSettings {
     }
   }
 
-  const missing = REQUIRED_ENV.filter((name) => !env[name])
-  const [apiKey, projectId, appId, recaptchaSiteKey] = REQUIRED_ENV.map((name) => env[name])
+  // デプロイ用のビルド（npm run build:deploy）では、ビルド前に同じ判定で確かめている（scripts/verify-deploy-env.ts）
+  const missing = missingFirebaseEnv(env)
+  const [apiKey, projectId, appId, recaptchaSiteKey] = REQUIRED_FIREBASE_ENV.map((name) => env[name])
   if (missing.length > 0 || !apiKey || !projectId || !appId || !recaptchaSiteKey) {
     throw new Error(`Firebase の設定がありません: ${missing.join(', ')}`)
   }

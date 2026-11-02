@@ -24,6 +24,8 @@ P10 は次がそろうまで始められない。
 
 - [ ] `.firebaserc` に本番のプロジェクトを追加する（Emulator 用の `demo-willfrontier` は残す）
 - [ ] Web アプリを登録し、`VITE_FIREBASE_API_KEY`・`VITE_FIREBASE_PROJECT_ID`・`VITE_FIREBASE_APP_ID` を本番ビルドに渡す
+      （例は `web/.env.example`。環境変数・`web/.env.production.local`・GitHub Actions の Secrets / Variables のどれで渡すかを決める）。
+      渡し忘れると `firebase deploy` の predeploy（`npm run build:deploy`）が失敗する（[deployment.md](./deployment.md#フォームの送信に必要な設定firebase)）
 - [ ] App Check に reCAPTCHA v3 を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkrecaptcha-v3)）
 - [ ] トークンの再利用対策（limited-use トークン）が必要か判断する
 - [ ] Firestore の TTL を反映する（`firebase deploy --only firestore:indexes`）。セキュリティルールは全拒否のまま反映する

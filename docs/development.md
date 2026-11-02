@@ -18,6 +18,7 @@ npm install
 | ----------------------------------------- | ----------------------------------------------------------------------------------- |
 | `npm run dev`                             | 開発サーバー起動（web）                                                             |
 | `npm run build`                           | 本番ビルド。`web/build/client/` に静的 HTML とアセットを出力                        |
+| `npm run build:deploy -w web`             | デプロイ用のビルド。Firebase の設定（deployment.md）が無いと失敗する                |
 | `npm run test`                            | Vitest でユニットテスト                                                             |
 | `npm run typecheck`                       | ルート（tests/）と各ワークスペースの `tsc`（web は React Router の型生成も行う）    |
 | `npm run test:rules`                      | Firestore Emulator でセキュリティルールのテスト（`tests/rules/`）。Java が必要      |
