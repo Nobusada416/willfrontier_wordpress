@@ -112,6 +112,37 @@ npm run admin:grant -- --project <本番のプロジェクト ID> --list        
 - Storage のバケットが `<プロジェクト ID>.firebasestorage.app` でない（2024 年 10 月より前に作ったプロジェクトの `appspot.com` など）場合は、
   ビルド時の `VITE_FIREBASE_STORAGE_BUCKET` で指定する（`web/.env.example`。`npm run build:deploy` が使うバケットを表示する）
 
+### 既存の施工事例の移行（本番では P10 の後に 1 回）
+
+旧サイトの施工事例 3 件（旧 `page-casestudy.php`。`migration/react-firebase` の `web/app/content/cases.ts` の `CASE_STUDIES`）は、
+`npm run seed:case-studies`（`tools/seed-case-studies.ts`）で Firestore と Storage に入れる。
+
+```bash
+npm run seed:case-studies -- --emulator                       # Emulator（npm run emulators の起動中）
+gcloud auth application-default login
+npm run seed:case-studies -- --project <本番のプロジェクト ID>  # 本番。Auth・Storage の有効化とルールのデプロイ（P10）の後に 1 回
+```
+
+- 旧データには日付・社名・分類（トップの一覧の tag）が無い（トップの 4 件も `2026.00.00`・`○○○○○○` の仮の値で、移さない）。
+  そのため 3 件とも **下書き** で入れ、次の仮の値を入れる。スクリプトの出力にも同じ内容が出る。
+  **管理画面で日付・社名・分類を直してから「公開して保存」してもらう**
+
+  | 項目                 | 仮の値                                                                                            |
+  | -------------------- | ------------------------------------------------------------------------------------------------- |
+  | 日付                 | 実行した日（日本時間）                                                                            |
+  | 社名                 | `[社名]`                                                                                          |
+  | 分類（トップに表示） | 工事の種類（旧データの meta）から短く: 「産業廃棄物」「公共工事」「定期回収」                     |
+  | そのほか             | タイトル・工事の種類・本文は旧データのまま。写真は 4 枚とも旧データの順（説明は空。旧サイトも空） |
+
+- 写真は `web/public/media/photos/{small,large}/<slug>.webp` をそのまま `case-studies/legacy-0N/<slug>-{small|large}.webp` に
+  置く（寸法は `web/app/lib/mediaManifest.json` の large のもの）
+- ID は固定（`legacy-01`〜`legacy-03`）のため、何度実行しても重複しない。1 件でも既にあれば何も書かずに止まる。
+  `--force` を付けると上書きする（その事例の Storage の写真も消して入れ直すため、**管理画面で直した内容は消える**）
+- Storage のバケットが `<プロジェクト ID>.firebasestorage.app` でないときは `--bucket <バケット>` で指定する
+- 移行後、新しいサイトから参照されなくなる写真（`web/public/media/photos` の `wf-106`〜`wf-111`・`wf-048`・`wf-050`・`wf-037`）は、
+  旧テーマの `page-casestudy.php` がまだ参照しており、このスクリプトも読むため削除しない。P11 で扱う
+  （`wf-009`・`wf-049` は車両・作業の流れのページでも使っている）
+
 ### 手元で動かす
 
 ```bash
@@ -121,4 +152,4 @@ VITE_USE_FIREBASE_EMULATORS=true npm run dev         # http://localhost:5173/adm
 ```
 
 テスト: 画面は `web/app/features/admin/*.test.tsx`（Vitest。Firebase は偽物に差し替え）、Firebase の操作は
-`tests/integration/caseStudyAdmin.test.ts`（`npm run test:integration`）、画面の操作は `web/e2e/admin/`（`npm run e2e:admin`）。
+`tests/integration/caseStudyAdmin.test.ts`（`npm run test:integration`）、移行は `tests/integration/seedCaseStudies.test.ts`、画面の操作は `web/e2e/admin/`（`npm run e2e:admin`）。
