@@ -77,9 +77,9 @@ P10 は次がそろうまで始められない。
 
 ## 3. P10 を待たずに進められるもの
 
-- [ ] **Emulator での結合テスト**（計画の P8 の TDD 対象で、未実施）。`functions/.env.local`（git 管理外。宛先は `example.com` の仮のアドレス）を作り、
-      3 フォームの送信から `inquiries`・`mail` への書き込みまでを確かめる（[forms.md](./forms.md#ローカル開発emulator)）。
-      P8 の作業中はファイルの作成が許可されず実行できなかった
+- [x] **Emulator での結合テスト**（計画の P8 の TDD 対象）。`npm run test:integration`（`tests/integration/`）で
+      3 フォームの送信から `inquiries`・`mail` への書き込みまでを確かめ、CI の `integration` ジョブでも実行する。
+      宛先は `functions/.env.demo-willfrontier`（`example.com` の仮のアドレス）をコミットして用意した（理由は [forms.md](./forms.md#宛先のパラメータ)）
 - [ ] トップページの写真を表示幅に合った小さいサイズでも書き出す（下の「内容の確認」の 7 番の判断による）。
       目標の 85 に届いたら、Lighthouse CI の Performance を `warn` から `error` に戻す（[development.md](./development.md#lighthouse-ci)）
 - [ ] `npm audit` で firebase-admin 経由の uuid（moderate）が残っている。本件の使い方は影響を受けないため、上流の更新を待って依存を上げる
