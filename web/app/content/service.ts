@@ -74,7 +74,7 @@ export const SERVICE_BUSINESSES = [
     description: '材質ごとに細かく仕分け、再資源化率を最大化します。',
   },
   {
-    photo: 'wf-087',
+    photo: 'wf-118',
     name: '中間処理',
     description: '自社処理場で破砕・圧縮・分別を行い、適正処理へつなぎます。',
   },

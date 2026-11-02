@@ -97,6 +97,9 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。�
   （より小さい写真の書き出しが必要）。ほかに全ページ共通で JS 約 180KB（React・React Router・GSAP）と Google Fonts の CSS（約 117KB）がある。
   Performance はシミュレーションの揺れもあるため Lighthouse CI では warn にしている（[development.md](./development.md#lighthouse-ci)）
 
+- 移行の分岐後に main（WordPress）へ入ったクライアントの修正要望を React 版にも取り込んだ。PR #41・#43 は PR #42、#45・#46 は PR #44、#47・#48 は `migration/port-main-fixes`。
+  退職者が写っている wf-100 と、掲載をやめた wf-087 は削除し、wf-117・wf-118・wf-084 に差し替えた（`web/scripts/mediaReferences.test.ts` で再登場を防ぐ）。
+  s08 の動画は冒頭 6 秒をカットした版に、s08〜s14 の poster は P4 で ffmpeg で作ったものから main の版に替えた。旧テーマ（PHP）も main と同じ内容にそろえた
 - P9 で動画の poster を画面に近づいてから付けるようにしたため、JS が動かない環境では動画の場所が黒いままになる（以前は poster が出ていた）
 
 ## ユーザー確認待ち

@@ -69,3 +69,8 @@
 ### パターンC（ショート動画型・約20本以上）
 - 短尺中心: wf-v01, v23, v25, v27, v29, v30, v35（10-15秒）
 - 残りはギャラリー用ループ
+
+## shorts/s08（安全第一のパン）
+
+- 元素材は `data/videos/20260621/屋内作業_動画10.mp4`。2026-10 のクライアント指示で冒頭 6.0 秒をカットした（約25.7秒 → 約19.7秒）。
+- 再生成: `ffmpeg -ss 6.0 -i data/videos/20260621/屋内作業_動画10.mp4 -vf scale=-2:720 -c:v libx264 -preset fast -crf 28 -pix_fmt yuv420p -an -movflags +faststart assets/videos/shorts/s08.mp4`

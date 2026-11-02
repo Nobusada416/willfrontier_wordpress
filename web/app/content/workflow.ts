@@ -21,7 +21,7 @@ export const PROCESS_STEPS = [
   },
   {
     number: '03',
-    photo: 'wf-087',
+    photo: 'wf-118',
     title: '中間処理',
     description: '当社の処理場で破砕・圧縮・分解を行い、リサイクル可能な状態に整えます。',
   },
