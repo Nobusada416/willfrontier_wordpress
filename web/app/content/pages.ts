@@ -53,7 +53,7 @@ export const PAGES: readonly Page[] = [
     file: 'routes/workflow.tsx',
     title: 'WORKFLOW・処理の流れ',
     description:
-      '課題のヒアリングからプランニング、お見積り・ご提案、契約締結、運用開始・定期フォローまでの流れをご紹介します。',
+      'ウィルフロンティアの処理ネットワークと、産業廃棄物の受入・選別から中間処理、搬出、リサイクル・最終処分までの処理の流れをご紹介します。',
   },
   {
     id: 'vehicles',

@@ -74,4 +74,15 @@ describe('処理の流れページ', () => {
   it('ページ名を title に使う', () => {
     expect(meta()).toContainEqual({ title: 'WORKFLOW・処理の流れ｜ウィルフロンティア' })
   })
+
+  // トップの「導入までの流れ」（ヒアリング → 契約）とは別の内容
+  it('説明文は処理ネットワークと処理の 5 ステップ（受入 → リサイクル・最終処分）を表す', () => {
+    const description = meta().find((item) => 'name' in item && item.name === 'description')
+    const content = description && 'content' in description ? String(description.content) : ''
+    expect(content).toContain('処理ネットワーク')
+    for (const keyword of ['受入', '選別', '中間処理', '搬出', 'リサイクル', '最終処分']) {
+      expect(content).toContain(keyword)
+    }
+    expect(content).not.toMatch(/ヒアリング|契約/)
+  })
 })
