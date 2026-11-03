@@ -77,7 +77,7 @@ web/
       site.ts             # サイト名・正式社名・キャッチコピー・URL・OGP 画像（寸法と代替テキスト）・構造化データのロゴ
       home.ts             # トップだけで使う内容（ヒーローの写真・SERVICE の 5 項目・WORKFLOW・車両スライド・採用）
       gallery.ts          # GALLERY の写真・動画とタグ、絞り込み（filterGallery）
-      cases.ts            # トップの施工事例の一覧（旧サイトの時点で仮の値）と、施工事例ページのヒーロー写真・主要施工事例
+      cases.ts            # 施工事例ページのヒーロー写真（事例そのものは管理画面で編集し、Firestore から読み込む）
       company.ts          # 会社概要と拠点（横浜本社・WF-A.BASE）・設立日（構造化データ用）
       mission.ts          # ミッションページだけで使う内容（式の各語と色・丸写真の切り替え・「地域と共に」の写真一覧）
       service.ts          # サービスページだけで使う内容（図の 5 つの特長と画像の文字の書き起こし・事業内容のカード）
@@ -93,6 +93,7 @@ web/
     features/forms/       # フォーム（ContactForm / SafetyForm / RecruitForm）と共通の hook useInquiryForm・送信失敗の案内 SubmitError（docs/forms.md）
     features/home/        # トップの各セクション（Hero / Mission / Service / Workflow / Vehicles / Gallery / CaseStudy / Safety / Recruit / Company）
                           # と共通の枠 HomeSection（見出し・葉・背景）、VehicleSlider（カルーセル）
+    features/caseStudies/ # 施工事例の一覧（/casestudy/・トップ）で共通の、読み込み中（スケルトン）・0 件・失敗（再読み込み）の表示と整形
     components/ui/        # MoreLink（セクション末尾の「もっと見る ▼」ボタン）
     components/layout/    # Header（PC ナビ・ハンバーガー）/ MobileNav / Footer / SkipLink / Logo
     components/motion/    # SmoothScroll（Lenis）/ IntroOverlay / HeadingReveal / FadeUp / Leaf
@@ -113,10 +114,12 @@ web/
     lib/structuredData.ts # トップに出力する Organization（schema.org）の JSON-LD。住所を都道府県・市区町村・番地に分ける
     env.d.ts              # import.meta.env の型（VITE_ALLOW_INDEXING・VITE_FIREBASE_* など。例は web/.env.example）
     lib/media.ts          # 写真・動画の配信パスと寸法、クロスフェードの遅延計算
+    lib/caseStudies.ts    # 公開中の施工事例を Firestore の REST（runQuery）で読む（SDK は読み込まない）。値の変換と zod の検証
+    lib/useCaseStudies.ts # 施工事例の読み込み状態（loading / success / empty / error）と再読み込みのフック
     lib/mediaManifest.json  # 写真・poster の実寸（npm run media:manifest -w web で生成）
     lib/motion/           # gsap（プラグイン登録・useMotion）/ headScript（<head> のインラインスクリプト）/ intro / scrollLock
     lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
-    test/                 # テスト用スタブ（matchMedia / IntersectionObserver）。GSAP が読み込み時に matchMedia を呼ぶため、既定の実装は web/vitest.setup.ts に置く
+    test/                 # テスト用スタブ（matchMedia / IntersectionObserver）・施工事例のテストデータ。GSAP が読み込み時に matchMedia を呼ぶため、既定の実装は web/vitest.setup.ts に置く
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
     routes/admin/         # 管理画面（layout.tsx が共通の枠。index＝ログイン兼一覧・new＝新規作成・edit＝編集（?id=））
   public/favicon.svg  favicon.ico  apple-touch-icon.png  # ロゴの「F」から作ったアイコン（ico は 16・32・48px、touch は白背景 180px）

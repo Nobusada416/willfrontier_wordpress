@@ -55,4 +55,29 @@ describe('Picture', () => {
     expect(img).toHaveClass('h-full', 'w-full', 'object-cover')
     expect(img).toHaveAttribute('sizes', '50vw')
   })
+
+  it('slug の代わりに、アップロードした写真の URL と寸法を受け取れる', () => {
+    render(
+      <Picture
+        photo={{
+          smallUrl: 'https://firebasestorage.googleapis.com/s.webp',
+          largeUrl: 'https://firebasestorage.googleapis.com/l.webp',
+          width: 1600,
+          height: 900,
+        }}
+        alt="現場の様子"
+        sizes="50vw"
+      />,
+    )
+    const img = screen.getByRole('img', { name: '現場の様子' })
+    expect(img).toHaveAttribute('src', 'https://firebasestorage.googleapis.com/l.webp')
+    expect(img).toHaveAttribute(
+      'srcset',
+      'https://firebasestorage.googleapis.com/s.webp 768w, https://firebasestorage.googleapis.com/l.webp 1600w',
+    )
+    expect(img).toHaveAttribute('width', '1600')
+    expect(img).toHaveAttribute('height', '900')
+    expect(img).toHaveAttribute('sizes', '50vw')
+    expect(img).toHaveAttribute('loading', 'lazy')
+  })
 })

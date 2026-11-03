@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  remotePhotoAttributes,
   crossfadeDelay,
   photoSize,
   photoSrc,
@@ -29,6 +30,33 @@ describe('写真のパス', () => {
   it('一覧に無い写真は srcset と寸法を返さない', () => {
     expect(photoSrcSet('wf-000')).toBeUndefined()
     expect(photoSize('wf-000')).toBeUndefined()
+  })
+})
+
+describe('remotePhotoAttributes（管理画面でアップロードした写真）', () => {
+  const photo = {
+    smallUrl: 'https://firebasestorage.googleapis.com/s.webp',
+    largeUrl: 'https://firebasestorage.googleapis.com/l.webp',
+    width: 1600,
+    height: 1200,
+  }
+
+  it('large を src にし、small（幅 768px に縮小したもの）と large を srcset に並べる', () => {
+    expect(remotePhotoAttributes(photo)).toEqual({
+      src: photo.largeUrl,
+      srcSet: `${photo.smallUrl} 768w, ${photo.largeUrl} 1600w`,
+      width: 1600,
+      height: 1200,
+    })
+  })
+
+  it('元の画像が 768px 以下で small と large が同じ幅なら srcset を付けない', () => {
+    expect(remotePhotoAttributes({ ...photo, width: 600, height: 400 })).toEqual({
+      src: photo.largeUrl,
+      srcSet: undefined,
+      width: 600,
+      height: 400,
+    })
   })
 })
 

@@ -64,7 +64,7 @@ describe('Content-Security-Policy（Report-Only）', () => {
     expect(sorted('font-src')).toEqual(["'self'", 'https://fonts.gstatic.com'].sort())
   })
 
-  it('通信は送信処理（Cloud Functions）・App Check のトークン交換・reCAPTCHA だけ', () => {
+  it('通信は送信処理（Cloud Functions）・App Check・reCAPTCHA と、施工事例の Firestore・管理画面のログイン・写真のアップロードだけ', () => {
     expect(sorted('connect-src')).toEqual(
       [
         "'self'",
@@ -72,6 +72,13 @@ describe('Content-Security-Policy（Report-Only）', () => {
         'https://*.cloudfunctions.net',
         'https://content-firebaseappcheck.googleapis.com',
         'https://www.google.com/recaptcha/',
+        // 公開サイトの施工事例の読み込み（REST の runQuery）と管理画面の Firestore
+        'https://firestore.googleapis.com',
+        // 管理画面のログイン（Firebase Auth）とトークンの更新
+        'https://identitytoolkit.googleapis.com',
+        'https://securetoken.googleapis.com',
+        // 管理画面の写真のアップロード（Storage）
+        'https://firebasestorage.googleapis.com',
       ].sort(),
     )
   })
@@ -80,8 +87,14 @@ describe('Content-Security-Policy（Report-Only）', () => {
     expect(csp.get('frame-src')).toEqual(['https://www.google.com/recaptcha/'])
   })
 
-  it('写真・動画は同じオリジンから配信する（reCAPTCHA の画像を除く）', () => {
-    expect(sorted('img-src')).toEqual(["'self'", 'https://www.gstatic.com/recaptcha/'].sort())
+  it('写真・動画は同じオリジンから配信する（reCAPTCHA の画像と、施工事例の写真（Storage）を除く）', () => {
+    expect(sorted('img-src')).toEqual(
+      [
+        "'self'",
+        'https://www.gstatic.com/recaptcha/',
+        'https://firebasestorage.googleapis.com',
+      ].sort(),
+    )
     expect(csp.get('media-src')).toEqual(["'self'"])
   })
 })

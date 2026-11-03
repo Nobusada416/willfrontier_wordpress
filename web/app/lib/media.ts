@@ -1,3 +1,6 @@
+import type { CaseStudyPhoto } from '@wf/shared'
+// 全ページで読み込むため、zod を含む @wf/shared の入口ではなく定数のファイルを直接読む
+import { CASE_STUDY_IMAGE_WIDTHS } from '@wf/shared/src/caseStudies/constants'
 import manifest from './mediaManifest.json'
 
 export type Size = { width: number; height: number }
@@ -31,6 +34,21 @@ export const photoSrcSet = (slug: string) => {
   const sizes = MANIFEST.photos[slug]
   if (!sizes) return undefined
   return `${photoSmallSrc(slug)} ${sizes.small.width}w, ${photoSrc(slug)} ${sizes.large.width}w`
+}
+
+// 管理画面でアップロードした写真（Storage のダウンロード URL と large の寸法）
+export type RemotePhoto = Pick<CaseStudyPhoto, 'smallUrl' | 'largeUrl' | 'width' | 'height'>
+
+// アップロード時に small（幅 768px）と large（幅 1600px）に縮小している（元の画像が小さければ拡大しない）。
+// width は large の幅なので、small の幅はそれと 768px の小さいほう。同じ幅なら srcset は付けない
+export const remotePhotoAttributes = ({ smallUrl, largeUrl, width, height }: RemotePhoto) => {
+  const smallWidth = Math.min(CASE_STUDY_IMAGE_WIDTHS.small, width)
+  return {
+    src: largeUrl,
+    srcSet: smallWidth < width ? `${smallUrl} ${smallWidth}w, ${largeUrl} ${width}w` : undefined,
+    width,
+    height,
+  }
 }
 
 // 動画スラッグは 'shorts/s08' のようにディレクトリを含む
