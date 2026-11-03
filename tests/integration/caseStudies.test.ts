@@ -33,7 +33,7 @@ const content = (
   description: '1 行目\n2 行目',
   photos: [
     {
-      path: `case-studies/${id}/photo-1`,
+      path: `case-studies/${id}/photo-1.webp`,
       smallUrl: `http://127.0.0.1:9199/${id}-small.webp`,
       largeUrl: `http://127.0.0.1:9199/${id}-large.webp`,
       width: 1600,

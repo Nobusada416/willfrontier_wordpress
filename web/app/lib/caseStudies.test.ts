@@ -15,7 +15,7 @@ afterEach(() => {
 const photoFields = (index: number) => ({
   mapValue: {
     fields: {
-      path: { stringValue: `case-studies/case-1/photo-${index}` },
+      path: { stringValue: `case-studies/case-1/photo-${index}.webp` },
       smallUrl: { stringValue: `https://firebasestorage.googleapis.com/small-${index}.webp` },
       largeUrl: { stringValue: `https://firebasestorage.googleapis.com/large-${index}.webp` },
       width: { integerValue: '1600' },
@@ -148,7 +148,7 @@ describe('parseRunQueryResponse', () => {
       description: '1 行目\n2 行目',
       photos: [
         {
-          path: 'case-studies/case-1/photo-0',
+          path: 'case-studies/case-1/photo-0.webp',
           smallUrl: 'https://firebasestorage.googleapis.com/small-0.webp',
           largeUrl: 'https://firebasestorage.googleapis.com/large-0.webp',
           width: 1600,
@@ -156,7 +156,7 @@ describe('parseRunQueryResponse', () => {
           alt: '解体前の工場',
         },
         {
-          path: 'case-studies/case-1/photo-1',
+          path: 'case-studies/case-1/photo-1.webp',
           smallUrl: 'https://firebasestorage.googleapis.com/small-1.webp',
           largeUrl: 'https://firebasestorage.googleapis.com/large-1.webp',
           width: 1600,

@@ -2,7 +2,7 @@ import type { CaseStudy, CaseStudyPhoto } from '@wf/shared'
 
 // テスト用の施工事例（公開中）
 export const testPhoto = (caseId: string, index: number, alt = ''): CaseStudyPhoto => ({
-  path: `case-studies/${caseId}/photo-${index}`,
+  path: `case-studies/${caseId}/photo-${index}.webp`,
   smallUrl: `https://firebasestorage.googleapis.com/${caseId}-${index}-small.webp`,
   largeUrl: `https://firebasestorage.googleapis.com/${caseId}-${index}-large.webp`,
   width: 1600,

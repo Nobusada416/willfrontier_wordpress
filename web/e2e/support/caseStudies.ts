@@ -27,7 +27,7 @@ export const testCases = (count: number): TestCase[] =>
 const photo = (caseId: string, index: number) => ({
   mapValue: {
     fields: {
-      path: { stringValue: `case-studies/${caseId}/photo-${index}` },
+      path: { stringValue: `case-studies/${caseId}/photo-${index}.webp` },
       smallUrl: { stringValue: `${STORAGE}/${caseId}-${index}-small.webp` },
       largeUrl: { stringValue: `${STORAGE}/${caseId}-${index}-large.webp` },
       width: { integerValue: '1600' },
