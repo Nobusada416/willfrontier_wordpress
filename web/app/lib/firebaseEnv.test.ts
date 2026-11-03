@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { missingFirebaseEnv, REQUIRED_FIREBASE_ENV, usesFirebaseEmulators } from './firebaseEnv'
+import {
+  firebaseStorageBucket,
+  missingFirebaseEnv,
+  REQUIRED_FIREBASE_ENV,
+  usesFirebaseEmulators,
+} from './firebaseEnv'
 
 const env = {
   VITE_FIREBASE_API_KEY: 'api-key',
@@ -45,5 +50,20 @@ describe('usesFirebaseEmulators', () => {
     expect(usesFirebaseEmulators({ VITE_USE_FIREBASE_EMULATORS: 'TRUE' })).toBe(false)
     expect(usesFirebaseEmulators({ VITE_USE_FIREBASE_EMULATORS: '1' })).toBe(false)
     expect(usesFirebaseEmulators({})).toBe(false)
+  })
+})
+
+describe('firebaseStorageBucket', () => {
+  it('VITE_FIREBASE_STORAGE_BUCKET があればその値（前後の空白を除く）を使う', () => {
+    expect(
+      firebaseStorageBucket({ VITE_FIREBASE_STORAGE_BUCKET: ' willfrontier.appspot.com ' }, 'p'),
+    ).toBe('willfrontier.appspot.com')
+  })
+
+  it('無い・空ならプロジェクトの既定のバケット（<projectId>.firebasestorage.app）', () => {
+    expect(firebaseStorageBucket({}, 'willfrontier')).toBe('willfrontier.firebasestorage.app')
+    expect(firebaseStorageBucket({ VITE_FIREBASE_STORAGE_BUCKET: ' ' }, 'willfrontier')).toBe(
+      'willfrontier.firebasestorage.app',
+    )
   })
 })

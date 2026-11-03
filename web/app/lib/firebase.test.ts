@@ -1,5 +1,7 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { readFirebaseSettings } from './firebase'
+import { FIREBASE_EMULATORS, readFirebaseSettings } from './firebase'
 
 const env = {
   VITE_FIREBASE_API_KEY: 'api-key',
@@ -16,6 +18,7 @@ describe('readFirebaseSettings', () => {
         projectId: 'willfrontier',
         appId: '1:123:web:abc',
         authDomain: 'willfrontier.firebaseapp.com',
+        storageBucket: 'willfrontier.firebasestorage.app',
       },
       recaptchaSiteKey: 'site-key',
       useEmulators: false,
@@ -35,10 +38,18 @@ describe('readFirebaseSettings', () => {
         projectId: 'demo-willfrontier',
         appId: 'demo-app-id',
         authDomain: 'demo-willfrontier.firebaseapp.com',
+        storageBucket: 'demo-willfrontier.firebasestorage.app',
       },
       recaptchaSiteKey: undefined,
       useEmulators: true,
     })
+  })
+
+  it('Storage のバケットは VITE_FIREBASE_STORAGE_BUCKET で変えられる', () => {
+    expect(
+      readFirebaseSettings({ ...env, VITE_FIREBASE_STORAGE_BUCKET: 'willfrontier.appspot.com' })
+        .config.storageBucket,
+    ).toBe('willfrontier.appspot.com')
   })
 
   it('本番向けに必要な設定が欠けていれば、欠けている変数名を挙げて失敗する', () => {
@@ -51,6 +62,59 @@ describe('readFirebaseSettings', () => {
     expect(() => readFirebaseSettings({ ...env, VITE_RECAPTCHA_SITE_KEY: ' ' })).toThrow(
       /VITE_RECAPTCHA_SITE_KEY/,
     )
+  })
+})
+
+describe('FIREBASE_EMULATORS', () => {
+  it('firebase.json の Emulator のポートと同じ', async () => {
+    const firebaseJson = JSON.parse(
+      readFileSync(join(import.meta.dirname, '../../../firebase.json'), 'utf8'),
+    ) as { emulators: Record<string, { port?: number }> }
+    expect(FIREBASE_EMULATORS.host).toBe('127.0.0.1')
+    expect(FIREBASE_EMULATORS.ports).toEqual({
+      functions: firebaseJson.emulators.functions?.port,
+      auth: firebaseJson.emulators.auth?.port,
+      firestore: firebaseJson.emulators.firestore?.port,
+      storage: firebaseJson.emulators.storage?.port,
+    })
+  })
+})
+
+describe('loadFirebaseApp', () => {
+  afterEach(() => {
+    vi.doUnmock('firebase/app')
+    vi.unstubAllEnvs()
+    vi.resetModules()
+  })
+
+  it('アプリを 1 度だけ作り、2 回目以降は同じものを返す（設定も一緒に返す）', async () => {
+    vi.stubEnv('VITE_USE_FIREBASE_EMULATORS', 'true')
+    const apps: object[] = []
+    const initializeApp = vi.fn(() => {
+      const app = { name: '[DEFAULT]' }
+      apps.push(app)
+      return app
+    })
+    vi.doMock('firebase/app', () => ({ initializeApp, getApps: () => apps }))
+    const { loadFirebaseApp } = await import('./firebase')
+
+    const first = await loadFirebaseApp()
+    const second = await loadFirebaseApp()
+
+    expect(initializeApp).toHaveBeenCalledTimes(1)
+    expect(second.app).toBe(first.app)
+    expect(first.settings.useEmulators).toBe(true)
+  })
+
+  it('ほかの処理（フォームの送信など）が作ったアプリがあれば使い回す', async () => {
+    vi.stubEnv('VITE_USE_FIREBASE_EMULATORS', 'true')
+    const existing = { name: '[DEFAULT]' }
+    const initializeApp = vi.fn()
+    vi.doMock('firebase/app', () => ({ initializeApp, getApps: () => [existing] }))
+    const { loadFirebaseApp } = await import('./firebase')
+
+    expect((await loadFirebaseApp()).app).toBe(existing)
+    expect(initializeApp).not.toHaveBeenCalled()
   })
 })
 

@@ -1,5 +1,5 @@
 import type { MetaDescriptor } from 'react-router'
-import type { Page } from '~/content/pages'
+import type { AdminPage, Page } from '~/content/pages'
 import { OG_IMAGE, SITE } from '~/content/site'
 import { parseAllowIndexing } from './indexing'
 import { buildOrganizationJsonLd } from './structuredData'
@@ -45,6 +45,17 @@ export const buildMeta = (
     ...(page.id === 'home' ? [{ 'script:ld+json': buildOrganizationJsonLd() }] : []),
   ]
 }
+
+// 管理画面の名前（全画面共通のタイトル「ウィルフロンティア ホームページ管理画面」）
+export const ADMIN_SITE_NAME = `${SITE.name} ホームページ管理画面`
+
+// 管理画面（社内向け）は検索エンジンへの登録を許可したビルドでも載せない。
+// canonical・OGP・説明文も出さない（sitemap・canonical の検証の対象外。scripts/verify-prerender.mjs）
+// （VITE_ALLOW_INDEXING を参照しない）
+export const buildAdminMeta = (page: AdminPage): MetaDescriptor[] => [
+  { title: `${page.title}｜${ADMIN_SITE_NAME}` },
+  { name: 'robots', content: 'noindex, nofollow' },
+]
 
 // 404 ページは検索結果に載せない
 export const buildNotFoundMeta = (): MetaDescriptor[] => [

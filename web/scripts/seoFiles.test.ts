@@ -35,6 +35,7 @@ describe('sitemapUrls', () => {
     expect(urls).toHaveLength(PAGES.length)
     expect(urls.every((url) => url.endsWith('/'))).toBe(true)
     expect(urls.some((url) => url.includes('404'))).toBe(false)
+    expect(urls.some((url) => url.includes('/admin'))).toBe(false)
   })
 })
 
@@ -61,14 +62,16 @@ describe('buildSitemapXml', () => {
 })
 
 describe('buildRobotsTxt', () => {
-  it('インデックス禁止（既定）のときは全体をクロール禁止にし、sitemap を案内しない', () => {
+  it('インデックス禁止（既定）のときは全体をクロール禁止にし（管理画面も明記）、sitemap を案内しない', () => {
     const txt = buildRobotsTxt(SITE_URL, false)
-    expect(txt).toBe('User-agent: *\nDisallow: /\n')
+    expect(txt).toBe('User-agent: *\nDisallow: /\nDisallow: /admin/\n')
   })
 
-  it('インデックスを許可したときは全体を許可し、sitemap の URL を載せる', () => {
+  it('インデックスを許可したときは管理画面（/admin/）以外を許可し、sitemap の URL を載せる', () => {
     const txt = buildRobotsTxt(SITE_URL, true)
-    expect(txt).toBe('User-agent: *\nAllow: /\n\nSitemap: https://example.com/sitemap.xml\n')
+    expect(txt).toBe(
+      'User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: https://example.com/sitemap.xml\n',
+    )
   })
 })
 

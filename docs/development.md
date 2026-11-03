@@ -14,21 +14,22 @@ npm install
 
 ## よく使うコマンド（リポジトリのルートで実行）
 
-| コマンド                                  | 内容                                                                                       |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `npm run dev`                             | 開発サーバー起動（web）                                                                    |
-| `npm run build`                           | 本番ビルド。`web/build/client/` に静的 HTML とアセットを出力                               |
-| `npm run build:deploy -w web`             | デプロイ用のビルド。Firebase の設定（deployment.md）が無いと失敗する                       |
-| `npm run test`                            | Vitest でユニットテスト                                                                    |
-| `npm run typecheck`                       | ルート（tests/・tools/）と各ワークスペースの `tsc`（web は React Router の型生成も行う）   |
-| `npm run test:rules`                      | Firestore・Storage の Emulator でセキュリティルールのテスト（`tests/rules/`）。Java が必要 |
-| `npm run test:integration`                | Functions・Firestore・Auth の Emulator で結合テスト（`tests/integration/`）。Java が必要   |
-| `npm run admin:grant -- <メールアドレス>` | 施工事例の管理画面の管理者を付ける（[管理者の付与](#管理者の付与施工事例の管理画面)）      |
-| `npm run lint`                            | ESLint                                                                                     |
-| `npm run format` / `npm run format:check` | Prettier で整形 / 整形チェック                                                             |
-| `npm run e2e -w web`                      | Playwright で E2E（axe・キーボード操作・画面遷移）。先に `npm run build`                   |
-| `npm run lighthouse -w web`               | Lighthouse CI（モバイル）で主要ページを計測。先に `npm run build`                          |
-| `npm run serve:static -w web`             | ビルド済みのサイトを Firebase Hosting と同じ振り分けで配信（http://127.0.0.1:4313）        |
+| コマンド                                  | 内容                                                                                              |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `npm run dev`                             | 開発サーバー起動（web）                                                                           |
+| `npm run build`                           | 本番ビルド。`web/build/client/` に静的 HTML とアセットを出力                                      |
+| `npm run build:deploy -w web`             | デプロイ用のビルド。Firebase の設定（deployment.md）が無いと失敗する                              |
+| `npm run test`                            | Vitest でユニットテスト                                                                           |
+| `npm run typecheck`                       | ルート（tests/・tools/）と各ワークスペースの `tsc`（web は React Router の型生成も行う）          |
+| `npm run test:rules`                      | Firestore・Storage の Emulator でセキュリティルールのテスト（`tests/rules/`）。Java が必要        |
+| `npm run test:integration`                | Functions・Firestore・Auth・Storage の Emulator で結合テスト（`tests/integration/`）。Java が必要 |
+| `npm run admin:grant -- <メールアドレス>` | 施工事例の管理画面の管理者を付ける（[管理者の付与](#管理者の付与施工事例の管理画面)）             |
+| `npm run lint`                            | ESLint                                                                                            |
+| `npm run format` / `npm run format:check` | Prettier で整形 / 整形チェック                                                                    |
+| `npm run e2e -w web`                      | Playwright で E2E（axe・キーボード操作・画面遷移）。先に `npm run build`                          |
+| `npm run e2e:admin`                       | 施工事例の管理画面の E2E（Auth・Firestore・Storage の Emulator を起動して実行）。Java が必要      |
+| `npm run lighthouse -w web`               | Lighthouse CI（モバイル）で主要ページを計測。先に `npm run build`                                 |
+| `npm run serve:static -w web`             | ビルド済みのサイトを Firebase Hosting と同じ振り分けで配信（http://127.0.0.1:4313）               |
 
 `web` 単体では `npm run test:watch -w web` でウォッチ実行できる。
 
@@ -58,6 +59,26 @@ npm run e2e -w web
   P9 で旧デザインの色を直したため、現在は空。一覧にない組み合わせのコントラスト不足と、ほかのルールの違反はテストを失敗させる。
   色のトークン同士の組み合わせは `web/scripts/designTokens.test.ts`（Vitest）でも 4.5:1 以上を確かめる
 - 結果（失敗時のトレース・HTML レポート）は `web/test-results/`・`web/playwright-report/` に出力する（リポジトリには含めない）
+- 施工事例の管理画面（`/admin/`）は上の対象外（`testIgnore: 'admin/**'`）。管理画面は Firebase につながないと中身が出ないため、
+  次の「管理画面の E2E」で Emulator につないで確かめる
+
+### 管理画面の E2E（`npm run e2e:admin`）
+
+`web/e2e/admin/` に置き、ルートの `npm run e2e:admin` が `firebase emulators:exec --only auth,firestore,storage` の中で
+`web/playwright.admin.config.ts` を実行する。管理画面は Emulator につなぐビルド（`VITE_USE_FIREBASE_EMULATORS=true`）が要るため、
+本番向けのビルド（`web/build/`）を上書きしないよう、開発サーバー（`react-router dev`。ポート 4314）で配信する。
+
+```bash
+npx -w web playwright install chromium   # 初回のみ
+npm run e2e:admin
+# 画面のスクリーンショットも保存する場合
+ADMIN_SCREENSHOT_DIR=/tmp/admin-shots npm run e2e:admin
+```
+
+- テストごとに Auth・Firestore のデータを消し、管理者（`admin` クレーム付き）と一般のアカウントを Admin SDK で作る
+- 内容: 権限のないアカウント（「権限がありません」でログアウト）、ログイン → 写真付きで新規作成（ブラウザで webp に縮小して Storage へ。E2E は Chromium のみ）→
+  公開 → 未ログインの REST で読める → 非公開で読めなくなる → 編集 → 削除で写真のファイルも消える、未保存で離れるときの確認、
+  スマホ幅で一覧の表が枠の中で横にスクロールすること。ログイン・一覧・編集・確認ダイアログを axe（WCAG 2.1 A・AA）で検査する
 
 ## Lighthouse CI
 
@@ -122,7 +143,7 @@ Functions の Emulator は、フォームの通知先のパラメータを `func
   公開の一覧は `where('status', '==', 'published')` 付きのクエリだけが通ること。
   不正なデータ（項目の欠け・余分な項目・長すぎ・写真 0 枚と 5 枚・`status` の不正・`updatedBy` のなりすまし・
   `updatedAt` がサーバーの時刻でない）は admin でも拒否されること。上限は `@wf/shared` の定数を使い、ルールとずれたら失敗する
-- `storage.rules.test.ts`: `case-studies/` の下は誰でも読め、admin だけが決まったパスに webp（2MB まで）を書き込み・削除できること
+- `storage.rules.test.ts`: `case-studies/` の下は誰でも読め、admin だけが決まったパスに webp・JPEG（拡張子と形式が合うもの。2MB まで）を書き込み・削除できること
 
 ### 管理者の付与（施工事例の管理画面）
 
@@ -152,7 +173,7 @@ npm run admin:grant -- --project <本番のプロジェクト ID> editor@example
 
 ### 結合テスト（`npm run test:integration`）
 
-`tests/integration/` に置き、functions をビルドしてから `firebase emulators:exec --only functions,firestore,auth --project demo-willfrontier` の中で Vitest を実行する
+`tests/integration/` に置き、functions をビルドしてから `firebase emulators:exec --only functions,firestore,auth,storage --project demo-willfrontier` の中で Vitest を実行する
 （設定は `vitest.integration.config.ts`）。画面と同じく Firebase JS SDK の `httpsCallable`（`connectFunctionsEmulator`）で `submitInquiry` を呼び、
 保存された `inquiries`・`mail` を Admin SDK で読んで確かめる。テストごとに Firestore Emulator のデータを消す。
 
@@ -167,12 +188,19 @@ npm run admin:grant -- --project <本番のプロジェクト ID> editor@example
 `grantAdmin.test.ts` は Auth Emulator で `tools/grant-admin.ts` を確かめる（作成・既存のユーザー・ほかのクレームを残すこと・
 外す・パスワードの再発行・一覧・接続先の決め方）。付けた `admin` が、ログインした画面の ID トークンに入ることまで見る。
 
+`caseStudyAdmin.test.ts` は、管理画面の Firebase の操作（`web/app/features/admin/firebaseAdminApi.ts`）を Auth・Firestore・Storage の
+Emulator と本物のセキュリティルールで確かめる。管理者でログイン → 写真付きで作成（下書き）→ 未ログインでは読めない →
+公開すると未ログインの REST（公開サイトと同じ読み方）で読める → 写真の差し替えで外した写真が消える → 削除で写真のファイルも消える、
+パスワードの誤り・管理者でないアカウント（ログアウトさせる）も見る。写真の縮小（canvas）はブラウザでしか動かないため、
+ここでは変換済みの webp・JPEG の代わりのデータを使う（縮小は `photos.test.ts` と管理画面の E2E で確かめる。
+Safari の JPEG はアップロード・削除をここで、変換を `photos.test.ts` で確かめる）。
+
 関数の細かい分岐は `functions/src/*.test.ts`（Firestore を差し替えた単体テスト）で確かめ、ここでは Emulator を通した組み合わせを見る。
 宛先の期待値は、Emulator と同じ順（`.env` → `.env.demo-willfrontier` → `.env.local`）で `functions/` の値を重ねて求める（手元の `.env.local` で宛先を変えていても通る）。
 
 ## CI
 
-`.github/workflows/ci.yml` で次の 5 ジョブを実行する。
+`.github/workflows/ci.yml` で次の 6 ジョブを実行する。
 
 - `check`: lint → format チェック → 型チェック → テスト → ビルド（ビルド後にプリレンダー結果を検証）
 - `firestore-rules`: Java をセットアップして Firestore・Storage のセキュリティルールのテスト
@@ -180,6 +208,7 @@ npm run admin:grant -- --project <本番のプロジェクト ID> editor@example
 - `e2e`: ビルド → Playwright の E2E。Chromium は Playwright のバージョンごとに `~/.cache/ms-playwright` をキャッシュする
   （OS の依存ライブラリは毎回 `playwright install-deps` で入れる）。失敗時はレポートを成果物として保存する
 - `lighthouse`: ビルド → Lighthouse CI。レポートは成果物として保存する（Performance は warn）
+- `e2e-admin`: Java と Chromium をセットアップして、Emulator につないだ管理画面の E2E（`npm run e2e:admin`）
 
 ## 旧 WordPress テーマ
 

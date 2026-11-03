@@ -77,9 +77,9 @@ service cloud.firestore {
       return photo is map
         && photo.keys().hasOnly(['path', 'smallUrl', 'largeUrl', 'width', 'height', 'alt'])
         && photo.keys().hasAll(['path', 'smallUrl', 'largeUrl', 'width', 'height', 'alt'])
-        // この事例の写真であること: case-studies/{事例の ID}/{写真の ID}
+        // この事例の写真であること: case-studies/{事例の ID}/{写真の ID}.{webp|jpg}（拡張子は保存した形式）
         && photo.path is string
-        && photo.path.matches('case-studies/' + caseId + '/[A-Za-z0-9_-]{1,64}')
+        && photo.path.matches('case-studies/' + caseId + '/[A-Za-z0-9_-]{1,64}[.](webp|jpg)')
         && isUrl(photo.smallUrl)
         && isUrl(photo.largeUrl)
         && isDimension(photo.width)

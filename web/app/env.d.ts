@@ -9,6 +9,8 @@ interface ImportMetaEnv {
   readonly VITE_FIREBASE_PROJECT_ID?: string
   readonly VITE_FIREBASE_APP_ID?: string
   readonly VITE_RECAPTCHA_SITE_KEY?: string
-  // 'true' のときだけ Emulator に接続する。上の設定が無ければ demo プロジェクトで動かす
+  // 施工事例の写真を置く Cloud Storage のバケット（管理画面）。任意で、無ければ <projectId>.firebasestorage.app
+  readonly VITE_FIREBASE_STORAGE_BUCKET?: string
+  // 'true' のときだけ Emulator（Functions・Auth・Firestore・Storage）に接続する。上の設定が無ければ demo プロジェクトで動かす
   readonly VITE_USE_FIREBASE_EMULATORS?: string
 }

@@ -16,7 +16,11 @@
 // Emulator 向けのビルド（VITE_USE_FIREBASE_EMULATORS=true）は demo プロジェクトで動くため確認しない
 import { join } from 'node:path'
 import { loadEnv } from 'vite'
-import { missingFirebaseEnv, usesFirebaseEmulators } from '../app/lib/firebaseEnv.ts'
+import {
+  firebaseStorageBucket,
+  missingFirebaseEnv,
+  usesFirebaseEmulators,
+} from '../app/lib/firebaseEnv.ts'
 
 const root = join(import.meta.dirname, '..')
 const env = loadEnv('production', root, 'VITE_')
@@ -36,4 +40,9 @@ if (usesFirebaseEmulators(env)) {
     process.exit(1)
   }
   console.log('Firebase の設定を確認しました（VITE_FIREBASE_*・VITE_RECAPTCHA_SITE_KEY）')
+  // 施工事例の写真のバケットは任意（無ければ既定の名前）。古いプロジェクト（appspot.com）で取り違えないよう表示する
+  const bucket = firebaseStorageBucket(env, env.VITE_FIREBASE_PROJECT_ID?.trim() ?? '')
+  console.log(
+    `施工事例の写真の Storage バケット: ${bucket}${env.VITE_FIREBASE_STORAGE_BUCKET?.trim() ? '' : '（既定。VITE_FIREBASE_STORAGE_BUCKET で変更できます）'}`,
+  )
 }

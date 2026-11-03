@@ -26,7 +26,7 @@ export {
 } from './forms/submit'
 export {
   CASE_STUDIES_COLLECTION,
-  CASE_STUDY_IMAGE_CONTENT_TYPE,
+  CASE_STUDY_IMAGE_CONTENT_TYPES,
   CASE_STUDY_IMAGE_SIZES,
   CASE_STUDY_IMAGE_WIDTHS,
   CASE_STUDY_MAX_LENGTH,
@@ -36,10 +36,14 @@ export {
   CASE_STUDY_STATUSES,
   CASE_STUDY_STORAGE_ROOT,
   CASE_STUDY_UPLOAD_MAX_BYTES,
+  caseStudyImageExtension,
   caseStudyPhotoBasePath,
+  caseStudyPhotoContentType,
   caseStudyPhotoFilePath,
   caseStudyPhotoPath,
   isStorageId,
+  type CaseStudyImageContentType,
+  type CaseStudyImageExtension,
   type CaseStudyImageSize,
   type CaseStudyStatus,
 } from './caseStudies/constants'

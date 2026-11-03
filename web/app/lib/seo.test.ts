@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
-import { getPage } from '~/content/pages'
+import { getAdminPage, getPage } from '~/content/pages'
 import { OG_IMAGE, SITE } from '~/content/site'
-import { buildMeta, buildNotFoundMeta } from './seo'
+import { buildAdminMeta, buildMeta, buildNotFoundMeta } from './seo'
 
 type Descriptor = Record<string, unknown>
 
@@ -141,5 +141,27 @@ describe('buildNotFoundMeta', () => {
 describe('SITE', () => {
   it('URL は末尾スラッシュなしの https', () => {
     expect(SITE.url).toMatch(/^https:\/\/[^/]+$/)
+  })
+})
+
+describe('buildAdminMeta（管理画面）', () => {
+  it('title は「画面名｜ホームページ管理画面」', () => {
+    expect(buildAdminMeta(getAdminPage('admin'))[0]).toEqual({
+      title: `施工事例｜${SITE.name} ホームページ管理画面`,
+    })
+  })
+
+  it('常に noindex・nofollow（VITE_ALLOW_INDEXING を参照しない）', () => {
+    const meta = buildAdminMeta(getAdminPage('admin-edit'))
+    expect(find(meta, 'name', 'robots')).toEqual({ name: 'robots', content: 'noindex, nofollow' })
+  })
+
+  it('canonical・OGP・説明文を出さない（sitemap にも載せない）', () => {
+    const meta = buildAdminMeta(getAdminPage('admin'))
+    expect(find(meta, 'rel', 'canonical')).toBeUndefined()
+    expect(meta.some((item) => String((item as Descriptor).property ?? '').startsWith('og:'))).toBe(
+      false,
+    )
+    expect(find(meta, 'name', 'description')).toBeUndefined()
   })
 })
