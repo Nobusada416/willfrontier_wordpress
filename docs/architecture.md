@@ -32,9 +32,10 @@ storage.rules           # 施工事例の写真（case-studies/）の読み取�
 firestore.indexes.json  # caseStudies の status + date の複合インデックス、inquiries・mail の expireAt に TTL
 extensions/firestore-send-email.env  # Trigger Email 拡張の非秘密の設定（導入は P10。forms.md の「メール」）
 tests/rules/            # Firestore・Storage のセキュリティルールのテスト（Emulator 上で実行）
-tests/integration/      # Emulator での結合テスト（フォームの送信・管理者の付与・施工事例の管理画面の Firebase の操作）
-tools/                  # 運用スクリプト（node --experimental-strip-types で実行）
+tests/integration/      # Emulator での結合テスト（フォームの送信・管理者の付与・施工事例の管理画面の Firebase の操作・移行）
+tools/                  # 運用スクリプト（node --experimental-strip-types で実行。shared は import の無い constants.ts だけを拡張子付きで読む）
   grant-admin.ts        # 管理画面の管理者（カスタムクレーム admin）を付ける・外す（npm run admin:grant）
+  seed-case-studies.ts  # 旧サイトの施工事例 3 件を Firestore・Storage に下書きで入れる（npm run seed:case-studies）
 shared/                 # @wf/shared: web と functions で共有する定義（zod）
   src/index.ts
   src/text.ts             # 文字列の入力チェックの部品（必須・任意・改行の扱い）。zod の jitless の設定もここ

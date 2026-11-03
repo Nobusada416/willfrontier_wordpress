@@ -29,6 +29,8 @@ P10 は次がそろうまで始められない。
 - [ ] App Check に reCAPTCHA v3 を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkrecaptcha-v3)）
 - [ ] トークンの再利用対策（limited-use トークン）が必要か判断する
 - [ ] Firestore の TTL を反映する（`firebase deploy --only firestore:indexes`）。セキュリティルールは全拒否のまま反映する
+- [ ] 施工事例: Auth・Storage を有効にしてルールを反映した後、本番で `npm run seed:case-studies -- --project <ID>` を 1 回実行し、
+      旧サイトの 3 件（下書き）の日付・社名・分類を管理画面で直して公開する（[case-studies.md](./case-studies.md#既存の施工事例の移行本番では-p10-の後に-1-回)）
 
 ### フォームのメール（Trigger Email 拡張）
 
@@ -92,6 +94,8 @@ P10 は次がそろうまで始められない。
 
 - [ ] 削除するもの: `*.php`、`style.css`、`src/`、`tailwind.config.js`、`docker/`・`docker-compose.yml`、`scripts/build-static.sh`・`scripts/build-all-static.sh`・`scripts/run-all-patterns.sh`、`assets/js/`、`.wrangler/`
 - [ ] 旧テーマだけが参照している素材を削除する（葉の png、背景イラストの原寸の jpg など。[architecture.md](./architecture.md)・[migration-progress.md](./migration-progress.md) に記載）
+- [ ] 施工事例を Firestore に移した後の旧写真（`web/public/media/photos` の `wf-106`〜`wf-111`・`wf-048`・`wf-050`・`wf-037`）を削除する
+      （`page-casestudy.php` と `tools/seed-case-studies.ts` が参照している。本番で seed を実行した後に。[case-studies.md](./case-studies.md)）
 - [ ] ルートの `tailwindcss@3` など、旧テーマのビルドにだけ使う依存を外す
 - [ ] git 管理外のローカルのファイル（旧サイトのミラー `static/`、`will-frontier-pattern-*.pdf`）を残すか決める（リポジトリからの削除は不要）
 - [ ] `scripts/generate-pdfs.js` を残すか決める（ユーザー確認待ち）
@@ -111,7 +115,7 @@ P10 は次がそろうまで始められない。
 | 3   | 安全ページの取り組み                           | 1 件目と 3 件目の見出しがどちらも【安全朝礼】（3 件目の写真は打ち合わせの様子）                                                                      |
 | 4   | 採用ページの 1 日の流れ                        | 時刻「AM 00:00」が仮の値                                                                                                                             |
 | 5   | 採用フォームの個人情報の文面                   | 利用目的の文面（仮）、送信内容の保持期間（`inquiries` 180 日・`mail` 30 日の提案値）。プライバシーポリシーのページが無い                             |
-| 6   | トップの CASE STUDY                            | 日付・社名が仮の値（`2026.00.00`・`○○○○○○`）                                                                                                         |
+| 6   | トップの CASE STUDY                            | 解消: 施工事例は管理画面で編集する形にし、仮の値（`2026.00.00`・`○○○○○○`）の 4 件は移さない。旧サイトの 3 件は下書きで移す（2 章の施工事例）         |
 | 7   | トップページの表示速度                         | Lighthouse の Performance が 76（目標 85）。原因の写真を小さいサイズでも書き出すか                                                                   |
 | 8   | トップの VEHICLE LINEUP                        | 車両ではなく現場写真（安全朝礼・選別作業・チームワーク）が入っている                                                                                 |
 | 9   | 各ページのタイトルと説明文（meta description） | 旧サイトに無かったため新規に作成した。ミッションページは「MISSION・理念と地域活動」（当初の「MISSION・会社概要」は、ページに会社概要が無いため変更） |
