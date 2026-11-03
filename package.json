@@ -16,9 +16,10 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:rules": "firebase emulators:exec --only firestore --project demo-willfrontier-rules \"vitest run -c vitest.rules.config.ts\"",
-    "test:integration": "npm run build -w @wf/functions && firebase emulators:exec --only functions,firestore --project demo-willfrontier \"vitest run -c vitest.integration.config.ts\"",
-    "emulators": "npm run build -w @wf/functions && firebase emulators:start"
+    "test:rules": "firebase emulators:exec --only firestore,storage --project demo-willfrontier-rules \"vitest run -c vitest.rules.config.ts\"",
+    "test:integration": "npm run build -w @wf/functions && firebase emulators:exec --only functions,firestore,auth --project demo-willfrontier \"vitest run -c vitest.integration.config.ts\"",
+    "emulators": "npm run build -w @wf/functions && firebase emulators:start",
+    "admin:grant": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/grant-admin.ts"
   },
   "engines": {
     "node": ">=22"
@@ -32,6 +33,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.1.1",
     "firebase": "^12.19.0",
+    "firebase-admin": "^14.5.0",
     "firebase-tools": "^15.31.0",
     "globals": "^17.12.0",
     "jsdom": "^29.1.1",

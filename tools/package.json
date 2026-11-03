@@ -1,0 +1,6 @@
+{
+  "name": "will-frontier-tools",
+  "private": true,
+  "type": "module",
+  "description": "運用スクリプト（node --experimental-strip-types で実行。依存はルートの node_modules を使う）"
+}

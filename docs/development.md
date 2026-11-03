@@ -3,7 +3,7 @@
 ## 必要環境
 
 - Node.js 22（`.nvmrc`）
-- Java 11 以上（Firebase Emulator の Firestore に必要）
+- Java 11 以上（Firebase Emulator の Firestore・Storage に必要）
   - react-router v8・jsdom v30 は Node 22.22 以上が必要なため、現状は react-router 7 系・jsdom 29 系を使う
 
 ## セットアップ
@@ -14,20 +14,21 @@ npm install
 
 ## よく使うコマンド（リポジトリのルートで実行）
 
-| コマンド                                  | 内容                                                                                |
-| ----------------------------------------- | ----------------------------------------------------------------------------------- |
-| `npm run dev`                             | 開発サーバー起動（web）                                                             |
-| `npm run build`                           | 本番ビルド。`web/build/client/` に静的 HTML とアセットを出力                        |
-| `npm run build:deploy -w web`             | デプロイ用のビルド。Firebase の設定（deployment.md）が無いと失敗する                |
-| `npm run test`                            | Vitest でユニットテスト                                                             |
-| `npm run typecheck`                       | ルート（tests/）と各ワークスペースの `tsc`（web は React Router の型生成も行う）    |
-| `npm run test:rules`                      | Firestore Emulator でセキュリティルールのテスト（`tests/rules/`）。Java が必要      |
-| `npm run test:integration`                | Functions・Firestore の Emulator で結合テスト（`tests/integration/`）。Java が必要  |
-| `npm run lint`                            | ESLint                                                                              |
-| `npm run format` / `npm run format:check` | Prettier で整形 / 整形チェック                                                      |
-| `npm run e2e -w web`                      | Playwright で E2E（axe・キーボード操作・画面遷移）。先に `npm run build`            |
-| `npm run lighthouse -w web`               | Lighthouse CI（モバイル）で主要ページを計測。先に `npm run build`                   |
-| `npm run serve:static -w web`             | ビルド済みのサイトを Firebase Hosting と同じ振り分けで配信（http://127.0.0.1:4313） |
+| コマンド                                  | 内容                                                                                       |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `npm run dev`                             | 開発サーバー起動（web）                                                                    |
+| `npm run build`                           | 本番ビルド。`web/build/client/` に静的 HTML とアセットを出力                               |
+| `npm run build:deploy -w web`             | デプロイ用のビルド。Firebase の設定（deployment.md）が無いと失敗する                       |
+| `npm run test`                            | Vitest でユニットテスト                                                                    |
+| `npm run typecheck`                       | ルート（tests/・tools/）と各ワークスペースの `tsc`（web は React Router の型生成も行う）   |
+| `npm run test:rules`                      | Firestore・Storage の Emulator でセキュリティルールのテスト（`tests/rules/`）。Java が必要 |
+| `npm run test:integration`                | Functions・Firestore・Auth の Emulator で結合テスト（`tests/integration/`）。Java が必要   |
+| `npm run admin:grant -- <メールアドレス>` | 施工事例の管理画面の管理者を付ける（[管理者の付与](#管理者の付与施工事例の管理画面)）      |
+| `npm run lint`                            | ESLint                                                                                     |
+| `npm run format` / `npm run format:check` | Prettier で整形 / 整形チェック                                                             |
+| `npm run e2e -w web`                      | Playwright で E2E（axe・キーボード操作・画面遷移）。先に `npm run build`                   |
+| `npm run lighthouse -w web`               | Lighthouse CI（モバイル）で主要ページを計測。先に `npm run build`                          |
+| `npm run serve:static -w web`             | ビルド済みのサイトを Firebase Hosting と同じ振り分けで配信（http://127.0.0.1:4313）        |
 
 `web` 単体では `npm run test:watch -w web` でウォッチ実行できる。
 
@@ -102,6 +103,8 @@ Emulator 専用の仮プロジェクトで、本番の Firebase にはアクセ�
 | Hosting     | 5002（macOS の AirPlay が 5000 を使うため） |
 | Functions   | 5001                                        |
 | Firestore   | 8080                                        |
+| Auth        | 9099                                        |
+| Storage     | 9199                                        |
 
 Hosting の Emulator は `web/build/client` を配信するため、事前に `npm run build` しておく。
 
@@ -109,9 +112,47 @@ Functions の Emulator は、フォームの通知先のパラメータを `func
 手元だけ変えたい場合は `functions/.env.local`（リポジトリには含めない。こちらが優先）に書く。
 理由と、App Check・メール送信の確認方法は [forms.md](./forms.md#ローカル開発emulator) を参照。
 
+### セキュリティルールのテスト（`npm run test:rules`）
+
+`tests/rules/` に置き、`firebase emulators:exec --only firestore,storage --project demo-willfrontier-rules` の中で
+`@firebase/rules-unit-testing` を使って実行する（設定は `vitest.rules.config.ts`）。
+
+- `firestore.rules.test.ts`: `inquiries`・`mail` ほかのコレクションは、未ログイン・ログイン済みとも読み書きできないこと
+- `caseStudies.rules.test.ts`: 未ログイン・一般ユーザー・admin × 公開・下書き × get / list / create / update / delete。
+  公開の一覧は `where('status', '==', 'published')` 付きのクエリだけが通ること。
+  不正なデータ（項目の欠け・余分な項目・長すぎ・写真 0 枚と 5 枚・`status` の不正・`updatedBy` のなりすまし・
+  `updatedAt` がサーバーの時刻でない）は admin でも拒否されること。上限は `@wf/shared` の定数を使い、ルールとずれたら失敗する
+- `storage.rules.test.ts`: `case-studies/` の下は誰でも読め、admin だけが決まったパスに webp（2MB まで）を書き込み・削除できること
+
+### 管理者の付与（施工事例の管理画面）
+
+管理画面（`/admin/`）には新規登録・パスワード再設定の機能を置かない。アカウントとカスタムクレーム `admin: true` は、
+開発側が `tools/grant-admin.ts`（Admin SDK）で付ける。
+ルートの `scripts/` は旧 WordPress テーマ用（lint・format の対象外）のため、新しい運用スクリプトは `tools/` に置く
+（`node --experimental-strip-types` で TypeScript のまま実行し、lint・format・型チェックの対象にする）。
+
+```bash
+# Emulator（firebase.json の Auth のポート 9099）。npm run emulators で起動しておく
+npm run admin:grant -- --emulator editor@example.com                 # いなければ作成して admin を付ける。初期パスワードを表示
+npm run admin:grant -- --emulator --reset-password editor@example.com  # パスワードを再発行
+npm run admin:grant -- --emulator --revoke editor@example.com          # admin を外す（ユーザーは残す）
+npm run admin:grant -- --emulator --list                               # 管理者の一覧
+
+# 本番（Application Default Credentials の権限で実行する）
+gcloud auth application-default login
+npm run admin:grant -- --project <本番のプロジェクト ID> editor@example.com
+```
+
+- 接続先は `--emulator` → 環境変数 `FIREBASE_AUTH_EMULATOR_HOST` → 本番の順に決める。プロジェクトは
+  `--project` → `GOOGLE_CLOUD_PROJECT`・`GCLOUD_PROJECT` → `.firebaserc` の default。`demo-` のプロジェクトは Emulator でしか使えない
+- 初期パスワードは作成・再発行のときに一度だけ表示する。本人に安全な方法で伝える
+- 付けた権限は次にログインしたとき（ID トークンの更新時）から有効になる。外すとリフレッシュトークンも無効にするが、
+  発行済みの ID トークン（最長 1 時間）はそのまま使えるため、すぐに止めたいときは管理画面を再読み込みしてもらう
+- Emulator の Auth のユーザーは Emulator を止めると消える。起動のたびに付け直す
+
 ### 結合テスト（`npm run test:integration`）
 
-`tests/integration/` に置き、functions をビルドしてから `firebase emulators:exec --only functions,firestore --project demo-willfrontier` の中で Vitest を実行する
+`tests/integration/` に置き、functions をビルドしてから `firebase emulators:exec --only functions,firestore,auth --project demo-willfrontier` の中で Vitest を実行する
 （設定は `vitest.integration.config.ts`）。画面と同じく Firebase JS SDK の `httpsCallable`（`connectFunctionsEmulator`）で `submitInquiry` を呼び、
 保存された `inquiries`・`mail` を Admin SDK で読んで確かめる。テストごとに Firestore Emulator のデータを消す。
 
@@ -123,6 +164,9 @@ Functions の Emulator は、フォームの通知先のパラメータを `func
 - 入力エラーは `invalid-argument` と `details.issues`（項目ごとのエラー）を返し、保存しないこと
 - App Check のトークンを付けずに呼ぶ（Functions Emulator では強制しない）
 
+`grantAdmin.test.ts` は Auth Emulator で `tools/grant-admin.ts` を確かめる（作成・既存のユーザー・ほかのクレームを残すこと・
+外す・パスワードの再発行・一覧・接続先の決め方）。付けた `admin` が、ログインした画面の ID トークンに入ることまで見る。
+
 関数の細かい分岐は `functions/src/*.test.ts`（Firestore を差し替えた単体テスト）で確かめ、ここでは Emulator を通した組み合わせを見る。
 宛先の期待値は、Emulator と同じ順（`.env` → `.env.demo-willfrontier` → `.env.local`）で `functions/` の値を重ねて求める（手元の `.env.local` で宛先を変えていても通る）。
 
@@ -131,7 +175,7 @@ Functions の Emulator は、フォームの通知先のパラメータを `func
 `.github/workflows/ci.yml` で次の 5 ジョブを実行する。
 
 - `check`: lint → format チェック → 型チェック → テスト → ビルド（ビルド後にプリレンダー結果を検証）
-- `firestore-rules`: Java をセットアップして Firestore セキュリティルールのテスト
+- `firestore-rules`: Java をセットアップして Firestore・Storage のセキュリティルールのテスト
 - `integration`: Java をセットアップして Emulator での結合テスト（`npm run test:integration`）。宛先はコミット済みの `functions/.env.demo-willfrontier` を使う
 - `e2e`: ビルド → Playwright の E2E。Chromium は Playwright のバージョンごとに `~/.cache/ms-playwright` をキャッシュする
   （OS の依存ライブラリは毎回 `playwright install-deps` で入れる）。失敗時はレポートを成果物として保存する
