@@ -21,6 +21,7 @@ const FULL_ENV = {
   VITE_FIREBASE_PROJECT_ID: 'dummy-project',
   VITE_FIREBASE_APP_ID: '1:000:web:dummy',
   VITE_RECAPTCHA_SITE_KEY: 'dummy-site-key',
+  VITE_FIREBASE_STORAGE_BUCKET: '',
   VITE_USE_FIREBASE_EMULATORS: '',
 }
 
@@ -38,6 +39,13 @@ describe('verify-deploy-env.ts', () => {
     const result = runCheck(FULL_ENV)
     expect(result.stderr).toBe('')
     expect(result.status).toBe(0)
+  })
+
+  it('施工事例の写真の Storage バケット（任意。無ければ既定の名前）を表示する', () => {
+    expect(runCheck(FULL_ENV).stdout).toContain('dummy-project.firebasestorage.app（既定')
+    const result = runCheck({ ...FULL_ENV, VITE_FIREBASE_STORAGE_BUCKET: 'dummy.appspot.com' })
+    expect(result.status).toBe(0)
+    expect(result.stdout).toContain('dummy.appspot.com')
   })
 
   it('設定が無ければ、欠けている変数名を挙げて失敗する', () => {

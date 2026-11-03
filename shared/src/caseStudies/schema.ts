@@ -8,6 +8,8 @@ import {
   CASE_STUDY_PHOTOS_MIN,
   CASE_STUDY_STATUSES,
   CASE_STUDY_STORAGE_ROOT,
+  CASE_STUDY_IMAGE_CONTENT_TYPES,
+  caseStudyImageExtension,
 } from './constants'
 
 // 施工事例（Firestore の caseStudies/{事例の ID}）のスキーマ。
@@ -29,8 +31,11 @@ export const isCaseStudyDate = (value: string) => {
 
 const DATE_INVALID = '日付を正しく入力してください'
 
-// photos[].path: case-studies/{事例の ID}/{写真の ID}（ファイルはこれに -small.webp・-large.webp を付けたもの）
-const PHOTO_PATH = new RegExp(`^${CASE_STUDY_STORAGE_ROOT}/[A-Za-z0-9_-]{1,64}/[A-Za-z0-9_-]{1,64}$`)
+// photos[].path: case-studies/{事例の ID}/{写真の ID}.{webp|jpg}
+// （ファイルは拡張子の前に -small・-large を付けたもの。caseStudyPhotoFilePath）
+const PHOTO_PATH = new RegExp(
+  `^${CASE_STUDY_STORAGE_ROOT}/[A-Za-z0-9_-]{1,64}/[A-Za-z0-9_-]{1,64}\\.(${CASE_STUDY_IMAGE_CONTENT_TYPES.map(caseStudyImageExtension).join('|')})$`,
+)
 
 // 写真の項目のうち、管理画面のアップロード処理が入れる値（人が入力しないためエラーは共通の文言）
 const PHOTO_INVALID = '写真の情報が正しくありません。写真を選び直してください'
@@ -46,9 +51,9 @@ const photoDimension = z
 const photoFileShape = {
   // Storage の基準パス
   path: z.string(PHOTO_INVALID).regex(PHOTO_PATH, PHOTO_INVALID),
-  // 幅 768px（CASE_STUDY_IMAGE_WIDTHS.small）の webp のダウンロード URL
+  // 幅 768px（CASE_STUDY_IMAGE_WIDTHS.small）の画像のダウンロード URL
   smallUrl: photoUrl,
-  // 幅 1600px（CASE_STUDY_IMAGE_WIDTHS.large）の webp のダウンロード URL
+  // 幅 1600px（CASE_STUDY_IMAGE_WIDTHS.large）の画像のダウンロード URL
   largeUrl: photoUrl,
   // large の画像の幅・高さ（px）。表示の縦横比に使う（small は同じ比率で縮小したもの）
   width: photoDimension,

@@ -14,6 +14,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "e2e:admin": "playwright test -c playwright.admin.config.ts",
     "lighthouse": "lhci autorun",
     "media:manifest": "node --experimental-strip-types --no-warnings scripts/generate-media-manifest.ts"
   },

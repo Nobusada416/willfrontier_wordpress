@@ -8,6 +8,8 @@ const isCI = Boolean(process.env.CI)
 
 export default defineConfig({
   testDir: './e2e',
+  // 管理画面は Emulator につないで別に実行する（playwright.admin.config.ts。npm run e2e:admin）
+  testIgnore: 'admin/**',
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 1 : 0,

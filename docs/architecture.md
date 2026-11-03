@@ -32,9 +32,10 @@ storage.rules           # 施工事例の写真（case-studies/）の読み取�
 firestore.indexes.json  # caseStudies の status + date の複合インデックス、inquiries・mail の expireAt に TTL
 extensions/firestore-send-email.env  # Trigger Email 拡張の非秘密の設定（導入は P10。forms.md の「メール」）
 tests/rules/            # Firestore・Storage のセキュリティルールのテスト（Emulator 上で実行）
-tests/integration/      # Emulator での結合テスト（フォームの送信・管理者の付与）
-tools/                  # 運用スクリプト（node --experimental-strip-types で実行）
+tests/integration/      # Emulator での結合テスト（フォームの送信・管理者の付与・施工事例の管理画面の Firebase の操作・移行）
+tools/                  # 運用スクリプト（node --experimental-strip-types で実行。shared は import の無い constants.ts だけを拡張子付きで読む）
   grant-admin.ts        # 管理画面の管理者（カスタムクレーム admin）を付ける・外す（npm run admin:grant）
+  seed-case-studies.ts  # 旧サイトの施工事例 3 件を Firestore・Storage に下書きで入れる（npm run seed:case-studies）
 shared/                 # @wf/shared: web と functions で共有する定義（zod）
   src/index.ts
   src/text.ts             # 文字列の入力チェックの部品（必須・任意・改行の扱い）。zod の jitless の設定もここ
@@ -58,17 +59,20 @@ web/
   vite.config.ts          # Tailwind v4 + React Router
   vitest.config.ts        # ユニットテスト（app/・scripts/ の *.test.ts(x)。e2e/ は含めない）
   playwright.config.ts    # E2E（Chromium。webServer で scripts/serve-static.ts を起動）
+  playwright.admin.config.ts  # 管理画面の E2E（Emulator につなぐ開発サーバーで配信。ルートの npm run e2e:admin）
   lighthouserc.json       # Lighthouse CI（モバイル・主要 5 ページ・目標値）
   e2e/                    # E2E（*.spec.ts）。axe（a11y）・キーボード操作・フォーム・画面遷移・コンソールエラー
     support/axe.ts        # axe の実行と、許容するコントラスト不足の振り分け
     support/knownContrastIssues.ts  # やむを得ず許容するコントラスト不足の色の組み合わせ（P9 で色を直したため現在は空）
     support/page.ts       # hydrate を待つ移動・外部への通信の遮断
+    admin/                # 施工事例の管理画面の E2E（Emulator の Auth・Firestore・Storage につなぐ。npm run e2e:admin）
   app/
-    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer）・favicon とフォントの読み込み（<head> のスクリプト）・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
+    root.tsx              # HTML の骨格（SkipLink・Header・main・Footer。管理画面（/admin/）では出さない）・favicon とフォントの読み込み（<head> のスクリプト）・アニメーション初期化（SmoothScroll と <head> のスクリプト）・エラー表示
     routes.ts             # content/pages.ts からルートを生成（一致しない URL は routes/not-found.tsx）
     app.css               # Tailwind v4 とデザイントークン
     content/
-      pages.ts            # 全ページ定義（ルート・プリレンダー対象の唯一の情報源）
+      pages.ts            # 全ページ定義（ルート・プリレンダー対象の唯一の情報源）。管理画面の 3 画面（ADMIN_PAGES）も
+                          # ここで定義するが、サイトのページ一覧（PAGES。sitemap・ナビ）とは分ける
       navigation.ts       # ヘッダー・フッターのリンク定義
       site.ts             # サイト名・正式社名・キャッチコピー・URL・OGP 画像（寸法と代替テキスト）・構造化データのロゴ
       home.ts             # トップだけで使う内容（ヒーローの写真・SERVICE の 5 項目・WORKFLOW・車両スライド・採用）
@@ -82,6 +86,10 @@ web/
       safety.ts           # 安全ページだけで使う内容（安全の取り組み・背景動画・装備ギャラリー・お問い合わせ後の流れ・よくあるご質問）
       recruit.ts          # 採用ページだけで使う内容（募集職種とアイコン・1 日の流れ・従業員の声・応募の流れ・動画・職場環境の写真）
       contact.ts          # お問い合わせページだけで使う内容（ヒーローの写真・お問い合わせ後の流れ・よくあるご質問）
+    features/admin/       # 施工事例の管理画面（docs/case-studies.md）。AdminShell（ログインの判定・ヘッダー）/ LoginScreen /
+                          # CaseStudyListScreen（一覧・公開の切り替え）/ CaseStudyEditor（編集・写真・削除・未保存の確認）/
+                          # photos.ts（ブラウザで webp・JPEG に縮小）/ api.ts（画面が使う操作の型）/ firebaseAdminApi.ts（その Firebase での実装）/
+                          # loadAdminApi.ts（Auth・Firestore・Storage の SDK の準備。管理画面のレイアウトから import() する）
     features/forms/       # フォーム（ContactForm / SafetyForm / RecruitForm）と共通の hook useInquiryForm・送信失敗の案内 SubmitError（docs/forms.md）
     features/home/        # トップの各セクション（Hero / Mission / Service / Workflow / Vehicles / Gallery / CaseStudy / Safety / Recruit / Company）
                           # と共通の枠 HomeSection（見出し・葉・背景）、VehicleSlider（カルーセル）
@@ -95,11 +103,13 @@ web/
                           # PhotoHero（写真を敷いたファーストビュー。車両・施工事例・お問い合わせ）
     components/form/      # TextField（ラベル・必須・エラーを結び付けた入力欄）/ CheckboxField / FormFrame（見出しを枠線に重ねた枠）/
                           # PillSubmitButton / Honeypot / SubmitDialog（送信完了）
-    lib/firebase.ts       # フォーム送信時に Firebase（App Check・Functions）を遅延読み込みする
-    lib/firebaseEnv.ts    # フォームの送信に必要な環境変数（VITE_FIREBASE_*・VITE_RECAPTCHA_SITE_KEY）の判定。デプロイ前の確認と共通
+    lib/firebase.ts       # Firebase の設定の読み取り・アプリの作成（フォームと管理画面で共通）・Emulator の接続先と、
+                          # フォーム送信時の App Check・Functions の遅延読み込み
+    lib/firebaseEnv.ts    # Firebase に必要な環境変数（VITE_FIREBASE_*・VITE_RECAPTCHA_SITE_KEY）の判定と Storage のバケット。デプロイ前の確認と共通
     lib/submitInquiry.ts  # 送信処理 submitInquiry の呼び出しと結果（ok / invalid / error）への変換
     lib/fonts.ts          # Google Fonts の URL と、stylesheet を描画を止めずに追加する <head> のインラインスクリプト
-    lib/seo.ts            # buildMeta() / buildNotFoundMeta(): title・description・canonical・OGP・robots（noindex）・トップの JSON-LD、404 の noindex を組み立てる
+    lib/seo.ts            # buildMeta() / buildNotFoundMeta() / buildAdminMeta(): title・description・canonical・OGP・robots（noindex）・トップの JSON-LD、
+                          # 404 と管理画面の noindex を組み立てる
     lib/indexing.ts       # 環境変数 VITE_ALLOW_INDEXING から検索エンジンへの登録の可否を判定（既定は禁止）
     lib/structuredData.ts # トップに出力する Organization（schema.org）の JSON-LD。住所を都道府県・市区町村・番地に分ける
     env.d.ts              # import.meta.env の型（VITE_ALLOW_INDEXING・VITE_FIREBASE_* など。例は web/.env.example）
@@ -111,6 +121,7 @@ web/
     lib/useReducedMotion.ts  # OS の「視差効果を減らす」設定を返すフック
     test/                 # テスト用スタブ（matchMedia / IntersectionObserver）・施工事例のテストデータ。GSAP が読み込み時に matchMedia を呼ぶため、既定の実装は web/vitest.setup.ts に置く
     routes/*.tsx          # 各ページ（not-found.tsx は 404 ページ）
+    routes/admin/         # 管理画面（layout.tsx が共通の枠。index＝ログイン兼一覧・new＝新規作成・edit＝編集（?id=））
   public/favicon.svg  favicon.ico  apple-touch-icon.png  # ロゴの「F」から作ったアイコン（ico は 16・32・48px、touch は白背景 180px）
   public/og-image.jpg     # SNS シェア用の画像（1200×630。写真 wf-097 から切り出し）
   public/logo.png         # 構造化データのロゴ（512px 正方形・白背景。media/images/logocolor.svg から書き出し）
@@ -120,10 +131,11 @@ web/
     videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
     images/               # ロゴ・イラスト・装飾画像
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
-  scripts/generate-seo-files.ts # sitemap.xml（404 を除く全ページ）と robots.txt を build/client に書き出す（postbuild）
+  scripts/generate-seo-files.ts # sitemap.xml（404・管理画面を除く全ページ）と robots.txt（Disallow: /admin/）を build/client に書き出す（postbuild）
   scripts/seoFiles.ts           # sitemap.xml・robots.txt の中身を組み立てる純粋関数（URL の組み立て・XML エスケープ）
   scripts/verify-prerender.mjs  # ビルド後に各ページの title・h1・canonical・og:image、404.html の noindex、
-                                # sitemap.xml と canonical の一致、robots.txt と noindex の方針の一致を検証（postbuild）
+                                # sitemap.xml と canonical の一致、robots.txt と noindex の方針の一致、管理画面の noindex と除外、
+                                # 公開ページが管理画面の Firebase の SDK（Auth・Firestore・Storage）を読み込まないことを検証（postbuild）
   scripts/verify-deploy-env.ts  # デプロイ用のビルド（npm run build:deploy）の前に、Firebase の設定がそろっているかを確かめる
   scripts/serve-static.ts       # ビルド済みのサイトを配信する（E2E・Lighthouse 用。ポート 4313）
   scripts/staticRouting.ts      # 配信の振り分け（firebase.json の cleanUrls・trailingSlash・redirects・Cache-Control と同じ。404 は 404.html）
@@ -212,7 +224,8 @@ web/
   すべてテンプレートにハードコードされていたため、汎用の CMS は導入しない。
   ただし施工事例は社内の非エンジニアが追加・公開したいため、Firebase の機能だけで小さな管理画面を作る（再デプロイなしで反映する）。
   - データ: Firestore の `caseStudies/{事例の ID}`（項目と上限は `shared/src/caseStudies/`）。写真は Storage の
-    `case-studies/{事例の ID}/{写真の ID}-{small|large}.webp`（幅 768px・1600px。管理画面がブラウザで変換する）
+    `case-studies/{事例の ID}/{写真の ID}-{small|large}.{webp|jpg}`（幅 768px・1600px。管理画面がブラウザで webp に変換し、
+    webp を書き出せないブラウザ（Safari）では JPEG。`photos[].path` は拡張子付きの基準パスで、形式が分かる）
   - 公開: `status == 'published'` の事例だけを誰でも読める。一覧は `where('status', '==', 'published')` 付きのクエリだけが通る
     （ルールは絞り込みではないため）。公開サイトは Firestore の REST で読み、Firebase の SDK は読み込ませない
   - 編集: Firebase Auth でログインし、カスタムクレーム `admin: true` を持つユーザーだけが読み書きできる。

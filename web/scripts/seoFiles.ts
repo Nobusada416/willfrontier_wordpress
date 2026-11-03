@@ -26,8 +26,9 @@ export const buildSitemapXml = (siteUrl: string, pages: readonly SitemapPage[]):
     '',
   ].join('\n')
 
-// インデックス禁止（既定）のときはクロール自体を止め、sitemap も案内しない
+// インデックス禁止（既定）のときはクロール自体を止め、sitemap も案内しない。
+// 施工事例の管理画面（/admin/）はどちらの場合もクロールさせない（ページ側も常に noindex）
 export const buildRobotsTxt = (siteUrl: string, allowIndexing: boolean): string =>
   allowIndexing
-    ? `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`
-    : 'User-agent: *\nDisallow: /\n'
+    ? `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${siteUrl}/sitemap.xml\n`
+    : 'User-agent: *\nDisallow: /\nDisallow: /admin/\n'

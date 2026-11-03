@@ -58,7 +58,7 @@ afterAll(async () => {
 })
 
 const photo = (caseId: string, n: number): CaseStudyPhoto => ({
-  path: caseStudyPhotoBasePath(caseId, `photo${n}`),
+  path: caseStudyPhotoBasePath(caseId, `photo${n}`, 'image/webp'),
   smallUrl: `https://firebasestorage.googleapis.com/v0/b/demo/o/photo${n}-small.webp?alt=media`,
   largeUrl: `https://firebasestorage.googleapis.com/v0/b/demo/o/photo${n}-large.webp?alt=media`,
   width: 1600,
@@ -198,6 +198,18 @@ describe('admin（カスタムクレーム admin == true）', () => {
 
   it('公開の状態で新規作成できる', async () => {
     await assertSucceeds(setDoc(caseDoc(db(), NEW_ID), newDocument(NEW_ID, 'published')))
+  })
+
+  it('JPEG の写真（path の拡張子が .jpg）を保存できる', async () => {
+    await assertSucceeds(
+      setDoc(caseDoc(db(), NEW_ID), {
+        ...newDocument(),
+        photos: [
+          photo(NEW_ID, 1),
+          { ...photo(NEW_ID, 2), path: caseStudyPhotoBasePath(NEW_ID, 'photo2', 'image/jpeg') },
+        ],
+      }),
+    )
   })
 
   it('内容をまるごと保存し直せる（createdAt は元の値のまま）', async () => {
@@ -349,9 +361,11 @@ describe('admin（カスタムクレーム admin == true）', () => {
 
     it.each<[string, Record<string, unknown>]>([
       ['余分な項目がある', { caption: 'x' }],
-      ['path が別の事例のもの', { path: caseStudyPhotoBasePath('other', 'photo1') }],
-      ['path が case-studies/ の外', { path: 'other/new1/photo1' }],
-      ['path に余分な階層がある', { path: 'case-studies/new1/a/b' }],
+      ['path が別の事例のもの', { path: caseStudyPhotoBasePath('other', 'photo1', 'image/webp') }],
+      ['path が case-studies/ の外', { path: 'other/new1/photo1.webp' }],
+      ['path に余分な階層がある', { path: 'case-studies/new1/a/b.webp' }],
+      ['path に拡張子が無い', { path: 'case-studies/new1/photo1' }],
+      ['path の拡張子が webp・jpg でない', { path: 'case-studies/new1/photo1.png' }],
       ['URL が http(s) でない', { largeUrl: 'javascript:alert(1)' }],
       [
         'URL が長すぎる',
@@ -396,7 +410,7 @@ describe('admin（カスタムクレーム admin == true）', () => {
       await assertFails(
         setDoc(caseDoc(db(), 'bad.id'), {
           ...newDocument(),
-          photos: [{ ...photo(NEW_ID, 1), path: 'case-studies/bad.id/photo1' }],
+          photos: [{ ...photo(NEW_ID, 1), path: 'case-studies/bad.id/photo1.webp' }],
         }),
       )
     })

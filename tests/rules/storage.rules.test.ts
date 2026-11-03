@@ -6,7 +6,7 @@ import {
   type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing'
 import {
-  CASE_STUDY_IMAGE_CONTENT_TYPE,
+  CASE_STUDY_IMAGE_CONTENT_TYPES,
   CASE_STUDY_UPLOAD_MAX_BYTES,
   caseStudyPhotoPath,
 } from '@wf/shared'
@@ -17,11 +17,12 @@ import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
 // Cloud Storage のセキュリティルール。
 // - case-studies/ の下（施工事例の写真）は誰でも読める
 // - 書き込み・削除はカスタムクレーム admin == true のユーザーだけ。
-//   書き込みは case-studies/{事例の ID}/{写真の ID}-{small|large}.webp の形・webp・サイズの上限を満たすものだけ
+//   書き込みは case-studies/{事例の ID}/{写真の ID}-{small|large}.{webp|jpg} の形・拡張子に合った形式
+//   （.webp は image/webp、.jpg は image/jpeg）・サイズの上限を満たすものだけ
 // - そのほかの場所はすべて拒否する
 let env: RulesTestEnvironment
 
-const EXISTING = caseStudyPhotoPath('case1', 'photo1', 'large')
+const EXISTING = caseStudyPhotoPath('case1', 'photo1', 'large', 'image/webp')
 const OTHER = 'other/file.webp'
 
 beforeAll(async () => {
@@ -36,7 +37,7 @@ afterAll(async () => {
 })
 
 const bytes = (size: number) => new Uint8Array(size)
-const webp = { contentType: CASE_STUDY_IMAGE_CONTENT_TYPE }
+const webp = { contentType: 'image/webp' }
 
 // rules-unit-testing の storage() は compat 版の API を返す
 const upload = (
@@ -78,7 +79,9 @@ describe.each(visitors)('$label', ({ context }) => {
   })
 
   it('施工事例の写真をアップロードできない', async () => {
-    await assertFails(upload(context(), caseStudyPhotoPath('case1', 'photo2', 'small')))
+    await assertFails(
+      upload(context(), caseStudyPhotoPath('case1', 'photo2', 'small', 'image/webp')),
+    )
   })
 
   it('施工事例の写真を上書きできない', async () => {
@@ -97,43 +100,73 @@ describe.each(visitors)('$label', ({ context }) => {
 describe('admin（カスタムクレーム admin == true）', () => {
   const admin = () => env.authenticatedContext('admin-1', { admin: true })
 
-  it.each(['small', 'large'] as const)('%s の webp をアップロードできる', async (size) => {
-    await assertSucceeds(upload(admin(), caseStudyPhotoPath('case1', 'photo2', size)))
-  })
-
-  it('上限ちょうどのサイズまでアップロードできる', async () => {
+  it.each(
+    CASE_STUDY_IMAGE_CONTENT_TYPES.flatMap((contentType) =>
+      (['small', 'large'] as const).map((size) => ({ contentType, size })),
+    ),
+  )('$size の $contentType をアップロードできる', async ({ contentType, size }) => {
     await assertSucceeds(
-      upload(admin(), caseStudyPhotoPath('case1', 'photo2', 'large'), CASE_STUDY_UPLOAD_MAX_BYTES),
+      upload(admin(), caseStudyPhotoPath('case1', 'photo2', size, contentType), 16, {
+        contentType,
+      }),
     )
   })
+
+  it.each(CASE_STUDY_IMAGE_CONTENT_TYPES)(
+    '%s は上限ちょうどのサイズまでアップロードできる',
+    async (contentType) => {
+      await assertSucceeds(
+        upload(
+          admin(),
+          caseStudyPhotoPath('case1', 'photo2', 'large', contentType),
+          CASE_STUDY_UPLOAD_MAX_BYTES,
+          { contentType },
+        ),
+      )
+    },
+  )
 
   it('施工事例の写真を削除できる', async () => {
     await assertSucceeds(remove(admin(), EXISTING))
   })
 
-  it('上限を超えるサイズはアップロードできない', async () => {
-    await assertFails(
-      upload(
-        admin(),
-        caseStudyPhotoPath('case1', 'photo2', 'large'),
-        CASE_STUDY_UPLOAD_MAX_BYTES + 1,
-      ),
-    )
-  })
-
-  it.each(['image/png', 'image/jpeg', 'image/svg+xml', 'text/html'])(
-    '%s はアップロードできない',
+  it.each(CASE_STUDY_IMAGE_CONTENT_TYPES)(
+    '%s は上限を超えるサイズをアップロードできない',
     async (contentType) => {
       await assertFails(
-        upload(admin(), caseStudyPhotoPath('case1', 'photo2', 'large'), 16, { contentType }),
+        upload(
+          admin(),
+          caseStudyPhotoPath('case1', 'photo2', 'large', contentType),
+          CASE_STUDY_UPLOAD_MAX_BYTES + 1,
+          { contentType },
+        ),
       )
     },
   )
+
+  it.each(['image/png', 'image/svg+xml', 'text/html'])(
+    '%s はアップロードできない',
+    async (contentType) => {
+      await assertFails(
+        upload(admin(), 'case-studies/case1/photo2-large.webp', 16, { contentType }),
+      )
+      await assertFails(upload(admin(), 'case-studies/case1/photo2-large.jpg', 16, { contentType }))
+    },
+  )
+
+  it.each([
+    ['case-studies/case1/photo2-large.webp', 'image/jpeg'],
+    ['case-studies/case1/photo2-large.jpg', 'image/webp'],
+  ])('拡張子と形式が合わない %s（%s）はアップロードできない', async (path, contentType) => {
+    await assertFails(upload(admin(), path, 16, { contentType }))
+  })
 
   it.each([
     'case-studies/case1/photo2.webp',
     'case-studies/case1/photo2-medium.webp',
     'case-studies/case1/photo2-large.png',
+    'case-studies/case1/photo2-large.jpeg',
+    'case-studies/case1/photo2-large.webp.jpg',
     'case-studies/case1/sub/photo2-large.webp',
     'case-studies/photo2-large.webp',
     'case-studies/bad.id/photo2-large.webp',
