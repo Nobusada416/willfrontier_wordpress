@@ -152,11 +152,11 @@ export default function MissionPage() {
               <div>
                 <h2 className={LABEL_CLASS}>地域の美化運動</h2>
                 <p className={BODY_CLASS}>
-                  当社の方々に住みやすく、ゴミの無い街づくりをお約束いたします。
+                  当社は、地域の方々に住みやすく、ゴミの無い街づくりを約束いたします。
                   <PcBreak />
                   企業としてではなく、従業員全員が社会人の基本として、
                   <PcBreak />
-                  毎日２行っている地域清掃をはじめ、元気な挨拶、
+                  毎日２回行っている地域清掃をはじめ、元気な挨拶、
                   <PcBreak />
                   丁寧な言葉遣いで笑顔あふれる地域をめざし
                   <PcBreak />
