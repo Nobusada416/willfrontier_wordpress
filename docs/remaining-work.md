@@ -1,8 +1,26 @@
 # 残りの作業
 
-P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み（2026-10-08 時点）。
+P0〜P9 と、施工事例の管理画面は統合ブランチ `migration/react-firebase` にマージ済み（2026-11-04 時点）。
 ここでは P10（デプロイ）・P11（WordPress 削除）と、ユーザーの判断・確認が必要な事項をまとめる。
 フェーズごとの経緯は [migration-progress.md](./migration-progress.md)、各作業の詳しい手順はリンク先のドキュメントを参照。
+
+## 0. 全体の流れと現在地
+
+```
+① ユーザーの準備（1 章） ──→ ② P10 デプロイ（2 章） ──→ ③ 本番切り替え（2 章の最後） ──→ ④ P11 WordPress 削除（4 章）
+   ここで止まっている           preview channel で確認        DNS を切り替え                  main に取り込み
+```
+
+P9 の後に済ませたもの（2026-10〜11）:
+
+| PR            | 内容                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| #42・#44・#49 | main（WordPress）に入ったクライアントの修正要望を React 版に取り込み（退職者が写る wf-100・掲載をやめた wf-087 の差し替えなど） |
+| #50           | 依存の脆弱性（zod・body-parser など）を lockfile の更新で修正                                                                   |
+| #51           | デプロイ用のビルド（`build:deploy`）で Firebase の設定が無ければ失敗させる                                                      |
+| #52           | Emulator の結合テストを追加し、CI の `integration` ジョブで実行                                                                 |
+| #53           | 細かい修正（workflow の説明文、mission のタイトル、採用フォームの入力例、Functions のアップロード対象）                         |
+| #54〜#57      | 施工事例の管理画面（基盤・管理画面・既存データの移行・公開サイトの表示）。使い方は [case-studies.md](./case-studies.md)         |
 
 ## 1. ユーザーに準備してもらうもの（P10 の開始条件）
 
@@ -28,9 +46,21 @@ P10 は次がそろうまで始められない。
       渡し忘れると `firebase deploy` の predeploy（`npm run build:deploy`）が失敗する（[deployment.md](./deployment.md#フォームの送信に必要な設定firebase)）
 - [ ] App Check に reCAPTCHA v3 を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkrecaptcha-v3)）
 - [ ] トークンの再利用対策（limited-use トークン）が必要か判断する
-- [ ] Firestore の TTL を反映する（`firebase deploy --only firestore:indexes`）。セキュリティルールは全拒否のまま反映する
-- [ ] 施工事例: Auth・Storage を有効にしてルールを反映した後、本番で `npm run seed:case-studies -- --project <ID>` を 1 回実行し、
-      旧サイトの 3 件（下書き）の日付・社名・分類を管理画面で直して公開する（[case-studies.md](./case-studies.md#既存の施工事例の移行本番では-p10-の後に-1-回)）
+- [ ] Firestore のルール・インデックス（TTL と施工事例の複合インデックス）を反映する（`firebase deploy --only firestore`）。
+      ルールは「施工事例の公開分だけ誰でも読める・書き込みは管理者だけ、ほかは全拒否」
+- [ ] App Check の debug token を使う経路を決める。今の実装は Emulator のときだけ debug token を有効にするが、Functions Emulator は App Check を強制しないため、
+      本番のプロジェクトにつないだ開発用ビルドで使えるようにするか判断する（`web/app/lib/firebase.ts`）
+
+### 施工事例の管理画面（[case-studies.md](./case-studies.md)）
+
+- [ ] Firebase Authentication を有効にする（メールとパスワードのみ）。新規登録はさせないため、コンソールで「ユーザーによるアカウント作成」を無効にする
+- [ ] Cloud Storage を有効にし、`storage.rules` を反映する（`firebase deploy --only storage`）。バケット名を `VITE_FIREBASE_STORAGE_BUCKET` で本番ビルドに渡す
+- [ ] `npm run admin:grant -- --project <ID> <メールアドレス>` で管理者のアカウントを作り、初期パスワードを担当者に伝える
+- [ ] 本番で `npm run seed:case-studies -- --project <ID>` を 1 回実行し、旧サイトの 3 件（下書き）の日付・社名・分類を管理画面で直して公開する
+      （[case-studies.md](./case-studies.md#既存の施工事例の移行本番では-p10-の後に-1-回)）
+- [ ] iPhone・Mac の Safari で、写真の追加（JPEG で保存される）を実際に試す（この環境には WebKit が無く、単体テストでしか確かめていない）
+- [ ] 下書きの写真も URL を知っていれば見られる（Storage は `case-studies/**` を誰でも読める）。このままでよいか判断する
+- [ ] 写真をアップロードしてから保存せずに閉じると、使われないファイルが Storage に残る。定期的に掃除するか判断する
 
 ### フォームのメール（Trigger Email 拡張）
 
@@ -41,6 +71,12 @@ P10 は次がそろうまで始められない。
 - [ ] `firebase deploy --only extensions` で SMTP の接続文字列とパスワード（Secret Manager）を入力する
 - [ ] 宛先のパラメータを本番用に設定する（`functions/.env.<プロジェクト ID>` をコミットするか、デプロイ時の入力にするかを決める）
 - [ ] `functions/` に専用の lockfile がない問題の方針を決める（[deployment.md](./deployment.md#既知の制約)）
+- [ ] 拡張機能の関数のロケーションを東京にする（`extensions/firestore-send-email.env` に `firebaseextensions.v1beta.function/location` が無く、
+      既定の us-central1 だと個人情報を含む `mail` が米国で処理される）
+- [ ] **メールの送信失敗に気づける仕組みを作る**。拡張機能が `mail` に `delivery.state=ERROR` を書いても通知されず、利用者には「送信しました」と出るため、
+      問い合わせが気づかれずに失われる。Cloud Monitoring のログアラートなどで通知する（Functions の `internal` エラーも同様）
+- [ ] 送信回数の制限（レート制限・重複送信の対策）を入れるか決める。今は App Check と `maxInstances: 5` だけ。limited-use トークンの判断とあわせて検討する
+- [ ] 宛先のパラメータを、メールアドレスとして正しいかも確かめる（今は空かどうかだけ。`functions/src/handleInquiry.ts`）
 
 ### CSP（Report-Only）
 
@@ -53,7 +89,8 @@ P10 は次がそろうまで始められない。
 
 ### デプロイの自動化
 
-- [ ] GitHub Actions に Workload Identity Federation で Firebase へデプロイするジョブを追加する（鍵ファイルは使わない）
+- [ ] GitHub Actions に Workload Identity Federation で Firebase へデプロイするジョブを追加する（鍵ファイルは使わない）- サービスアカウントに要るロール（Hosting・Functions・Firestore のルールとインデックス・Storage のルール・拡張機能・Secret Manager・Service Account User など）を整理する - **CI からのデプロイは対話入力ができない**ため、宛先のパラメータ（`functions/.env.<プロジェクト ID>` のコミットか CI での生成）と
+      SMTP のパスワード（Secret Manager）を事前に用意する。リポジトリが公開なら、宛先のアドレスが公開されることも判断に入れる - 全体の `firebase deploy` は拡張機能も含むため、`--only` で範囲を決める
 - [ ] PR ごとに preview channel へデプロイし、URL を PR に載せる
 - [ ] preview channel に対して E2E を実行する（計画の TDD 対象）
 - [ ] デプロイは CI を通過したコミットからだけ行う（`predeploy` はビルドのみで、型チェックとテストを含まないため）
@@ -61,12 +98,16 @@ P10 は次がそろうまで始められない。
 
 ### 本番前の確認（preview channel）
 
+注意: preview channel は本番の Functions・Firestore・Storage・SMTP を使うため、確認や E2E の送信は本番のデータ・実際のメールになる。
+また preview channel のドメイン（`*.web.app` など）を reCAPTCHA に登録しておく必要がある。
+
 - [ ] 3 フォームから実際に送信し、`inquiries`・`mail` への保存とメールの受信を確かめる
 - [ ] 受信したメールで、送信元ドメインの SPF・DKIM が通っていることを確かめる
 - [ ] 送信に失敗したときの案内（本社の電話番号）が出ることを確かめる
 - [ ] iPhone の Safari で、メニューを開いたときやイントロ中に背景がスクロールしないか確かめる（既知の制限）
 - [ ] JS が動かない環境では動画の場所が黒いままになる（P9 で poster を画面に近づいてから付けるようにしたため）。このままでよいか判断する
 - [ ] 色を直したあとの Lighthouse を計り直し、[migration-progress.md](./migration-progress.md) の表を更新する
+- [ ] 管理画面でログイン → 事例の作成 → 公開 → 公開サイトに出る → 非公開 → 削除までを、本番の設定で一通り試す
 
 ### 本番切り替え
 
@@ -86,7 +127,13 @@ P10 は次がそろうまで始められない。
       宛先は `functions/.env.demo-willfrontier`（`example.com` の仮のアドレス）をコミットして用意した（理由は [forms.md](./forms.md#宛先のパラメータ)）
 - [ ] トップページの写真を表示幅に合った小さいサイズでも書き出す（下の「内容の確認」の 7 番の判断による）。
       目標の 85 に届いたら、Lighthouse CI の Performance を `warn` から `error` に戻す（[development.md](./development.md#lighthouse-ci)）
-- [ ] `npm audit` で firebase-admin 経由の uuid（moderate）が残っている。本件の使い方は影響を受けないため、上流の更新を待って依存を上げる
+- [ ] `npm audit` の残り（@grpc/grpc-js・uuid・開発ツール経由のもの）は上流の更新待ち。内容は [migration-progress.md](./migration-progress.md) の「問題・ブロッカー」
+- [ ] 小さな改善（優先度は低い）
+  - ボットが隠し項目 `wf_hp` を数値で送ると `invalid-argument` と項目名が返る（`functions/src/handleInquiry.ts`）。docs の「入力エラーの詳細を返さない」と食い違う
+  - 画面を通さない送信で、zod の英語の既定メッセージがそのまま返る
+  - 通知メールに受付日時・ドキュメント ID が無く、`inquiries` と照合しにくい（`functions/src/buildMail.ts`）
+  - reCAPTCHA v3 のバッジの表示（隠す場合は規約の文言が必要）
+  - `@wf/shared` を 1 つの入口から読むため、フォームのページに施工事例のスキーマも含まれる
 
 ## 4. P11: WordPress 関連ファイルの削除
 
@@ -97,6 +144,13 @@ P10 は次がそろうまで始められない。
 - [ ] 施工事例を Firestore に移した後の旧写真（`web/public/media/photos` の `wf-106`〜`wf-111`・`wf-048`・`wf-050`・`wf-037`）を削除する
       （`page-casestudy.php` と `tools/seed-case-studies.ts` が参照している。本番で seed を実行した後に。[case-studies.md](./case-studies.md)）
 - [ ] ルートの `tailwindcss@3` など、旧テーマのビルドにだけ使う依存を外す
+- [ ] 削除リストから漏れていたもの: `scripts/package.json`（`scripts/generate-pdfs.js` 用。docker の WordPress が前提）、
+      `assets/photos/_index.md`・`assets/videos/_index.md`（移すか消すか）、`.gitignore`・`.prettierignore`・`eslint.config.mjs` の旧テーマ用の記述
+- [ ] PHP を消すと `web/scripts/mediaReferences.test.ts` の旧テーマの検証（`phpFiles.length > 0`）と `normalizeThemeSource` が不要になるので、同時に削除する。
+      素材を消したら `npm run media:manifest -w web` で寸法の一覧を作り直す
+- [ ] CI（`.github/workflows/ci.yml`）の対象ブランチから `migration/react-firebase` を外す
+- [ ] `main` には移行ブランチに無いクライアントの修正が入ることがある。取り込む前に、main の新しいコミットが React 版に反映済みか確かめる
+      （2026-10 の修正 #41〜#48 は反映済み）
 - [ ] git 管理外のローカルのファイル（旧サイトのミラー `static/`、`will-frontier-pattern-*.pdf`）を残すか決める（リポジトリからの削除は不要）
 - [ ] `scripts/generate-pdfs.js` を残すか決める（ユーザー確認待ち）
 - [ ] `docs/3patterns-presentation.md` のデモ URL（旧サイト）を直すか、資料ごと削除するか決める
@@ -127,5 +181,6 @@ P10 は次がそろうまで始められない。
 ## 6. 片付け（ユーザーの確認後に行う）
 
 - PR に載せる画像の置き場に使ったブランチ（リモートの `pr-assets/p7`・`pr-assets/p9`、ローカルの `pr-assets/p6`）。消すと PR の画像が表示されなくなる
-- マージ済みのフェーズごとのブランチ（`migration/p0-*`〜`migration/p9-*`）
+- マージ済みのフェーズごとのブランチ（`migration/p0-*`〜`migration/p9-*`）と、その後のブランチ
+  （`migration/port-main-fixes`・`migration/audit-fix`・`migration/p10-*`・`migration/p8-emulator-integration`・`migration/cms-p*`・`fix/*-react`）
 - サブエージェントが作業に使った worktree（`.claude/worktrees/`）
