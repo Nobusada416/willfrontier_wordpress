@@ -48,6 +48,21 @@ describe('ミッションページ', () => {
     expect(screen.getByText(/環境クリエイターという名に恥じぬ様/)).toBeInTheDocument()
   })
 
+  it('地域の美化運動の本文はパンフレットの文面どおり', () => {
+    renderPage()
+    const body = screen.getByRole('heading', {
+      level: 2,
+      name: '地域の美化運動',
+    }).nextElementSibling
+    expect(body).toHaveTextContent(
+      '当社は、地域の方々に住みやすく、ゴミの無い街づくりを約束いたします。' +
+        '企業としてではなく、従業員全員が社会人の基本として、' +
+        '毎日２回行っている地域清掃をはじめ、元気な挨拶、' +
+        '丁寧な言葉遣いで笑顔あふれる地域をめざし' +
+        '「スマイル宣言」を伝えてまいります。',
+    )
+  })
+
   it('写真の切り替えは content の 3 枚を使う', () => {
     renderPage()
     const frames = document.querySelectorAll('[data-frame] img')

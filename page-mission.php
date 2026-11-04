@@ -76,9 +76,9 @@ window.addEventListener('load', function() {
                 <div>
                     <div style="display:inline-block;background:#ffe600;border-radius:9999px;padding:5px 20px;font-size:13px;font-weight:900;color:#1a1a1a;margin-bottom:6px;">地域の美化運動</div>
                     <p style="font-size:0.78rem;color:#374151;font-weight:700;line-height:1.7;">
-                        当社の方々に住みやすく、ゴミの無い街づくりをお約束いたします。<br>
+                        当社は、地域の方々に住みやすく、ゴミの無い街づくりを約束いたします。<br>
                         企業としてではなく、従業員全員が社会人の基本として、<br>
-                        毎日２行っている地域清掃をはじめ、元気な挨拶、<br>
+                        毎日２回行っている地域清掃をはじめ、元気な挨拶、<br>
                         丁寧な言葉遣いで笑顔あふれる地域をめざし<br>
                         「スマイル宣言」を伝えてまいります。
                     </p>
