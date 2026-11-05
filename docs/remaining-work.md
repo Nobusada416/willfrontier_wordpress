@@ -47,15 +47,16 @@ P10 は次がそろうまで始められない。
 - [ ] App Check に Fraud Defense（旧 reCAPTCHA Enterprise）を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkfraud-defense)）。
       reCAPTCHA Classic（v3）は非推奨で登録できなかったため、コードは `ReCaptchaEnterpriseProvider` に変更済み
 - [ ] トークンの再利用対策（limited-use トークン）が必要か判断する
-- [ ] Firestore のルール・インデックス（TTL と施工事例の複合インデックス）を反映する（`firebase deploy --only firestore`）。
+- [x] Firestore のルール・インデックス（TTL と施工事例の複合インデックス）を反映する（`firebase deploy --only firestore`）。
+      Firestore は `(default)` を `asia-northeast1` に作成した（2026-11-05）。
       ルールは「施工事例の公開分だけ誰でも読める・書き込みは管理者だけ、ほかは全拒否」
 - [ ] App Check の debug token を使う経路を決める。今の実装は Emulator のときだけ debug token を有効にするが、Functions Emulator は App Check を強制しないため、
       本番のプロジェクトにつないだ開発用ビルドで使えるようにするか判断する（`web/app/lib/firebase.ts`）
 
 ### 施工事例の管理画面（[case-studies.md](./case-studies.md)）
 
-- [ ] Firebase Authentication を有効にする（メールとパスワードのみ）。新規登録はさせないため、コンソールで「ユーザーによるアカウント作成」を無効にする
-- [ ] Cloud Storage を有効にし、`storage.rules` を反映する（`firebase deploy --only storage`）。バケット名を `VITE_FIREBASE_STORAGE_BUCKET` で本番ビルドに渡す
+- [x] Firebase Authentication を有効にする（メールとパスワードのみ）。新規登録はさせないため、コンソールで「ユーザーによるアカウント作成」を無効にする（2026-11-05）
+- [x] Cloud Storage を有効にし、`storage.rules` を反映する（`firebase deploy --only storage`）。既定のバケットは `asia-northeast1`（2026-11-05）。バケット名を `VITE_FIREBASE_STORAGE_BUCKET` で本番ビルドに渡す
 - [ ] `npm run admin:grant -- --project <ID> <メールアドレス>` で管理者のアカウントを作り、初期パスワードを担当者に伝える
 - [ ] 本番で `npm run seed:case-studies -- --project <ID>` を 1 回実行し、旧サイトの 3 件（下書き）の日付・社名・分類を管理画面で直して公開する
       （[case-studies.md](./case-studies.md#既存の施工事例の移行本番では-p10-の後に-1-回)）
