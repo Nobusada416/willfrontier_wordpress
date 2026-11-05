@@ -5,6 +5,7 @@ import {
   photoSize,
   photoSrc,
   photoSrcSet,
+  photoXsmallSrc,
   posterSize,
   posterSrc,
   videoSrc,
@@ -15,12 +16,25 @@ describe('写真のパス', () => {
     expect(photoSrc('wf-079')).toBe('/media/photos/large/wf-079.webp')
   })
 
+  it('トップで小さく表示する写真の xsmall のパス', () => {
+    expect(photoXsmallSrc('wf-079-hero')).toBe('/media/photos/xsmall/wf-079-hero.webp')
+  })
+
   it('srcset には small / large の実際の幅を書く', () => {
-    expect(photoSrcSet('wf-079')).toBe(
-      '/media/photos/small/wf-079.webp 768w, /media/photos/large/wf-079.webp 1600w',
+    expect(photoSrcSet('wf-097')).toBe(
+      '/media/photos/small/wf-097.webp 768w, /media/photos/large/wf-097.webp 1600w',
     )
     // 旧実装は一律 768w としていたため、実際は幅 360px の small が 768px 相当として選ばれていた
     expect(photoSrcSet('wf-114')).toMatch(/^\/media\/photos\/small\/wf-114\.webp 360w, /)
+  })
+
+  it('xsmall がある写真は、xsmall の実際の幅を srcset の先頭に足す', () => {
+    // トップのモザイク（縦長）と MISSION の背景。短辺 400px に縮小している
+    expect(photoSrcSet('wf-079-hero')).toBe(
+      '/media/photos/xsmall/wf-079-hero.webp 400w, /media/photos/small/wf-079-hero.webp 768w, /media/photos/large/wf-079-hero.webp 1600w',
+    )
+    // 横長の写真は短辺 400px のため幅は 533px
+    expect(photoSrcSet('wf-112-hero')).toMatch(/^\/media\/photos\/xsmall\/wf-112-hero\.webp 533w, /)
   })
 
   it('large の実寸を返す（width / height 属性で読み込み前から高さを確保する）', () => {

@@ -97,9 +97,31 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。�
   対応したもの: Google Fonts の CSS の読み込みが描画を止めていた（FCP 7 秒前後の主因）、スマホで非表示の葉の画像（png 各 220KB×4）を読み込んでいた、
   画面外の動画の poster（トップ 7 枚・約 600KB）を最初に読み込んでいた、安全ページの 24px のアイコンに 976px・800KB の png を使っていた、
   写真の切り替えの 2・3 枚目を即時読み込みしていた。
-  トップが目標（85）に届かない原因: ファーストビューのモザイク（9 枚）とすぐ下の MISSION の写真が、表示幅 140〜410px に対して幅 768px の small（各 80〜120KB）を読み込む
-  （より小さい写真の書き出しが必要）。ほかに全ページ共通で JS 約 180KB（React・React Router・GSAP）と Google Fonts の CSS（約 117KB）がある。
+  トップが目標（85）に届かなかった原因: ファーストビューのモザイク（9 枚）とすぐ下の MISSION の写真が、表示幅 140〜410px に対して幅 768px の small（各 80〜120KB）を読み込んでいた。
+  ほかに全ページ共通で JS 約 180KB（React・React Router・GSAP）と Google Fonts の CSS（約 117KB）がある。
   Performance はシミュレーションの揺れもあるため Lighthouse CI では warn にしている（[development.md](./development.md#lighthouse-ci)）
+
+- トップの写真の縮小（2026-11-05、`perf/top-photos`）。モザイクと MISSION の背景の写真のうち small の短辺が 400px を超える 7 枚
+  （`wf-112-hero`・`wf-079-hero`・`wf-095-hero`・`wf-086-hero`・`wf-092-hero`・`wf-079`・`wf-092`）について、
+  短辺 400px の xsmall（各 23〜47KB、計 240KB。`scripts/photo-xsmall.py`）を書き出し、`srcset` に加えた。
+  モザイクの `sizes`（34vw）はそのままで、Lighthouse のモバイル（幅 412px・DPR 1.75）では xsmall が選ばれる。
+  MISSION の背景は濃さ 16% で細部が見えないため、スマホでは `sizes` を 45vw にして xsmall か幅 360px の small を選ばせた（PC は従来どおり 100vw）。
+  ファーストビューの写真は React が `<link rel="preload">` を出し、1 枚目に `fetchpriority="high"` が付いているため、preload の追加は不要だった。
+  読み込む量はトップ全体で 2,062KB → 1,890KB（ファーストビューの 9 枚は約 450KB → 約 250KB、MISSION の 3 枚は約 300KB → 約 100KB）
+
+  計測は Claude Code のクラウド環境（Linux・4 コア・Playwright の Chromium 1243）で、上の Mac の計測より CPU が遅く、回ごとの揺れも大きい
+  （TBT が 300〜1,400ms、外部の Google Fonts の応答で FCP が 8 秒になる回がある）。同じ環境で前後を比べた値:
+
+  | トップ              | Performance（各回）                             | FCP / LCP（中央の回） |
+  | ------------------- | ----------------------------------------------- | --------------------- |
+  | 縮小前              | 64・39・45                                      | 2.5 秒 / 5.4 秒       |
+  | 縮小後              | 70・65・72、57・68・63（2 回目は lhci autorun） | 2.5 秒 / 4.3 秒       |
+  | 参考: 残り 8 枚なし | 77・77・79                                      | 2.5 秒 / 3.5 秒       |
+
+  「残り 8 枚なし」はビルドした HTML からモザイクの 2〜9 枚目を外して計った参考値（写真を軽くして得られる上限の目安）。
+  画面外の写真（VEHICLE・GALLERY など）を外しても LCP は 4.3 → 4.1 秒しか縮まなかった。
+  写真だけでは 85 に届かず、残りの原因は FCP（2.5 秒。全ページ共通の JS 約 180KB と Google Fonts の CSS 約 117KB）と、
+  JS の実行（TBT。React の hydrate と GSAP）。Lighthouse CI の Performance は warn のまま
 
 - 移行の分岐後に main（WordPress）へ入ったクライアントの修正要望を React 版にも取り込んだ。PR #41・#43 は PR #42、#45・#46 は PR #44、#47・#48 は `migration/port-main-fixes`。
   退職者が写っている wf-100 と、掲載をやめた wf-087 は削除し、wf-117・wf-118・wf-084 に差し替えた（`web/scripts/mediaReferences.test.ts` で再登場を防ぐ）。

@@ -128,6 +128,7 @@ web/
   public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
     photos/{small,large}/ # 写真（wf-NNN.webp。small・large とも寸法は写真ごとに異なる。実寸は lib/mediaManifest.json）
                           # wf-NNN-hero.webp はトップヒーロー用に明るく加工した版（ルートの scripts/hero-highkey.py で生成）
+    photos/xsmall/        # トップのモザイク・MISSION の背景の写真だけ、短辺 400px に縮小した版（ルートの scripts/photo-xsmall.py で生成）
     videos/shorts/        # 動画（sNN.mp4）と poster（sNN.jpg、1 秒地点の静止画）
     images/               # ロゴ・イラスト・装飾画像
   scripts/create-404.mjs        # プリレンダーした /404 を 404.html へ移す（postbuild）
@@ -170,7 +171,7 @@ web/
 - **404 ページもプリレンダーする**: `*` ルートを `/404` としてプリレンダーし、ビルド後に `404.html` へ移す。
   Firebase Hosting は存在しない URL に `404.html` を 404 ステータスで返す。
 - **写真・動画は部品を通して表示する**: 旧テーマの `wf_picture` / `wf_video` と同じく、スラッグ（`wf-079`、`shorts/s08`）だけを渡す。
-  - `Picture`: `/media/photos/{small,large}/<slug>.webp` を `srcset` に並べた `<img>`。
+  - `Picture`: `/media/photos/{small,large}/<slug>.webp` を `srcset` に並べた `<img>`。xsmall がある写真は xsmall も並べる。
     `srcset` の幅（w）と `width`・`height` 属性には実寸（`lib/mediaManifest.json`）を使う。
     旧実装は一律 768w / 1600w としていたが、実際の small は幅 117〜768px とばらばらで、粗い画像が選ばれることがあった。
     `width`・`height` で読み込み前から高さを確保するため、遅延読み込みの写真が後から読み込まれてもページの位置がずれない

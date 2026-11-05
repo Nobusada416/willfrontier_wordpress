@@ -5,16 +5,24 @@ import { collectSourceFiles, findMediaReferences, normalizeThemeSource } from '.
 
 describe('findMediaReferences', () => {
   it('写真スラッグから small / large の webp を求める', () => {
-    expect(findMediaReferences(`<Picture slug="wf-079" alt="" />`)).toEqual([
-      '/media/photos/small/wf-079.webp',
-      '/media/photos/large/wf-079.webp',
+    expect(findMediaReferences(`<Picture slug="wf-097" alt="" />`)).toEqual([
+      '/media/photos/small/wf-097.webp',
+      '/media/photos/large/wf-097.webp',
     ])
   })
 
   it('トップヒーロー用に加工した -hero 付きの写真スラッグも small / large の webp を求める', () => {
-    expect(findMediaReferences(`const TILES = ['wf-079-hero']`)).toEqual([
-      '/media/photos/small/wf-079-hero.webp',
-      '/media/photos/large/wf-079-hero.webp',
+    expect(findMediaReferences(`const TILES = ['wf-114-hero']`)).toEqual([
+      '/media/photos/small/wf-114-hero.webp',
+      '/media/photos/large/wf-114-hero.webp',
+    ])
+  })
+
+  it('xsmall がある写真スラッグは xsmall の webp も求める', () => {
+    expect(findMediaReferences(`const TILES = ['wf-092-hero']`)).toEqual([
+      '/media/photos/xsmall/wf-092-hero.webp',
+      '/media/photos/small/wf-092-hero.webp',
+      '/media/photos/large/wf-092-hero.webp',
     ])
   })
 

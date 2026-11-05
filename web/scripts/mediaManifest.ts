@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { basename, extname, join } from 'node:path'
 import { imageSize } from 'image-size'
 // 型だけを使う（実行時には消えるため、node で直接実行しても mediaManifest.json の import は起きない）
@@ -15,7 +15,7 @@ const listFiles = (dir: string, extension: string) =>
     .sort()
 
 /**
- * web/public/media の写真と poster の寸法を読み取る
+ * web/public/media の写真（xsmall・small・large）と poster の寸法を読み取る
  * srcset の幅（w）と img / video の width・height 属性に使う
  */
 export const buildMediaManifest = (publicDir: string): MediaManifest => {
@@ -23,7 +23,10 @@ export const buildMediaManifest = (publicDir: string): MediaManifest => {
   const photos: MediaManifest['photos'] = {}
   for (const name of listFiles(join(photosDir, 'large'), '.webp')) {
     const slug = basename(name, '.webp')
+    const xsmall = join(photosDir, 'xsmall', name)
     photos[slug] = {
+      // xsmall はトップで小さく表示する写真だけにある（scripts/photo-xsmall.py）
+      ...(existsSync(xsmall) && { xsmall: readSize(xsmall) }),
       small: readSize(join(photosDir, 'small', name)),
       large: readSize(join(photosDir, 'large', name)),
     }

@@ -6,6 +6,8 @@ import { HomeSection } from './HomeSection'
 
 const TEXT_SHADOW = '[text-shadow:0_2px_8px_rgb(0_0_0/0.45)]'
 
+const MISSION_BACKGROUND_SIZES = '(max-width: 767px) 45vw, 100vw'
+
 export function Mission() {
   return (
     <HomeSection
@@ -16,7 +18,13 @@ export function Mission() {
       background={
         // 旧実装は写真の外枠と画像の両方に opacity-40 がかかり、実質 0.16 になっていたため合わせる
         // （テンプレートにあった暗い幕 bg-black/40 は旧 CSS に含まれておらず表示されていなかった）
-        <CrossfadeHero slugs={MISSION_BACKGROUND} imageClassName="opacity-16" />
+        // 濃さ 16% の背景で細部は見えないため、スマホでは画面幅の 45% として写真を選ばせ、
+        // xsmall（短辺 400px）か幅 360px の small を読み込む（P9 の Lighthouse。PC は従来どおり）
+        <CrossfadeHero
+          slugs={MISSION_BACKGROUND}
+          sizes={MISSION_BACKGROUND_SIZES}
+          imageClassName="opacity-16"
+        />
       }
     >
       <div className="text-center">
