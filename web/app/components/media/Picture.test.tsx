@@ -4,13 +4,24 @@ import { Picture } from './Picture'
 
 describe('Picture', () => {
   it('small / large の webp を srcset に並べ、large を src にする', () => {
-    render(<Picture slug="wf-079" alt="安全朝礼" />)
+    render(<Picture slug="wf-097" alt="安全朝礼" />)
     const img = screen.getByRole('img', { name: '安全朝礼' })
-    expect(img).toHaveAttribute('src', '/media/photos/large/wf-079.webp')
+    expect(img).toHaveAttribute('src', '/media/photos/large/wf-097.webp')
     expect(img).toHaveAttribute(
       'srcset',
-      '/media/photos/small/wf-079.webp 768w, /media/photos/large/wf-079.webp 1600w',
+      '/media/photos/small/wf-097.webp 768w, /media/photos/large/wf-097.webp 1600w',
     )
+  })
+
+  it('xsmall がある写真は srcset に xsmall も並べる（src は large のまま）', () => {
+    render(<Picture slug="wf-092-hero" alt="チームワーク" sizes="34vw" />)
+    const img = screen.getByRole('img', { name: 'チームワーク' })
+    expect(img).toHaveAttribute('src', '/media/photos/large/wf-092-hero.webp')
+    expect(img.getAttribute('srcset')?.split(', ')).toEqual([
+      '/media/photos/xsmall/wf-092-hero.webp 400w',
+      '/media/photos/small/wf-092-hero.webp 768w',
+      '/media/photos/large/wf-092-hero.webp 1600w',
+    ])
   })
 
   it('実寸の width / height を付け、読み込み前から高さを確保する', () => {

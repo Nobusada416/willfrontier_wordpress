@@ -7,8 +7,9 @@ export type Size = { width: number; height: number }
 
 // 実ファイルの寸法一覧の形（web/scripts/mediaManifest.ts が生成する）
 export type MediaManifest = {
-  // 写真スラッグ（'wf-079'）ごとの small / large の寸法
-  photos: Record<string, { small: Size; large: Size }>
+  // 写真スラッグ（'wf-079'）ごとの small / large の寸法。
+  // xsmall はトップで小さく表示する写真だけにある（scripts/photo-xsmall.py で書き出す）
+  photos: Record<string, { xsmall?: Size; small: Size; large: Size }>
   // 動画スラッグ（'shorts/s08'）ごとの poster の寸法
   posters: Record<string, Size>
 }
@@ -25,6 +26,12 @@ export const photoSrc = (slug: string) => `${MEDIA_BASE}/photos/large/${slug}.we
 
 export const photoSmallSrc = (slug: string) => `${MEDIA_BASE}/photos/small/${slug}.webp`
 
+// トップのモザイク・MISSION の背景のように小さく表示する写真だけ、短辺 400px の xsmall も用意している
+// （P9 の Lighthouse で、幅 140px 前後のタイルに幅 768px の small を読み込んでいたため）
+export const photoXsmallSrc = (slug: string) => `${MEDIA_BASE}/photos/xsmall/${slug}.webp`
+
+export const hasPhotoXsmall = (slug: string) => MANIFEST.photos[slug]?.xsmall !== undefined
+
 // large の寸法。img の width / height 属性に付け、読み込み前から縦横比どおりの高さを確保する
 export const photoSize = (slug: string) => MANIFEST.photos[slug]?.large
 
@@ -33,7 +40,12 @@ export const photoSize = (slug: string) => MANIFEST.photos[slug]?.large
 export const photoSrcSet = (slug: string) => {
   const sizes = MANIFEST.photos[slug]
   if (!sizes) return undefined
-  return `${photoSmallSrc(slug)} ${sizes.small.width}w, ${photoSrc(slug)} ${sizes.large.width}w`
+  const candidates = [
+    sizes.xsmall && `${photoXsmallSrc(slug)} ${sizes.xsmall.width}w`,
+    `${photoSmallSrc(slug)} ${sizes.small.width}w`,
+    `${photoSrc(slug)} ${sizes.large.width}w`,
+  ]
+  return candidates.filter(Boolean).join(', ')
 }
 
 // 管理画面でアップロードした写真（Storage のダウンロード URL と large の寸法）

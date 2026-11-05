@@ -52,6 +52,17 @@ describe('Hero', () => {
     sources.forEach((src) => expect(src).toMatch(/^\/media\/photos\/large\/wf-\d{3}-hero\.webp$/))
   })
 
+  it('タイルは表示幅（画面幅の 1/3）に合わせ、小さく書き出した xsmall から選べる', () => {
+    // P9 の Lighthouse: 幅 140px 前後のタイルに幅 768px の small を読み込んでいた
+    stubMotion(false)
+    renderHero()
+    const tiles = Array.from(document.querySelectorAll('[data-tile] img'))
+    tiles.forEach((img) => expect(img).toHaveAttribute('sizes', '34vw'))
+    expect(tiles[0]?.getAttribute('srcset')).toMatch(
+      /^\/media\/photos\/xsmall\/wf-112-hero\.webp 533w, /,
+    )
+  })
+
   it('写真の上に黒の暗幕を重ねない（加工した写真の明るさをそのまま見せる）', () => {
     stubMotion(false)
     const { container } = renderHero()

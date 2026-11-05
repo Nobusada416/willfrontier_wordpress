@@ -65,4 +65,16 @@ describe('CrossfadeHero', () => {
     const { container } = renderHero({ imageClassName: 'opacity-40' })
     container.querySelectorAll('img').forEach((img) => expect(img).toHaveClass('opacity-40'))
   })
+
+  it('sizes を 3 枚の img に渡す（既定は 100vw）', () => {
+    const { container, unmount } = renderHero()
+    container
+      .querySelectorAll('img')
+      .forEach((img) => expect(img).toHaveAttribute('sizes', '100vw'))
+    unmount()
+    const custom = renderHero({ sizes: '50vw' })
+    custom.container
+      .querySelectorAll('img')
+      .forEach((img) => expect(img).toHaveAttribute('sizes', '50vw'))
+  })
 })

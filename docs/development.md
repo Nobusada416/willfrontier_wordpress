@@ -101,10 +101,12 @@ npm run lighthouse -w web
 Performance を `warn` にとどめる理由:
 
 - シミュレーションの計測値は、実行するマシン（GitHub Actions のランナーは共有で性能が揺れる）と外部の Google Fonts の応答で数点〜10 点ほど変わる
-- トップページは現状 76 点前後で目標に届いていない（原因は [migration-progress.md](./migration-progress.md) の「問題・ブロッカー」）。
+- トップページは写真の xsmall を足した後も目標に届いていない（原因と計測値は [migration-progress.md](./migration-progress.md) の「問題・ブロッカー」）。
   error にすると常に CI が失敗するため、改善するまでは warn で推移を見る
 
 Chrome はローカルではインストール済みの Google Chrome、CI では ubuntu-latest の Google Chrome を使う。
+Chrome が入っていない環境（Claude Code のクラウド環境など）では、Playwright の Chromium を `CHROME_PATH` で指定する
+（例: `CHROME_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome npm run lighthouse -w web`）。
 
 ## コーディング規約
 
@@ -229,4 +231,7 @@ Safari の JPEG はアップロード・削除をここで、変換を `photos.t
 トップヒーローの写真は、9 枚とも明るさをそろえた加工版（`wf-NNN-hero`）を使う。
 元の写真は他ページでも使うので上書きしない。加工版は `python3 -I scripts/hero-highkey.py` で作り直せる（トーンの値はスクリプト冒頭）。
 作り直した後は `npm run media:manifest -w web` で寸法一覧も更新する。
+トップのモザイクと MISSION の背景のように小さく表示する写真は、短辺 400px の xsmall（`web/public/media/photos/xsmall/`）も用意し、
+`Picture` が `srcset` に加える。`python3 -I scripts/photo-xsmall.py` で large から書き出す（対象はスクリプト冒頭。
+足りないものは `web/scripts/mediaManifest.test.ts` が検出する）。写真や加工版を作り直したときも書き出し直し、寸法一覧を更新する。
 旧テーマの `style.css` はルートの `tailwindcss@3` で生成しているため、P11 まで依存を残す。

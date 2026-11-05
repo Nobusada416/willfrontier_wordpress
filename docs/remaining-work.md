@@ -125,7 +125,10 @@ P10 は次がそろうまで始められない。
 - [x] **Emulator での結合テスト**（計画の P8 の TDD 対象）。`npm run test:integration`（`tests/integration/`）で
       3 フォームの送信から `inquiries`・`mail` への書き込みまでを確かめ、CI の `integration` ジョブでも実行する。
       宛先は `functions/.env.demo-willfrontier`（`example.com` の仮のアドレス）をコミットして用意した（理由は [forms.md](./forms.md#宛先のパラメータ)）
-- [ ] トップページの写真を表示幅に合った小さいサイズでも書き出す（下の「内容の確認」の 7 番の判断による）。
+- [x] トップページの写真を表示幅に合った小さいサイズでも書き出す。モザイクと MISSION の背景の 7 枚に短辺 400px の xsmall を足した
+      （2026-11-05。計測値は [migration-progress.md](./migration-progress.md) の「問題・ブロッカー」）
+- [ ] トップページの Performance を 85 に上げる。写真だけでは届かず、残りは全ページ共通の JS（約 180KB）と Google Fonts の CSS（約 117KB）、
+      JS の実行時間。フォントの自前配信やサブセット化などを検討する。
       目標の 85 に届いたら、Lighthouse CI の Performance を `warn` から `error` に戻す（[development.md](./development.md#lighthouse-ci)）
 - [ ] `npm audit` の残り（@grpc/grpc-js・uuid・開発ツール経由のもの）は上流の更新待ち。内容は [migration-progress.md](./migration-progress.md) の「問題・ブロッカー」
 - [ ] 小さな改善（優先度は低い）
@@ -170,7 +173,7 @@ P10 は次がそろうまで始められない。
 | 4   | 採用ページの 1 日の流れ                        | 時刻「AM 00:00」が仮の値                                                                                                                             |
 | 5   | 採用フォームの個人情報の文面                   | 利用目的の文面（仮）、送信内容の保持期間（`inquiries` 180 日・`mail` 30 日の提案値）。プライバシーポリシーのページが無い                             |
 | 6   | トップの CASE STUDY                            | 解消: 施工事例は管理画面で編集する形にし、仮の値（`2026.00.00`・`○○○○○○`）の 4 件は移さない。旧サイトの 3 件は下書きで移す（2 章の施工事例）         |
-| 7   | トップページの表示速度                         | Lighthouse の Performance が 76（目標 85）。原因の写真を小さいサイズでも書き出すか                                                                   |
+| 7   | トップページの表示速度                         | 写真は対応済み（2026-11-05）: モザイクと MISSION の背景に短辺 400px の版を足した。85 には届かず、残りはフォントと JS（3 章）                         |
 | 8   | トップの VEHICLE LINEUP                        | 車両ではなく現場写真（安全朝礼・選別作業・チームワーク）が入っている                                                                                 |
 | 9   | 各ページのタイトルと説明文（meta description） | 旧サイトに無かったため新規に作成した。ミッションページは「MISSION・理念と地域活動」（当初の「MISSION・会社概要」は、ページに会社概要が無いため変更） |
 | 10  | OGP 画像と favicon                             | OGP は写真 `wf-097` を切り出した仮の選定。favicon はロゴの「F」の部分から作った                                                                      |

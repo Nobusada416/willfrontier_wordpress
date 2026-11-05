@@ -131,6 +131,10 @@
       }
     },
     "wf-079-hero": {
+      "xsmall": {
+        "width": 400,
+        "height": 533
+      },
       "small": {
         "width": 768,
         "height": 1024
@@ -141,6 +145,10 @@
       }
     },
     "wf-079": {
+      "xsmall": {
+        "width": 400,
+        "height": 533
+      },
       "small": {
         "width": 768,
         "height": 1024
@@ -181,6 +189,10 @@
       }
     },
     "wf-086-hero": {
+      "xsmall": {
+        "width": 533,
+        "height": 400
+      },
       "small": {
         "width": 768,
         "height": 577
@@ -201,6 +213,10 @@
       }
     },
     "wf-092-hero": {
+      "xsmall": {
+        "width": 400,
+        "height": 533
+      },
       "small": {
         "width": 768,
         "height": 1024
@@ -211,6 +227,10 @@
       }
     },
     "wf-092": {
+      "xsmall": {
+        "width": 400,
+        "height": 533
+      },
       "small": {
         "width": 768,
         "height": 1024
@@ -221,6 +241,10 @@
       }
     },
     "wf-095-hero": {
+      "xsmall": {
+        "width": 400,
+        "height": 533
+      },
       "small": {
         "width": 768,
         "height": 1024
@@ -391,6 +415,10 @@
       }
     },
     "wf-112-hero": {
+      "xsmall": {
+        "width": 533,
+        "height": 400
+      },
       "small": {
         "width": 768,
         "height": 576

@@ -6,6 +6,8 @@ type CrossfadeHeroProps = {
   slugs: readonly [string, string, string]
   // ファーストビューに置く場合に指定する
   priority?: boolean
+  // img の sizes（既定は Picture と同じ 100vw）
+  sizes?: string
   className?: string
   imageClassName?: string
 }
@@ -16,6 +18,7 @@ type CrossfadeHeroProps = {
 export function CrossfadeHero({
   slugs,
   priority = false,
+  sizes,
   className = '',
   imageClassName,
 }: CrossfadeHeroProps) {
@@ -31,6 +34,7 @@ export function CrossfadeHero({
           <Picture
             slug={slug}
             alt=""
+            sizes={sizes}
             priority={priority && index === 0}
             // 2 枚目以降は表示まで 4 秒あるため、ファーストビューでも遅延読み込みにして 1 枚目に帯域を譲る
             loading={priority && index === 0 ? 'eager' : 'lazy'}
