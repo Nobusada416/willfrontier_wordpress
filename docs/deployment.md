@@ -99,6 +99,25 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
 - P10 で行うこと: `connect-src` の `https://*.cloudfunctions.net` は誰のプロジェクトでも一致するため、本番のプロジェクト ID が決まったら `https://asia-northeast1-<project-id>.cloudfunctions.net` に絞る。違反を集めるなら `report-to`（`Reporting-Endpoints`）の追加を検討する
 - P9 時点で、全 9 ページと 404 を Hosting Emulator で開き、違反の報告が出ないことを確認した。reCAPTCHA の読み込みは本番の設定が必要なため、P10 の preview channel で確認する
 
+### 本番プロジェクトの初回設定（willfrontier-hp・2026-11-05〜06 に実施）
+
+コンソール・CLI で行った設定。プロジェクトを作り直すときは同じ手順が必要。
+
+| 設定                           | 内容                                                                                                                                     |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Firestore                      | `(default)` を `asia-northeast1` に作成（`firebase firestore:databases:create`）                                                         |
+| Storage                        | 既定のバケット `willfrontier-hp.firebasestorage.app` を `asia-northeast1` に作成                                                         |
+| Authentication                 | メール/パスワードのみ。利用者による新規登録は無効（`client.permissions.disabledUserSignup`）。Identity Platform にはアップグレードしない |
+| App Check                      | Fraud Defense（旧 reCAPTCHA Enterprise）。コンソールの「適用（Enforce）」は使わない（[forms.md](./forms.md#app-checkfraud-defense)）     |
+| ビルド用のサービス アカウント  | `<プロジェクト番号>-compute@developer.gserviceaccount.com` に `roles/cloudbuild.builds.builder` を付与                                   |
+| `submitInquiry` の呼び出し権限 | Cloud Run のサービス `submitinquiry` に `allUsers` の `roles/run.invoker`                                                                |
+| コンテナ イメージの削除        | `firebase functions:artifacts:setpolicy --location asia-northeast1`（1 日より古いものを削除）                                            |
+
+- 新しいプロジェクトでは、既定のサービス アカウントにロールが自動で付かない。付けないと Functions のビルドの最初の手順（`gcs-fetcher`）で失敗する。
+  付けた直後は反映に数分かかり、同じエラーで失敗することがある
+- `allUsers` の呼び出し権限は、Firebase が関数を**新しく作るときだけ**付ける。最初のデプロイが失敗して関数だけ作られた場合は付かず、
+  ブラウザからの呼び出しが Cloud Run の 403 になる。付けたあとは、App Check のトークンが無い呼び出しが 401（`UNAUTHENTICATED`）になることで確かめた
+
 ### 既知の制約
 
 - `functions/` には専用の `package-lock.json` がない（lockfile は npm workspaces のルートにのみある）。
