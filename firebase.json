@@ -32,7 +32,7 @@
         ]
       },
       {
-        "regex": "^/(?!assets/|media/)[^.]*$",
+        "regex": "^/[^.]*$",
         "headers": [
           {
             "key": "Cache-Control",
