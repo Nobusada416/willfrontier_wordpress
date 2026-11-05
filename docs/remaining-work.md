@@ -31,7 +31,7 @@ P10 は次がそろうまで始められない。
 | 1   | 本番の Firebase プロジェクト  | Blaze プランのプロジェクト ID。Firestore のロケーション（東京 `asia-northeast1` を想定）                         | `.firebaserc`（`willfrontier-hp` を別名 `prod` で登録済み）・CSP・拡張の設定 |
 | 2   | メールの送信元と SMTP         | 差出人のアドレス（`DEFAULT_FROM`）、SMTP の接続文字列とパスワード、送信元ドメインの SPF・DKIM の設定             | Trigger Email 拡張（[forms.md](./forms.md#メール)）                          |
 | 3   | フォームの通知先              | お問い合わせ・安全・採用の各フォームの宛先（複数可）                                                             | `CONTACT_MAIL_TO` / `SAFETY_MAIL_TO` / `RECRUIT_MAIL_TO`                     |
-| 4   | 本番ドメインと切り替え時期    | 公開するドメイン（現在は旧サイトの URL を仮に設定）、DNS を切り替える日、sakura 環境を廃止するか                 | `web/app/content/site.ts` の `SITE.url`・[deployment.md](./deployment.md)    |
+| 4   | 本番ドメインと切り替え時期    | 公開するドメイン（`https://willfrontier.jp`・www なしに決定）、DNS を切り替える日、sakura 環境を廃止するか       | `web/app/content/site.ts` の `SITE.url`・[deployment.md](./deployment.md)    |
 | 5   | GitHub Actions からのデプロイ | Workload Identity Federation 用のサービスアカウントを作る権限（GCP の IAM 管理者）。作業はこちらで手順を用意する | `.github/workflows/`                                                         |
 
 ## 2. P10: デプロイ
@@ -113,9 +113,10 @@ P10 は次がそろうまで始められない。
 
 [deployment.md](./deployment.md#本番切り替え時の-seo-設定) を参照。
 
-- [ ] `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD に使う）
+- [x] `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD に使う。`https://willfrontier.jp`）
 - [ ] 本番のビルドだけ `VITE_ALLOW_INDEXING=true` にする（preview channel では設定しない）
 - [ ] Firebase Hosting にカスタムドメインを追加し、DNS を切り替える
+- [ ] `www.willfrontier.jp` もカスタムドメインに追加し、`willfrontier.jp` へ転送する（正式な URL は www なし）
 - [ ] 切り替え後、Google Search Console に sitemap を登録する
 - [ ] Lighthouse CI の SEO を判定の対象に入れる（現在は noindex のため必ず 69 点で、判定していない。[development.md](./development.md#lighthouse-ci)）
 - [ ] sakura 環境の扱いを決める（残す期間・廃止の時期）

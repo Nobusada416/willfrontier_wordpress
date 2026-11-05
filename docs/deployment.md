@@ -69,7 +69,8 @@ Vite がビルド時にバンドルへ埋め込むため、ビルドするとき
 既定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
 現行の本番は sakura の WordPress で、このビルドはまだ公開されていないため。本番に切り替える際は次の 2 点が必要。
 
-1. `web/app/content/site.ts` の `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD の URL に使う。末尾スラッシュなし）
+1. `web/app/content/site.ts` の `SITE.url` を本番ドメインにする（canonical・OGP・sitemap・JSON-LD の URL に使う。末尾スラッシュなし）。
+   `https://willfrontier.jp`（www なし）に設定済み
 2. 本番用のビルドを `VITE_ALLOW_INDEXING=true` で実行する（例: `VITE_ALLOW_INDEXING=true npm run build`）。
    `web/.env.production` はコミットしていて preview channel のビルドでも読まれるため、ここには書かないこと
    `'true'` 以外の値はすべて「禁止」として扱う

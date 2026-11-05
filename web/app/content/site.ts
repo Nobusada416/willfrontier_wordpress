@@ -3,9 +3,8 @@ export const SITE = {
   name: 'ウィルフロンティア',
   legalName: '株式会社ウィルフロンティア',
   tagline: '都市インフラを支える、産業廃棄物テック。',
-  // canonical・OGP の URL に使う（末尾スラッシュなし）
-  // TODO(P10): 本番を Firebase Hosting に切り替える際に本番ドメインへ変更する
-  url: 'https://willfrontier-pattern-c.classic-market.jp',
+  // canonical・OGP・sitemap・JSON-LD の URL に使う本番ドメイン（末尾スラッシュなし。www なしを正式とする）
+  url: 'https://willfrontier.jp',
 } as const
 
 // SNS でシェアされたときの画像（web/public/og-image.jpg。写真 wf-097 を 1200×630 に切り出したもの）
