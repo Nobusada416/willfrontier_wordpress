@@ -48,7 +48,10 @@ Functions のソースとしてアップロードするのはビルド結果（`
 ### フォームの送信に必要な設定（Firebase）
 
 フォームの送信には、ビルド時の環境変数 `VITE_FIREBASE_API_KEY`・`VITE_FIREBASE_PROJECT_ID`・`VITE_FIREBASE_APP_ID`・`VITE_RECAPTCHA_SITE_KEY` が必要（内容は [forms.md](./forms.md#firebase-の読み込みwebapplibfirebasetssubmitinquiryts)、例は `web/.env.example`）。
-Vite がビルド時にバンドルへ埋め込むため、ビルドするときに渡す（環境変数か、リポジトリに含めない `web/.env.production.local`。環境変数が優先される）。
+Vite がビルド時にバンドルへ埋め込むため、ビルドするときに渡す。本番（`willfrontier-hp`）の値は **`web/.env.production` にコミットしている**
+（どれもバンドルに入りブラウザから見える値で、秘密情報ではないため。CI からのデプロイでも Secrets を用意せずに済む）。
+環境変数・`web/.env.production.local`（リポジトリに含めない）があればそちらが優先される。
+`web/.env.production` は production モードの `npm run dev`・`npm run build` でも読まれるため、Emulator を使わないビルドは本番の Firebase につながる。
 
 `firebase deploy` の Hosting の `predeploy` は、通常のビルドではなくデプロイ用のビルド `npm run build:deploy -w @wf/web` を実行する。
 ビルドの前に `web/scripts/verify-deploy-env.ts` が上の 4 つを確かめ、無い・空（空白だけを含む）なら欠けている変数名を挙げて失敗する。
@@ -56,7 +59,8 @@ Vite がビルド時にバンドルへ埋め込むため、ビルドするとき
 
 - 確かめるのはビルド前の環境変数。ビルドと同じモード（production）・同じ `web/` の `.env` 系ファイルを Vite の `loadEnv` で読むため、バンドルに入る値と一致する（`VITE_ALLOW_INDEXING` を読む `generate-seo-files.ts` と同じ前提）。
   ビルド後にバンドルを調べる方式は、値を知らないと探せず、圧縮後のコードの形に依存するため採らなかった
-- 通常の `npm run build`（CI の check・e2e・lighthouse）は確かめない。E2E（`web/e2e/forms.spec.ts`）は設定の無いビルドで送信失敗の案内が出ることを確かめている
+- 通常の `npm run build`（CI の check・e2e・lighthouse）は確かめない（`VITE_RECAPTCHA_SITE_KEY` が未登録の間も、ビルドと E2E を止めないため）。
+  E2E は本番の設定が入ったビルドに対して実行し、Firebase への通信は遮断・差し替える（[development.md](./development.md#e2eplaywright--axe)）
 - `VITE_USE_FIREBASE_EMULATORS=true` のビルドは demo プロジェクトで動くため確かめない。本番向けのビルドでは設定しないこと
 - 判定（必須の変数・空の扱い）は `web/app/lib/firebaseEnv.ts` にあり、送信時の確認と共通。テストは `web/scripts/deployEnv.test.ts`
 
@@ -66,7 +70,8 @@ Vite がビルド時にバンドルへ埋め込むため、ビルドするとき
 現行の本番は sakura の WordPress で、このビルドはまだ公開されていないため。本番に切り替える際は次の 2 点が必要。
 
 1. `web/app/content/site.ts` の `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD の URL に使う。末尾スラッシュなし）
-2. 本番用のビルドを `VITE_ALLOW_INDEXING=true` で実行する（例: `VITE_ALLOW_INDEXING=true npm run build`。`web/.env.production` に書いてもよい）。
+2. 本番用のビルドを `VITE_ALLOW_INDEXING=true` で実行する（例: `VITE_ALLOW_INDEXING=true npm run build`）。
+   `web/.env.production` はコミットしていて preview channel のビルドでも読まれるため、ここには書かないこと
    `'true'` 以外の値はすべて「禁止」として扱う
 
 preview channel など本番以外のビルドでは設定しないこと。
