@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { submitInquiry } from './submitInquiry'
+import { SUBMIT_TIMEOUT_MS, submitInquiry } from './submitInquiry'
 
 const payload = {
   formType: 'contact' as const,
@@ -58,5 +58,32 @@ describe('submitInquiry', () => {
   it('Firebase の読み込みに失敗した場合（通信エラーなど）も送信の失敗として扱う', async () => {
     const call = vi.fn().mockRejectedValue(new TypeError('Failed to fetch'))
     await expect(submitInquiry(payload, call)).resolves.toEqual({ status: 'error' })
+  })
+
+  // reCAPTCHA が読み込めない（広告ブロッカーなど）と、Firebase の SDK は App Check のトークンを待ち続け、
+  // 送信が終わらない（SDK の時間切れは通信にしか効かない）。送信全体に時間切れを設けて、失敗の案内を出す
+  it('送信が時間内に終わらなければ、送信の失敗として扱う', async () => {
+    vi.useFakeTimers()
+    try {
+      const call = vi.fn(() => new Promise<never>(() => {}))
+      const result = submitInquiry(payload, call)
+      await vi.advanceTimersByTimeAsync(SUBMIT_TIMEOUT_MS - 1)
+      let settled = false
+      void result.then(() => {
+        settled = true
+      })
+      await vi.advanceTimersByTimeAsync(0)
+      expect(settled).toBe(false)
+
+      await vi.advanceTimersByTimeAsync(1)
+      await expect(result).resolves.toEqual({ status: 'error' })
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('時間切れの待ち時間は、関数のコールドスタートと App Check の準備に十分な長さにする', () => {
+    expect(SUBMIT_TIMEOUT_MS).toBeGreaterThanOrEqual(15_000)
+    expect(SUBMIT_TIMEOUT_MS).toBeLessThanOrEqual(30_000)
   })
 })

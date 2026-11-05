@@ -247,6 +247,11 @@ npm run emulators   # functions をビルドしてから Functions・Firestore�
 Firebase の SDK は大きいため、ページ表示時には読み込まず、フォームの操作を始めたときに dynamic import する（ビルドでは別チャンクになる）。
 App Check（Fraud Defense）を初期化してから、`asia-northeast1` の `submitInquiry` を `httpsCallable` で呼ぶ。
 
+送信全体（Firebase の読み込み・App Check のトークン・関数の呼び出し）には **20 秒の時間切れ**（`web/app/lib/submitInquiry.ts` の `SUBMIT_TIMEOUT_MS`）を設け、
+超えたら送信の失敗（電話番号を添えた案内）にする。reCAPTCHA が読み込めない（広告ブロッカー・社内のフィルタなど）と、
+Firebase の SDK は App Check のトークンを待ち続け、SDK の時間切れ（通信だけが対象）も効かず、送信中のまま止まるため。
+時間切れのあとに関数の処理が終わり、問い合わせが届いている場合もある（利用者が送り直すと重複する）。
+
 | 環境変数（`web/.env.local` など）  | 内容                                                                                      |
 | ---------------------------------- | ----------------------------------------------------------------------------------------- |
 | `VITE_FIREBASE_API_KEY`            | Firebase の Web アプリ設定                                                                |

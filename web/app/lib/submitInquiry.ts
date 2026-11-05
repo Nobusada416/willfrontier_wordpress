@@ -10,6 +10,30 @@ export type SubmitResult =
 
 const callSubmitInquiry: InquiryCallable = async (payload) => (await loadInquiryCallable())(payload)
 
+// 送信全体（Firebase の読み込み・App Check のトークン・関数の呼び出し）の時間切れ。
+// reCAPTCHA が読み込めない（広告ブロッカーなど）と SDK はトークンを待ち続け、SDK の時間切れ（通信だけが対象）も効かないため。
+// 関数のコールドスタートと App Check の準備に十分な長さにする
+export const SUBMIT_TIMEOUT_MS = 20_000
+
+class SubmitTimeoutError extends Error {
+  constructor() {
+    super(`送信が ${SUBMIT_TIMEOUT_MS / 1000} 秒以内に終わりませんでした`)
+    this.name = 'SubmitTimeoutError'
+  }
+}
+
+async function withTimeout<T>(promise: Promise<T>): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new SubmitTimeoutError()), SUBMIT_TIMEOUT_MS)
+  })
+  try {
+    return await Promise.race([promise, timeout])
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
 
@@ -30,7 +54,7 @@ export async function submitInquiry(
   call: InquiryCallable = callSubmitInquiry,
 ): Promise<SubmitResult> {
   try {
-    await call(payload)
+    await withTimeout(call(payload))
     return { status: 'ok' }
   } catch (error: unknown) {
     if (isRecord(error) && error.code === 'functions/invalid-argument') {
