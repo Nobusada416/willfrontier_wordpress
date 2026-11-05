@@ -121,7 +121,7 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。�
   「残り 8 枚なし」はビルドした HTML からモザイクの 2〜9 枚目を外して計った参考値（写真を軽くして得られる上限の目安）。
   画面外の写真（VEHICLE・GALLERY など）を外しても LCP は 4.3 → 4.1 秒しか縮まなかった。
   写真だけでは 85 に届かず、残りの原因は FCP（2.5 秒。全ページ共通の JS 約 180KB と Google Fonts の CSS 約 117KB）と、
-  JS の実行（TBT。React の hydrate と GSAP）。Lighthouse CI の Performance は warn のまま
+  JS の実行（TBT。React の hydrate と GSAP）。ユーザーの判断（2026-11-05）で、フォントや JS の軽量化はこれ以上行わない。Lighthouse CI の Performance は warn のまま
 
 - 移行の分岐後に main（WordPress）へ入ったクライアントの修正要望を React 版にも取り込んだ。PR #41・#43 は PR #42、#45・#46 は PR #44、#47・#48 は `migration/port-main-fixes`。
   退職者が写っている wf-100 と、掲載をやめた wf-087 は削除し、wf-117・wf-118・wf-084 に差し替えた（`web/scripts/mediaReferences.test.ts` で再登場を防ぐ）。

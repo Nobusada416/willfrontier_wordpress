@@ -102,7 +102,7 @@ Performance を `warn` にとどめる理由:
 
 - シミュレーションの計測値は、実行するマシン（GitHub Actions のランナーは共有で性能が揺れる）と外部の Google Fonts の応答で数点〜10 点ほど変わる
 - トップページは写真の xsmall を足した後も目標に届いていない（原因と計測値は [migration-progress.md](./migration-progress.md) の「問題・ブロッカー」）。
-  error にすると常に CI が失敗するため、改善するまでは warn で推移を見る
+  error にすると常に CI が失敗するため、warn で推移を見る。これ以上の軽量化（フォント・JS）は行わない（ユーザー判断、2026-11-05）
 
 Chrome はローカルではインストール済みの Google Chrome、CI では ubuntu-latest の Google Chrome を使う。
 Chrome が入っていない環境（Claude Code のクラウド環境など）では、Playwright の Chromium を `CHROME_PATH` で指定する
