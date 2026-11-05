@@ -49,12 +49,16 @@ describe('buildOrganizationJsonLd', () => {
     })
   })
 
-  it('本社の電話番号・FAX・メールと所在地を持つ', () => {
+  // 迷惑メールを避けるため、メールアドレスは検索エンジン向けの情報に載せない（ユーザー判断、2026-11-05）
+  it('メールアドレスは持たない', () => {
+    expect(data).not.toHaveProperty('email')
+  })
+
+  it('本社の電話番号・FAX と所在地を持つ', () => {
     const hq = OFFICES[0]
     expect(data).toMatchObject({
       telephone: hq?.tel,
       faxNumber: hq?.fax,
-      email: hq?.mail,
       address: {
         '@type': 'PostalAddress',
         postalCode: hq?.postalCode,

@@ -61,6 +61,12 @@ describe('安全ページ', () => {
     })
   })
 
+  // 3 件目の写真は打ち合わせの様子のため、見出しを【安全会議】にする（ユーザー判断、2026-11-05）
+  it('安全の取り組みの見出しは重複しない', () => {
+    const titles = SAFETY_PRACTICES.map((practice) => practice.title)
+    expect(titles).toEqual(['【安全朝礼】', '【屋内作業・点検】', '【安全会議】'])
+  })
+
   it('背景動画は一時停止できる', () => {
     renderPage()
     const section = screen.getByRole('region', { name: '毎日の積み重ねが、現場を守る。' })

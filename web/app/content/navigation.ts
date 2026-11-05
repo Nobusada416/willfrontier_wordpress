@@ -3,13 +3,15 @@ export type NavItem = {
   href: string
 }
 
-// ヘッダーのグローバルナビ（各下層ページへ遷移）
+// ヘッダーのグローバルナビ。COMPANY はトップの会社概要を指す
+// （旧サイトは COMPANY がミッションページを指していたため、MISSION を分けた。ユーザー判断、2026-11-05）
 export const GLOBAL_NAV: readonly NavItem[] = [
+  { label: 'MISSION', href: '/mission/' },
   { label: 'SERVICE', href: '/service/' },
   { label: 'WORKFLOW', href: '/workflow/' },
   { label: 'VEHICLES', href: '/vehicles/' },
   { label: 'CASE', href: '/casestudy/' },
-  { label: 'COMPANY', href: '/mission/' },
+  { label: 'COMPANY', href: '/#company' },
 ]
 
 // フッターナビ（トップページの各セクションへ遷移）
