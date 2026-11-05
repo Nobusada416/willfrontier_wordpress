@@ -18,7 +18,7 @@ const MAIL_TO_PARAMS = {
 
 export const mailTo = (formType: FormType) => MAIL_TO_PARAMS[formType].value()
 
-// App Check（reCAPTCHA v3）を強制するか。
+// App Check（Fraud Defense・旧 reCAPTCHA Enterprise）を強制するか。
 // Functions Emulator は App Check トークンを検証しない（署名を確かめずに読むだけ）ため、強制しても意味がなく、
 // demo- プロジェクトではトークンの取得もできない。Emulator では強制せず、本番では常に強制する
 export const shouldEnforceAppCheck = (env: Readonly<Record<string, string | undefined>>) =>

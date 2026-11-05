@@ -24,7 +24,7 @@ export type FirebaseSettings = {
     // 施工事例の写真の置き場所（管理画面）
     storageBucket: string
   }
-  // App Check（reCAPTCHA v3）のサイトキー。Emulator で動かす場合は無くてよい
+  // App Check（Fraud Defense・旧 reCAPTCHA Enterprise）のサイトキー。Emulator で動かす場合は無くてよい
   recaptchaSiteKey: string | undefined
   useEmulators: boolean
 }
@@ -121,7 +121,7 @@ async function createInquiryCallable(): Promise<InquiryCallable> {
       Object.assign(globalThis, { FIREBASE_APPCHECK_DEBUG_TOKEN: true })
     }
     appCheckSdk.initializeAppCheck(app, {
-      provider: new appCheckSdk.ReCaptchaV3Provider(settings.recaptchaSiteKey),
+      provider: new appCheckSdk.ReCaptchaEnterpriseProvider(settings.recaptchaSiteKey),
       isTokenAutoRefreshEnabled: true,
     })
   }

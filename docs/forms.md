@@ -102,7 +102,13 @@ onCall のラッパーは薄くし、Firebase に依存しない純粋な関数�
 `index.ts` の本文で `setGlobalOptions` を呼ぶと関数の定義より後になり、リージョンが既定（`us-central1`）になってしまう。
 そのため `globalOptions.ts` を関数を定義するモジュールの先頭で `import` し、`index.test.ts` でリージョンを確かめている。
 
-### App Check（reCAPTCHA v3）
+### App Check（Fraud Defense）
+
+プロバイダは **Fraud Defense（旧 reCAPTCHA Enterprise）**（`ReCaptchaEnterpriseProvider`）。
+reCAPTCHA Classic（v3）は非推奨で、App Check に新しく登録できない（2026-11 時点のコンソール）ため使わない。
+キーは Google Cloud のプロジェクト `willfrontier-hp` で作り、App Check の「Fraud Defense」にサイトキーを登録する（シークレットキーは使わない）。
+キーに登録するドメインは `willfrontier.jp`・`willfrontier-hp.web.app`・`willfrontier-hp.firebaseapp.com`。
+読み込み先（`https://www.google.com/recaptcha/enterprise.js`）は CSP の `https://www.google.com/recaptcha/` に含まれる。
 
 `submitInquiry` は `enforceAppCheck: true` で、App Check のトークンがない呼び出しを拒否する。
 ただし **Functions Emulator 上では強制しない**（`FUNCTIONS_EMULATOR=true` のとき。`params.ts` の `shouldEnforceAppCheck`）。
@@ -111,7 +117,7 @@ onCall のラッパーは薄くし、Firebase に依存しない純粋な関数�
 - `demo-` プロジェクトでは App Check のトークン（debug token を含む）を取得できず、強制すると画面から一切送信できない
 - 判定は Emulator が設定する環境変数だけで行い、本番で誤って無効にできる設定（パラメータなど）は設けない
 
-App Check の動作確認（reCAPTCHA v3 のサイトキー・debug token の登録）は、本番プロジェクトを用意する P10 で行う。
+App Check の動作確認（debug token の登録を含む）は、P10 の preview channel で行う。
 トークンの再利用対策（`consumeAppCheckToken` と limited-use トークン）は使っていない。必要になれば P10 で検討する。
 
 ## 保存するデータと TTL
@@ -235,14 +241,14 @@ npm run emulators   # functions をビルドしてから Functions・Firestore�
 ### Firebase の読み込み（`web/app/lib/firebase.ts`・`submitInquiry.ts`）
 
 Firebase の SDK は大きいため、ページ表示時には読み込まず、フォームの操作を始めたときに dynamic import する（ビルドでは別チャンクになる）。
-App Check（reCAPTCHA v3）を初期化してから、`asia-northeast1` の `submitInquiry` を `httpsCallable` で呼ぶ。
+App Check（Fraud Defense）を初期化してから、`asia-northeast1` の `submitInquiry` を `httpsCallable` で呼ぶ。
 
 | 環境変数（`web/.env.local` など）  | 内容                                                                                      |
 | ---------------------------------- | ----------------------------------------------------------------------------------------- |
 | `VITE_FIREBASE_API_KEY`            | Firebase の Web アプリ設定                                                                |
 | `VITE_FIREBASE_PROJECT_ID`         | 同上                                                                                      |
 | `VITE_FIREBASE_APP_ID`             | 同上                                                                                      |
-| `VITE_RECAPTCHA_SITE_KEY`          | App Check（reCAPTCHA v3）のサイトキー                                                     |
+| `VITE_RECAPTCHA_SITE_KEY`          | App Check（Fraud Defense・旧 reCAPTCHA Enterprise）のサイトキー                           |
 | `VITE_USE_FIREBASE_EMULATORS=true` | Emulator に接続する。上の 4 つが無ければ demo プロジェクト（`demo-willfrontier`）で動かす |
 
 本番向けのビルドで設定が欠けている場合は、送信時に欠けている変数名を挙げて失敗する（画面には送信失敗の案内が出る）。

@@ -150,7 +150,7 @@ describe('loadInquiryCallable', () => {
       .mockImplementation(() => ({}))
     vi.doMock('firebase/app-check', () => ({
       initializeAppCheck,
-      ReCaptchaV3Provider: vi.fn(),
+      ReCaptchaEnterpriseProvider: vi.fn(),
     }))
     const callable = vi.fn().mockResolvedValue({ data: { ok: true } })
     vi.doMock('firebase/functions', () => ({
@@ -172,5 +172,35 @@ describe('loadInquiryCallable', () => {
 
     expect(initializeApp).toHaveBeenCalledTimes(1)
     expect(callable).toHaveBeenCalledTimes(1)
+  })
+
+  it('App Check は Fraud Defense（旧 reCAPTCHA Enterprise）のサイトキーで初期化する', async () => {
+    // reCAPTCHA Classic（v3）は非推奨で、App Check に新しく登録できないため
+    vi.stubEnv('VITE_FIREBASE_API_KEY', 'api-key')
+    vi.stubEnv('VITE_FIREBASE_PROJECT_ID', 'willfrontier')
+    vi.stubEnv('VITE_FIREBASE_APP_ID', 'app-id')
+    vi.stubEnv('VITE_RECAPTCHA_SITE_KEY', 'site-key')
+    const app = {}
+    vi.doMock('firebase/app', () => ({ initializeApp: () => app, getApps: () => [] }))
+    const provider = { kind: 'enterprise' }
+    const ReCaptchaEnterpriseProvider = vi.fn(function () {
+      return provider
+    })
+    const initializeAppCheck = vi.fn()
+    vi.doMock('firebase/app-check', () => ({ initializeAppCheck, ReCaptchaEnterpriseProvider }))
+    vi.doMock('firebase/functions', () => ({
+      getFunctions: () => ({}),
+      connectFunctionsEmulator: vi.fn(),
+      httpsCallable: () => vi.fn(),
+    }))
+    const { loadInquiryCallable } = await import('./firebase')
+
+    await loadInquiryCallable()
+
+    expect(ReCaptchaEnterpriseProvider).toHaveBeenCalledWith('site-key')
+    expect(initializeAppCheck).toHaveBeenCalledWith(app, {
+      provider,
+      isTokenAutoRefreshEnabled: true,
+    })
   })
 })

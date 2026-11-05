@@ -44,7 +44,8 @@ P10 は次がそろうまで始められない。
 - [x] Web アプリを登録し、`VITE_FIREBASE_API_KEY`・`VITE_FIREBASE_PROJECT_ID`・`VITE_FIREBASE_APP_ID`・`VITE_FIREBASE_STORAGE_BUCKET` を本番ビルドに渡す
       （`web/.env.production` にコミットして渡す）。
       渡し忘れると `firebase deploy` の predeploy（`npm run build:deploy`）が失敗する（[deployment.md](./deployment.md#フォームの送信に必要な設定firebase)）
-- [ ] App Check に reCAPTCHA v3 を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkrecaptcha-v3)）
+- [ ] App Check に Fraud Defense（旧 reCAPTCHA Enterprise）を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkfraud-defense)）。
+      reCAPTCHA Classic（v3）は非推奨で登録できなかったため、コードは `ReCaptchaEnterpriseProvider` に変更済み
 - [ ] トークンの再利用対策（limited-use トークン）が必要か判断する
 - [ ] Firestore のルール・インデックス（TTL と施工事例の複合インデックス）を反映する（`firebase deploy --only firestore`）。
       ルールは「施工事例の公開分だけ誰でも読める・書き込みは管理者だけ、ほかは全拒否」
@@ -136,7 +137,7 @@ P10 は次がそろうまで始められない。
   - ボットが隠し項目 `wf_hp` を数値で送ると `invalid-argument` と項目名が返る（`functions/src/handleInquiry.ts`）。docs の「入力エラーの詳細を返さない」と食い違う
   - 画面を通さない送信で、zod の英語の既定メッセージがそのまま返る
   - 通知メールに受付日時・ドキュメント ID が無く、`inquiries` と照合しにくい（`functions/src/buildMail.ts`）
-  - reCAPTCHA v3 のバッジの表示（隠す場合は規約の文言が必要）
+  - reCAPTCHA のバッジの表示（隠す場合は規約の文言が必要）
   - `@wf/shared` を 1 つの入口から読むため、フォームのページに施工事例のスキーマも含まれる
 
 ## 4. P11: WordPress 関連ファイルの削除
