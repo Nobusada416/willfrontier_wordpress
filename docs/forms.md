@@ -158,15 +158,19 @@ App Check の動作確認（debug token の登録を含む）は、P10 の previ
 
 - SMTP の接続文字列（`SMTP_CONNECTION_URI`）とパスワード（`SMTP_PASSWORD`、Secret Manager）はファイルに書かず、導入時に入力する
 - 拡張の TTL（`delivery.expireAt`）は使わない（`TTL_EXPIRE_TYPE=never`）。`submitInquiry` が最上位に書く `expireAt` で削除する
-- `firebase.json` の `"extensions"` にはまだ登録していない。登録すると `firebase deploy` で拡張がインストールされ、
-  `firebase emulators:start` でも Extensions Emulator が拡張のソースを取得して起動しようとするため、導入（P10）と同時に登録する
+- `firebase.json` の `"extensions"` に `firebase/firestore-send-email@0.2.10` を固定して登録している。`firebase deploy`（`--only extensions`）で拡張がインストールされる
+- 関数（`processQueue`）は東京で動かす（`firebaseextensions.v1beta.function/location=asia-northeast1`。既定の us-central1 だと個人情報を含む `mail` が米国で処理される）
+- Emulator は `--only` に `extensions` を含めない限り拡張を読み込まない（結合テスト・E2E は影響を受けない）。
+  `firebase emulators:start`（`--only` なし）では拡張のソースを取得して起動する。SMTP の設定が無いため、Emulator での送信は失敗する（Mailpit を使う場合は下記）
 
-P10 で行うこと:
+### 本番の送信元（Google Workspace）
 
-1. `firebase.json` に `"extensions": { "firestore-send-email": "firebase/firestore-send-email@<バージョン>" }` を追加する（バージョンは固定する）
-2. `DEFAULT_FROM`・`DATABASE_REGION`（本番の Firestore のロケーション）を確定する
-3. `firebase deploy --only extensions` で SMTP の接続文字列・パスワードを入力する
-4. 宛先のパラメータ（`CONTACT_MAIL_TO` など）を本番用に設定する（`functions/.env.<プロジェクト ID>` をコミットするか、デプロイ時の入力にするかを決める）
+- 差出人・宛先はどちらも `info@willfrontier.jp`（Google Workspace）。3 フォームとも同じ宛先
+- SMTP は `smtp.gmail.com:465`（SMTPS）。接続文字列は `smtps://info@willfrontier.jp@smtp.gmail.com:465`、パスワードは `info@willfrontier.jp` の**アプリ パスワード**
+  （2 段階認証プロセスが必要）。どちらも `firebase deploy --only extensions` の入力で設定する（パスワードは Secret Manager に保存される）
+- Gmail の SMTP は差出人を認証したアカウントに書き換えるため、`DEFAULT_FROM` は同じアドレスにしている
+- 宛先は `functions/.env.willfrontier-hp`（コミットする。会社の代表アドレスで、公開して差し支えない）
+- Google Workspace の送信上限（1 日 2,000 通程度）に対して、問い合わせの件数は十分に少ない
 
 ## ローカル開発（Emulator）
 

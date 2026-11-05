@@ -68,13 +68,12 @@ P10 は次がそろうまで始められない。
 
 [forms.md](./forms.md#メール) の「P10 で行うこと」のとおり。
 
-- [ ] `firebase.json` の `"extensions"` に `firebase/firestore-send-email` をバージョンを固定して登録する
-- [ ] `extensions/firestore-send-email.env` の `DEFAULT_FROM`・`DATABASE_REGION` を確定する
-- [ ] `firebase deploy --only extensions` で SMTP の接続文字列とパスワード（Secret Manager）を入力する
-- [ ] 宛先のパラメータを本番用に設定する（`functions/.env.<プロジェクト ID>` をコミットするか、デプロイ時の入力にするかを決める）
+- [x] `firebase.json` の `"extensions"` に `firebase/firestore-send-email` をバージョンを固定して登録する（0.2.10）
+- [x] `extensions/firestore-send-email.env` の `DEFAULT_FROM`・`DATABASE_REGION` を確定する（`info@willfrontier.jp`・`asia-northeast1`）
+- [ ] `firebase deploy --only extensions` で SMTP の接続文字列とパスワード（Secret Manager）を入力する（Google Workspace のアプリ パスワード。[forms.md](./forms.md#本番の送信元google-workspace)）
+- [ ] 宛先のパラメータを本番用に設定する（`functions/.env.willfrontier-hp` をコミットする。3 フォームとも `info@willfrontier.jp`）
 - [ ] `functions/` に専用の lockfile がない問題の方針を決める（[deployment.md](./deployment.md#既知の制約)）
-- [ ] 拡張機能の関数のロケーションを東京にする（`extensions/firestore-send-email.env` に `firebaseextensions.v1beta.function/location` が無く、
-      既定の us-central1 だと個人情報を含む `mail` が米国で処理される）
+- [x] 拡張機能の関数のロケーションを東京にする（`extensions/firestore-send-email.env` の `firebaseextensions.v1beta.function/location`）
 - [ ] **メールの送信失敗に気づける仕組みを作る**。拡張機能が `mail` に `delivery.state=ERROR` を書いても通知されず、利用者には「送信しました」と出るため、
       問い合わせが気づかれずに失われる。Cloud Monitoring のログアラートなどで通知する（Functions の `internal` エラーも同様）
 - [ ] 送信回数の制限（レート制限・重複送信の対策）を入れるか決める。今は App Check と `maxInstances: 5` だけ。limited-use トークンの判断とあわせて検討する
