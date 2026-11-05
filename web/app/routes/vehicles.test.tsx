@@ -76,6 +76,12 @@ describe('車両ページ', () => {
     expect(screen.getByRole('link', { name: 'お問い合わせ' })).toHaveAttribute('href', '/contact/')
   })
 
+  // 掲載している主要車両の数と合わないため、副題に種類の数を書かない（ユーザー判断、2026-11-05）
+  it('ヒーローの副題に車両の種類の数を書かない', () => {
+    renderPage()
+    expect(screen.getByText(/現場を支える/)).not.toHaveTextContent(/\d+\s*種類/)
+  })
+
   it('ページ名を title に使う', () => {
     expect(meta()).toContainEqual({ title: 'VEHICLES・保有車両｜ウィルフロンティア' })
   })

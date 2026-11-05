@@ -25,7 +25,7 @@ export default function VehiclesPage() {
       <PhotoHero
         background={<CrossfadeHero slugs={VEHICLE_HERO_PHOTOS} priority />}
         title="VEHICLES"
-        subtitle="車両ラインナップ ─ 現場を支える12種類の頼れる相棒"
+        subtitle="車両ラインナップ ─ 現場を支える頼れる相棒たち"
       />
 
       <section

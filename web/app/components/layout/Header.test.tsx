@@ -31,6 +31,17 @@ describe('Header（PC 表示のナビ）', () => {
     }
   })
 
+  it('グローバルナビは MISSION から COMPANY まで並び、COMPANY はトップの会社概要を指す', () => {
+    expect(GLOBAL_NAV).toEqual([
+      { label: 'MISSION', href: '/mission/' },
+      { label: 'SERVICE', href: '/service/' },
+      { label: 'WORKFLOW', href: '/workflow/' },
+      { label: 'VEHICLES', href: '/vehicles/' },
+      { label: 'CASE', href: '/casestudy/' },
+      { label: 'COMPANY', href: '/#company' },
+    ])
+  })
+
   it('CONTACT ボタンはお問い合わせページを指す（旧実装の /safety/ から修正）', () => {
     renderHeader()
     expect(

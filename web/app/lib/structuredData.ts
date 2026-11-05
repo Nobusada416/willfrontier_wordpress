@@ -44,7 +44,6 @@ export const buildOrganizationJsonLd = () => ({
   foundingDate: COMPANY_ESTABLISHED,
   telephone: headOffice.tel,
   faxNumber: headOffice.fax,
-  ...(headOffice.mail ? { email: headOffice.mail } : {}),
   address: postalAddressOf(headOffice),
   location: OFFICES.map((office) => ({
     '@type': 'Place' as const,

@@ -42,8 +42,8 @@ export function Header() {
       <div className="mx-auto flex h-header max-w-7xl items-center justify-between px-6 md:px-12">
         <Logo />
 
-        <nav aria-label="グローバルナビ" className="hidden lg:block">
-          <ul className="flex items-center gap-10">
+        <nav aria-label="グローバルナビ" className="hidden px-6 lg:block">
+          <ul className="flex items-center gap-6 xl:gap-10">
             {GLOBAL_NAV.map((item) => (
               <li key={item.href}>
                 <NavLink
