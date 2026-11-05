@@ -66,11 +66,10 @@ describe('caseStudiesQueryUrl', () => {
     expect(caseStudiesQueryUrl({ VITE_FIREBASE_PROJECT_ID: '  ' })).toBeUndefined()
   })
 
-  it('設定が無いビルドに限り、E2E が置いたプロジェクト ID を使う（本番の設定は上書きしない）', () => {
+  it('接続先はビルド時の設定だけで決まり、ページ側のグローバル変数では変えられない', () => {
+    // E2E は接続先を変えず、Playwright で応答を差し替える（e2e/support/caseStudies.ts）
     vi.stubGlobal('__WF_E2E_FIRESTORE_PROJECT_ID__', 'demo-e2e')
-    expect(caseStudiesQueryUrl({})).toBe(
-      'https://firestore.googleapis.com/v1/projects/demo-e2e/databases/(default)/documents:runQuery',
-    )
+    expect(caseStudiesQueryUrl({})).toBeUndefined()
     expect(caseStudiesQueryUrl({ VITE_FIREBASE_PROJECT_ID: 'willfrontier' })).toContain(
       '/projects/willfrontier/',
     )

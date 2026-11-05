@@ -1,4 +1,5 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './support/test'
+import { SUBMIT_TIMEOUT_MS } from '../app/lib/submitInquiry'
 import { blockExternalRequests, gotoHydrated } from './support/page'
 
 // フォームの送信処理（Firebase）は E2E では呼ばない。外部への通信を遮断し、
@@ -26,9 +27,12 @@ for (const form of FORMS) {
   })
 }
 
+// 外部への通信を遮断すると reCAPTCHA（App Check）を読み込めず、送信は時間切れ（SUBMIT_TIMEOUT_MS）で失敗する。
+// 広告ブロッカーなどで reCAPTCHA が読み込めない利用者と同じ状況
 test('お問い合わせフォームは、送信に失敗すると電話番号を添えた案内を出し、入力を残す', async ({
   page,
 }) => {
+  test.setTimeout(SUBMIT_TIMEOUT_MS + 30_000)
   await blockExternalRequests(page)
   await gotoHydrated(page, '/contact/')
   const form = page.locator('main form')
@@ -44,7 +48,7 @@ test('お問い合わせフォームは、送信に失敗すると電話番号�
   await page.keyboard.press('Enter')
 
   const alert = form.getByRole('alert')
-  await expect(alert).toContainText('送信に失敗しました')
+  await expect(alert).toContainText('送信に失敗しました', { timeout: SUBMIT_TIMEOUT_MS + 10_000 })
   await expect(alert.getByRole('link')).toHaveAttribute('href', /^tel:/)
   await expect(form.getByRole('textbox', { name: '担当者名' })).toHaveValue('山田 太郎')
   await expect(page.getByRole('dialog')).toBeHidden()

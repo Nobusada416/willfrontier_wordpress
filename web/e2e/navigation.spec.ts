@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './support/test'
 import { gotoHydrated } from './support/page'
 
 // フッターナビ（/#company など）で下層ページからトップの各セクションへ移動し、ブラウザの「戻る」で元のページへ戻る

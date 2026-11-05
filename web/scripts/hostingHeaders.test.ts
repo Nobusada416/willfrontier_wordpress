@@ -98,3 +98,35 @@ describe('Content-Security-Policy（Report-Only）', () => {
     expect(csp.get('media-src')).toEqual(["'self'"])
   })
 })
+
+describe('ヘッダーの regex', () => {
+  const regexRules = firebaseJson.hosting.headers.filter((rule) => rule.regex !== undefined)
+
+  // Firebase Hosting の regex は RE2 で解釈される。先読み・後読み・後方参照は RE2 に無く、
+  // ローカルの JavaScript では通ってもデプロイ（バージョンの確定）が 400 で失敗する
+  it('RE2 が対応しない構文（先読み・後読み・後方参照）を使わない', () => {
+    for (const { regex } of regexRules) {
+      expect(regex).not.toMatch(/\(\?<?[=!]|\\[1-9]/)
+    }
+  })
+
+  it('no-cache は HTML の URL（拡張子なし）にだけ付け、/assets/・/media/ などのファイルには付けない', () => {
+    const rule = regexRules.find((r) =>
+      r.headers.some((header) => header.key === 'Cache-Control' && header.value === 'no-cache'),
+    )
+    const pattern = new RegExp(rule?.regex ?? '(?!)')
+    for (const path of ['/', '/mission/', '/mission', '/casestudy/', '/admin/case-studies/new/']) {
+      expect(pattern.test(path), path).toBe(true)
+    }
+    for (const path of [
+      '/assets/entry.client-abc123.js',
+      '/assets/root-abc123.css',
+      '/media/photos/small/wf-001.webp',
+      '/media/videos/shorts/s11.mp4',
+      '/og-image.jpg',
+      '/robots.txt',
+    ]) {
+      expect(pattern.test(path), path).toBe(false)
+    }
+  })
+})

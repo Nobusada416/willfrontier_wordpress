@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './support/test'
 import { formatViolations, scanA11y } from './support/axe'
 import { mockCaseStudies, recordFirestoreRequests, testCases } from './support/caseStudies'
 import { gotoHydrated } from './support/page'
@@ -11,15 +11,14 @@ const EMPTY_MESSAGE = '施工事例は準備中です。お問い合わせから
 const ERROR_MESSAGE = '施工事例を読み込めませんでした。時間をおいて再度お試しください。'
 
 test.describe('施工事例ページ（/casestudy/）', () => {
-  test('Firebase の設定が無いビルドでは通信せず、失敗の案内と「再読み込み」を出す', async ({
-    page,
-  }) => {
+  // 設定の無いビルドで通信しないことは、単体テスト（app/lib/caseStudies.test.ts）で確かめる
+  test('Firestore につながらなければ、失敗の案内と「再読み込み」を出す', async ({ page }) => {
     const requests = await recordFirestoreRequests(page)
     await gotoHydrated(page, '/casestudy/')
     const projects = page.getByRole('region', { name: '主要施工事例' })
     await expect(projects.getByText(ERROR_MESSAGE)).toBeVisible()
     await expect(projects.getByRole('button', { name: '再読み込み' })).toBeVisible()
-    expect(requests).toEqual([])
+    expect(requests).toHaveLength(1)
   })
 
   test('公開中の事例を新しい順に CASE 01, 02… で表示し、写真を読み込む', async ({ page }) => {

@@ -3,7 +3,7 @@
 interface ImportMetaEnv {
   // 'true' のときだけ検索エンジンへの登録を許可する（lib/indexing.ts）
   readonly VITE_ALLOW_INDEXING?: string
-  // フォームの送信（lib/firebase.ts）に使う Firebase の Web アプリ設定と App Check（reCAPTCHA v3）のサイトキー。
+  // フォームの送信（lib/firebase.ts）に使う Firebase の Web アプリ設定と App Check（Fraud Defense・旧 reCAPTCHA Enterprise）のサイトキー。
   // 本番向けのビルドでは必須で、デプロイ用のビルド（npm run build:deploy）は欠けていると失敗する（lib/firebaseEnv.ts）
   readonly VITE_FIREBASE_API_KEY?: string
   readonly VITE_FIREBASE_PROJECT_ID?: string

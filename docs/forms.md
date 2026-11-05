@@ -102,7 +102,13 @@ onCall のラッパーは薄くし、Firebase に依存しない純粋な関数�
 `index.ts` の本文で `setGlobalOptions` を呼ぶと関数の定義より後になり、リージョンが既定（`us-central1`）になってしまう。
 そのため `globalOptions.ts` を関数を定義するモジュールの先頭で `import` し、`index.test.ts` でリージョンを確かめている。
 
-### App Check（reCAPTCHA v3）
+### App Check（Fraud Defense）
+
+プロバイダは **Fraud Defense（旧 reCAPTCHA Enterprise）**（`ReCaptchaEnterpriseProvider`）。
+reCAPTCHA Classic（v3）は非推奨で、App Check に新しく登録できない（2026-11 時点のコンソール）ため使わない。
+キーは Google Cloud のプロジェクト `willfrontier-hp` で作り、App Check の「Fraud Defense」にサイトキーを登録する（シークレットキーは使わない）。
+キーに登録するドメインは `willfrontier.jp`・`willfrontier-hp.web.app`・`willfrontier-hp.firebaseapp.com`。
+読み込み先（`https://www.google.com/recaptcha/enterprise.js`）は CSP の `https://www.google.com/recaptcha/` に含まれる。
 
 `submitInquiry` は `enforceAppCheck: true` で、App Check のトークンがない呼び出しを拒否する。
 ただし **Functions Emulator 上では強制しない**（`FUNCTIONS_EMULATOR=true` のとき。`params.ts` の `shouldEnforceAppCheck`）。
@@ -111,7 +117,7 @@ onCall のラッパーは薄くし、Firebase に依存しない純粋な関数�
 - `demo-` プロジェクトでは App Check のトークン（debug token を含む）を取得できず、強制すると画面から一切送信できない
 - 判定は Emulator が設定する環境変数だけで行い、本番で誤って無効にできる設定（パラメータなど）は設けない
 
-App Check の動作確認（reCAPTCHA v3 のサイトキー・debug token の登録）は、本番プロジェクトを用意する P10 で行う。
+App Check の動作確認（debug token の登録を含む）は、P10 の preview channel で行う。
 トークンの再利用対策（`consumeAppCheckToken` と limited-use トークン）は使っていない。必要になれば P10 で検討する。
 
 ## 保存するデータと TTL
@@ -152,15 +158,19 @@ App Check の動作確認（reCAPTCHA v3 のサイトキー・debug token の登
 
 - SMTP の接続文字列（`SMTP_CONNECTION_URI`）とパスワード（`SMTP_PASSWORD`、Secret Manager）はファイルに書かず、導入時に入力する
 - 拡張の TTL（`delivery.expireAt`）は使わない（`TTL_EXPIRE_TYPE=never`）。`submitInquiry` が最上位に書く `expireAt` で削除する
-- `firebase.json` の `"extensions"` にはまだ登録していない。登録すると `firebase deploy` で拡張がインストールされ、
-  `firebase emulators:start` でも Extensions Emulator が拡張のソースを取得して起動しようとするため、導入（P10）と同時に登録する
+- `firebase.json` の `"extensions"` に `firebase/firestore-send-email@0.2.10` を固定して登録している。`firebase deploy`（`--only extensions`）で拡張がインストールされる
+- 関数（`processQueue`）は東京で動かす（`firebaseextensions.v1beta.function/location=asia-northeast1`。既定の us-central1 だと個人情報を含む `mail` が米国で処理される）
+- Emulator は `--only` に `extensions` を含めない限り拡張を読み込まない（結合テスト・E2E は影響を受けない）。
+  `firebase emulators:start`（`--only` なし）では拡張のソースを取得して起動する。SMTP の設定が無いため、Emulator での送信は失敗する（Mailpit を使う場合は下記）
 
-P10 で行うこと:
+### 本番の送信元（Google Workspace）
 
-1. `firebase.json` に `"extensions": { "firestore-send-email": "firebase/firestore-send-email@<バージョン>" }` を追加する（バージョンは固定する）
-2. `DEFAULT_FROM`・`DATABASE_REGION`（本番の Firestore のロケーション）を確定する
-3. `firebase deploy --only extensions` で SMTP の接続文字列・パスワードを入力する
-4. 宛先のパラメータ（`CONTACT_MAIL_TO` など）を本番用に設定する（`functions/.env.<プロジェクト ID>` をコミットするか、デプロイ時の入力にするかを決める）
+- 差出人・宛先はどちらも `info@willfrontier.jp`（Google Workspace）。3 フォームとも同じ宛先
+- SMTP は `smtp.gmail.com:465`（SMTPS）。接続文字列は `smtps://info@willfrontier.jp@smtp.gmail.com:465`、パスワードは `info@willfrontier.jp` の**アプリ パスワード**
+  （2 段階認証プロセスが必要）。どちらも `firebase deploy --only extensions` の入力で設定する（パスワードは Secret Manager に保存される）
+- Gmail の SMTP は差出人を認証したアカウントに書き換えるため、`DEFAULT_FROM` は同じアドレスにしている
+- 宛先は `functions/.env.willfrontier-hp`（コミットする。会社の代表アドレスで、公開して差し支えない）
+- Google Workspace の送信上限（1 日 2,000 通程度）に対して、問い合わせの件数は十分に少ない
 
 ## ローカル開発（Emulator）
 
@@ -235,16 +245,21 @@ npm run emulators   # functions をビルドしてから Functions・Firestore�
 ### Firebase の読み込み（`web/app/lib/firebase.ts`・`submitInquiry.ts`）
 
 Firebase の SDK は大きいため、ページ表示時には読み込まず、フォームの操作を始めたときに dynamic import する（ビルドでは別チャンクになる）。
-App Check（reCAPTCHA v3）を初期化してから、`asia-northeast1` の `submitInquiry` を `httpsCallable` で呼ぶ。
+App Check（Fraud Defense）を初期化してから、`asia-northeast1` の `submitInquiry` を `httpsCallable` で呼ぶ。
+
+送信全体（Firebase の読み込み・App Check のトークン・関数の呼び出し）には **20 秒の時間切れ**（`web/app/lib/submitInquiry.ts` の `SUBMIT_TIMEOUT_MS`）を設け、
+超えたら送信の失敗（電話番号を添えた案内）にする。reCAPTCHA が読み込めない（広告ブロッカー・社内のフィルタなど）と、
+Firebase の SDK は App Check のトークンを待ち続け、SDK の時間切れ（通信だけが対象）も効かず、送信中のまま止まるため。
+時間切れのあとに関数の処理が終わり、問い合わせが届いている場合もある（利用者が送り直すと重複する）。
 
 | 環境変数（`web/.env.local` など）  | 内容                                                                                      |
 | ---------------------------------- | ----------------------------------------------------------------------------------------- |
 | `VITE_FIREBASE_API_KEY`            | Firebase の Web アプリ設定                                                                |
 | `VITE_FIREBASE_PROJECT_ID`         | 同上                                                                                      |
 | `VITE_FIREBASE_APP_ID`             | 同上                                                                                      |
-| `VITE_RECAPTCHA_SITE_KEY`          | App Check（reCAPTCHA v3）のサイトキー                                                     |
+| `VITE_RECAPTCHA_SITE_KEY`          | App Check（Fraud Defense・旧 reCAPTCHA Enterprise）のサイトキー                           |
 | `VITE_USE_FIREBASE_EMULATORS=true` | Emulator に接続する。上の 4 つが無ければ demo プロジェクト（`demo-willfrontier`）で動かす |
 
 本番向けのビルドで設定が欠けている場合は、送信時に欠けている変数名を挙げて失敗する（画面には送信失敗の案内が出る）。
-通常の `npm run build`（CI・E2E）は設定が無くても通るが、`firebase deploy` の predeploy（`npm run build:deploy`）はビルドの前に確かめて失敗する（[deployment.md](./deployment.md#フォームの送信に必要な設定firebase)）。
+通常の `npm run build`（CI・E2E）は設定が欠けていても通るが、`firebase deploy` の predeploy（`npm run build:deploy`）はビルドの前に確かめて失敗する（[deployment.md](./deployment.md#フォームの送信に必要な設定firebase)）。
 値の例は `web/.env.example`。必須の変数と空の扱いの判定は `web/app/lib/firebaseEnv.ts`（送信時とデプロイ前で共通）。

@@ -32,7 +32,7 @@
         ]
       },
       {
-        "regex": "^/(?!assets/|media/)[^.]*$",
+        "regex": "^/[^.]*$",
         "headers": [
           {
             "key": "Cache-Control",
@@ -93,6 +93,9 @@
       ]
     }
   ],
+  "extensions": {
+    "firestore-send-email": "firebase/firestore-send-email@0.2.10"
+  },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"

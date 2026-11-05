@@ -16,17 +16,17 @@ tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
 
 デプロイ手順は P10 で整備する。`firebase.json` の Hosting 設定は次のとおり。
 
-| 項目                                                 | 設定                                            | 理由                                                                                                                     |
-| ---------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `public`                                             | `web/build/client`                              | React Router のビルド出力                                                                                                |
-| `cleanUrls` / `trailingSlash`                        | `true` / `true`                                 | 現行サイトと同じ `/mission/` 形式の URL を維持                                                                           |
-| リダイレクト                                         | `/company/` → `/mission/`（301）                | 旧サイトの `/company/` は空白ページだった                                                                                |
-| 404                                                  | `404.html`（ビルド時に生成）                    | 存在しない URL には Hosting が 404 ステータスで返す。`noindex` 付き                                                      |
-| `robots.txt` / `sitemap.xml`                         | ビルド時に生成                                  | 既定は `Disallow: /`（下記「本番切り替え時の SEO 設定」）                                                                |
-| `/assets/**`                                         | `max-age=31536000, immutable`                   | Vite がハッシュ付きファイル名で出力する                                                                                  |
-| `/media/**`                                          | `max-age=604800`（7 日）                        | 写真・動画はハッシュなしのため長期キャッシュしない                                                                       |
-| `/assets/`・`/media/` 以外で拡張子のない URL（HTML） | `no-cache`                                      | デプロイ直後から新しい HTML を配信する。`cleanUrls` ではリクエスト URL に `.html` が付かないため、正規表現で判定している |
-| 全体                                                 | `nosniff` / HSTS / `X-Frame-Options: DENY` など | セキュリティヘッダー                                                                                                     |
+| 項目                                          | 設定                                            | 理由                                                                                                                                                                                                                                                                                  |
+| --------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public`                                      | `web/build/client`                              | React Router のビルド出力                                                                                                                                                                                                                                                             |
+| `cleanUrls` / `trailingSlash`                 | `true` / `true`                                 | 現行サイトと同じ `/mission/` 形式の URL を維持                                                                                                                                                                                                                                        |
+| リダイレクト                                  | `/company/` → `/mission/`（301）                | 旧サイトの `/company/` は空白ページだった                                                                                                                                                                                                                                             |
+| 404                                           | `404.html`（ビルド時に生成）                    | 存在しない URL には Hosting が 404 ステータスで返す。`noindex` 付き                                                                                                                                                                                                                   |
+| `robots.txt` / `sitemap.xml`                  | ビルド時に生成                                  | 既定は `Disallow: /`（下記「本番切り替え時の SEO 設定」）                                                                                                                                                                                                                             |
+| `/assets/**`                                  | `max-age=31536000, immutable`                   | Vite がハッシュ付きファイル名で出力する                                                                                                                                                                                                                                               |
+| `/media/**`                                   | `max-age=604800`（7 日）                        | 写真・動画はハッシュなしのため長期キャッシュしない                                                                                                                                                                                                                                    |
+| 拡張子のない URL（HTML。正規表現 `^/[^.]*$`） | `no-cache`                                      | デプロイ直後から新しい HTML を配信する。`cleanUrls` ではリクエスト URL に `.html` が付かないため、正規表現で判定している。Hosting の正規表現は RE2 で、先読み（`(?!`）などは使えない（デプロイが 400 で失敗する）。`/assets/`・`/media/` のファイルはすべて拡張子付きのため一致しない |
+| 全体                                          | `nosniff` / HSTS / `X-Frame-Options: DENY` など | セキュリティヘッダー                                                                                                                                                                                                                                                                  |
 
 Functions は `asia-northeast1`（東京）、Node 22。デプロイ前に `predeploy` で esbuild によるバンドルを行う。
 フォームの通知先（`CONTACT_MAIL_TO` など）はパラメータで、値がないとデプロイ時に入力を求められる。
@@ -48,7 +48,10 @@ Functions のソースとしてアップロードするのはビルド結果（`
 ### フォームの送信に必要な設定（Firebase）
 
 フォームの送信には、ビルド時の環境変数 `VITE_FIREBASE_API_KEY`・`VITE_FIREBASE_PROJECT_ID`・`VITE_FIREBASE_APP_ID`・`VITE_RECAPTCHA_SITE_KEY` が必要（内容は [forms.md](./forms.md#firebase-の読み込みwebapplibfirebasetssubmitinquiryts)、例は `web/.env.example`）。
-Vite がビルド時にバンドルへ埋め込むため、ビルドするときに渡す（環境変数か、リポジトリに含めない `web/.env.production.local`。環境変数が優先される）。
+Vite がビルド時にバンドルへ埋め込むため、ビルドするときに渡す。本番（`willfrontier-hp`）の値は **`web/.env.production` にコミットしている**
+（どれもバンドルに入りブラウザから見える値で、秘密情報ではないため。CI からのデプロイでも Secrets を用意せずに済む）。
+環境変数・`web/.env.production.local`（リポジトリに含めない）があればそちらが優先される。
+`web/.env.production` は production モードの `npm run dev`・`npm run build` でも読まれるため、Emulator を使わないビルドは本番の Firebase につながる。
 
 `firebase deploy` の Hosting の `predeploy` は、通常のビルドではなくデプロイ用のビルド `npm run build:deploy -w @wf/web` を実行する。
 ビルドの前に `web/scripts/verify-deploy-env.ts` が上の 4 つを確かめ、無い・空（空白だけを含む）なら欠けている変数名を挙げて失敗する。
@@ -56,7 +59,8 @@ Vite がビルド時にバンドルへ埋め込むため、ビルドするとき
 
 - 確かめるのはビルド前の環境変数。ビルドと同じモード（production）・同じ `web/` の `.env` 系ファイルを Vite の `loadEnv` で読むため、バンドルに入る値と一致する（`VITE_ALLOW_INDEXING` を読む `generate-seo-files.ts` と同じ前提）。
   ビルド後にバンドルを調べる方式は、値を知らないと探せず、圧縮後のコードの形に依存するため採らなかった
-- 通常の `npm run build`（CI の check・e2e・lighthouse）は確かめない。E2E（`web/e2e/forms.spec.ts`）は設定の無いビルドで送信失敗の案内が出ることを確かめている
+- 通常の `npm run build`（CI の check・e2e・lighthouse）は確かめない（`VITE_RECAPTCHA_SITE_KEY` が未登録の間も、ビルドと E2E を止めないため）。
+  E2E は本番の設定が入ったビルドに対して実行し、Firebase への通信は遮断・差し替える（[development.md](./development.md#e2eplaywright--axe)）
 - `VITE_USE_FIREBASE_EMULATORS=true` のビルドは demo プロジェクトで動くため確かめない。本番向けのビルドでは設定しないこと
 - 判定（必須の変数・空の扱い）は `web/app/lib/firebaseEnv.ts` にあり、送信時の確認と共通。テストは `web/scripts/deployEnv.test.ts`
 
@@ -65,8 +69,10 @@ Vite がビルド時にバンドルへ埋め込むため、ビルドするとき
 既定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
 現行の本番は sakura の WordPress で、このビルドはまだ公開されていないため。本番に切り替える際は次の 2 点が必要。
 
-1. `web/app/content/site.ts` の `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD の URL に使う。末尾スラッシュなし）
-2. 本番用のビルドを `VITE_ALLOW_INDEXING=true` で実行する（例: `VITE_ALLOW_INDEXING=true npm run build`。`web/.env.production` に書いてもよい）。
+1. `web/app/content/site.ts` の `SITE.url` を本番ドメインにする（canonical・OGP・sitemap・JSON-LD の URL に使う。末尾スラッシュなし）。
+   `https://willfrontier.jp`（www なし）に設定済み
+2. 本番用のビルドを `VITE_ALLOW_INDEXING=true` で実行する（例: `VITE_ALLOW_INDEXING=true npm run build`）。
+   `web/.env.production` はコミットしていて preview channel のビルドでも読まれるため、ここには書かないこと
    `'true'` 以外の値はすべて「禁止」として扱う
 
 preview channel など本番以外のビルドでは設定しないこと。
@@ -92,6 +98,25 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
 - zod は `jitless` にして `new Function` を使わない（`unsafe-eval` を許可しないため。`shared/src/forms/schemas.ts`）
 - P10 で行うこと: `connect-src` の `https://*.cloudfunctions.net` は誰のプロジェクトでも一致するため、本番のプロジェクト ID が決まったら `https://asia-northeast1-<project-id>.cloudfunctions.net` に絞る。違反を集めるなら `report-to`（`Reporting-Endpoints`）の追加を検討する
 - P9 時点で、全 9 ページと 404 を Hosting Emulator で開き、違反の報告が出ないことを確認した。reCAPTCHA の読み込みは本番の設定が必要なため、P10 の preview channel で確認する
+
+### 本番プロジェクトの初回設定（willfrontier-hp・2026-11-05〜06 に実施）
+
+コンソール・CLI で行った設定。プロジェクトを作り直すときは同じ手順が必要。
+
+| 設定                           | 内容                                                                                                                                     |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Firestore                      | `(default)` を `asia-northeast1` に作成（`firebase firestore:databases:create`）                                                         |
+| Storage                        | 既定のバケット `willfrontier-hp.firebasestorage.app` を `asia-northeast1` に作成                                                         |
+| Authentication                 | メール/パスワードのみ。利用者による新規登録は無効（`client.permissions.disabledUserSignup`）。Identity Platform にはアップグレードしない |
+| App Check                      | Fraud Defense（旧 reCAPTCHA Enterprise）。コンソールの「適用（Enforce）」は使わない（[forms.md](./forms.md#app-checkfraud-defense)）     |
+| ビルド用のサービス アカウント  | `<プロジェクト番号>-compute@developer.gserviceaccount.com` に `roles/cloudbuild.builds.builder` を付与                                   |
+| `submitInquiry` の呼び出し権限 | Cloud Run のサービス `submitinquiry` に `allUsers` の `roles/run.invoker`                                                                |
+| コンテナ イメージの削除        | `firebase functions:artifacts:setpolicy --location asia-northeast1`（1 日より古いものを削除）                                            |
+
+- 新しいプロジェクトでは、既定のサービス アカウントにロールが自動で付かない。付けないと Functions のビルドの最初の手順（`gcs-fetcher`）で失敗する。
+  付けた直後は反映に数分かかり、同じエラーで失敗することがある
+- `allUsers` の呼び出し権限は、Firebase が関数を**新しく作るときだけ**付ける。最初のデプロイが失敗して関数だけ作られた場合は付かず、
+  ブラウザからの呼び出しが Cloud Run の 403 になる。付けたあとは、App Check のトークンが無い呼び出しが 401（`UNAUTHENTICATED`）になることで確かめた
 
 ### 既知の制約
 

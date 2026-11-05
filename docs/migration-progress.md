@@ -35,7 +35,7 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。�
   - uuid 9.0.1（moderate）: firebase-admin（任意依存の @google-cloud/storage → gaxios）と firebase-tools 経由。buf 引数を渡す使い方のみ影響し、本件は該当しない
   - zod 3.25.76・extract-zip・basic-ftp（high）、uuid 8.3.2（moderate）: web の開発依存 @lhci/cli（lighthouse → puppeteer-core → chromium-bidi など）経由。Lighthouse CI の実行時のみ使い、本番には入らない
   - @opentelemetry/core・glob・minimatch（moderate）: firebase-tools・ESLint・@lhci/cli など開発ツール経由。本番には入らない
-- `content/site.ts` の `SITE.url`（canonical・OGP に使う）は現行の公開 URL を仮に設定している。本番ドメインは P10 で確定する
+- `content/site.ts` の `SITE.url`（canonical・OGP に使う）は、P10 で本番ドメイン `https://willfrontier.jp`（www なし）に確定した
 - 各ページの説明文（meta description）は旧サイトに無かったため新規に作成した。文面の確認が必要
 - P4 で使用中の画像・動画を `web/public/media/` へ移動し、旧テーマ（PHP）の参照先も書き換えた。WordPress 側を sakura へデプロイする main には、P11 まで取り込まない
 - 旧テーマの動画 poster（`shorts/s08`〜`s14` の jpg）が存在せずリンク切れだったため、ffmpeg で生成した

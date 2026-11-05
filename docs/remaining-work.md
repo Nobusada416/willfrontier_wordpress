@@ -26,13 +26,13 @@ P9 の後に済ませたもの（2026-10〜11）:
 
 P10 は次がそろうまで始められない。
 
-| #   | 項目                          | 内容                                                                                                             | 使う場所                                                                   |
-| --- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 1   | 本番の Firebase プロジェクト  | Blaze プランのプロジェクト ID。Firestore のロケーション（東京 `asia-northeast1` を想定）                         | `.firebaserc`（現在は Emulator 用の `demo-willfrontier`）・CSP・拡張の設定 |
-| 2   | メールの送信元と SMTP         | 差出人のアドレス（`DEFAULT_FROM`）、SMTP の接続文字列とパスワード、送信元ドメインの SPF・DKIM の設定             | Trigger Email 拡張（[forms.md](./forms.md#メール)）                        |
-| 3   | フォームの通知先              | お問い合わせ・安全・採用の各フォームの宛先（複数可）                                                             | `CONTACT_MAIL_TO` / `SAFETY_MAIL_TO` / `RECRUIT_MAIL_TO`                   |
-| 4   | 本番ドメインと切り替え時期    | 公開するドメイン（現在は旧サイトの URL を仮に設定）、DNS を切り替える日、sakura 環境を廃止するか                 | `web/app/content/site.ts` の `SITE.url`・[deployment.md](./deployment.md)  |
-| 5   | GitHub Actions からのデプロイ | Workload Identity Federation 用のサービスアカウントを作る権限（GCP の IAM 管理者）。作業はこちらで手順を用意する | `.github/workflows/`                                                       |
+| #   | 項目                          | 内容                                                                                                             | 使う場所                                                                     |
+| --- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1   | 本番の Firebase プロジェクト  | Blaze プランのプロジェクト ID。Firestore のロケーション（東京 `asia-northeast1` を想定）                         | `.firebaserc`（`willfrontier-hp` を別名 `prod` で登録済み）・CSP・拡張の設定 |
+| 2   | メールの送信元と SMTP         | 差出人のアドレス（`DEFAULT_FROM`）、SMTP の接続文字列とパスワード、送信元ドメインの SPF・DKIM の設定             | Trigger Email 拡張（[forms.md](./forms.md#メール)）                          |
+| 3   | フォームの通知先              | お問い合わせ・安全・採用の各フォームの宛先（複数可）                                                             | `CONTACT_MAIL_TO` / `SAFETY_MAIL_TO` / `RECRUIT_MAIL_TO`                     |
+| 4   | 本番ドメインと切り替え時期    | 公開するドメイン（`https://willfrontier.jp`・www なしに決定）、DNS を切り替える日、sakura 環境を廃止するか       | `web/app/content/site.ts` の `SITE.url`・[deployment.md](./deployment.md)    |
+| 5   | GitHub Actions からのデプロイ | Workload Identity Federation 用のサービスアカウントを作る権限（GCP の IAM 管理者）。作業はこちらで手順を用意する | `.github/workflows/`                                                         |
 
 ## 2. P10: デプロイ
 
@@ -40,21 +40,23 @@ P10 は次がそろうまで始められない。
 
 ### Firebase の設定
 
-- [ ] `.firebaserc` に本番のプロジェクトを追加する（Emulator 用の `demo-willfrontier` は残す）
-- [ ] Web アプリを登録し、`VITE_FIREBASE_API_KEY`・`VITE_FIREBASE_PROJECT_ID`・`VITE_FIREBASE_APP_ID` を本番ビルドに渡す
-      （例は `web/.env.example`。環境変数・`web/.env.production.local`・GitHub Actions の Secrets / Variables のどれで渡すかを決める）。
+- [x] `.firebaserc` に本番のプロジェクトを追加する（`prod` → `willfrontier-hp`。Emulator 用の `demo-willfrontier` は default のまま残す）
+- [x] Web アプリを登録し、`VITE_FIREBASE_API_KEY`・`VITE_FIREBASE_PROJECT_ID`・`VITE_FIREBASE_APP_ID`・`VITE_FIREBASE_STORAGE_BUCKET` を本番ビルドに渡す
+      （`web/.env.production` にコミットして渡す）。
       渡し忘れると `firebase deploy` の predeploy（`npm run build:deploy`）が失敗する（[deployment.md](./deployment.md#フォームの送信に必要な設定firebase)）
-- [ ] App Check に reCAPTCHA v3 を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkrecaptcha-v3)）
+- [ ] App Check に Fraud Defense（旧 reCAPTCHA Enterprise）を登録し、`VITE_RECAPTCHA_SITE_KEY` を設定する。開発用の debug token を登録する（[forms.md](./forms.md#app-checkfraud-defense)）。
+      reCAPTCHA Classic（v3）は非推奨で登録できなかったため、コードは `ReCaptchaEnterpriseProvider` に変更済み
 - [ ] トークンの再利用対策（limited-use トークン）が必要か判断する
-- [ ] Firestore のルール・インデックス（TTL と施工事例の複合インデックス）を反映する（`firebase deploy --only firestore`）。
+- [x] Firestore のルール・インデックス（TTL と施工事例の複合インデックス）を反映する（`firebase deploy --only firestore`）。
+      Firestore は `(default)` を `asia-northeast1` に作成した（2026-11-05）。
       ルールは「施工事例の公開分だけ誰でも読める・書き込みは管理者だけ、ほかは全拒否」
 - [ ] App Check の debug token を使う経路を決める。今の実装は Emulator のときだけ debug token を有効にするが、Functions Emulator は App Check を強制しないため、
       本番のプロジェクトにつないだ開発用ビルドで使えるようにするか判断する（`web/app/lib/firebase.ts`）
 
 ### 施工事例の管理画面（[case-studies.md](./case-studies.md)）
 
-- [ ] Firebase Authentication を有効にする（メールとパスワードのみ）。新規登録はさせないため、コンソールで「ユーザーによるアカウント作成」を無効にする
-- [ ] Cloud Storage を有効にし、`storage.rules` を反映する（`firebase deploy --only storage`）。バケット名を `VITE_FIREBASE_STORAGE_BUCKET` で本番ビルドに渡す
+- [x] Firebase Authentication を有効にする（メールとパスワードのみ）。新規登録はさせないため、コンソールで「ユーザーによるアカウント作成」を無効にする（2026-11-05）
+- [x] Cloud Storage を有効にし、`storage.rules` を反映する（`firebase deploy --only storage`）。既定のバケットは `asia-northeast1`（2026-11-05）。バケット名を `VITE_FIREBASE_STORAGE_BUCKET` で本番ビルドに渡す
 - [ ] `npm run admin:grant -- --project <ID> <メールアドレス>` で管理者のアカウントを作り、初期パスワードを担当者に伝える
 - [ ] 本番で `npm run seed:case-studies -- --project <ID>` を 1 回実行し、旧サイトの 3 件（下書き）の日付・社名・分類を管理画面で直して公開する
       （[case-studies.md](./case-studies.md#既存の施工事例の移行本番では-p10-の後に-1-回)）
@@ -66,13 +68,12 @@ P10 は次がそろうまで始められない。
 
 [forms.md](./forms.md#メール) の「P10 で行うこと」のとおり。
 
-- [ ] `firebase.json` の `"extensions"` に `firebase/firestore-send-email` をバージョンを固定して登録する
-- [ ] `extensions/firestore-send-email.env` の `DEFAULT_FROM`・`DATABASE_REGION` を確定する
-- [ ] `firebase deploy --only extensions` で SMTP の接続文字列とパスワード（Secret Manager）を入力する
-- [ ] 宛先のパラメータを本番用に設定する（`functions/.env.<プロジェクト ID>` をコミットするか、デプロイ時の入力にするかを決める）
+- [x] `firebase.json` の `"extensions"` に `firebase/firestore-send-email` をバージョンを固定して登録する（0.2.10）
+- [x] `extensions/firestore-send-email.env` の `DEFAULT_FROM`・`DATABASE_REGION` を確定する（`info@willfrontier.jp`・`asia-northeast1`）
+- [ ] `firebase deploy --only extensions` で SMTP の接続文字列とパスワード（Secret Manager）を入力する（Google Workspace のアプリ パスワード。[forms.md](./forms.md#本番の送信元google-workspace)）
+- [ ] 宛先のパラメータを本番用に設定する（`functions/.env.willfrontier-hp` をコミットする。3 フォームとも `info@willfrontier.jp`）
 - [ ] `functions/` に専用の lockfile がない問題の方針を決める（[deployment.md](./deployment.md#既知の制約)）
-- [ ] 拡張機能の関数のロケーションを東京にする（`extensions/firestore-send-email.env` に `firebaseextensions.v1beta.function/location` が無く、
-      既定の us-central1 だと個人情報を含む `mail` が米国で処理される）
+- [x] 拡張機能の関数のロケーションを東京にする（`extensions/firestore-send-email.env` の `firebaseextensions.v1beta.function/location`）
 - [ ] **メールの送信失敗に気づける仕組みを作る**。拡張機能が `mail` に `delivery.state=ERROR` を書いても通知されず、利用者には「送信しました」と出るため、
       問い合わせが気づかれずに失われる。Cloud Monitoring のログアラートなどで通知する（Functions の `internal` エラーも同様）
 - [ ] 送信回数の制限（レート制限・重複送信の対策）を入れるか決める。今は App Check と `maxInstances: 5` だけ。limited-use トークンの判断とあわせて検討する
@@ -113,9 +114,10 @@ P10 は次がそろうまで始められない。
 
 [deployment.md](./deployment.md#本番切り替え時の-seo-設定) を参照。
 
-- [ ] `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD に使う）
+- [x] `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD に使う。`https://willfrontier.jp`）
 - [ ] 本番のビルドだけ `VITE_ALLOW_INDEXING=true` にする（preview channel では設定しない）
 - [ ] Firebase Hosting にカスタムドメインを追加し、DNS を切り替える
+- [ ] `www.willfrontier.jp` もカスタムドメインに追加し、`willfrontier.jp` へ転送する（正式な URL は www なし）
 - [ ] 切り替え後、Google Search Console に sitemap を登録する
 - [ ] Lighthouse CI の SEO を判定の対象に入れる（現在は noindex のため必ず 69 点で、判定していない。[development.md](./development.md#lighthouse-ci)）
 - [ ] sakura 環境の扱いを決める（残す期間・廃止の時期）
@@ -135,7 +137,7 @@ P10 は次がそろうまで始められない。
   - ボットが隠し項目 `wf_hp` を数値で送ると `invalid-argument` と項目名が返る（`functions/src/handleInquiry.ts`）。docs の「入力エラーの詳細を返さない」と食い違う
   - 画面を通さない送信で、zod の英語の既定メッセージがそのまま返る
   - 通知メールに受付日時・ドキュメント ID が無く、`inquiries` と照合しにくい（`functions/src/buildMail.ts`）
-  - reCAPTCHA v3 のバッジの表示（隠す場合は規約の文言が必要）
+  - reCAPTCHA のバッジの表示（隠す場合は規約の文言が必要）
   - `@wf/shared` を 1 つの入口から読むため、フォームのページに施工事例のスキーマも含まれる
 
 ## 4. P11: WordPress 関連ファイルの削除
