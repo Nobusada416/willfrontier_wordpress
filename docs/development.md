@@ -56,6 +56,10 @@ npm run e2e -w web
     送信処理（Firebase）は呼ばない（127.0.0.1 以外への通信を遮断する）。送信処理は Vitest と Emulator で確認する
   - `navigation.spec.ts`: フッターナビで下層ページから `/#company`・`/#vehicles` へ移動し、ブラウザの「戻る」で戻る。404 と末尾スラッシュ
   - `console.spec.ts`: 全ページで hydrate の不整合などのコンソールエラーが出ない
+  - `caseStudies.spec.ts`: 施工事例（`/casestudy/` とトップの CASE STUDY）の表示・0 件・失敗と再読み込み
+- **本番の Firestore には通信しない**: ビルドには本番の設定（`web/.env.production`）が入るため、各 spec は `@playwright/test` ではなく
+  `web/e2e/support/test.ts` の `test` を使う。施工事例の読み込み（REST の runQuery）を、どのプロジェクト宛てでも 0 件の応答に差し替えてから始める。
+  個々のテストでは `mockCaseStudies` などで応答を置き換える（後から登録した `page.route` が優先される）
 - **色のコントラスト**: やむを得ず許容するコントラスト不足は `web/e2e/support/knownContrastIssues.ts` の色の組み合わせ（前景色 × 背景色）に限る（許容した箇所はテスト結果に添付される）。
   P9 で旧デザインの色を直したため、現在は空。一覧にない組み合わせのコントラスト不足と、ほかのルールの違反はテストを失敗させる。
   色のトークン同士の組み合わせは `web/scripts/designTokens.test.ts`（Vitest）でも 4.5:1 以上を確かめる
@@ -119,7 +123,8 @@ Chrome が入っていない環境（Claude Code のクラウド環境など）�
 ## Firebase Emulator
 
 `.firebaserc` の既定プロジェクトは `demo-willfrontier`。`demo-` で始まる ID は
-Emulator 専用の仮プロジェクトで、本番の Firebase にはアクセスしない（本番のプロジェクト ID は P10 で設定）。
+Emulator 専用の仮プロジェクトで、本番の Firebase にはアクセスしない。
+本番のプロジェクト `willfrontier-hp` は別名 `prod` で登録している（`--project prod` で指定する）。
 
 | サービス    | ポート                                      |
 | ----------- | ------------------------------------------- |

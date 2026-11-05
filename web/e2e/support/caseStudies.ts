@@ -3,11 +3,11 @@ import { join } from 'node:path'
 import type { Page, Request } from '@playwright/test'
 
 // 施工事例の読み込み（Firestore の REST の runQuery）の応答を差し替える。
-// E2E のビルドには Firebase の設定が無く、そのままでは通信せずに「失敗」の案内を出す。
-// 応答を差し替えるテストでは、設定の無いビルドだけが読む接続先のプロジェクト ID を置いてから開く（lib/caseStudies.ts）
+// ビルドには本番のプロジェクト ID（web/.env.production）が入るため、どのプロジェクト宛てでも差し替える
 
-export const E2E_PROJECT_ID = 'demo-e2e'
-const RUN_QUERY = `https://firestore.googleapis.com/v1/projects/${E2E_PROJECT_ID}/databases/(default)/documents:runQuery`
+const E2E_PROJECT_ID = 'demo-e2e'
+const RUN_QUERY =
+  'https://firestore.googleapis.com/v1/projects/*/databases/(default)/documents:runQuery'
 const STORAGE = 'https://firebasestorage.googleapis.com'
 
 // 写真の応答に使う実在の webp（寸法は mediaManifest.json の large）
@@ -61,9 +61,6 @@ type Reply = { cases: TestCase[] } | { status: number }
 // 応答を順に返す（最後の応答は以後も繰り返す）。受け取ったリクエストを返す
 export async function mockCaseStudies(page: Page, ...replies: Reply[]) {
   const requests: Request[] = []
-  await page.addInitScript((projectId) => {
-    Object.assign(globalThis, { __WF_E2E_FIRESTORE_PROJECT_ID__: projectId })
-  }, E2E_PROJECT_ID)
   await page.route(RUN_QUERY, async (route) => {
     requests.push(route.request())
     const reply = replies[Math.min(requests.length, replies.length) - 1]
@@ -84,7 +81,15 @@ export async function mockCaseStudies(page: Page, ...replies: Reply[]) {
   return requests
 }
 
-// Firestore への通信を数える（設定の無いビルドで通信しないことの確認用）
+// 事例が 0 件の応答を返す。本番の Firestore に通信しないよう、すべての E2E で最初に設定する（support/test.ts）
+// 後から登録した page.route が優先されるため、テストの中で mockCaseStudies などに置き換えられる
+export async function stubEmptyCaseStudies(page: Page) {
+  await page.route(RUN_QUERY, (route) =>
+    route.fulfill({ json: [{ readTime: '2026-10-01T00:00:00Z' }] }),
+  )
+}
+
+// Firestore への通信を数え、つながらなかったものとして中断する（通信の失敗の確認用）
 export async function recordFirestoreRequests(page: Page) {
   const requests: string[] = []
   await page.route('https://firestore.googleapis.com/**', async (route) => {

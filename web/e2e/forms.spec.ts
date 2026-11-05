@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './support/test'
 import { blockExternalRequests, gotoHydrated } from './support/page'
 
 // フォームの送信処理（Firebase）は E2E では呼ばない。外部への通信を遮断し、

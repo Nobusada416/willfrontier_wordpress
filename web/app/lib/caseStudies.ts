@@ -26,19 +26,12 @@ const PUBLISHED: CaseStudyStatus = 'published'
 // 応答が無いまま待ち続けないよう、この時間で中断して「失敗」の案内を出す
 const TIMEOUT_MS = 10_000
 
-declare global {
-  // E2E（web/e2e/caseStudies.spec.ts）が page.addInitScript で置く、REST の接続先のプロジェクト ID。
-  // E2E のビルドには Firebase の設定が無く通信しないため、応答を差し替えて表示を確かめるときだけ使う。
-  // 設定のあるビルド（本番）では使わない
-  var __WF_E2E_FIRESTORE_PROJECT_ID__: string | undefined
-}
-
 const validProjectId = (value: string | undefined) => {
   const id = value?.trim()
   return id && PROJECT_ID.test(id) ? id : undefined
 }
 
-// runQuery の URL。設定が無いビルド（CI・E2E）では undefined を返し、読み込みは失敗として扱う
+// runQuery の URL。プロジェクトの設定が無いビルドでは undefined を返し、読み込みは失敗として扱う
 export function caseStudiesQueryUrl(env: Env): string | undefined {
   const useEmulators = usesFirebaseEmulators(env)
   const configured = env.VITE_FIREBASE_PROJECT_ID?.trim()
@@ -46,7 +39,7 @@ export function caseStudiesQueryUrl(env: Env): string | undefined {
     ? validProjectId(configured)
     : useEmulators
       ? DEMO_PROJECT_ID
-      : validProjectId(globalThis.__WF_E2E_FIRESTORE_PROJECT_ID__)
+      : undefined
   if (!projectId) return undefined
   const origin = useEmulators ? EMULATOR_ORIGIN : PRODUCTION_ORIGIN
   return `${origin}/v1/projects/${projectId}/databases/(default)/documents:runQuery`

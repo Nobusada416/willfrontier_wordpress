@@ -12,7 +12,7 @@
 //   圧縮後のコードの形に依存して壊れやすい
 //
 // 通常の npm run build（CI の check・e2e・lighthouse）では実行しない。
-// E2E（e2e/forms.spec.ts）は設定が無いビルドで送信失敗の案内が出ることを確かめているため。
+// 設定が欠けていても（reCAPTCHA の登録前など）、ビルドと E2E は止めないため。
 // Emulator 向けのビルド（VITE_USE_FIREBASE_EMULATORS=true）は demo プロジェクトで動くため確認しない
 import { join } from 'node:path'
 import { loadEnv } from 'vite'
