@@ -116,8 +116,8 @@ P10 は次がそろうまで始められない。
 
 - [x] `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD に使う。`https://willfrontier.jp`）
 - [ ] 本番のビルドだけ `VITE_ALLOW_INDEXING=true` にする（preview channel では設定しない）
-- [ ] Firebase Hosting にカスタムドメインを追加し、DNS を切り替える
-- [ ] `www.willfrontier.jp` もカスタムドメインに追加し、`willfrontier.jp` へ転送する（正式な URL は www なし）
+- [x] Firebase Hosting にカスタムドメインを追加し、DNS を切り替える（2026-11-06。[deployment.md](./deployment.md#カスタムドメインwillfrontierjp)）
+- [x] `www.willfrontier.jp` もカスタムドメインに追加し、`willfrontier.jp` へ転送する（正式な URL は www なし）
 - [ ] 切り替え後、Google Search Console に sitemap を登録する
 - [ ] Lighthouse CI の SEO を判定の対象に入れる（現在は noindex のため必ず 69 点で、判定していない。[development.md](./development.md#lighthouse-ci)）
 - [ ] sakura 環境の扱いを決める（残す期間・廃止の時期）
