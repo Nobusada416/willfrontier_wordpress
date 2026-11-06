@@ -118,6 +118,25 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
 - `allUsers` の呼び出し権限は、Firebase が関数を**新しく作るときだけ**付ける。最初のデプロイが失敗して関数だけ作られた場合は付かず、
   ブラウザからの呼び出しが Cloud Run の 403 になる。付けたあとは、App Check のトークンが無い呼び出しが 401（`UNAUTHENTICATED`）になることで確かめた
 
+### カスタムドメイン（willfrontier.jp）
+
+2026-11-06 に `https://willfrontier.jp` を Firebase Hosting に切り替えた（それまでは バリューサーバーの初期状態の WordPress で、実際のサイトは無かった）。
+DNS はバリュードメイン（ネームサーバー `ns1`〜`ns5.value-domain.com`）。
+
+| レコード | 名前              | 値                                  | 用途                                                                                 |
+| -------- | ----------------- | ----------------------------------- | ------------------------------------------------------------------------------------ |
+| A        | `@`               | `199.36.158.100`                    | Firebase Hosting（`163.44.176.18` から変更。`AAAA @` は削除）                        |
+| TXT      | `@`               | `hosting-site=willfrontier-hp`      | Hosting のドメイン所有の確認                                                         |
+| TXT      | `_acme-challenge` | Firebase のコンソールに表示される値 | SSL 証明書の発行（DNS で確認する方式）                                               |
+| CNAME    | `www`             | `willfrontier-hp.web.app.`          | `www.willfrontier.jp` → `willfrontier.jp` へ 301（Hosting のカスタムドメインの設定） |
+
+- MX（Google Workspace）・SPF・DKIM（`google._domainkey`）・DMARC・`google-site-verification` は変更していない。`A *`（`163.44.176.18`）も残している
+- 切り替え直後、バリュードメインの一部のネームサーバーが古い A・AAAA を返し続け、HTTP で確認する方式の証明書の発行が 404 で失敗した。
+  `_acme-challenge` の TXT を追加して DNS で確認する方式にしたところ発行された
+- 本番の Hosting へは `firebase deploy --only hosting --project prod` でデプロイする。アップロードで接続が切られる場合は
+  `FIREBASE_HOSTING_UPLOAD_CONCURRENCY=10` で同時送信数を減らす
+- 検索エンジンへの登録は禁止（noindex）のまま公開した。許可する場合は `VITE_ALLOW_INDEXING=true` でビルドしてデプロイし直す（上の「本番切り替え時の SEO 設定」）
+
 ### 既知の制約
 
 - `functions/` には専用の `package-lock.json` がない（lockfile は npm workspaces のルートにのみある）。
