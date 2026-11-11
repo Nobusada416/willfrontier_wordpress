@@ -71,8 +71,7 @@ export const caseStudyPhotoSchema = z.object({
 
 // photos の各要素のキー（firestore.rules の検証と同じ）
 export const CASE_STUDY_PHOTO_KEYS = Object.keys(caseStudyPhotoSchema.shape) as readonly (
-  | keyof typeof photoFileShape
-  | 'alt'
+  keyof typeof photoFileShape | 'alt'
 )[]
 
 const photosMessages = {

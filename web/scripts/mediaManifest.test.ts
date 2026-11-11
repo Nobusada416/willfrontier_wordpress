@@ -31,7 +31,10 @@ describe('メディアの寸法一覧（app/lib/mediaManifest.json）', () => {
       expect(Math.min(xsmall.width, xsmall.height), slug).toBe(XSMALL_SHORT_SIDE)
       expect(xsmall.width, slug).toBeLessThan(small.width)
       // 縦横比は large と同じ（1px の丸めは許す）
-      expect(Math.abs(xsmall.height - (xsmall.width * large.height) / large.width), slug).toBeLessThan(1)
+      expect(
+        Math.abs(xsmall.height - (xsmall.width * large.height) / large.width),
+        slug,
+      ).toBeLessThan(1)
     })
   })
 

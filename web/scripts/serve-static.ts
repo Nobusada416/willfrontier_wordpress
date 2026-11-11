@@ -61,7 +61,8 @@ const server = createServer((request, response) => {
     handleRequest(request, response)
   } catch (error: unknown) {
     console.error(`${request.url ?? ''} の配信に失敗しました`, error)
-    if (!response.headersSent) response.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' })
+    if (!response.headersSent)
+      response.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' })
     response.end('Internal Server Error')
   }
 })

@@ -157,7 +157,7 @@ Functions の Emulator は、フォームの通知先のパラメータを `func
 
 管理画面（`/admin/`）には新規登録・パスワード再設定の機能を置かない。アカウントとカスタムクレーム `admin: true` は、
 開発側が `tools/grant-admin.ts`（Admin SDK）で付ける。
-ルートの `scripts/` は旧 WordPress テーマ用（lint・format の対象外）のため、新しい運用スクリプトは `tools/` に置く
+ルートの `scripts/` は素材を加工する Python のスクリプト用（lint・format の対象外。`web/scripts/` は対象）のため、新しい運用スクリプトは `tools/` に置く
 （`node --experimental-strip-types` で TypeScript のまま実行し、lint・format・型チェックの対象にする）。
 
 ```bash
@@ -221,15 +221,15 @@ Safari の JPEG はアップロード・削除をここで、変換を `photos.t
 - `lighthouse`: ビルド → Lighthouse CI。レポートは成果物として保存する（Performance は warn）
 - `e2e-admin`: Java と Chromium をセットアップして、Emulator につないだ管理画面の E2E（`npm run e2e:admin`）
 
-## 旧 WordPress テーマ
+## 写真・動画
 
-移行完了（P11）まではルート直下の `*.php`・`style.css`・`assets/` などを残す。
-旧テーマのローカル確認は `docker compose up`（http://localhost:8081）。
-画像・動画は P4 で `web/public/media/` へ移動したため、旧テーマもそこを参照している（`assets/` には `js/` と、git 管理外の元素材の索引 `_index.md` だけが残る。未使用の素材は削除済み）。
+WordPress の旧テーマは P11 で削除した。ルートの `assets/` には git 管理外の元素材（`photos/originals/`・`videos/originals_compressed/`）だけが
+手元に残り、その索引は [media-index-photos.md](./media-index-photos.md)・[media-index-videos.md](./media-index-videos.md) にある。
+`web/scripts/legacyTheme.test.ts` は、main の古い修正を取り込んだときなどに旧テーマのファイルが戻っていないことを確かめる。
 
 新しい写真・動画を使う場合は `web/public/media/` に置く。ソースから参照したファイル（写真スラッグ `wf-NNN`、
 動画スラッグ `shorts/sNN`、`/media/...` のパス）が実在することは `web/scripts/mediaReferences.test.ts` が検証する。
-検証対象は `web/app` のソースと、旧テーマ（ルート直下の `*.php`）。動画スラッグは `shorts/sNN` 形式だけを検出するため、別の形式を使う場合は正規表現も直す。
+検証対象は `web/app` のソース。動画スラッグは `shorts/sNN` 形式だけを検出するため、別の形式を使う場合は正規表現も直す。
 動画の poster は `ffmpeg -ss 1 -i sNN.mp4 -frames:v 1 -q:v 5 sNN.jpg` で作る。
 写真・poster を追加・差し替えたら `npm run media:manifest -w web` で寸法一覧（`web/app/lib/mediaManifest.json`）を作り直す。
 作り直し忘れは `web/scripts/mediaManifest.test.ts` が検出する。
@@ -239,4 +239,3 @@ Safari の JPEG はアップロード・削除をここで、変換を `photos.t
 トップのモザイクと MISSION の背景のように小さく表示する写真は、短辺 400px の xsmall（`web/public/media/photos/xsmall/`）も用意し、
 `Picture` が `srcset` に加える。`python3 -I scripts/photo-xsmall.py` で large から書き出す（対象はスクリプト冒頭。
 足りないものは `web/scripts/mediaManifest.test.ts` が検出する）。写真や加工版を作り直したときも書き出し直し、寸法一覧を更新する。
-旧テーマの `style.css` はルートの `tailwindcss@3` で生成しているため、P11 まで依存を残す。

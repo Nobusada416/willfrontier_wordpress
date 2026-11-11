@@ -37,8 +37,3 @@ export const collectSourceFiles = (dir: string): string[] =>
     if (entry.isDirectory()) return collectSourceFiles(path)
     return /\.tsx?$/.test(entry.name) && !entry.name.includes('.test.') ? [path] : []
   })
-
-// 旧テーマ（PHP）は `<?php echo get_template_directory_uri(); ?>/web/public/media/...` の形で参照するため、
-// クォートで始まる '/media/...' に置き換えて findMediaReferences で拾えるようにする（P11 で削除）
-export const normalizeThemeSource = (source: string) =>
-  source.replaceAll('/web/public/media/', `'/media/`)

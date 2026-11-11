@@ -1,20 +1,11 @@
 # デプロイ
 
-## 現行（WordPress テーマ・移行完了まで）
+## Firebase Hosting
 
-main ブランチの WordPress テーマを sakura サーバーへ rsync でデプロイしている。
-移行用のファイルは WordPress テーマの表示に不要なため、rsync で次も除外すること。
-
-```
-web/  functions/  shared/  tests/  tools/  .github/  extensions/
-firebase.json  .firebaserc  firestore.rules  firestore.indexes.json  storage.rules
-eslint.config.mjs  .prettierrc.json  .prettierignore  .nvmrc
-tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
-```
-
-## 移行後（Firebase Hosting）
-
-デプロイ手順は P10 で整備する。`firebase.json` の Hosting 設定は次のとおり。
+`main` のコミット（CI 通過済み）から、手動で `firebase deploy --only hosting --project prod` する（GitHub Actions での自動デプロイは P10 の残り）。
+P11（2026-11）で WordPress テーマを削除して `migration/react-firebase` を `main` に取り込み、
+それまでの「`main` の WordPress テーマを sakura サーバーへ rsync する」運用は終えた。
+`firebase.json` の Hosting 設定は次のとおり。
 
 | 項目                                          | 設定                                            | 理由                                                                                                                                                                                                                                                                                  |
 | --------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -121,7 +112,7 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
 
 ### カスタムドメイン（willfrontier.jp）
 
-2026-11-06 に `https://willfrontier.jp` を Firebase Hosting に切り替えた（それまでは バリューサーバーの初期状態の WordPress で、実際のサイトは無かった）。
+2026-11-06 に `https://willfrontier.jp` を Firebase Hosting に切り替えた（それまではバリューサーバーの初期状態の WordPress で、実際のサイトは無かった）。
 DNS はバリュードメイン（ネームサーバー `ns1`〜`ns5.value-domain.com`）。
 
 | レコード | 名前              | 値                                  | 用途                                                                                 |

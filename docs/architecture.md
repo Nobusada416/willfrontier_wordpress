@@ -1,7 +1,7 @@
 # アーキテクチャ
 
 ウィルフロンティア コーポレートサイトは、WordPress クラシックテーマから
-**React + TypeScript + Vite + Firebase** 構成へ移行中である（進捗は [migration-progress.md](./migration-progress.md)）。
+**React + TypeScript + Vite + Firebase** 構成へ移行した（経緯は [migration-progress.md](./migration-progress.md)。旧テーマは P11 で削除）。
 
 ## 技術スタック
 
@@ -19,7 +19,7 @@
 
 ## ディレクトリ構成
 
-npm workspaces 構成。移行期間中は WordPress テーマ（ルート直下の `*.php` など）と並存する。
+npm workspaces 構成。
 
 ```
 package.json            # workspaces: web / shared / functions
@@ -33,6 +33,7 @@ firestore.indexes.json  # caseStudies の status + date の複合インデック
 extensions/firestore-send-email.env  # Trigger Email 拡張の非秘密の設定（導入は P10。forms.md の「メール」）
 tests/rules/            # Firestore・Storage のセキュリティルールのテスト（Emulator 上で実行）
 tests/integration/      # Emulator での結合テスト（フォームの送信・管理者の付与・施工事例の管理画面の Firebase の操作・移行）
+scripts/                # 素材の加工（hero-highkey.py・photo-xsmall.py。Pillow で実行。lint・format の対象外）
 tools/                  # 運用スクリプト（node --experimental-strip-types で実行。shared は import の無い constants.ts だけを拡張子付きで読む）
   grant-admin.ts        # 管理画面の管理者（カスタムクレーム admin）を付ける・外す（npm run admin:grant）
   seed-case-studies.ts  # 旧サイトの施工事例 3 件を Firestore・Storage に下書きで入れる（npm run seed:case-studies）
@@ -125,7 +126,7 @@ web/
   public/favicon.svg  favicon.ico  apple-touch-icon.png  # ロゴの「F」から作ったアイコン（ico は 16・32・48px、touch は白背景 180px）
   public/og-image.jpg     # SNS シェア用の画像（1200×630。写真 wf-097 から切り出し）
   public/logo.png         # 構造化データのロゴ（512px 正方形・白背景。media/images/logocolor.svg から書き出し）
-  public/media/           # ハッシュなしで配信する画像・動画（/media/**）。旧テーマも P11 まではここを参照する
+  public/media/           # ハッシュなしで配信する画像・動画（/media/**）
     photos/{small,large}/ # 写真（wf-NNN.webp。small・large とも寸法は写真ごとに異なる。実寸は lib/mediaManifest.json）
                           # wf-NNN-hero.webp はトップヒーロー用に明るく加工した版（ルートの scripts/hero-highkey.py で生成）
     photos/xsmall/        # トップのモザイク・MISSION の背景の写真だけ、短辺 400px に縮小した版（ルートの scripts/photo-xsmall.py で生成）
@@ -141,6 +142,7 @@ web/
   scripts/serve-static.ts       # ビルド済みのサイトを配信する（E2E・Lighthouse 用。ポート 4313）
   scripts/staticRouting.ts      # 配信の振り分け（firebase.json の cleanUrls・trailingSlash・redirects・Cache-Control と同じ。404 は 404.html）
   scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
+  scripts/legacyTheme.test.ts   # 削除した旧テーマ（*.php など）のファイルが main の取り込みなどで戻っていないことを検証する
   scripts/mediaManifest.ts      # web/public/media の写真・poster の寸法を読み取る。テストで mediaManifest.json と一致することを検証する
   scripts/generate-media-manifest.ts  # mediaManifest.json を作り直す（npm run media:manifest -w web）
 ```
@@ -167,8 +169,8 @@ web/
   - OGP 画像は全ページ共通の `og-image.jpg`（1200×630）で、`twitter:card` は `summary_large_image`。
   - トップページには会社情報の構造化データ（`Organization`。所在地は本社、両拠点を `location`）を出力する。
     React Router の meta の `"script:ld+json"` 記法を使い、JSON 中の `<` などのエスケープは React Router に任せる。
-- **検索エンジンへの登録は既定で禁止し、ビルド時の環境変数で許可する**: 本番切り替え（P10）までは現行の
-  WordPress サイトが本番のため、このビルドが検索結果に載らないようにする。
+- **検索エンジンへの登録は既定で禁止し、ビルド時の環境変数で許可する**: 本番切り替え（P10）までは
+  このビルドが検索結果に載らないようにしていた（本番は 2026-11-11 から許可）。
   `VITE_ALLOW_INDEXING=true` のときだけ許可し、それ以外（未設定を含む）は全ページに `<meta name="robots" content="noindex">` を付ける。
   robots.txt も同じ変数で切り替える（禁止時は `Disallow: /`、許可時は `Allow: /` と `Sitemap:` 行）。切り替え手順は [deployment.md](./deployment.md#本番切り替え時の-seo-設定) を参照。
 - **sitemap.xml と robots.txt は postbuild で生成する**: `content/pages.ts` の全ページ（404 を除く）から、
@@ -201,7 +203,7 @@ web/
   - 旧実装の画面収め（COMPANY の `transform: scale()`、スマホで全セクションを高さ 1000px に固定）は廃止し、高さは中身に合わせる。
     旧サイトのスマホ表示はこの固定でセクション同士が重なって崩れていた。
   - 葉の装飾はスマホでは表示しない（文字に重なるため。旧実装も画像を隠していた）。
-    画像は webp（各 40KB 前後。旧テーマ用の同名 png は各 220KB で P11 で削除）を遅延読み込みにし、非表示のスマホでは読み込ませない。
+    画像は webp（各 40KB 前後。旧テーマ用の同名 png は各 220KB で、P11 で削除した）を遅延読み込みにし、非表示のスマホでは読み込ませない。
   - 車両スライダーは CDN の Swiper をやめ、自前の `VehicleSlider`（WAI-ARIA のカルーセル。前後ボタン・ページ送り・スワイプ・端で反対側へ戻る）にした。
     3 枚の単純な切り替えに依存を増やさないため。
   - GALLERY の絞り込みは `aria-pressed` で選択状態を伝え、表示件数を `role="status"` で読み上げる。

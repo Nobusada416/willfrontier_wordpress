@@ -102,7 +102,10 @@ describe('handleInquiry', () => {
   describe('ボット対策（honeypot）', () => {
     it('隠し項目に値があれば保存せず spam を返す', async () => {
       const { deps, save } = createDeps()
-      const result = await handleInquiry({ ...contact, [HONEYPOT_FIELD]: 'https://spam.example.com' }, deps)
+      const result = await handleInquiry(
+        { ...contact, [HONEYPOT_FIELD]: 'https://spam.example.com' },
+        deps,
+      )
       expect(result).toEqual({ kind: 'spam' })
       expect(save).not.toHaveBeenCalled()
     })

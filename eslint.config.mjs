@@ -8,18 +8,14 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    // WordPress テーマ（移行完了まで残す既存ファイル）と生成物は対象外
+    // 素材・ローカルにだけある旧サイトのミラーと生成物は対象外
     ignores: [
       'assets/**',
       'data/**',
-      'docker/**',
       'scripts/**',
       'static/**',
-      'src/**',
-      '.wrangler/**',
       // Claude Code の作業用 worktree（リポジトリの複製）
       '.claude/**',
-      'tailwind.config.js',
       '**/node_modules/**',
       '**/build/**',
       'functions/lib/**',

@@ -65,7 +65,9 @@ export function readFirebaseSettings(env: Env): FirebaseSettings {
 
   // デプロイ用のビルド（npm run build:deploy）では、ビルド前に同じ判定で確かめている（scripts/verify-deploy-env.ts）
   const missing = missingFirebaseEnv(env)
-  const [apiKey, projectId, appId, recaptchaSiteKey] = REQUIRED_FIREBASE_ENV.map((name) => env[name])
+  const [apiKey, projectId, appId, recaptchaSiteKey] = REQUIRED_FIREBASE_ENV.map(
+    (name) => env[name],
+  )
   if (missing.length > 0 || !apiKey || !projectId || !appId || !recaptchaSiteKey) {
     throw new Error(`Firebase の設定がありません: ${missing.join(', ')}`)
   }

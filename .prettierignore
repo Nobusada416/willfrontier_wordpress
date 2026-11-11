@@ -1,21 +1,15 @@
-# WordPress テーマ（移行完了まで残す既存ファイル）
-*.php
-style.css
-src/
-assets/
-data/
-docker/
-scripts/
-static/
-.wrangler/
-docs/3patterns-presentation.md
-tailwind.config.js
+# 素材（git 管理外のローカルの素材を含む）・素材加工用のスクリプト・ローカルにだけある旧サイトのミラー
+# 先頭の / でルート直下に限る（付けないと web/scripts なども除外される）
+/assets/
+/data/
+/scripts/
+/static/
 .claude/
 
 # 生成物
 node_modules/
 **/build/
-**/lib/
+functions/lib/
 **/.react-router/
 coverage/
 **/test-results/

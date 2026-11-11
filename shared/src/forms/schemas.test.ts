@@ -214,7 +214,11 @@ describe('honeypot（ボット対策の隠し項目）', () => {
   })
 
   it('隠し項目が空なら人の送信とみなす', () => {
-    const value = inquirySchema.parse({ formType: 'contact', ...validContact, [HONEYPOT_FIELD]: '' })
+    const value = inquirySchema.parse({
+      formType: 'contact',
+      ...validContact,
+      [HONEYPOT_FIELD]: '',
+    })
     expect(isSpam(value)).toBe(false)
     expect(isSpam(inquirySchema.parse({ formType: 'contact', ...validContact }))).toBe(false)
   })
