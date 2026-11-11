@@ -2,7 +2,7 @@
 
 ## Firebase Hosting
 
-`main` ブランチから Firebase Hosting にデプロイする。
+`main` のコミット（CI 通過済み）から、手動で `firebase deploy --only hosting --project prod` する（GitHub Actions での自動デプロイは P10 の残り）。
 P11（2026-11）で WordPress テーマを削除して `migration/react-firebase` を `main` に取り込み、
 それまでの「`main` の WordPress テーマを sakura サーバーへ rsync する」運用は終えた。
 `firebase.json` の Hosting 設定は次のとおり。
@@ -112,7 +112,7 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
 
 ### カスタムドメイン（willfrontier.jp）
 
-2026-11-06 に `https://willfrontier.jp` を Firebase Hosting に切り替えた（それまでは バリューサーバーの初期状態の WordPress で、実際のサイトは無かった）。
+2026-11-06 に `https://willfrontier.jp` を Firebase Hosting に切り替えた（それまではバリューサーバーの初期状態の WordPress で、実際のサイトは無かった）。
 DNS はバリュードメイン（ネームサーバー `ns1`〜`ns5.value-domain.com`）。
 
 | レコード | 名前              | 値                                  | 用途                                                                                 |

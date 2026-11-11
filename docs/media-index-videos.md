@@ -9,9 +9,9 @@
 ## ディレクトリ
 
 - `originals_compressed/wf-v01.mp4` ～ `wf-v37.mp4` — 全圧縮済み動画（**素材プール、git管理外**）
-- `posters/wf-v01.jpg` ～ — 各動画のポスター画像（1秒地点）
+- `posters/wf-v01.jpg` ～ — 各動画のポスター画像（1秒地点。現在は手元にも無い）
 
-各パターン実装時に、使う動画だけ `assets/videos/<section>/` に **コピー** して git 管理する方針。
+使う動画は `web/public/media/videos/` に置いて git 管理する（旧テーマの頃は `assets/videos/<section>/` にコピーしていた）。
 
 ## 連番対応表
 
@@ -79,4 +79,4 @@
 ## shorts/s08（安全第一のパン）
 
 - 元素材は `data/videos/20260621/屋内作業_動画10.mp4`。2026-10 のクライアント指示で冒頭 6.0 秒をカットした（約25.7秒 → 約19.7秒）。
-- 再生成: `ffmpeg -ss 6.0 -i data/videos/20260621/屋内作業_動画10.mp4 -vf scale=-2:720 -c:v libx264 -preset fast -crf 28 -pix_fmt yuv420p -an -movflags +faststart assets/videos/shorts/s08.mp4`
+- 再生成: `ffmpeg -ss 6.0 -i data/videos/20260621/屋内作業_動画10.mp4 -vf scale=-2:720 -c:v libx264 -preset fast -crf 28 -pix_fmt yuv420p -an -movflags +faststart web/public/media/videos/shorts/s08.mp4`

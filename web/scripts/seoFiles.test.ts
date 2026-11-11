@@ -22,12 +22,12 @@ describe('escapeXml', () => {
 describe('sitemapUrls', () => {
   it('サイトの URL にページのパスを付ける（末尾スラッシュ形式を維持）', () => {
     expect(
-      sitemapUrls(SITE_URL, [
-        { path: '/' },
-        { path: '/mission/' },
-        { path: '/contact/' },
-      ]),
-    ).toEqual(['https://example.com/', 'https://example.com/mission/', 'https://example.com/contact/'])
+      sitemapUrls(SITE_URL, [{ path: '/' }, { path: '/mission/' }, { path: '/contact/' }]),
+    ).toEqual([
+      'https://example.com/',
+      'https://example.com/mission/',
+      'https://example.com/contact/',
+    ])
   })
 
   it('サイトの全ページ（404 を除く）を含む', () => {

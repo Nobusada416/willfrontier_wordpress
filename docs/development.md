@@ -157,7 +157,7 @@ Functions の Emulator は、フォームの通知先のパラメータを `func
 
 管理画面（`/admin/`）には新規登録・パスワード再設定の機能を置かない。アカウントとカスタムクレーム `admin: true` は、
 開発側が `tools/grant-admin.ts`（Admin SDK）で付ける。
-ルートの `scripts/` は素材を加工する Python のスクリプト用（lint・format の対象外）のため、新しい運用スクリプトは `tools/` に置く
+ルートの `scripts/` は素材を加工する Python のスクリプト用（lint・format の対象外。`web/scripts/` は対象）のため、新しい運用スクリプトは `tools/` に置く
 （`node --experimental-strip-types` で TypeScript のまま実行し、lint・format・型チェックの対象にする）。
 
 ```bash

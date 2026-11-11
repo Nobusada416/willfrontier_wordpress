@@ -147,7 +147,8 @@ P10 は次がそろうまで始められない。
       旧テーマのビルド・PDF 生成のスクリプト（`scripts/build-static.sh`・`build-all-static.sh`・`run-all-patterns.sh`・`generate-pdfs.js`・`package.json`）を削除した
 - [x] 旧テーマだけが参照していた素材（葉と握手の png、背景イラストの原寸の jpg、写真 `wf-001`）を削除し、寸法の一覧を作り直した
 - [x] ルートの `tailwindcss@3` を外し、`.gitignore`・`.prettierignore`・`eslint.config.mjs` の旧テーマ用の記述を整理した。
-      `.prettierignore` の `src/` が `shared/src`・`functions/src` まで除外していたため、外した後にこの 2 つを整形した
+      `.prettierignore` の `src/`・`scripts/`・`**/lib/` が `shared/src`・`functions/src`・`web/scripts`・`web/app/lib` まで除外していたため、
+      ルート直下（`functions/lib/`）に限ったうえで、これらを整形した
 - [x] `mediaReferences.test.ts` の旧テーマの検証と `normalizeThemeSource` を削除し、旧テーマのファイルが戻っていないことを確かめる `legacyTheme.test.ts` を足した
 - [x] 写真・動画の索引（`assets/*/_index.md`）を [media-index-photos.md](./media-index-photos.md)・[media-index-videos.md](./media-index-videos.md) に移した。
       `docs/3patterns-presentation.md`（旧サイトのデモ URL を載せた提案資料）は削除した

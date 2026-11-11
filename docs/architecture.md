@@ -33,6 +33,7 @@ firestore.indexes.json  # caseStudies の status + date の複合インデック
 extensions/firestore-send-email.env  # Trigger Email 拡張の非秘密の設定（導入は P10。forms.md の「メール」）
 tests/rules/            # Firestore・Storage のセキュリティルールのテスト（Emulator 上で実行）
 tests/integration/      # Emulator での結合テスト（フォームの送信・管理者の付与・施工事例の管理画面の Firebase の操作・移行）
+scripts/                # 素材の加工（hero-highkey.py・photo-xsmall.py。Pillow で実行。lint・format の対象外）
 tools/                  # 運用スクリプト（node --experimental-strip-types で実行。shared は import の無い constants.ts だけを拡張子付きで読む）
   grant-admin.ts        # 管理画面の管理者（カスタムクレーム admin）を付ける・外す（npm run admin:grant）
   seed-case-studies.ts  # 旧サイトの施工事例 3 件を Firestore・Storage に下書きで入れる（npm run seed:case-studies）
@@ -141,6 +142,7 @@ web/
   scripts/serve-static.ts       # ビルド済みのサイトを配信する（E2E・Lighthouse 用。ポート 4313）
   scripts/staticRouting.ts      # 配信の振り分け（firebase.json の cleanUrls・trailingSlash・redirects・Cache-Control と同じ。404 は 404.html）
   scripts/mediaReferences.ts    # ソースが参照するメディアを求める。テストで web/public に実在することを検証する
+  scripts/legacyTheme.test.ts   # 削除した旧テーマ（*.php など）のファイルが main の取り込みなどで戻っていないことを検証する
   scripts/mediaManifest.ts      # web/public/media の写真・poster の寸法を読み取る。テストで mediaManifest.json と一致することを検証する
   scripts/generate-media-manifest.ts  # mediaManifest.json を作り直す（npm run media:manifest -w web）
 ```
