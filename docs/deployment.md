@@ -66,16 +66,17 @@ Vite がビルド時にバンドルへ埋め込むため、ビルドするとき
 
 ### 本番切り替え時の SEO 設定
 
-既定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
-現行の本番は sakura の WordPress で、このビルドはまだ公開されていないため。本番に切り替える際は次の 2 点が必要。
+`VITE_ALLOW_INDEXING` が未設定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
+`'true'` 以外の値はすべて「禁止」として扱う。本番では次の 2 点を設定している。
 
 1. `web/app/content/site.ts` の `SITE.url` を本番ドメインにする（canonical・OGP・sitemap・JSON-LD の URL に使う。末尾スラッシュなし）。
-   `https://willfrontier.jp`（www なし）に設定済み
-2. 本番用のビルドを `VITE_ALLOW_INDEXING=true` で実行する（例: `VITE_ALLOW_INDEXING=true npm run build`）。
-   `web/.env.production` はコミットしていて preview channel のビルドでも読まれるため、ここには書かないこと
-   `'true'` 以外の値はすべて「禁止」として扱う
+   `https://willfrontier.jp`（www なし）
+2. `web/.env.production`（コミットしている）に `VITE_ALLOW_INDEXING=true` を書く（2026-11-11）。
+   通常の `vite build`（production モード）はすべてこのファイルを読むため、preview channel を使う場合もそのビルドは登録を許可する。
+   preview channel は使わない方針のため、ここに書いている。preview channel を使うなら、その URL が検索結果に載らないよう
+   `VITE_ALLOW_INDEXING=false npm run build` のように環境変数で上書きする（Vite は `.env` 系ファイルより環境変数を優先する）
 
-preview channel など本番以外のビルドでは設定しないこと。
+ローカルの `npm run build` も同じファイルを読むため、許可したビルドになる。管理画面（`/admin/`）は常に `noindex, nofollow` で、robots.txt でも除く。
 postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` が同じ方針になっていることを検証する。
 
 ### Content-Security-Policy（Report-Only）
@@ -117,6 +118,25 @@ postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` 
   付けた直後は反映に数分かかり、同じエラーで失敗することがある
 - `allUsers` の呼び出し権限は、Firebase が関数を**新しく作るときだけ**付ける。最初のデプロイが失敗して関数だけ作られた場合は付かず、
   ブラウザからの呼び出しが Cloud Run の 403 になる。付けたあとは、App Check のトークンが無い呼び出しが 401（`UNAUTHENTICATED`）になることで確かめた
+
+### カスタムドメイン（willfrontier.jp）
+
+2026-11-06 に `https://willfrontier.jp` を Firebase Hosting に切り替えた（それまでは バリューサーバーの初期状態の WordPress で、実際のサイトは無かった）。
+DNS はバリュードメイン（ネームサーバー `ns1`〜`ns5.value-domain.com`）。
+
+| レコード | 名前              | 値                                  | 用途                                                                                 |
+| -------- | ----------------- | ----------------------------------- | ------------------------------------------------------------------------------------ |
+| A        | `@`               | `199.36.158.100`                    | Firebase Hosting（`163.44.176.18` から変更。`AAAA @` は削除）                        |
+| TXT      | `@`               | `hosting-site=willfrontier-hp`      | Hosting のドメイン所有の確認                                                         |
+| TXT      | `_acme-challenge` | Firebase のコンソールに表示される値 | SSL 証明書の発行（DNS で確認する方式）                                               |
+| CNAME    | `www`             | `willfrontier-hp.web.app.`          | `www.willfrontier.jp` → `willfrontier.jp` へ 301（Hosting のカスタムドメインの設定） |
+
+- MX（Google Workspace）・SPF・DKIM（`google._domainkey`）・DMARC・`google-site-verification` は変更していない。`A *`（`163.44.176.18`）も残している
+- 切り替え直後、バリュードメインの一部のネームサーバーが古い A・AAAA を返し続け、HTTP で確認する方式の証明書の発行が 404 で失敗した。
+  `_acme-challenge` の TXT を追加して DNS で確認する方式にしたところ発行された
+- 本番の Hosting へは `firebase deploy --only hosting --project prod` でデプロイする。アップロードで接続が切られる場合は
+  `FIREBASE_HOSTING_UPLOAD_CONCURRENCY=10` で同時送信数を減らす
+- 検索エンジンへの登録は禁止（noindex）のまま公開し、2026-11-11 に許可した（上の「本番切り替え時の SEO 設定」）
 
 ### 既知の制約
 
