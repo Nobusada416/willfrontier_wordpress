@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.base.json",
+  "include": ["src/**/*", "test/**/*", "*.mjs", "vitest.config.ts"],
+  "compilerOptions": {
+    "types": ["node"],
+    "allowJs": true,
+    "checkJs": true,
+    "paths": {
+      "@wf/shared": ["../shared/src/index.ts"]
+    }
+  }
+}

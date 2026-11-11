@@ -1,0 +1,39 @@
+import { readdirSync } from 'node:fs'
+import { join } from 'node:path'
+import {
+  hasPhotoXsmall,
+  photoSmallSrc,
+  photoSrc,
+  photoXsmallSrc,
+  posterSrc,
+  videoSrc,
+} from '../app/lib/media'
+
+// ソース中の文字列リテラルから、参照しているメディアファイル（/media/...）を求める
+// 写真スラッグ（'wf-079'）・動画スラッグ（'shorts/s08'）・直接のパス（'/media/images/x.svg'）を対象にする
+// トップヒーロー用に加工した写真は 'wf-079-hero' のように -hero を付ける
+const PHOTO_SLUG = /['"`](wf-\d{3}(?:-hero)?)['"`]/g
+// 動画は現在 shorts/sNN 形式だけを使っている。別のディレクトリを使う場合はここも直す
+const VIDEO_SLUG = /['"`](shorts\/s\d{2})['"`]/g
+const MEDIA_PATH = /['"`](\/media\/[^'"`\s]+)['"`]/g
+
+const matchesOf = (source: string, pattern: RegExp) =>
+  Array.from(source.matchAll(pattern), (match) => match[1] ?? '')
+
+export const findMediaReferences = (source: string): string[] => {
+  const photos = matchesOf(source, PHOTO_SLUG).flatMap((slug) => [
+    ...(hasPhotoXsmall(slug) ? [photoXsmallSrc(slug)] : []),
+    photoSmallSrc(slug),
+    photoSrc(slug),
+  ])
+  const videos = matchesOf(source, VIDEO_SLUG).flatMap((slug) => [videoSrc(slug), posterSrc(slug)])
+  return [...new Set([...photos, ...videos, ...matchesOf(source, MEDIA_PATH)])]
+}
+
+// ディレクトリ配下の .ts / .tsx（テストを除く）を再帰的に集める
+export const collectSourceFiles = (dir: string): string[] =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name)
+    if (entry.isDirectory()) return collectSourceFiles(path)
+    return /\.tsx?$/.test(entry.name) && !entry.name.includes('.test.') ? [path] : []
+  })

@@ -1,0 +1,206 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { FIREBASE_EMULATORS, readFirebaseSettings } from './firebase'
+
+const env = {
+  VITE_FIREBASE_API_KEY: 'api-key',
+  VITE_FIREBASE_PROJECT_ID: 'willfrontier',
+  VITE_FIREBASE_APP_ID: '1:123:web:abc',
+  VITE_RECAPTCHA_SITE_KEY: 'site-key',
+}
+
+describe('readFirebaseSettings', () => {
+  it('環境変数から Firebase の設定と reCAPTCHA のサイトキーを読む', () => {
+    expect(readFirebaseSettings(env)).toEqual({
+      config: {
+        apiKey: 'api-key',
+        projectId: 'willfrontier',
+        appId: '1:123:web:abc',
+        authDomain: 'willfrontier.firebaseapp.com',
+        storageBucket: 'willfrontier.firebasestorage.app',
+      },
+      recaptchaSiteKey: 'site-key',
+      useEmulators: false,
+    })
+  })
+
+  it('VITE_USE_FIREBASE_EMULATORS=true なら Emulator に接続する', () => {
+    expect(readFirebaseSettings({ ...env, VITE_USE_FIREBASE_EMULATORS: 'true' }).useEmulators).toBe(
+      true,
+    )
+  })
+
+  it('Emulator では実プロジェクトの設定が無くても demo プロジェクトで動かす', () => {
+    expect(readFirebaseSettings({ VITE_USE_FIREBASE_EMULATORS: 'true' })).toEqual({
+      config: {
+        apiKey: 'demo-api-key',
+        projectId: 'demo-willfrontier',
+        appId: 'demo-app-id',
+        authDomain: 'demo-willfrontier.firebaseapp.com',
+        storageBucket: 'demo-willfrontier.firebasestorage.app',
+      },
+      recaptchaSiteKey: undefined,
+      useEmulators: true,
+    })
+  })
+
+  it('Storage のバケットは VITE_FIREBASE_STORAGE_BUCKET で変えられる', () => {
+    expect(
+      readFirebaseSettings({ ...env, VITE_FIREBASE_STORAGE_BUCKET: 'willfrontier.appspot.com' })
+        .config.storageBucket,
+    ).toBe('willfrontier.appspot.com')
+  })
+
+  it('本番向けに必要な設定が欠けていれば、欠けている変数名を挙げて失敗する', () => {
+    expect(() => readFirebaseSettings({ VITE_FIREBASE_API_KEY: 'api-key' })).toThrow(
+      /VITE_FIREBASE_PROJECT_ID.*VITE_FIREBASE_APP_ID.*VITE_RECAPTCHA_SITE_KEY/,
+    )
+  })
+
+  it('空文字や空白だけの値も欠けているものとして失敗する（デプロイ前の確認と同じ判定）', () => {
+    expect(() => readFirebaseSettings({ ...env, VITE_RECAPTCHA_SITE_KEY: ' ' })).toThrow(
+      /VITE_RECAPTCHA_SITE_KEY/,
+    )
+  })
+})
+
+describe('FIREBASE_EMULATORS', () => {
+  it('firebase.json の Emulator のポートと同じ', async () => {
+    const firebaseJson = JSON.parse(
+      readFileSync(join(import.meta.dirname, '../../../firebase.json'), 'utf8'),
+    ) as { emulators: Record<string, { port?: number }> }
+    expect(FIREBASE_EMULATORS.host).toBe('127.0.0.1')
+    expect(FIREBASE_EMULATORS.ports).toEqual({
+      functions: firebaseJson.emulators.functions?.port,
+      auth: firebaseJson.emulators.auth?.port,
+      firestore: firebaseJson.emulators.firestore?.port,
+      storage: firebaseJson.emulators.storage?.port,
+    })
+  })
+})
+
+describe('loadFirebaseApp', () => {
+  afterEach(() => {
+    vi.doUnmock('firebase/app')
+    vi.unstubAllEnvs()
+    vi.resetModules()
+  })
+
+  it('アプリを 1 度だけ作り、2 回目以降は同じものを返す（設定も一緒に返す）', async () => {
+    vi.stubEnv('VITE_USE_FIREBASE_EMULATORS', 'true')
+    const apps: object[] = []
+    const initializeApp = vi.fn(() => {
+      const app = { name: '[DEFAULT]' }
+      apps.push(app)
+      return app
+    })
+    vi.doMock('firebase/app', () => ({ initializeApp, getApps: () => apps }))
+    const { loadFirebaseApp } = await import('./firebase')
+
+    const first = await loadFirebaseApp()
+    const second = await loadFirebaseApp()
+
+    expect(initializeApp).toHaveBeenCalledTimes(1)
+    expect(second.app).toBe(first.app)
+    expect(first.settings.useEmulators).toBe(true)
+  })
+
+  it('ほかの処理（フォームの送信など）が作ったアプリがあれば使い回す', async () => {
+    vi.stubEnv('VITE_USE_FIREBASE_EMULATORS', 'true')
+    const existing = { name: '[DEFAULT]' }
+    const initializeApp = vi.fn()
+    vi.doMock('firebase/app', () => ({ initializeApp, getApps: () => [existing] }))
+    const { loadFirebaseApp } = await import('./firebase')
+
+    expect((await loadFirebaseApp()).app).toBe(existing)
+    expect(initializeApp).not.toHaveBeenCalled()
+  })
+})
+
+describe('loadInquiryCallable', () => {
+  afterEach(() => {
+    vi.doUnmock('firebase/app')
+    vi.doUnmock('firebase/functions')
+    vi.doUnmock('firebase/app-check')
+    vi.unstubAllEnvs()
+    vi.resetModules()
+  })
+
+  it('初期化の途中で失敗しても、次の呼び出しでは作成済みのアプリを使い回してやり直せる', async () => {
+    vi.stubEnv('VITE_USE_FIREBASE_EMULATORS', 'true')
+    vi.stubEnv('VITE_RECAPTCHA_SITE_KEY', 'site-key')
+    const apps: object[] = []
+    const initializeApp = vi.fn(() => {
+      // 実際の SDK と同じく、同じ名前のアプリを 2 回作ると失敗する
+      if (apps.length > 0) throw new Error('duplicate-app')
+      const app = {}
+      apps.push(app)
+      return app
+    })
+    vi.doMock('firebase/app', () => ({
+      initializeApp,
+      getApps: () => apps,
+    }))
+    const initializeAppCheck = vi
+      .fn()
+      .mockImplementationOnce(() => {
+        throw new Error('reCAPTCHA を読み込めません')
+      })
+      .mockImplementation(() => ({}))
+    vi.doMock('firebase/app-check', () => ({
+      initializeAppCheck,
+      ReCaptchaEnterpriseProvider: vi.fn(),
+    }))
+    const callable = vi.fn().mockResolvedValue({ data: { ok: true } })
+    vi.doMock('firebase/functions', () => ({
+      getFunctions: () => ({}),
+      connectFunctionsEmulator: vi.fn(),
+      httpsCallable: () => callable,
+    }))
+    const { loadInquiryCallable } = await import('./firebase')
+
+    await expect(loadInquiryCallable()).rejects.toThrow('reCAPTCHA を読み込めません')
+    const call = await loadInquiryCallable()
+    await call({
+      formType: 'contact',
+      company: '',
+      name: '田中',
+      tel: '045-123-4567',
+      message: 'a',
+    })
+
+    expect(initializeApp).toHaveBeenCalledTimes(1)
+    expect(callable).toHaveBeenCalledTimes(1)
+  })
+
+  it('App Check は Fraud Defense（旧 reCAPTCHA Enterprise）のサイトキーで初期化する', async () => {
+    // reCAPTCHA Classic（v3）は非推奨で、App Check に新しく登録できないため
+    vi.stubEnv('VITE_FIREBASE_API_KEY', 'api-key')
+    vi.stubEnv('VITE_FIREBASE_PROJECT_ID', 'willfrontier')
+    vi.stubEnv('VITE_FIREBASE_APP_ID', 'app-id')
+    vi.stubEnv('VITE_RECAPTCHA_SITE_KEY', 'site-key')
+    const app = {}
+    vi.doMock('firebase/app', () => ({ initializeApp: () => app, getApps: () => [] }))
+    const provider = { kind: 'enterprise' }
+    const ReCaptchaEnterpriseProvider = vi.fn(function () {
+      return provider
+    })
+    const initializeAppCheck = vi.fn()
+    vi.doMock('firebase/app-check', () => ({ initializeAppCheck, ReCaptchaEnterpriseProvider }))
+    vi.doMock('firebase/functions', () => ({
+      getFunctions: () => ({}),
+      connectFunctionsEmulator: vi.fn(),
+      httpsCallable: () => vi.fn(),
+    }))
+    const { loadInquiryCallable } = await import('./firebase')
+
+    await loadInquiryCallable()
+
+    expect(ReCaptchaEnterpriseProvider).toHaveBeenCalledWith('site-key')
+    expect(initializeAppCheck).toHaveBeenCalledWith(app, {
+      provider,
+      isTokenAutoRefreshEnabled: true,
+    })
+  })
+})

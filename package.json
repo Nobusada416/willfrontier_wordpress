@@ -1,15 +1,47 @@
 {
   "name": "will-frontier",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "description": "ウィルフロンティア コーポレートサイト",
+  "workspaces": [
+    "web",
+    "shared",
+    "functions"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run dev -w web",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "tsc -p tsconfig.json && npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:rules": "firebase emulators:exec --only firestore,storage --project demo-willfrontier-rules \"vitest run -c vitest.rules.config.ts\"",
+    "test:integration": "npm run build -w @wf/functions && firebase emulators:exec --only functions,firestore,auth,storage --project demo-willfrontier \"vitest run -c vitest.integration.config.ts\"",
+    "e2e:admin": "firebase emulators:exec --only auth,firestore,storage --project demo-willfrontier \"npm run e2e:admin -w web\"",
+    "emulators": "npm run build -w @wf/functions && firebase emulators:start",
+    "admin:grant": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/grant-admin.ts",
+    "seed:case-studies": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/seed-case-studies.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
-    "tailwindcss": "^3.4.19"
+    "@eslint/js": "^9.39.5",
+    "@firebase/rules-unit-testing": "^5.0.2",
+    "@types/node": "^22.20.4",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "firebase": "^12.19.0",
+    "firebase-admin": "^14.5.0",
+    "firebase-tools": "^15.31.0",
+    "globals": "^17.12.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vitest": "^5.0.2"
   }
 }

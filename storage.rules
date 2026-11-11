@@ -1,0 +1,41 @@
+rules_version = '2';
+
+// Cloud Storage は施工事例の写真だけに使う。
+// - case-studies/ の下は誰でも読める（公開サイトが表示する。下書きの写真も URL を知っていれば読める）
+// - 書き込み・削除は管理者（カスタムクレーム admin）だけ。管理画面がブラウザで webp（書き出せないブラウザでは JPEG）に
+//   変換してアップロードする
+// パス・形式・上限は shared/src/caseStudies/constants.ts と同じにする（tests/rules/storage.rules.test.ts で確かめる）
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 上の規則に当てはまらないものはすべて拒否する
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    match /case-studies/{allPaths=**} {
+      allow read: if true;
+      // 写真の削除（事例の削除・写真の差し替え）。形の違う古いファイルも消せるように、パスは問わない
+      allow delete: if isAdmin();
+    }
+
+    // 拡張子と形式（Content-Type）の組み合わせ（shared の caseStudyImageExtension と同じ）
+    function isImageOf(fileName) {
+      return (fileName.matches('.*[.]webp') && request.resource.contentType == 'image/webp')
+        || (fileName.matches('.*[.]jpg') && request.resource.contentType == 'image/jpeg');
+    }
+
+    // case-studies/{事例の ID}/{写真の ID}-{small|large}.{webp|jpg}
+    match /case-studies/{caseId}/{fileName} {
+      allow create, update: if isAdmin()
+        && caseId.matches('[A-Za-z0-9_-]{1,64}')
+        && fileName.matches('[A-Za-z0-9_-]{1,64}-(small|large)[.](webp|jpg)')
+        && isImageOf(fileName)
+        // CASE_STUDY_UPLOAD_MAX_BYTES（2MB）
+        && request.resource.size <= 2 * 1024 * 1024;
+    }
+  }
+}

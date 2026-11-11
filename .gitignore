@@ -1,24 +1,15 @@
 node_modules/
-scripts/node_modules/
-scripts/package-lock.json
 .DS_Store
-assets/.DS_Store
-style.css.map
 *.log
 
-# PDF エクスポートの成果物
+# 旧テーマの頃に作ったローカルのファイル（PDF の提案資料・旧サイトのミラー）
 will-frontier-pattern-*.pdf
-
-# 静的化サイトの成果物
 static/
-
-# Cloudflare Wrangler のキャッシュ・一時ファイル
-.wrangler/
 
 # 写真の編集前オリジナルJPGはローカル参照用（リポジトリは WebP のみ管理）
 assets/photos/originals/
 
-# 動画の素材プール（圧縮済みだが全本数あるため重い）。各パターンで採用したものだけ別フォルダにコピーしてコミット
+# 動画の素材プール（圧縮済みだが全本数あるため重い）。採用したものだけ web/public/media にコピーしてコミット
 assets/videos/originals_compressed/
 
 
@@ -26,3 +17,16 @@ assets/videos/originals_compressed/
 # worktrees は node_modules 込みで数百MB、settings.local.json は個人設定
 .claude/*
 !.claude/skills/
+
+# Firebase（デプロイキャッシュ・Emulator のローカル秘密情報・環境変数のローカル上書き）
+.firebase/
+.secret.local
+*.local
+.env.local
+
+# E2E（Playwright）と Lighthouse CI の結果
+web/test-results/
+web/playwright-report/
+web/blob-report/
+.lighthouseci/
+web/.lighthouseci/

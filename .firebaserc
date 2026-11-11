@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "demo-willfrontier",
+    "prod": "willfrontier-hp"
+  }
+}

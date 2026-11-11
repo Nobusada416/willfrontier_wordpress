@@ -1,0 +1,141 @@
+@import 'tailwindcss';
+
+/*
+ * デザイントークン
+ * 旧 style.css の --wf-* 変数は実際にテンプレートで使われている色とずれていたため、
+ * テンプレートでの使用実績（出現回数）をもとに整理し直した。詳細は docs/design-tokens.md
+ */
+@theme {
+  /* フォント */
+  --font-sans: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+  --font-en: 'Quicksand', sans-serif;
+
+  /* 色：ブランド */
+  --color-wf-navy: #2d5c8a; /* 見出し・本文強調・フッター背景（旧 #2d5c8a） */
+  --color-wf-blue: #2b7489; /* ボタン・英字ラベル・アクセント（旧 #4a9db5 は文字色・白文字の背景としてコントラスト不足のため暗くした） */
+  --color-wf-sky: #7fc8de; /* 淡いアクセント */
+  --color-wf-deep: #1a3a5c; /* 暗い背景・オーバーレイ */
+  --color-wf-royal: #003894; /* ロゴ色に合わせた濃紺 */
+  --color-wf-blue-hover: #215b6c; /* wf-blue の塗りのボタンにマウスを重ねたとき（通常時より暗くする） */
+  --color-wf-orange: #a95f27; /* 下層ページの CTA ボタン（旧 #d4874a は白文字とのコントラスト不足のため暗くした） */
+  --color-wf-orange-hover: #8a4c1f; /* wf-orange の塗りのボタンにマウスを重ねたとき */
+  --color-wf-yellow: #ffe066; /* 黄色マーカー・下線 */
+
+  /* 色：テキスト・面・罫線 */
+  --color-wf-ink: #374151; /* 本文 */
+  --color-wf-text: #2e5a6a; /* body の既定文字色・トップの見出し */
+  --color-wf-text-mid: #3a7385; /* 補足の文字（旧 text-gray-600 の上書き色 #4a8a9e はコントラスト不足のため暗くした） */
+  --color-wf-bg: #f5fafb; /* body の既定背景 */
+  --color-wf-surface: #f6f8fa; /* セクション背景 */
+  --color-wf-border: #c8d9e6; /* 罫線・区切り */
+
+  /* 色：お知らせボックス */
+  --color-wf-notice: #fef9e7;
+  --color-wf-notice-border: #f0d96a;
+
+  /* 色：フォーム（旧採用フォームの必須バッジの色。白背景・白文字どちらでもコントラスト比 5.4:1） */
+  --color-wf-danger: #c0392b; /* 必須バッジ・入力エラー */
+  --color-wf-field-border: #d1d5db; /* 入力欄の枠（お問い合わせページ） */
+
+  /* レイアウト */
+  --spacing-header: 72px; /* ヘッダー・フッターの高さ */
+
+  /*
+   * 重なり順（z-(--z-header) のように使う）。旧実装の 9999 / 99997 / 99999 といった値を整理した
+   * スキップリンクはフォーカス時にヘッダーの上に出す必要があるため最前面にする
+   */
+  --z-header: 40;
+  --z-dialog: 50; /* フォーム送信完了ダイアログ（P8） */
+  --z-menu: 60; /* スマホ用メニュー */
+  --z-intro: 70; /* イントロ演出（P5） */
+  --z-skip-link: 80;
+
+  /*
+   * 背景写真の切り替え（components/media）。旧実装でページごとに重複していた keyframes をまとめた
+   * wf-crossfade: 3 枚を 12 秒で一巡（1 枚 4 秒・フェード 1 秒）。遅延は lib/media.ts の crossfadeDelay で付ける
+   *   枚数・周期・フェード比率は lib/media.ts の CROSSFADE_* 定数と一致させる
+   * wf-tile-pulse: タイルを 1 枚ずつ明滅させる。周期と遅延は MosaicHero が枚数から付ける
+   *   （ここの 9s は MosaicHero を通さずに使った場合の既定値で、トップの 9 枚に合わせてある）
+   */
+  --animate-wf-crossfade: wf-crossfade 12s ease-in-out infinite both;
+  --animate-wf-tile-pulse: wf-tile-pulse 9s ease infinite;
+
+  @keyframes wf-crossfade {
+    0% {
+      opacity: 0;
+    }
+    8.333% {
+      opacity: 1;
+    }
+    33.333% {
+      opacity: 1;
+    }
+    41.667% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes wf-tile-pulse {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    85% {
+      opacity: 0.4;
+      transform: scale(1.05);
+    }
+  }
+
+  /*
+   * ブレークポイントは Tailwind 標準（sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536）に統一する。
+   * 旧実装の 480 / 560 / 900 などの独自値は近い標準値に寄せる。
+   */
+}
+
+/* 高さの低い画面（ノート PC 等）向けのレイアウト調整に使う */
+@custom-variant short (@media (max-height: 800px));
+
+@layer base {
+  html {
+    scroll-padding-top: var(--spacing-header);
+  }
+
+  body {
+    @apply bg-wf-bg font-sans text-wf-text antialiased;
+  }
+}
+
+/*
+ * アニメーション（components/motion）の初期表示
+ * <head> のスクリプト（lib/motion/headScript.ts）が付けるクラスを使い、hydrate 前のちらつきを防ぐ
+ */
+@layer base {
+  /* スクロールで表示する要素は最初は隠す。動きを減らす設定では隠さない */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] {
+      opacity: 0;
+    }
+  }
+
+  /* イントロを再生しない場合は、プリレンダーされた幕を最初から出さない */
+  .intro-skip [data-intro-overlay] {
+    display: none;
+  }
+
+  /* JS が動かなくても幕が残り続けないよう、演出の長さ（2.5 秒。IntroOverlay.tsx）より後に CSS だけで消す */
+  [data-intro-overlay] {
+    animation: wf-intro-fallback 0.5s 3.5s forwards;
+  }
+
+  @keyframes wf-intro-fallback {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}
