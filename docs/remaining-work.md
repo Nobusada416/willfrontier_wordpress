@@ -121,7 +121,7 @@ P10 は次がそろうまで始められない。
 - [x] `www.willfrontier.jp` もカスタムドメインに追加し、`willfrontier.jp` へ転送する（正式な URL は www なし）
 - [ ] 切り替え後、Google Search Console に sitemap を登録する
 - [ ] Lighthouse CI の SEO を判定の対象に入れる（現在は noindex のため必ず 69 点で、判定していない。[development.md](./development.md#lighthouse-ci)）
-- [ ] sakura 環境の扱いを決める（残す期間・廃止の時期）
+- [x] sakura 環境の扱いを決める → 2026-11-11 に旧サイト 4 つを本番へ 301 転送して止めた。ファイル・データベースの削除は様子を見てから判断する（[deployment.md](./deployment.md#旧サイトsakura-の-wordpressの停止2026-11-11)）
 
 ## 3. P10 を待たずに進められるもの
 

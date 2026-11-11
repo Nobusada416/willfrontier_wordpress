@@ -4,7 +4,7 @@
 
 `main` のコミット（CI 通過済み）から、手動で `firebase deploy --only hosting --project prod` する（GitHub Actions での自動デプロイは P10 の残り）。
 P11（2026-11）で WordPress テーマを削除して `migration/react-firebase` を `main` に取り込み、
-それまでの「`main` の WordPress テーマを sakura サーバーへ rsync する」運用は終えた。
+それまでの「`main` の WordPress テーマを sakura サーバーへ rsync する」運用は終え、旧サイトは本番へ転送して止めた（[旧サイトの停止](#旧サイトsakura-の-wordpressの停止2026-11-11)）。
 `firebase.json` の Hosting 設定は次のとおり。
 
 | 項目                                          | 設定                                            | 理由                                                                                                                                                                                                                                                                                  |
@@ -128,6 +128,32 @@ DNS はバリュードメイン（ネームサーバー `ns1`〜`ns5.value-domai
 - 本番の Hosting へは `firebase deploy --only hosting --project prod` でデプロイする。アップロードで接続が切られる場合は
   `FIREBASE_HOSTING_UPLOAD_CONCURRENCY=10` で同時送信数を減らす
 - 検索エンジンへの登録は禁止（noindex）のまま公開し、2026-11-11 に許可した（上の「本番切り替え時の SEO 設定」）
+
+### 旧サイト（sakura の WordPress）の停止（2026-11-11）
+
+移行前の WordPress（さくらのレンタルサーバー。接続先は開発者の手元の SSH 設定）の 4 サイトは、
+各サイトの `.htaccess` の先頭に 301 転送を足して止めた。どのパスも `https://willfrontier.jp` の同じパスへ転送する
+（旧 URL の閲覧者と検索エンジンを本番へ案内するため）。
+
+| サイト                                     | ディレクトリ（`~/www/`） |
+| ------------------------------------------ | ------------------------ |
+| `willfrontier01.classic-market.jp`         | `willfrontier01`         |
+| `willfrontier-pattern-a.classic-market.jp` | `willfrontier_pattern_a` |
+| `willfrontier-pattern-b.classic-market.jp` | `willfrontier_pattern_b` |
+| `willfrontier-pattern-c.classic-market.jp` | `willfrontier_pattern_c` |
+
+```apache
+# BEGIN 旧サイトの停止（2026-11-11）
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(.*)$ https://willfrontier.jp/$1 [R=301,L]
+</IfModule>
+# END 旧サイトの停止
+```
+
+- WordPress のファイルとデータベースは残している。元の `.htaccess` は各ディレクトリの `.htaccess.bak-20261111` にあり、
+  `mv .htaccess.bak-20261111 .htaccess` で元に戻せる
+- ファイル・データベースの削除やサブドメインの廃止は、転送がしばらく問題なく動くのを確かめてから判断する
 
 ### 既知の制約
 
