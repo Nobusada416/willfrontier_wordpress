@@ -66,16 +66,17 @@ Vite がビルド時にバンドルへ埋め込むため、ビルドするとき
 
 ### 本番切り替え時の SEO 設定
 
-既定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
-現行の本番は sakura の WordPress で、このビルドはまだ公開されていないため。本番に切り替える際は次の 2 点が必要。
+`VITE_ALLOW_INDEXING` が未設定のビルドは検索エンジンに登録されない（全ページ `noindex`、robots.txt で `Disallow: /`）。
+`'true'` 以外の値はすべて「禁止」として扱う。本番では次の 2 点を設定している。
 
 1. `web/app/content/site.ts` の `SITE.url` を本番ドメインにする（canonical・OGP・sitemap・JSON-LD の URL に使う。末尾スラッシュなし）。
-   `https://willfrontier.jp`（www なし）に設定済み
-2. 本番用のビルドを `VITE_ALLOW_INDEXING=true` で実行する（例: `VITE_ALLOW_INDEXING=true npm run build`）。
-   `web/.env.production` はコミットしていて preview channel のビルドでも読まれるため、ここには書かないこと
-   `'true'` 以外の値はすべて「禁止」として扱う
+   `https://willfrontier.jp`（www なし）
+2. `web/.env.production`（コミットしている）に `VITE_ALLOW_INDEXING=true` を書く（2026-11-11）。
+   通常の `vite build`（production モード）はすべてこのファイルを読むため、preview channel を使う場合もそのビルドは登録を許可する。
+   preview channel は使わない方針のため、ここに書いている。preview channel を使うなら、その URL が検索結果に載らないよう
+   `VITE_ALLOW_INDEXING=false npm run build` のように環境変数で上書きする（Vite は `.env` 系ファイルより環境変数を優先する）
 
-preview channel など本番以外のビルドでは設定しないこと。
+ローカルの `npm run build` も同じファイルを読むため、許可したビルドになる。管理画面（`/admin/`）は常に `noindex, nofollow` で、robots.txt でも除く。
 postbuild の `verify-prerender.mjs` が、robots.txt とページの `noindex` が同じ方針になっていることを検証する。
 
 ### Content-Security-Policy（Report-Only）
@@ -135,7 +136,7 @@ DNS はバリュードメイン（ネームサーバー `ns1`〜`ns5.value-domai
   `_acme-challenge` の TXT を追加して DNS で確認する方式にしたところ発行された
 - 本番の Hosting へは `firebase deploy --only hosting --project prod` でデプロイする。アップロードで接続が切られる場合は
   `FIREBASE_HOSTING_UPLOAD_CONCURRENCY=10` で同時送信数を減らす
-- 検索エンジンへの登録は禁止（noindex）のまま公開した。許可する場合は `VITE_ALLOW_INDEXING=true` でビルドしてデプロイし直す（上の「本番切り替え時の SEO 設定」）
+- 検索エンジンへの登録は禁止（noindex）のまま公開し、2026-11-11 に許可した（上の「本番切り替え時の SEO 設定」）
 
 ### 既知の制約
 

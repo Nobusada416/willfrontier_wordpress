@@ -115,7 +115,7 @@ P10 は次がそろうまで始められない。
 [deployment.md](./deployment.md#本番切り替え時の-seo-設定) を参照。
 
 - [x] `SITE.url` を本番ドメインに変更する（canonical・OGP・sitemap・JSON-LD に使う。`https://willfrontier.jp`）
-- [ ] 本番のビルドだけ `VITE_ALLOW_INDEXING=true` にする（preview channel では設定しない）
+- [x] 本番のビルドで `VITE_ALLOW_INDEXING=true` にする（2026-11-11。`web/.env.production`。preview channel は使わない方針）
 - [x] Firebase Hosting にカスタムドメインを追加し、DNS を切り替える（2026-11-06。[deployment.md](./deployment.md#カスタムドメインwillfrontierjp)）
 - [x] `www.willfrontier.jp` もカスタムドメインに追加し、`willfrontier.jp` へ転送する（正式な URL は www なし）
 - [ ] 切り替え後、Google Search Console に sitemap を登録する
