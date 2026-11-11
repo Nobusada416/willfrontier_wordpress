@@ -1,15 +1,8 @@
-# WordPress テーマ（移行完了まで残す既存ファイル）
-*.php
-style.css
-src/
+# 素材（git 管理外のローカルの素材を含む）・素材加工用のスクリプト・ローカルにだけある旧サイトのミラー
 assets/
 data/
-docker/
 scripts/
 static/
-.wrangler/
-docs/3patterns-presentation.md
-tailwind.config.js
 .claude/
 
 # 生成物

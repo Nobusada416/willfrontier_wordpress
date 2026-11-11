@@ -7,8 +7,7 @@
 使い方（Pillow が必要。-I はユーザー site-packages を読まないため、Pillow は venv か system に入れる）:
   python3 -I scripts/hero-highkey.py                      # 元写真と同じディレクトリに出力
   python3 -I scripts/hero-highkey.py --stats-only         # 元写真の輝度だけ表示
-元写真の場所は旧テーマ（assets/photos）と React 版（web/public/media/photos）のどちらかを自動で選ぶ。
-React 版では出力後に npm run media:manifest -w web で寸法一覧を作り直す。
+元写真は web/public/media/photos にある。出力後に npm run media:manifest -w web で寸法一覧を作り直す。
 """
 
 import argparse
@@ -18,10 +17,9 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
-# 旧テーマ（main）と React 版（web/public/media）で写真の置き場所が違うため、存在する方を使う
-PHOTO_DIR_CANDIDATES = [ROOT / 'assets' / 'photos', ROOT / 'web' / 'public' / 'media' / 'photos']
+PHOTO_DIR_CANDIDATES = [ROOT / 'web' / 'public' / 'media' / 'photos']
 
-# ヒーローで加工する 9 枚（front-page.php / web/app/content/home.ts の HERO_TILES と合わせる）
+# ヒーローで加工する 9 枚（web/app/content/home.ts の HERO_TILES と合わせる）
 HERO_SLUGS = [
     'wf-112',
     'wf-114',

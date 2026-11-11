@@ -1,24 +1,15 @@
 node_modules/
-scripts/node_modules/
-scripts/package-lock.json
 .DS_Store
-assets/.DS_Store
-style.css.map
 *.log
 
-# PDF エクスポートの成果物
+# 旧テーマの頃に作ったローカルのファイル（PDF の提案資料・旧サイトのミラー）
 will-frontier-pattern-*.pdf
-
-# 静的化サイトの成果物
 static/
-
-# Cloudflare Wrangler のキャッシュ・一時ファイル
-.wrangler/
 
 # 写真の編集前オリジナルJPGはローカル参照用（リポジトリは WebP のみ管理）
 assets/photos/originals/
 
-# 動画の素材プール（圧縮済みだが全本数あるため重い）。各パターンで採用したものだけ別フォルダにコピーしてコミット
+# 動画の素材プール（圧縮済みだが全本数あるため重い）。採用したものだけ web/public/media にコピーしてコミット
 assets/videos/originals_compressed/
 
 

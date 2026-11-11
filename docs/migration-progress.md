@@ -1,7 +1,7 @@
 # タスク: WordPress テーマ → React + TypeScript + Vite + Firebase 移行
 
 計画の全体像は [architecture.md](./architecture.md) を参照。
-統合ブランチ `migration/react-firebase` に、フェーズごとのブランチ `migration/pN-*` を PR で取り込む。
+統合ブランチ `migration/react-firebase` に、フェーズごとのブランチ `migration/pN-*` を PR で取り込み、P11 の後に `main` へ取り込んだ。
 
 ## ステップ
 
@@ -15,12 +15,12 @@
 - [x] P7: 下層ページ（mission / service / workflow / vehicles / casestudy）。mission（PR #26）・service（PR #27）・workflow（PR #28）・vehicles（PR #29）・casestudy（PR #30）
 - [x] P8: フォーム（shared スキーマ / submitInquiry / contact・safety・recruit）。スキーマ（PR #31）・安全ページ（PR #32）・採用ページ（PR #33）・送信処理（PR #34）・フォーム画面とお問い合わせページ（PR #35）
 - [x] P9: SEO と品質（sitemap / robots / OGP / JSON-LD / Lighthouse / 見た目比較）。SEO（PR #36）・CSP Report-Only（PR #37）・E2E と Lighthouse CI（PR #38）・色のコントラストの修正（PR #39）
-- [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）
-- [ ] P11: WordPress 関連ファイル削除
+- [ ] P10: デプロイ（preview channel / GitHub Actions / Trigger Email / 本番切替）。本番切替は 2026-11-06。メール送信の拡張のデプロイが残る
+- [x] P11: WordPress 関連ファイル削除と `main` への取り込み（2026-11-11）
 
 ## 現在の状態
 
-P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。次は P10（デプロイ）。本番の Firebase プロジェクト・メールの送信元と SMTP・切り替え時期はユーザーの準備待ち。
+P0〜P9・P11 は完了し、`main` に取り込んだ。本番は 2026-11-06 に Firebase Hosting へ切り替えた。P10 はメール送信の拡張（Trigger Email）のデプロイなどが残る。
 残りの作業は [remaining-work.md](./remaining-work.md) にまとめた
 
 ## 問題・ブロッカー
@@ -37,7 +37,7 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。�
   - @opentelemetry/core・glob・minimatch（moderate）: firebase-tools・ESLint・@lhci/cli など開発ツール経由。本番には入らない
 - `content/site.ts` の `SITE.url`（canonical・OGP に使う）は、P10 で本番ドメイン `https://willfrontier.jp`（www なし）に確定した
 - 各ページの説明文（meta description）は旧サイトに無かったため新規に作成した。2026-11-11 に title とあわせて検索向けに見直した（地域名・事業内容・70〜120 字）
-- P4 で使用中の画像・動画を `web/public/media/` へ移動し、旧テーマ（PHP）の参照先も書き換えた。WordPress 側を sakura へデプロイする main には、P11 まで取り込まない
+- P4 で使用中の画像・動画を `web/public/media/` へ移動し、旧テーマ（PHP）の参照先も書き換えた。WordPress 側を sakura へデプロイしていた main には、P11 で取り込んだ
 - 旧テーマの動画 poster（`shorts/s08`〜`s14` の jpg）が存在せずリンク切れだったため、ffmpeg で生成した
 - 旧トップのスマホ表示で参照していた葉の画像（`plant-*-left.svg`）が削除済みでリンク切れだったため、同名の png に差し替えた
 - P4 で、どこからも参照されていない素材 240 ファイル（約 75MB。画像 55・写真 134・動画と poster 51）を削除した。必要になれば git 履歴から戻せる
@@ -131,7 +131,7 @@ P0〜P9 は統合ブランチ `migration/react-firebase` にマージ済み。�
 ## ユーザー確認待ち
 
 1. 本番を Firebase Hosting に切り替える時期と sakura 環境の廃止（P10）
-2. `scripts/generate-pdfs.js` を残すか（P11）
+2. `scripts/generate-pdfs.js` を残すか（P11）→ 削除した（docker の WordPress が前提で、旧テーマとともに不要になったため）
 3. 旧ミッションページ本文の誤字と思われる箇所「当社の方々に住みやすく」（地域の方々に？）「毎日２行っている」（毎日行っている？）を原文のまま移植した → 2026-11-04 にパンフレットの文面どおり「当社は、地域の方々に住みやすく、ゴミの無い街づくりを約束いたします」「毎日２回行っている」に修正（旧テーマも同じ）
 4. 車両ページの副題「現場を支える12種類の頼れる相棒」に対し、掲載している主要車両は 5 種類（旧サイトのまま移植）
 5. 安全ページの取り組みの 1 件目と 3 件目の見出しがどちらも【安全朝礼】（3 件目の写真は打ち合わせの様子）。原文のまま移植した

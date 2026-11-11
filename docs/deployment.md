@@ -1,20 +1,11 @@
 # デプロイ
 
-## 現行（WordPress テーマ・移行完了まで）
+## Firebase Hosting
 
-main ブランチの WordPress テーマを sakura サーバーへ rsync でデプロイしている。
-移行用のファイルは WordPress テーマの表示に不要なため、rsync で次も除外すること。
-
-```
-web/  functions/  shared/  tests/  tools/  .github/  extensions/
-firebase.json  .firebaserc  firestore.rules  firestore.indexes.json  storage.rules
-eslint.config.mjs  .prettierrc.json  .prettierignore  .nvmrc
-tsconfig.base.json  tsconfig.json  vitest.rules.config.ts
-```
-
-## 移行後（Firebase Hosting）
-
-デプロイ手順は P10 で整備する。`firebase.json` の Hosting 設定は次のとおり。
+`main` ブランチから Firebase Hosting にデプロイする。
+P11（2026-11）で WordPress テーマを削除して `migration/react-firebase` を `main` に取り込み、
+それまでの「`main` の WordPress テーマを sakura サーバーへ rsync する」運用は終えた。
+`firebase.json` の Hosting 設定は次のとおり。
 
 | 項目                                          | 設定                                            | 理由                                                                                                                                                                                                                                                                                  |
 | --------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -114,7 +114,7 @@ npm run admin:grant -- --project <本番のプロジェクト ID> --list        
 
 ### 既存の施工事例の移行（本番では P10 の後に 1 回）
 
-旧サイトの施工事例 3 件（旧 `page-casestudy.php`。`migration/react-firebase` の `web/app/content/cases.ts` の `CASE_STUDIES`）は、
+旧サイトの施工事例 3 件（旧 `page-casestudy.php`。`web/app/content/cases.ts` の `CASE_STUDIES`）は、
 `npm run seed:case-studies`（`tools/seed-case-studies.ts`）で Firestore と Storage に入れる。
 
 ```bash
@@ -140,7 +140,7 @@ npm run seed:case-studies -- --project <本番のプロジェクト ID>  # 本�
   `--force` を付けると上書きする（その事例の Storage の写真も消して入れ直すため、**管理画面で直した内容は消える**）
 - Storage のバケットが `<プロジェクト ID>.firebasestorage.app` でないときは `--bucket <バケット>` で指定する
 - 移行後、新しいサイトから参照されなくなる写真（`web/public/media/photos` の `wf-106`〜`wf-111`・`wf-048`・`wf-050`・`wf-037`）は、
-  旧テーマの `page-casestudy.php` がまだ参照しており、このスクリプトも読むため削除しない。P11 で扱う
+  このスクリプトが読むため、本番で seed を実行して公開するまで削除しない（旧テーマの `page-casestudy.php` は P11 で削除済み）
   （`wf-009`・`wf-049` は車両・作業の流れのページでも使っている）
 
 ### 手元で動かす

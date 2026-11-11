@@ -1,7 +1,7 @@
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { collectSourceFiles, findMediaReferences, normalizeThemeSource } from './mediaReferences'
+import { collectSourceFiles, findMediaReferences } from './mediaReferences'
 
 describe('findMediaReferences', () => {
   it('写真スラッグから small / large の webp を求める', () => {
@@ -47,30 +47,6 @@ describe('findMediaReferences', () => {
   })
 })
 
-describe('normalizeThemeSource', () => {
-  it('旧テーマの /web/public/media/ 参照を /media/ の文字列として扱えるようにする', () => {
-    const php = `<img src="<?php echo get_template_directory_uri(); ?>/web/public/media/images/logocolor.svg">`
-    expect(findMediaReferences(normalizeThemeSource(php))).toEqual(['/media/images/logocolor.svg'])
-  })
-})
-
-describe('旧テーマ（ルート直下の *.php）が参照するメディア', () => {
-  // P11 で旧テーマを削除するまで、移動先の web/public/media を参照し続けるため検証する
-  const themeDir = join(import.meta.dirname, '../..')
-  const publicDir = join(import.meta.dirname, '../public')
-
-  it('すべて web/public に実在する', () => {
-    const phpFiles = readdirSync(themeDir).filter((name) => name.endsWith('.php'))
-    expect(phpFiles.length).toBeGreaterThan(0)
-    const missing = phpFiles
-      .flatMap((name) =>
-        findMediaReferences(normalizeThemeSource(readFileSync(join(themeDir, name), 'utf8'))),
-      )
-      .filter((path) => !existsSync(join(publicDir, path)))
-    expect(missing).toEqual([])
-  })
-})
-
 describe('web/app が参照するメディア', () => {
   const appDir = join(import.meta.dirname, '../app')
   const publicDir = join(import.meta.dirname, '../public')
@@ -89,16 +65,11 @@ describe('web/app が参照するメディア', () => {
   })
 
   // 2026-10 のクライアント修正要望（main の PR #47）: wf-100 は写っている方が退職したため、
-  // wf-087 は指示により全ページから外した。web/app からも旧テーマからも参照しない
+  // wf-087 は指示により全ページから外した。web/app から参照せず、ファイルも置かない
   it('掲載をやめた写真（wf-087・wf-100）を参照しない', () => {
-    const themeDir = join(import.meta.dirname, '../..')
-    const sources = [
-      ...collectSourceFiles(appDir).map((file) => readFileSync(file, 'utf8')),
-      ...readdirSync(themeDir)
-        .filter((name) => name.endsWith('.php'))
-        .map((name) => normalizeThemeSource(readFileSync(join(themeDir, name), 'utf8'))),
-    ]
-    const used = new Set(sources.flatMap((source) => findMediaReferences(source)))
+    const used = new Set(
+      collectSourceFiles(appDir).flatMap((file) => findMediaReferences(readFileSync(file, 'utf8'))),
+    )
     const retired = ['wf-087', 'wf-100'].flatMap((slug) => [
       `/media/photos/small/${slug}.webp`,
       `/media/photos/large/${slug}.webp`,

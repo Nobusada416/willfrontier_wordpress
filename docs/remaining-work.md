@@ -1,14 +1,15 @@
 # 残りの作業
 
 P0〜P9 と、施工事例の管理画面は統合ブランチ `migration/react-firebase` にマージ済み（2026-11-04 時点）。
-ここでは P10（デプロイ）・P11（WordPress 削除）と、ユーザーの判断・確認が必要な事項をまとめる。
+P11（WordPress 削除）の後、`main` に取り込んだ（2026-11-11）。
+ここでは P10（デプロイ）の残りと、ユーザーの判断・確認が必要な事項をまとめる。
 フェーズごとの経緯は [migration-progress.md](./migration-progress.md)、各作業の詳しい手順はリンク先のドキュメントを参照。
 
 ## 0. 全体の流れと現在地
 
 ```
 ① ユーザーの準備（1 章） ──→ ② P10 デプロイ（2 章） ──→ ③ 本番切り替え（2 章の最後） ──→ ④ P11 WordPress 削除（4 章）
-   ここで止まっている           preview channel で確認        DNS を切り替え                  main に取り込み
+   済み                         済み（拡張のデプロイが残る）  済み（2026-11-06）              済み（2026-11-11）
 ```
 
 P9 の後に済ませたもの（2026-10〜11）:
@@ -140,28 +141,20 @@ P10 は次がそろうまで始められない。
   - reCAPTCHA のバッジの表示（隠す場合は規約の文言が必要）
   - `@wf/shared` を 1 つの入口から読むため、フォームのページに施工事例のスキーマも含まれる
 
-## 4. P11: WordPress 関連ファイルの削除
+## 4. P11: WordPress 関連ファイルの削除（2026-11-11 に完了）
 
-本番を Firebase Hosting に切り替え、sakura へのデプロイが不要になってから行う。
-
-- [ ] 削除するもの: `*.php`、`style.css`、`src/`、`tailwind.config.js`、`docker/`・`docker-compose.yml`、`scripts/build-static.sh`・`scripts/build-all-static.sh`・`scripts/run-all-patterns.sh`、`assets/js/`、`.wrangler/`
-- [ ] 旧テーマだけが参照している素材を削除する（葉の png、背景イラストの原寸の jpg など。[architecture.md](./architecture.md)・[migration-progress.md](./migration-progress.md) に記載）
+- [x] 旧テーマ（`*.php`・`style.css`・`src/`・`tailwind.config.js`・`docker/`・`docker-compose.yml`・`assets/js/`）と、
+      旧テーマのビルド・PDF 生成のスクリプト（`scripts/build-static.sh`・`build-all-static.sh`・`run-all-patterns.sh`・`generate-pdfs.js`・`package.json`）を削除した
+- [x] 旧テーマだけが参照していた素材（葉と握手の png、背景イラストの原寸の jpg、写真 `wf-001`）を削除し、寸法の一覧を作り直した
+- [x] ルートの `tailwindcss@3` を外し、`.gitignore`・`.prettierignore`・`eslint.config.mjs` の旧テーマ用の記述を整理した。
+      `.prettierignore` の `src/` が `shared/src`・`functions/src` まで除外していたため、外した後にこの 2 つを整形した
+- [x] `mediaReferences.test.ts` の旧テーマの検証と `normalizeThemeSource` を削除し、旧テーマのファイルが戻っていないことを確かめる `legacyTheme.test.ts` を足した
+- [x] 写真・動画の索引（`assets/*/_index.md`）を [media-index-photos.md](./media-index-photos.md)・[media-index-videos.md](./media-index-videos.md) に移した。
+      `docs/3patterns-presentation.md`（旧サイトのデモ URL を載せた提案資料）は削除した
+- [x] CI の対象ブランチから `migration/react-firebase` を外し、`main` に取り込んだ（main の修正 #41〜#48 は反映済みを確認。衝突した `assets/` の 7 ファイルは `web/public/media` の同じ内容のものがある）
 - [ ] 施工事例を Firestore に移した後の旧写真（`web/public/media/photos` の `wf-106`〜`wf-111`・`wf-048`・`wf-050`・`wf-037`）を削除する
-      （`page-casestudy.php` と `tools/seed-case-studies.ts` が参照している。本番で seed を実行した後に。[case-studies.md](./case-studies.md)）
-- [ ] ルートの `tailwindcss@3` など、旧テーマのビルドにだけ使う依存を外す
-- [ ] 削除リストから漏れていたもの: `scripts/package.json`（`scripts/generate-pdfs.js` 用。docker の WordPress が前提）、
-      `assets/photos/_index.md`・`assets/videos/_index.md`（移すか消すか）、`.gitignore`・`.prettierignore`・`eslint.config.mjs` の旧テーマ用の記述
-- [ ] PHP を消すと `web/scripts/mediaReferences.test.ts` の旧テーマの検証（`phpFiles.length > 0`）と `normalizeThemeSource` が不要になるので、同時に削除する。
-      素材を消したら `npm run media:manifest -w web` で寸法の一覧を作り直す
-- [ ] CI（`.github/workflows/ci.yml`）の対象ブランチから `migration/react-firebase` を外す
-- [ ] `main` には移行ブランチに無いクライアントの修正が入ることがある。取り込む前に、main の新しいコミットが React 版に反映済みか確かめる
-      （2026-10 の修正 #41〜#48 は反映済み）
-- [ ] git 管理外のローカルのファイル（旧サイトのミラー `static/`、`will-frontier-pattern-*.pdf`）を残すか決める（リポジトリからの削除は不要）
-- [ ] `scripts/generate-pdfs.js` を残すか決める（ユーザー確認待ち）
-- [ ] `docs/3patterns-presentation.md` のデモ URL（旧サイト）を直すか、資料ごと削除するか決める
-- [ ] `docs/` を更新する（`deployment.md` の sakura の節、`development.md` の旧テーマの節など）
-- [ ] `migration/react-firebase` を `main` に取り込む（`main` は sakura へ rsync しているため、切り替えと削除が済むまで触らない）
-- [ ] `data/`（生素材）は git 履歴から消さない（ユーザー判断、2026-09-28）
+      （`tools/seed-case-studies.ts` が読むため、本番で seed を実行して公開した後に。[case-studies.md](./case-studies.md)）
+- 残すもの: `data/`（生素材。git 履歴からも消さない。ユーザー判断、2026-09-28）、git 管理外のローカルのファイル（旧サイトのミラー `static/`、`will-frontier-pattern-*.pdf`、`assets/` の元素材）
 
 ## 5. 内容の確認（ユーザーの判断待ち）
 
@@ -180,7 +173,7 @@ P10 は次がそろうまで始められない。
 | 9   | 各ページのタイトルと説明文（meta description） | 2026-11-11 に検索向けに見直した（日本語で始める・トップに地域名・説明文 70〜120 字。[architecture.md](./architecture.md)）。施工事例を公開したら、`casestudy` の説明文を事例の内容に合わせて書き換える。採用の勤務地・雇用形態が決まったら `recruit` に足す。「15 品目の許可」は根拠がサービスページの画像の代替テキストだけのため、許可証と照合するまで説明文に入れていない |
 | 10  | OGP 画像と favicon                             | OGP は写真 `wf-097` を切り出した仮の選定。favicon はロゴの「F」の部分から作った                                                                                                                                                                                                                                                                                              |
 | 11  | 構造化データ（JSON-LD）                        | 解消（2026-11-05）: 迷惑メールを避けるため、本社のメールアドレスは載せない（会社概要の画面には表示したまま）                                                                                                                                                                                                                                                                 |
-| 12  | `scripts/generate-pdfs.js`                     | P11 で残すか                                                                                                                                                                                                                                                                                                                                                                 |
+| 12  | `scripts/generate-pdfs.js`                     | 解消（2026-11-11）: P11 で削除した                                                                                                                                                                                                                                                                                                                                           |
 | 13  | ヘッダーナビの「COMPANY」                      | 解消（2026-11-05）: ヘッダーを MISSION・SERVICE・WORKFLOW・VEHICLES・CASE・COMPANY にし、COMPANY はトップの会社概要（`/#company`）を指す                                                                                                                                                                                                                                     |
 
 ## 6. 片付け（ユーザーの確認後に行う）

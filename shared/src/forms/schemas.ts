@@ -11,9 +11,7 @@ import { normalizeEmail, normalizeTel } from './normalize'
 const TEL_MAX = 25
 const isTel = (value: string) => {
   const digits = value.replace(/\D/g, '').length
-  return (
-    value.length <= TEL_MAX && /^\+?[\d\-() ]+$/.test(value) && digits >= 10 && digits <= 15
-  )
+  return value.length <= TEL_MAX && /^\+?[\d\-() ]+$/.test(value) && digits >= 10 && digits <= 15
 }
 
 const telField = (label: string) =>
@@ -111,7 +109,9 @@ export const recruitSchema = z.object(recruitShape).refine(emailsMatch, EMAILS_M
 export const inquirySchema = z.discriminatedUnion('formType', [
   z.object({ formType: z.literal('contact'), ...contactShape }),
   z.object({ formType: z.literal('safety'), ...safetyShape }),
-  z.object({ formType: z.literal('recruit'), ...recruitShape }).refine(emailsMatch, EMAILS_MISMATCH),
+  z
+    .object({ formType: z.literal('recruit'), ...recruitShape })
+    .refine(emailsMatch, EMAILS_MISMATCH),
 ])
 
 export type ContactInput = z.input<typeof contactSchema>
