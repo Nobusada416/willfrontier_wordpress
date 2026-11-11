@@ -82,6 +82,6 @@ describe('お問い合わせページ', () => {
   })
 
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'CONTACT・お問い合わせ｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({ title: 'お問い合わせ・無料お見積り｜ウィルフロンティア' })
   })
 })

@@ -14,8 +14,8 @@ type BuildMetaOptions = {
   allowIndexing?: boolean
 }
 
-const titleOf = (page: Page) =>
-  page.id === 'home' ? `${SITE.name}｜${SITE.tagline}` : `${page.title}｜${SITE.name}`
+// トップも含めて「ページ名｜サイト名」（ページ名の決め方は content/pages.ts の Page.title）
+const titleOf = (page: Page) => `${page.title}｜${SITE.name}`
 
 // 各ページの meta（title・description・canonical・OGP・robots・構造化データ）を組み立てる
 // ルートモジュールの meta 関数から `export const meta = () => buildMeta(page)` の形で使う

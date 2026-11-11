@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CONTACT_LINK, FOOTER_NAV, GLOBAL_NAV } from './navigation'
+import { SITE } from './site'
 import {
   ADMIN_PAGES,
   NOT_FOUND_PATH,
@@ -45,10 +46,52 @@ describe('PAGES（ページ定義）', () => {
     )
   })
 
-  it('全ページに検索結果用の説明文（120 字以内）がある', () => {
+  // 検索結果の説明文は PC で 90〜100 字、スマホで 80 字ほど表示される。短すぎると情報が足りず、
+  // 長すぎると要点が切れる（docs/architecture.md の「meta はページ定義から生成する」）
+  it('全ページに検索結果用の説明文（70〜120 字）がある', () => {
     for (const page of PAGES) {
-      expect(page.description.length).toBeGreaterThan(0)
-      expect(page.description.length).toBeLessThanOrEqual(120)
+      expect([...page.description].length, page.id).toBeGreaterThanOrEqual(70)
+      expect([...page.description].length, page.id).toBeLessThanOrEqual(120)
+    }
+  })
+
+  // 検索結果の title は PC で 30 字前後までしか表示されない（「｜ウィルフロンティア」を含めた長さ）
+  it('title（「ページ名｜サイト名」）は 32 字以内', () => {
+    for (const page of PAGES) {
+      expect([...`${page.title}｜${SITE.name}`].length, page.id).toBeLessThanOrEqual(32)
+    }
+  })
+
+  it('title と説明文はページごとに異なる', () => {
+    const titles = PAGES.map((page) => page.title)
+    const descriptions = PAGES.map((page) => page.description)
+    expect(new Set(titles).size).toBe(titles.length)
+    expect(new Set(descriptions).size).toBe(descriptions.length)
+  })
+
+  // 画面の英語の見出し（SERVICE など）ではなく、検索で使われる日本語を先に置く
+  it('title は英語の見出しで始めない', () => {
+    for (const page of PAGES) {
+      expect(page.title, page.id).not.toMatch(/^[A-Za-z]/)
+    }
+  })
+
+  // 全ページの title に地域名を付けると同じ言葉の繰り返しになるため、地域名はトップだけ（説明文には入れてよい）
+  it('title に地域名（横浜・神奈川）を入れるのはトップだけ', () => {
+    const withRegion = PAGES.filter((page) => /横浜|神奈川/.test(page.title)).map((page) => page.id)
+    expect(withRegion).toEqual(['home'])
+  })
+
+  it('title は社名を含めない（「｜サイト名」は buildMeta が付ける）', () => {
+    for (const page of PAGES) {
+      expect(page.title, page.id).not.toContain(SITE.name)
+    }
+  })
+
+  // 報道（2026-10 の厚木の施設の火災）を受け、検索結果の文言に施設名・地名を出さない（docs/architecture.md）
+  it('title と説明文に厚木の施設名（WF-A.BASE）・地名を出さない', () => {
+    for (const page of PAGES) {
+      expect(`${page.title}${page.description}`, page.id).not.toMatch(/厚木|WF-A\.BASE/)
     }
   })
 })

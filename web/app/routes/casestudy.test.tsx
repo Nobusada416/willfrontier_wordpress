@@ -169,6 +169,6 @@ describe('施工事例ページ', () => {
   })
 
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'CASE STUDY・施工事例｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({ title: '施工事例｜ウィルフロンティア' })
   })
 })

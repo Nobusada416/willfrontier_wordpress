@@ -72,7 +72,7 @@ describe('処理の流れページ', () => {
   })
 
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'WORKFLOW・処理の流れ｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({ title: '産業廃棄物処理の流れ｜ウィルフロンティア' })
   })
 
   // トップの「導入までの流れ」（ヒアリング → 契約）とは別の内容

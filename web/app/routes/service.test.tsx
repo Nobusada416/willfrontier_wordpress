@@ -67,6 +67,8 @@ describe('サービスページ', () => {
   })
 
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'SERVICE・事業内容｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({
+      title: '事業内容（産業廃棄物の収集運搬・中間処理）｜ウィルフロンティア',
+    })
   })
 })

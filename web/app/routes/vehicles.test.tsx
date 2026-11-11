@@ -83,6 +83,8 @@ describe('車両ページ', () => {
   })
 
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'VEHICLES・保有車両｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({
+      title: '保有車両（産業廃棄物の収集運搬車両）｜ウィルフロンティア',
+    })
   })
 })
