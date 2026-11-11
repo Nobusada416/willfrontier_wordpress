@@ -32,7 +32,7 @@ describe('安全ページ', () => {
     renderPage()
     const headings = screen.getAllByRole('heading', { level: 1 })
     expect(headings).toHaveLength(1)
-    expect(headings[0]).toHaveTextContent('SAFETY・安全への取り組み')
+    expect(headings[0]).toHaveTextContent('安全への取り組み')
   })
 
   it('各セクションは重なり順を閉じ込める', () => {
@@ -119,6 +119,6 @@ describe('安全ページ', () => {
   })
 
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'SAFETY・安全への取り組み｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({ title: '安全への取り組み｜ウィルフロンティア' })
   })
 })

@@ -74,7 +74,7 @@ web/
       pages.ts            # 全ページ定義（ルート・プリレンダー対象の唯一の情報源）。管理画面の 3 画面（ADMIN_PAGES）も
                           # ここで定義するが、サイトのページ一覧（PAGES。sitemap・ナビ）とは分ける
       navigation.ts       # ヘッダー・フッターのリンク定義
-      site.ts             # サイト名・正式社名・キャッチコピー・URL・OGP 画像（寸法と代替テキスト）・構造化データのロゴ
+      site.ts             # サイト名・正式社名・URL・OGP 画像（寸法と代替テキスト）・構造化データのロゴ
       home.ts             # トップだけで使う内容（ヒーローの写真・SERVICE の 5 項目・WORKFLOW・車両スライド・採用）
       gallery.ts          # GALLERY の写真・動画とタグ、絞り込み（filterGallery）
       cases.ts            # 施工事例ページのヒーロー写真（事例そのものは管理画面で編集し、Firestore から読み込む）
@@ -158,6 +158,12 @@ web/
   エラー表示や 404 ページにも同じヘッダー・フッターが付く。
 - **meta はページ定義から生成する**: 各ルートは `export const meta = () => buildMeta(page)` とし、
   title・description・canonical・OGP を `content/pages.ts` と `content/site.ts` から組み立てる。
+  - title はトップも含めて「ページ名｜サイト名」（例: 「横浜の産業廃棄物収集運搬・リサイクル｜ウィルフロンティア」）。
+    検索結果で読まれる日本語を先に置き、画面の英語の見出し（SERVICE など）は使わない。地域名（横浜・神奈川）を title に入れるのはトップだけ
+    （全ページに付けると同じ言葉の繰り返しになる）。トップのキャッチコピー（「都市インフラを支える、産業廃棄物テック。」）は h1 と説明文に出す
+  - 文言のルール（`content/pages.test.ts` で確かめる）: title は「｜サイト名」を含めて 32 字以内、説明文は 70〜120 字で要点を先に書く。
+    title・説明文はページごとに変える。サイトに書かれていない事実（許可の自治体・勤務地など）は書かない。
+    厚木の施設名（WF-A.BASE）・地名は、2026-10 の火災の報道を受けて検索結果の文言には出さない（会社概要と構造化データには載せている）
   - OGP 画像は全ページ共通の `og-image.jpg`（1200×630）で、`twitter:card` は `summary_large_image`。
   - トップページには会社情報の構造化データ（`Organization`。所在地は本社、両拠点を `location`）を出力する。
     React Router の meta の `"script:ld+json"` 記法を使い、JSON 中の `<` などのエスケープは React Router に任せる。

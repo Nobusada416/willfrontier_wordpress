@@ -11,12 +11,13 @@ const find = (meta: Descriptor[], key: string, value: string) =>
 describe('buildMeta', () => {
   it('下層ページの title は「ページ名｜サイト名」になる', () => {
     const meta = buildMeta(getPage('mission'))
-    expect(find(meta, 'title', 'MISSION・理念と地域活動｜ウィルフロンティア')).toBeDefined()
+    expect(find(meta, 'title', '企業理念と地域活動｜ウィルフロンティア')).toBeDefined()
   })
 
-  it('トップページの title は「サイト名｜キャッチコピー」になる', () => {
+  // 検索で使われる言葉（地域と事業）を先に置く。キャッチコピーはトップの見出し（h1）に出す
+  it('トップページの title も「ページ名｜サイト名」で、地域と事業を表す', () => {
     const meta = buildMeta(getPage('home'))
-    expect(meta[0]).toEqual({ title: `${SITE.name}｜${SITE.tagline}` })
+    expect(meta[0]).toEqual({ title: '横浜の産業廃棄物収集運搬・リサイクル｜ウィルフロンティア' })
   })
 
   it('description と og:description にページの説明文を出力する', () => {
@@ -53,7 +54,7 @@ describe('buildMeta', () => {
     expect(find(meta, 'property', 'og:locale')).toEqual({ property: 'og:locale', content: 'ja_JP' })
     expect(find(meta, 'property', 'og:title')).toEqual({
       property: 'og:title',
-      content: `${SITE.name}｜${SITE.tagline}`,
+      content: '横浜の産業廃棄物収集運搬・リサイクル｜ウィルフロンティア',
     })
   })
 })

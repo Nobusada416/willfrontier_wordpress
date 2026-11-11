@@ -39,7 +39,7 @@ describe('採用ページ', () => {
     renderPage()
     const headings = screen.getAllByRole('heading', { level: 1 })
     expect(headings).toHaveLength(1)
-    expect(headings[0]).toHaveTextContent('RECRUIT')
+    expect(headings[0]).toHaveTextContent('採用情報')
   })
 
   it('各セクションは重なり順を閉じ込める', () => {
@@ -145,6 +145,6 @@ describe('採用ページ', () => {
   })
 
   it('ページ名を title に使う', () => {
-    expect(meta()).toContainEqual({ title: 'RECRUIT・採用情報｜ウィルフロンティア' })
+    expect(meta()).toContainEqual({ title: '採用情報（ドライバー・作業員）｜ウィルフロンティア' })
   })
 })

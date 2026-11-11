@@ -2,7 +2,6 @@
 export const SITE = {
   name: 'ウィルフロンティア',
   legalName: '株式会社ウィルフロンティア',
-  tagline: '都市インフラを支える、産業廃棄物テック。',
   // canonical・OGP・sitemap・JSON-LD の URL に使う本番ドメイン（末尾スラッシュなし。www なしを正式とする）
   url: 'https://willfrontier.jp',
 } as const
